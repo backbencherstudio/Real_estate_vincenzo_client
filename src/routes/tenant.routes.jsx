@@ -14,9 +14,9 @@ export const tenantPaths = [
                 name: "Test",
                 path: "test",
                 element: <Test />,
-            }, 
+            },
+ 
         ],
     },
-
 ];
 

@@ -16,6 +16,7 @@ export const ownerPaths = [
                 path: "create-tenant",
                 element: <CreateTenant />,
             },
+
         ],
     },
 
