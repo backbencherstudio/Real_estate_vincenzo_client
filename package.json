@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "antd": "^5.23.0",
+    "apexcharts": "^4.3.0",
     "jwt-decode": "^4.0.0",
     "moment": "^2.30.1",
     "react": "^18.3.1",
+    "react-apexcharts": "^1.7.0",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.54.2",
     "react-icons": "^5.4.0",
