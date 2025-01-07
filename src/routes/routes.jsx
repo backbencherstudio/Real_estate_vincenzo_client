@@ -30,7 +30,8 @@ const routes = createBrowserRouter([
         <App></App>
     ),
     children: routeGenerator(tenantPaths),
-  }
+  },
+  
 ]);
 
 export default routes;
