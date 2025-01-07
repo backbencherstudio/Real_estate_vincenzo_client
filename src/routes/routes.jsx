@@ -5,6 +5,8 @@ import { adminPaths } from "./admin.routes";
 import { ownerPaths } from "./owner.routes";
 import { tenantPaths } from "./tenant.routes";
 import SignIn from "../pages/signIn/SignIn";
+import Login from "../components/Login/Login";
+import LoginMain from "../components/LoginMain/LoginMain";
 
 const routes = createBrowserRouter([
   {
@@ -35,6 +37,14 @@ const routes = createBrowserRouter([
   {
     path : "/signIn",
     element : <SignIn/>
+  },
+  {
+    path: "/login",
+    element: <Login/>
+  },
+  {
+    path: "/loginmain",
+    element: <LoginMain/>
   }
   
 ]);
