@@ -5,8 +5,8 @@ import MainLayout from './layout/MainLayout'
 function App() {
 
   return (
-    <div>
-     <MainLayout></MainLayout>;
+    <div className='max-w-[1920px] mx-auto bg-green-600 ' >
+     <MainLayout></MainLayout>
     </div>
   )
 }

@@ -40,15 +40,9 @@ const SideBar = () => {
 
     return (
         <Sider
-            style={{ height: "100vh", position: "sticky", top: "0", left: "0" }}
+            style={{ height: "100vh", position: "sticky", top: "0", left: "0", backgroundColor:"#1C2434"  }}
             breakpoint="lg"
             collapsedWidth="0"
-        // onBreakpoint={(broken) => {
-        //   console.log(broken);
-        // }}
-        // onCollapse={(collapsed, type) => {
-        //   console.log(collapsed, type);
-        // }}
         >
             <div
                 style={{
@@ -56,7 +50,7 @@ const SideBar = () => {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    backgroundColor: "red",
+                    backgroundColor: "#1C2434",
                 }}
             >
                 <h2 style={{ color: "white" }}> Real Estate </h2>
