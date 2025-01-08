@@ -29,7 +29,7 @@ function ResetPassword() {
           <div className="pt-8 md:pt-10">
             {/* Email Field */}
 
-            <div className="w-full max-w-md pb-5 flex items-center">
+            <div className="w-full p-5 flex items-center bg-[#f5f9fd] mb-4 rounded-[16px]">
               {/* Icon */}
               <div className="w-8 h-8  flex items-center justify-center rounded-full mr-4">
                 <svg
@@ -52,7 +52,9 @@ function ResetPassword() {
               <div>
                 <p className="text-lg text-[#64748B]">
                   We sent a link to <br></br>
-                  <span className="font-medium text-lg">hellodemo@gmail.com</span>
+                  <span className="font-medium text-lg">
+                    hellodemo@gmail.com
+                  </span>
                 </p>
                 <p className="text-lg text-[#64748B]">
                   to update your password.
@@ -96,11 +98,11 @@ function ResetPassword() {
         </div>
 
         {/* Right Section */}
-        <div className="w-full lg:w-[50%] flex justify-center">
+        <div className="w-full lg:w-1/2 flex justify-center">
           <img
             src={imagelogin}
             alt="login illustration"
-            className="lg:w-[663px lg:h-[852px] max-w-[500px] object-contain"
+            className="w-full max-w-[320px] sm:max-w-[400px] md:max-w-[500px] lg:max-w-[663px] lg:h-auto object-contain"
           />
         </div>
       </div>

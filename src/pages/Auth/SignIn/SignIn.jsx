@@ -107,7 +107,7 @@ function SignIn() {
           <img
             src={imagelogin}
             alt="login illustration"
-            className="lg:w-[663px lg:h-[852px] max-w-[500px] object-contain"
+            className="w-full max-w-[320px] sm:max-w-[400px] md:max-w-[500px] lg:max-w-[663px] lg:h-auto object-contain"
           />
         </div>
       </div>
