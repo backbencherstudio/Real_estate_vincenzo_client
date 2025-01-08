@@ -4,7 +4,10 @@ import App from "../App";
 import { adminPaths } from "./admin.routes";
 import { ownerPaths } from "./owner.routes";
 import { tenantPaths } from "./tenant.routes";
-import SignIn from "../pages/signIn/SignIn";
+import Auth from "../pages/Auth/Auth";
+import SignIn from "../pages/Auth/signIn/SignIn";
+import SignUp from "../pages/Auth/SignUp/SignUp";
+import ResetPassword from "../pages/Auth/ResetPassword/ResetPassword";
 
 const routes = createBrowserRouter([
   {
@@ -33,8 +36,20 @@ const routes = createBrowserRouter([
     children: routeGenerator(tenantPaths),
   },
   {
-    path : "/signIn",
-    element : <SignIn/>
+    path: "/signin",
+    element: <SignIn></SignIn>
+  },
+  {
+    path: "/auth",
+    element: <Auth/>
+  },
+  {
+    path: "/signup",
+    element: <SignUp></SignUp>
+  },
+  {
+    path: "/resetpassword",
+    element: <ResetPassword></ResetPassword>
   }
   
 ]);
