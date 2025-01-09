@@ -1,12 +1,59 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Row, Col, Select, AutoComplete } from "antd";
-import { Controller, useForm } from "react-hook-form";
+import {
+  Form,
+  Input,
+  Button,
+  Row,
+  Col,
+  Select,
+  AutoComplete,
+  message,
+} from "antd";
+import { Controller, useForm, useFieldArray } from "react-hook-form";
 import TextArea from "antd/es/input/TextArea";
 import { countryData } from "../../../data/data";
+import { MdDelete } from "react-icons/md";
+import { IoCloudUploadOutline } from "react-icons/io5";
+import { FaAngleRight } from "react-icons/fa";
 
 const AddProperties = () => {
-  const { control, handleSubmit, reset } = useForm();
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+  const { fields, append, remove } = useFieldArray({ control, name: "images" });
   const [countryOptions, setCountryOptions] = useState([]);
+  const [images, setImages] = useState([]);
+  const [updateImageIndex, setUpdateImageIndex] = useState(null);
+
+  // Handle Image Upload
+  const handleImageUpload = (e) => {
+    e.stopPropagation();
+    const files = Array.from(e.target.files);
+    if (updateImageIndex !== null) {
+      setImages((prevImages) =>
+        prevImages.map((img, i) => (i === updateImageIndex ? files[0] : img))
+      );
+      setUpdateImageIndex(null);
+    } else {
+      setImages((prevImages) => [...prevImages, ...files]);
+    }
+  };
+
+  // Delete Image
+  const handleDeleteImage = (index) => {
+    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+  };
+
+  // Update Image
+  const handleUpdateImage = (index) => {
+    setUpdateImageIndex(index);
+    document.getElementById("imageUpdateInput").click();
+  };
+
+  // Country Search
   const handleSearch = (value) => {
     if (!value) {
       setCountryOptions([]);
@@ -19,9 +66,17 @@ const AddProperties = () => {
       setCountryOptions(filteredOptions);
     }
   };
+
+  // Submit Form
   const onSubmit = (data) => {
+    if (images.length === 0) {
+      message.error("Please upload at least one image.");
+      return;
+    }
+
     console.log(data);
     reset();
+    message.success("Property added successfully!");
   };
 
   return (
@@ -46,17 +101,18 @@ const AddProperties = () => {
           <Row gutter={[16]} className="mt-8">
             {/* Property Name */}
             <Col xs={24} sm={24} md={12}>
-              <Form.Item
-                label="Property Name"
-                required
-                validateStatus=""
-                help=""
-              >
+              <Form.Item label="Property Name" required>
                 <Controller
                   name="propertyName"
                   control={control}
                   defaultValue=""
-                  rules={{ required: "Property name is required" }}
+                  rules={{
+                    required: "Property name is required",
+                    maxLength: {
+                      value: 100,
+                      message: "Max length is 100 characters",
+                    },
+                  }}
                   render={({ field }) => (
                     <Input
                       {...field}
@@ -65,37 +121,45 @@ const AddProperties = () => {
                     />
                   )}
                 />
+                {errors.propertyName && (
+                  <p className="text-red-500">{errors.propertyName.message}</p>
+                )}
               </Form.Item>
             </Col>
 
             {/* Number of Unit */}
             <Col xs={24} sm={24} md={12}>
-              <Form.Item
-                label="Number of Unit"
-                required
-                validateStatus=""
-                help=""
-              >
+              <Form.Item label="Number of Units" required>
                 <Controller
                   name="numberOfUnits"
                   control={control}
                   defaultValue=""
-                  rules={{ required: "Number of units is required" }}
+                  rules={{
+                    required: "Number of units is required",
+                    pattern: {
+                      value: /^[0-9]*$/,
+                      message: "Please enter a valid number",
+                    },
+                  }}
                   render={({ field }) => (
                     <Input
                       {...field}
                       type="number"
-                      placeholder="Write Number of Unit...."
+                      placeholder="Write Number of Units...."
                       className="text-[#666666] p-3"
                     />
                   )}
                 />
+                {errors.numberOfUnits && (
+                  <p className="text-red-500">{errors.numberOfUnits.message}</p>
+                )}
               </Form.Item>
             </Col>
           </Row>
+
           <Row>
             <Col span={24}>
-              <Form.Item label="Description" required validateStatus="" help="">
+              <Form.Item label="Description" required>
                 <Controller
                   name="description"
                   control={control}
@@ -104,19 +168,22 @@ const AddProperties = () => {
                   render={({ field }) => (
                     <TextArea
                       {...field}
-                      type="number"
                       placeholder="Write Description here...."
                       className="text-[#666666] p-3"
                     />
                   )}
                 />
+                {errors.description && (
+                  <p className="text-red-500">{errors.description.message}</p>
+                )}
               </Form.Item>
             </Col>
           </Row>
+
           <Row gutter={[16]}>
-            {/* Property Name */}
+            {/* Amenities */}
             <Col xs={24} sm={24} md={12}>
-              <Form.Item label="Amenities" required validateStatus="" help="">
+              <Form.Item label="Amenities" required>
                 <Controller
                   name="amenities"
                   control={control}
@@ -130,16 +197,20 @@ const AddProperties = () => {
                     />
                   )}
                 />
+                {errors.amenities && (
+                  <p className="text-red-500">{errors.amenities.message}</p>
+                )}
               </Form.Item>
             </Col>
 
+            {/* Parking */}
             <Col xs={24} sm={24} md={12}>
-              <Form.Item label="Parking" required validateStatus="" help="">
+              <Form.Item label="Parking" required>
                 <Controller
                   name="parking"
                   control={control}
                   defaultValue=""
-                  rules={{ required: "parking of units is required" }}
+                  rules={{ required: "Parking of units is required" }}
                   render={({ field }) => (
                     <Select
                       showSearch
@@ -150,28 +221,27 @@ const AddProperties = () => {
                         width: "100%",
                       }}
                       options={[
-                        {
-                          value: "yes",
-                          label: "Yes",
-                        },
-                        {
-                          value: "no",
-                          label: "No",
-                        },
+                        { value: "yes", label: "Yes" },
+                        { value: "no", label: "No" },
                       ]}
                     />
                   )}
                 />
+                {errors.parking && (
+                  <p className="text-red-500">{errors.parking.message}</p>
+                )}
               </Form.Item>
             </Col>
           </Row>
         </div>
+
+        {/* Property Location */}
         <div className="bg-white mt-6 py-8 px-6 rounded-lg">
           <h2 className="sub-heading">Property Location</h2>
           <Row gutter={[16]} className="mt-8">
             {/* Country Field */}
             <Col xs={24} sm={12} md={8}>
-              <Form.Item label="Country" required validateStatus="" help="">
+              <Form.Item label="Country" required>
                 <Controller
                   name="country"
                   control={control}
@@ -180,22 +250,23 @@ const AddProperties = () => {
                   render={({ field }) => (
                     <AutoComplete
                       {...field}
-                      style={{
-                        height: "48px",
-                      }}
+                      style={{ height: "48px" }}
                       options={countryOptions}
                       onSearch={handleSearch}
                       placeholder="Type a country"
-                      className="text-[#666666] "
+                      className="text-[#666666]"
                     />
                   )}
                 />
+                {errors.country && (
+                  <p className="text-red-500">{errors.country.message}</p>
+                )}
               </Form.Item>
             </Col>
 
             {/* State Field */}
             <Col xs={24} sm={12} md={8}>
-              <Form.Item label="State" required validateStatus="" help="">
+              <Form.Item label="State" required>
                 <Controller
                   name="state"
                   control={control}
@@ -209,12 +280,15 @@ const AddProperties = () => {
                     />
                   )}
                 />
+                {errors.state && (
+                  <p className="text-red-500">{errors.state.message}</p>
+                )}
               </Form.Item>
             </Col>
 
             {/* City Field */}
             <Col xs={24} sm={12} md={8}>
-              <Form.Item label="City" required validateStatus="" help="">
+              <Form.Item label="City" required>
                 <Controller
                   name="city"
                   control={control}
@@ -228,16 +302,19 @@ const AddProperties = () => {
                     />
                   )}
                 />
+                {errors.city && (
+                  <p className="text-red-500">{errors.city.message}</p>
+                )}
               </Form.Item>
             </Col>
           </Row>
 
           <Row gutter={[16]}>
             {/* Address Field 1 */}
-            <Col xs={24} sm={24} md={12}>
-              <Form.Item label="Address" required validateStatus="" help="">
+            <Col xs={24} sm={24} md={8}>
+              <Form.Item label="Address" required>
                 <Controller
-                  name="address1"
+                  name="address"
                   control={control}
                   defaultValue=""
                   rules={{ required: "Address is required" }}
@@ -249,35 +326,118 @@ const AddProperties = () => {
                     />
                   )}
                 />
+                {errors.address1 && (
+                  <p className="text-red-500">{errors.address1.message}</p>
+                )}
               </Form.Item>
             </Col>
-
-            {/* Address Field 2 */}
-            <Col xs={24} sm={24} md={12}>
-              <Form.Item label="Zip Code" required validateStatus="" help="">
+            <Col xs={24} sm={24} md={8}>
+              <Form.Item label="House No." required>
                 <Controller
-                  name="zipcode"
+                  name="houseNo"
                   control={control}
                   defaultValue=""
-                  rules={{ required: "Address is required" }}
+                  rules={{ required: "House No is required" }}
                   render={({ field }) => (
                     <Input
                       {...field}
-                      type="number"
-                      placeholder="Write Zip Code "
+                      placeholder="Write House No"
                       className="text-[#666666] p-3"
                     />
                   )}
                 />
+                {errors.address1 && (
+                  <p className="text-red-500">{errors.address1.message}</p>
+                )}
+              </Form.Item>
+            </Col>
+
+            {/* Zip Code Field */}
+            <Col xs={24} sm={24} md={8}>
+              <Form.Item label="Zip Code" required>
+                <Controller
+                  name="zipcode"
+                  control={control}
+                  defaultValue=""
+                  rules={{
+                    required: "Zip Code is required",
+                    pattern: {
+                      value: /^[0-9]{5}$/,
+                      message: "Please enter a valid zip code",
+                    },
+                  }}
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      type="number"
+                      placeholder="Write Zip Code"
+                      className="text-[#666666] p-3"
+                    />
+                  )}
+                />
+                {errors.zipcode && (
+                  <p className="text-red-500">{errors.zipcode.message}</p>
+                )}
               </Form.Item>
             </Col>
           </Row>
         </div>
 
+        {/* Property Images */}
+        <div className="bg-white mt-6 py-8 px-6 rounded-lg">
+          <h2 className="sub-heading">Property Images</h2>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-6">
+            {images.map((img, index) => (
+              <div key={index} className="relative">
+                <img
+                  className="h-64 w-full object-cover rounded-lg cursor-pointer"
+                  src={URL.createObjectURL(img)}
+                  alt={`Preview ${index + 1}`}
+                  onClick={() => handleUpdateImage(index)}
+                />
+                <button
+                  className="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-full hover:opacity-90"
+                  onClick={() => handleDeleteImage(index)}
+                >
+                  <MdDelete />
+                </button>
+              </div>
+            ))}
+            <div className="relative inline-block">
+              <input
+                id="imageUpdateInput"
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={handleImageUpload}
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+              />
+              <div className="flex items-center justify-center text-[#e8ecf2] border border-dashed border-[#b6ceeb] rounded-lg cursor-pointer h-64 w-full">
+                <div className="w-full flex-col flex items-center">
+                  <IoCloudUploadOutline className="h-24 w-24" />
+                  <p className="text-[#b3b4b7]">
+                    Select <span className="text-blue-400">New File</span> to
+                    Upload
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Submit Button */}
         <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
+          <div className="flex justify-end">
+            <Button
+              className="text-[16px] px-9 py-5 bg-gradient-to-t from-[#468ddf] to-[#1969c3] text-white font-medium 
+          hover:bg-gradient-to-t hover:from-blue-600 hover:to-blue-700
+           hover:shadow mt-6"
+              htmlType="submit"
+            >
+              Submit
+              <FaAngleRight />{" "}
+            </Button>
+          </div>
         </Form.Item>
       </Form>
     </div>
