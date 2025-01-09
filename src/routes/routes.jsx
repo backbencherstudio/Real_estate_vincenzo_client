@@ -8,6 +8,7 @@ import Auth from "../pages/Auth/Auth";
 import SignIn from "../pages/Auth/signIn/SignIn";
 import SignUp from "../pages/Auth/SignUp/SignUp";
 import ResetPassword from "../pages/Auth/ResetPassword/ResetPassword";
+import TestTable from "../pages/Auth/TestTable";
 
 const routes = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ const routes = createBrowserRouter([
   {
     path: "/resetpassword",
     element: <ResetPassword></ResetPassword>
+  },
+  {
+    path: "testtable",
+    element: <TestTable></TestTable>
   }
   
 ]);
