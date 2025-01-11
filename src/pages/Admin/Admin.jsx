@@ -90,11 +90,13 @@ const AdminDashboard = () => {
       <div>
         <DashboardChart />
       </div>
+
       <CustomTable
         title={"Recently Added Properties"}
         columns={columns}
         data={data}
       />
+      
     </div>
   );
 };

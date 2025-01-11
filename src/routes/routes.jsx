@@ -1,3 +1,4 @@
+/* eslint-disable no-dupe-keys */
 import { createBrowserRouter } from "react-router-dom";
 import { routeGenerator } from "../utils/routeGenerator";
 import App from "../App";
