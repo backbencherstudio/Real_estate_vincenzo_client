@@ -6,7 +6,7 @@ import { Input } from "antd";
 function SignUp() {
   return (
     <>
-      <div className="max-w-[1300px] mx-auto flex flex-col lg:flex-row items-center gap-8 lg:gap-16 px-4 md:px-8 lg:px-0 pt-8 md:pt-12 lg:pt-16">
+      <div className="max-w-[1200px] mx-auto flex flex-col-reverse md:flex-row-reverse lg:flex-row items-center gap-8 lg:gap-10 px-4 md:px-8 lg:px-0 pt-8 md:pt-12 lg:pt-10">
         {/* Left Section */}
         <div className="w-full lg:w-[50%]">
           {/* Logo Section */}
@@ -124,7 +124,7 @@ function SignUp() {
           <img
             src={imagelogin}
             alt="login illustration"
-            className="w-full max-w-[320px] sm:max-w-[400px] md:max-w-[500px] lg:max-w-[663px] lg:h-auto object-contain"
+            className="w-full sm:max-w-[400px] md:max-w-[500px] lg:max-w-[663px] lg:h-auto object-contain"
           />
         </div>
       </div>
