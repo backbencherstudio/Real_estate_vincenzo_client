@@ -3,6 +3,9 @@ import { adminPaths } from "../routes/admin.routes";
 import { ownerPaths } from "../routes/owner.routes";
 import { tenantPaths } from "../routes/tenant.routes";
 import { sidebarItemGenerator } from "../utils/sidebarItemGenerator";
+import { useAppSelector } from "../redux/hooks";
+import { useCurrentToken } from "../redux/fetures/auth/authSlice";
+import { jwtDecode } from "jwt-decode";
 
 const { Sider } = Layout;
 
@@ -13,17 +16,16 @@ const userRole = {
 };
 
 const SideBar = () => {
-    // const token = useAppSelector(useCurrentToken);
+    const token = useAppSelector(useCurrentToken);
     
-    let user = "admin";
-    // if (token) {
-    //     user = verifyToken(token);
-    // }
+    let user;
+    if (token) {
+        user = jwtDecode(token);
+    }
 
-    // const role = "admin";
     let sideBarItems;
 
-    switch (user) {
+    switch (user.role) {
         case userRole.ADMIN:
             sideBarItems = sidebarItemGenerator(adminPaths, userRole.ADMIN);
             break;
