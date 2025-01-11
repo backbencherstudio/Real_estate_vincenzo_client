@@ -1,6 +1,8 @@
 import AdminDashboard from "../pages/Admin/Admin";
+import AllTenant from "../pages/Admin/AllTenant/AllTenant";
 import CreateOwner from "../pages/Admin/createOwner/CreateOwner";
 import AdminProfile from "../pages/Admin/Settings/AdminProfile";
+import TenantDetails from "../pages/Admin/TenantDetails/TenantDetails";
 
 export const adminPaths = [
     {
@@ -8,9 +10,8 @@ export const adminPaths = [
         path: "dashboard",
         element: <AdminDashboard />,
     },
-
     {
-        name: "Owner Managment",
+        name: "User Managment",
         children: [
 
             {
@@ -18,6 +19,17 @@ export const adminPaths = [
                 path: "create-owner",
                 element: <CreateOwner />,
             },
+            {
+                name: "Tenant",
+                path: "tenant",
+                element: <AllTenant />,
+            },
+            {
+                name: "Tenant",
+                path: "tenant/:id",
+                element: <TenantDetails />,
+            },
+
         ],
     },
     {

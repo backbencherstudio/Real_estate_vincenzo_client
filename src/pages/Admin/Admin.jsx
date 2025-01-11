@@ -1,9 +1,9 @@
-import { Tag } from "antd";
+import { Select, Table, Tag } from "antd";
 import DashboardChart from "../../components/AdminComponents/DashboardChart";
-import CustomTable from "../../shared/CustomTable";
 import { dashboardCounterObject } from "../../testJsonData/testJson";
 
 const AdminDashboard = () => {
+
   const columns = [
     {
       title: "Name",
@@ -26,8 +26,8 @@ const AdminDashboard = () => {
             status === "pending"
               ? "orange"
               : status === "complete"
-              ? "green"
-              : "red"
+                ? "green"
+                : "red"
           }
           style={{ textTransform: "capitalize" }}
         >
@@ -36,6 +36,8 @@ const AdminDashboard = () => {
       ),
     },
   ];
+
+
   const data = [
     {
       key: 1,
@@ -59,6 +61,17 @@ const AdminDashboard = () => {
       status: "complete",
     },
   ];
+
+
+  const onChange = (value) => {
+    console.log(`selected ${value}`);
+  };
+
+  const onSearch = (value) => {
+    console.log("search:", value);
+  };
+
+
   return (
     <div>
       <div>
@@ -73,7 +86,7 @@ const AdminDashboard = () => {
         </span>
       </div>
 
-      <div className="mt-8 grid grid-cols-4 gap-10 ">
+      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 ">
         {dashboardCounterObject?.map((item) => (
           <div className="bg-[#FFFFFF] p-5 rounded-lg " key={item._id}>
             <h2 className="text-[#64748B] font-semibold text-[14px] ">
@@ -91,12 +104,47 @@ const AdminDashboard = () => {
         <DashboardChart />
       </div>
 
-      <CustomTable
-        title={"Recently Added Properties"}
-        columns={columns}
-        data={data}
-      />
-      
+
+      <div className="bg-white p-5 mt-10 rounded-2xl">
+        <div className="flex justify-between items-center">
+          <div>
+            <h1 className="clamp-text font-semibold my-5"> Recently Added Properties </h1>
+          </div>{" "}
+          <div>
+            <Select
+              showSearch
+              placeholder="Select a Status"
+              optionFilterProp="label"
+              onChange={onChange}
+              onSearch={onSearch}
+              options={[
+                {
+                  value: "pending",
+                  label: "Pending",
+                },
+                {
+                  value: "cancel",
+                  label: "Cancel",
+                },
+                {
+                  value: "completed",
+                  label: "Completed",
+                },
+              ]}
+            />
+          </div>
+        </div>
+
+        <Table
+          columns={columns}
+          dataSource={data}
+          scroll={{ x: 800 }}
+        />
+      </div>
+
+
+
+
     </div>
   );
 };
