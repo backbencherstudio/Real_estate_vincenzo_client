@@ -16,6 +16,10 @@ const DashboardChart = () => {
         name: "PRODUCT B",
         data: [13, 23, 20, 8, 53, 27, 50],
       },
+      {
+        name: "PRODUCT c",
+        data: [20, 33, 30, 5, 63, 67, 60],
+      },
     ],
     chart: {
       type: "bar",
@@ -94,7 +98,7 @@ const DashboardChart = () => {
     fill: {
       opacity: 1,
     },
-    colors: ['#4A90E2', '#68AEF5'],
+    colors: ['#4A90E2', '#68AEF5', '#F0F7FE'],
   };
   const [state, setState] = useState({
     series: [{
