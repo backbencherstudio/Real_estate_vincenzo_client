@@ -10,19 +10,11 @@ const DashboardChart = () => {
     series: [
       {
         name: "PRODUCT A",
-        data: [44, 55, 41, 67, 22, 43, 30],
+        data: [44, 55, 41, 67, 22, 43, 20],
       },
       {
         name: "PRODUCT B",
-        data: [13, 23, 20, 8, 13, 27, 50],
-      },
-      {
-        name: "PRODUCT C",
-        data: [11, 17, 15, 15, 21, 14, 25],
-      },
-      {
-        name: "PRODUCT D",
-        data: [21, 7, 25, 13, 22, 8, 10],
+        data: [13, 23, 20, 8, 53, 27, 50],
       },
     ],
     chart: {
@@ -33,7 +25,7 @@ const DashboardChart = () => {
         show: true,
       },
       zoom: {
-        enabled: true,
+        enabled: false,
       },
       animations: {
         enabled: true,
@@ -64,17 +56,22 @@ const DashboardChart = () => {
     plotOptions: {
       bar: {
         horizontal: false,
-        borderRadius: 10,
+        borderRadius: 0,
         borderRadiusApplication: "end",
         borderRadiusWhenStacked: "last",
-        dataLabels: {
-          total: {
-            enabled: true,
-            style: {
-              fontSize: "13px",
-              fontWeight: 900,
-            },
-          },
+        // dataLabels: {
+        //   total: {
+        //     enabled: true,
+        //     style: {
+        //       fontSize: "13px",
+        //       fontWeight: 900,
+        //     },
+        //   },
+        // },
+        stroke: {
+          show: true,       
+          width: 2,         
+          colors: ['#000000'], 
         },
       },
     },
@@ -97,50 +94,85 @@ const DashboardChart = () => {
     fill: {
       opacity: 1,
     },
+    colors: ['#4A90E2', '#68AEF5'],
   };
   const [state, setState] = useState({
-    series: [
-      {
-        name: "series1",
-        data: [31, 40, 28, 51, 42, 109, 100],
-      },
-    ],
+    series: [{
+      data: [
+        587, 419, 743, 351, 688, 945, 598, 294, 193, 106, 
+        768, 498, 257, 873, 637, 709, 564, 387, 596, 347, 
+      ]
+    }],
     options: {
       chart: {
+        type: 'line',
         height: 350,
-        type: "area",
-      },
-      dataLabels: {
-        enabled: false,
+        zoom: {
+          enabled: true 
+        }
       },
       stroke: {
-        curve: "smooth",
+        curve: 'stepline',
+        width: 1 
       },
-      xaxis: {
-        type: "datetime",
-        categories: [
-          "2018-09-19T00:00:00.000Z",
-          "2018-09-19T01:30:00.000Z",
-          "2018-09-19T02:30:00.000Z",
-          "2018-09-19T03:30:00.000Z",
-          "2018-09-19T04:30:00.000Z",
-          "2018-09-19T05:30:00.000Z",
-          "2018-09-19T06:30:00.000Z",
-        ],
+      colors: ['#86C0FB'], 
+      dataLabels: {
+        enabled: false
+      },
+      title: {
+        text: '',
+        align: 'left'
+      },
+      markers: {
+        hover: {
+          sizeOffset: 2
+        }
       },
       tooltip: {
+        shared: true,
+        intersect: false, 
         x: {
-          format: "dd/MM/yy HH:mm",
+          show: true, 
         },
+        y: {
+          formatter: (val) => `${val} units`, 
+        }
       },
+      xaxis: {
+        categories: ['Jan', 'Jan', 'Feb', 'Feb', 'Mar', 'Mar', 'Apr', 'Apr', 'May', 'Jun', 'Jul'],
+        crosshairs: {
+          show: true, 
+          width: 1,
+          position: 'front',
+          opacity: 0.9,
+          stroke: {
+            color: '#86C0FB', 
+            width: 1,
+            dashArray: 0
+          }
+        }
+      },
+      yaxis: {
+        crosshairs: {
+          show: true, 
+          width: 1,
+          position: 'front',
+          opacity: 0.9,
+          stroke: {
+            color: '#86C0FB',
+            width: 1,
+            dashArray: 0
+          }
+        }
+      }
     },
   });
-
   useEffect(() => {
     setTimeout(() => {
       window.dispatchEvent(new Event("resize"));
     }, 300);
   }, []);
+  
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mt-4">
