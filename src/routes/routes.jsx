@@ -8,6 +8,7 @@ import Auth from "../pages/Auth/Auth";
 import SignIn from "../pages/Auth/signIn/SignIn";
 import SignUp from "../pages/Auth/SignUp/SignUp";
 import ResetPassword from "../pages/Auth/ResetPassword/ResetPassword";
+import ProtectedRoute from "../layout/ProtectedRoute";
 
 const routes = createBrowserRouter([
   {
@@ -17,16 +18,31 @@ const routes = createBrowserRouter([
   {
     path: "/admin",
     element: <App></App>,
+    element: (
+      <ProtectedRoute role="admin">
+        <App></App>
+      </ProtectedRoute>
+    ),
     children: routeGenerator(adminPaths),
   },
   {
     path: "/owner",
     element: <App></App>,
+    element: (
+      <ProtectedRoute role="owner">
+        <App></App>
+      </ProtectedRoute>
+    ),
     children: routeGenerator(ownerPaths),
   },
   {
     path: "/tenant",
     element: <App></App>,
+    element: (
+      <ProtectedRoute role="tenant">
+        <App></App>
+      </ProtectedRoute>
+    ),
     children: routeGenerator(tenantPaths),
   },
   {
