@@ -62,6 +62,7 @@ const routes = createBrowserRouter([
     path: "/resetpassword",
     element: <ResetPassword></ResetPassword>,
   },
+  
 ]);
 
 export default routes;

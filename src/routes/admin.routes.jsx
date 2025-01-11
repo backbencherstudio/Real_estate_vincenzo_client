@@ -13,7 +13,6 @@ export const adminPaths = [
     {
         name: "User Managment",
         children: [
-
             {
                 name: "Create Owner",
                 path: "create-owner",
@@ -25,7 +24,6 @@ export const adminPaths = [
                 element: <AllTenant />,
             },
             {
-                name: "Tenant",
                 path: "tenant/:id",
                 element: <TenantDetails />,
             },
