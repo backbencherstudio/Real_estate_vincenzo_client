@@ -8,7 +8,6 @@ import Auth from "../pages/Auth/Auth";
 import SignIn from "../pages/Auth/signIn/SignIn";
 import SignUp from "../pages/Auth/SignUp/SignUp";
 import ResetPassword from "../pages/Auth/ResetPassword/ResetPassword";
-import TestTable from "../pages/Auth/TestTable";
 
 const routes = createBrowserRouter([
   {
@@ -17,46 +16,35 @@ const routes = createBrowserRouter([
   },
   {
     path: "/admin",
-    element: (
-        <App></App>
-    ),
+    element: <App></App>,
     children: routeGenerator(adminPaths),
   },
   {
     path: "/owner",
-    element: (
-        <App></App>
-    ),
+    element: <App></App>,
     children: routeGenerator(ownerPaths),
   },
   {
     path: "/tenant",
-    element: (
-        <App></App>
-    ),
+    element: <App></App>,
     children: routeGenerator(tenantPaths),
   },
   {
     path: "/signin",
-    element: <SignIn></SignIn>
+    element: <SignIn></SignIn>,
   },
   {
     path: "/auth",
-    element: <Auth/>
+    element: <Auth />,
   },
   {
     path: "/signup",
-    element: <SignUp></SignUp>
+    element: <SignUp></SignUp>,
   },
   {
     path: "/resetpassword",
-    element: <ResetPassword></ResetPassword>
+    element: <ResetPassword></ResetPassword>,
   },
-  {
-    path: "testtable",
-    element: <TestTable></TestTable>
-  }
-  
 ]);
 
 export default routes;

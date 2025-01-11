@@ -1,9 +1,13 @@
 import { Tag } from "antd";
-import DashboardChart from "../../components/AdminComponents/DashboardChart";
-import CustomTable from "../../shared/CustomTable";
-import { dashboardCounterObject } from "../../testJsonData/testJson";
+import DashboardChart from "../../../components/AdminComponents/DashboardChart";
+import CustomTable from "../../../shared/CustomTable";
+import { dashboardCounterObject } from "../../../testJsonData/testJson";
+import CustomButton from "../../../shared/CustomButton";
+import { BiPlus } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
 
-const OwnerDashboard = () => {
+const Properties = () => {
+  const navigate = useNavigate();
   const columns = [
     {
       title: "Name",
@@ -59,36 +63,31 @@ const OwnerDashboard = () => {
       status: "complete",
     },
   ];
+  const handleAddProperties = () => {
+    navigate("addProperties");
+  };
   return (
     <div>
-      <div>
-        <h2 className="font-manrope text-2xl font-bold leading-[48px] tracking-[-0.03em] text-left">
-          Dashboard
-        </h2>
-        <span>
-          <p className="text-[#64748B] text-[14px] ">
-            {" "}
-            <span className="opacity-60">Home /</span> Dashboard
-          </p>
-        </span>
-      </div>
-
-      <div className="mt-8 grid grid-cols-4 gap-10 ">
-        {dashboardCounterObject?.map((item) => (
-          <div className="bg-[#FFFFFF] p-5 rounded-lg " key={item._id}>
-            <h2 className="text-[#64748B] font-semibold text-[14px] ">
-              {item.title}
-            </h2>
-            <h2 className="text-[#1C2434] font-semibold text-[24px] py-4 ">
-              {item.count}
-            </h2>
-            <button className="text-[#4A90E2]">View List</button>
-          </div>
-        ))}
-      </div>
-
-      <div>
-        <DashboardChart />
+      <div className="flex justify-between items-center">
+        <div>
+          <h2 className="font-manrope text-2xl font-bold leading-[48px] tracking-[-0.03em] text-left">
+            Properties
+          </h2>
+          <span>
+            <p className="text-[#64748B] text-[14px] ">
+              {" "}
+              <span className="opacity-60">Home /</span> My Properties
+            </p>
+          </span>
+        </div>
+        <CustomButton
+          handleClick={handleAddProperties}
+          content={
+            <div className="flex items-center  gap-1">
+              {"Add Properties"} <BiPlus size={16} />{" "}
+            </div>
+          }
+        />
       </div>
       <CustomTable
         title={"Recently Added Properties"}
@@ -99,4 +98,4 @@ const OwnerDashboard = () => {
   );
 };
 
-export default OwnerDashboard;
+export default Properties;

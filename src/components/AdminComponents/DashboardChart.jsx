@@ -1,7 +1,6 @@
 import { Select } from "antd";
 import { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
-
 const DashboardChart = () => {
   const handleChange = (value) => {
     console.log(`selected ${value}`);
@@ -37,7 +36,7 @@ const DashboardChart = () => {
         enabled: true,
       },
       animations: {
-        enabled: true, // Helps with rendering during initial load
+        enabled: true,
         easing: "easeinout",
         speed: 800,
         animateGradually: {
@@ -99,7 +98,6 @@ const DashboardChart = () => {
       opacity: 1,
     },
   };
-
   const [state, setState] = useState({
     series: [
       {
@@ -138,11 +136,10 @@ const DashboardChart = () => {
     },
   });
 
-  // Force chart to refresh when component mounts
   useEffect(() => {
     setTimeout(() => {
       window.dispatchEvent(new Event("resize"));
-    }, 300); // Add small delay to simulate container resize
+    }, 300);
   }, []);
 
   return (
@@ -215,7 +212,6 @@ const DashboardChart = () => {
             ]}
           />
         </div>
-
         <div className="mt-5">
           <ReactApexChart
             options={state.options}
@@ -228,5 +224,4 @@ const DashboardChart = () => {
     </div>
   );
 };
-
 export default DashboardChart;
