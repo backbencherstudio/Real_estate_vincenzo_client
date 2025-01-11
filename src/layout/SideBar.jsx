@@ -50,6 +50,7 @@ const SideBar = () => {
     <Sider
       style={{
         height: "100vh",
+        width:"278px",
         position: "sticky",
         top: "0",
         left: "0",
