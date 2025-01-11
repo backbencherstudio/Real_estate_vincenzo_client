@@ -2,10 +2,21 @@ import { Button, Dropdown, Layout, Space } from "antd";
 import { Outlet } from "react-router-dom";
 import SideBar from "./SideBar";
 import { FaChevronDown, FaRegUserCircle } from "react-icons/fa";
+import { useAppDispatch } from "../redux/hooks";
+import { logOut } from "../redux/fetures/auth/authSlice";
 
 const { Header, Content } = Layout;
 
 const MainLayout = () => {
+
+  const dispatch = useAppDispatch();
+  const handleLOgout = () => {
+    dispatch(logOut());
+  };
+
+
+
+
   const items = [
     {
       label: (
@@ -27,7 +38,7 @@ const MainLayout = () => {
       type: "divider",
     },
     {
-      label: <Button className="w-full">LogOut</Button>,
+      label: <Button onClick={handleLOgout} className="w-full">LogOut</Button>,
       key: "3",
     },
   ];

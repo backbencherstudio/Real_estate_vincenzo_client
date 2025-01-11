@@ -6,6 +6,7 @@ import { sidebarItemGenerator } from "../utils/sidebarItemGenerator";
 import { useAppSelector } from "../redux/hooks";
 import { useCurrentToken } from "../redux/fetures/auth/authSlice";
 import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
 const { Sider } = Layout;
 
@@ -17,15 +18,20 @@ const userRole = {
 
 const SideBar = () => {
     const token = useAppSelector(useCurrentToken);
+    const navigate = useNavigate()
     
     let user;
     if (token) {
         user = jwtDecode(token);
     }
 
+    if(!token){
+        navigate("/signin")
+    }
+
     let sideBarItems;
 
-    switch (user.role) {
+    switch (user?.role) {
         case userRole.ADMIN:
             sideBarItems = sidebarItemGenerator(adminPaths, userRole.ADMIN);
             break;
