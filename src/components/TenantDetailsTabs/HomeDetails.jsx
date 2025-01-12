@@ -3,19 +3,19 @@ import React from 'react';
 
 const HomeDetails = () => {
     return (
-        <div className="flex gap-8">
+        <div className="lg:flex gap-8 space-y-4 lg:space-y-0">
             {/* Left side - Image */}
-            <div className="w-1/2">
+            <div className="lg:w-1/2">
                 <img
                     src="https://i.ibb.co.com/NZnJxtY/pexels-fotoaibe-1571459.jpg"
                     alt="Modern mansion"
-                    className="w-full h-[550px] object-cover rounded-lg"
+                    className="w-full lg:h-[650px] xl:h-[550px] object-cover rounded-lg"
                 />
             </div>
 
             {/* Right side - Details Card */}
-            <div className="w-1/2 bg-white rounded-lg p-6 shadow-sm">
-                <h1 className="text-3xl font-bold text-gray-900 mb-4">
+            <div className="lg:w-1/2 bg-white rounded-lg p-6 shadow-sm">
+                <h1 className="text-lg lg:text-3xl font-bold text-gray-900 mb-4">
                     Design of a modern h mansion blue couch
                 </h1>
 

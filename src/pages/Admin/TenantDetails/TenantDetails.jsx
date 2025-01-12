@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { BadgeEuro, CircleX, File, Home, Mail, MoreVertical, User } from 'lucide-react';
 import ProfileInformation from '../../../components/TenantDetailsTabs/ProfileInformation';
 import HomeDetails from '../../../components/TenantDetailsTabs/HomeDetails';
+import PaymentHistory from '../../../components/TenantDetailsTabs/PaymentHistory';
+import TenantDocument from '../../../components/TenantDetailsTabs/TenantDocument';
 
 const TenantDetails = () => {
     const [activeTab, setActiveTab] = useState('profile');
@@ -95,16 +97,10 @@ const TenantDetails = () => {
                 <HomeDetails />
             )}
             {activeTab === 'payment' && (
-                <div className="bg-white p-4 md:p-6 rounded-lg shadow-sm">
-                    <h2 className="text-xl font-semibold">Payment History</h2>
-                    <p className="text-gray-500">Payment history content goes here</p>
-                </div>
+                <PaymentHistory />
             )}
             {activeTab === 'document' && (
-                <div className="bg-white p-4 md:p-6 rounded-lg shadow-sm">
-                    <h2 className="text-xl font-semibold">Documents</h2>
-                    <p className="text-gray-500">Documents content goes here</p>
-                </div>
+                <TenantDocument />
             )}
         </div>
     );
