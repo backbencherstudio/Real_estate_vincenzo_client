@@ -5,6 +5,7 @@ import { logOut, useCurrentToken } from "../redux/fetures/auth/authSlice";
 import { verifyToken } from "../utils/varifyToken";
 
 const ProtectedRoute = ({ children, role }) => {
+
   const token = useSelector(useCurrentToken);
   const dispatch = useDispatch();
 
@@ -22,6 +23,7 @@ const ProtectedRoute = ({ children, role }) => {
   }
 
   return children;
+  
 };
 
 export default ProtectedRoute;

@@ -131,7 +131,6 @@ const AdminDashboard = () => {
               `${range[0]}-${range[1]} of ${total} items`, 
           }}
         />
-
       </div>
 
 

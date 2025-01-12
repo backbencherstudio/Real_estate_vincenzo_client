@@ -3,6 +3,16 @@ import { baseApi } from "../../api/baseApi";
 const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
 
+    createUser: builder.mutation({
+      query: (userData) => {              
+        return {
+          url: "/auth/create-user",
+           method: "POST",
+           body: userData,
+       }
+      },
+    }),
+
     getALlUser: builder.query({
       query: (status) => {
         return {
@@ -14,13 +24,14 @@ const authApi = baseApi.injectEndpoints({
     providesTags: ["user"],
     }),
 
-     login: builder.mutation({
+    login: builder.mutation({
       query: (userInfo) => ({
          url: "/auth/login",
           method: "POST",
           body: userInfo,
       }),
     }),
+ 
 
     
   }),
