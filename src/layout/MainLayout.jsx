@@ -8,13 +8,10 @@ import { logOut } from "../redux/fetures/auth/authSlice";
 const { Header, Content } = Layout;
 
 const MainLayout = () => {
-
   const dispatch = useAppDispatch();
   const handleLOgout = () => {
     dispatch(logOut());
   };
-
-
 
   const items = [
     {
@@ -37,7 +34,11 @@ const MainLayout = () => {
       type: "divider",
     },
     {
-      label: <Button onClick={handleLOgout} className="w-full">LogOut</Button>,
+      label: (
+        <Button onClick={handleLOgout} className="w-full">
+          LogOut
+        </Button>
+      ),
       key: "3",
     },
   ];
@@ -92,8 +93,6 @@ const MainLayout = () => {
                 minHeight: 360,
               }}
             >
-              this is dashboard
-
               <Outlet />
             </div>
           </Content>
