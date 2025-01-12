@@ -17,14 +17,14 @@ const TenantDocument = () => {
                 <h2 className="text-xl font-semibold mb-4">Tenant Documents</h2>
                 <div className="space-y-6 bg-white p-8 rounded-md">
                     {documents.map((doc, index) => (
-                        <div key={index} className="flex items-center cursor-pointer group group-hover:text-green-500">
-                            <div className="flex items-center group-hover:text-green-500 duration-300/">
+                        <div key={index} className="flex items-center cursor-pointer group">
+                            <div className="flex items-center  duration-300/">
                                 <img
                                     src={doc.type === "pdf" ? `${pdf}` : `${image}`}
                                     alt={`${doc.type} icon`}
                                     className="w-4 h-4 mr-3"
                                 />
-                                <span className="text-sm font-medium ">{doc.name}</span>
+                                <span className="text-sm font-medium group-hover:text-green-500 ">{doc.name}</span>
                             </div>
                             <a
                                 href={doc.url}
@@ -40,7 +40,7 @@ const TenantDocument = () => {
 
             <div className="mt-5">
                 <h2 className="text-xl font-semibold mb-4">Agreement Copy</h2>
-                <div className="flex items-center bg-white p-8 ">
+                <div className="flex items-center bg-white p-8 rounded-md">
                     <div className="flex items-center hover:text-green-500 cursor-pointer group  ">
                         <img
                             src={pdf}

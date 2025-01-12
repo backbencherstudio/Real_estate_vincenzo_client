@@ -53,7 +53,7 @@ const TenantDetails = () => {
             <h1 className="text-2xl font-bold mb-6">Tenant Details</h1>
 
             {/* Tabs - Scrollable on mobile */}
-            <div className='flex justify-between items-cen'>
+            <div className='flex justify-between '>
                 <div className="overflow-x-auto mb-6">
                     <div className="flex min-w-max space-x-4">
                         {tabs.map((tab) => (
