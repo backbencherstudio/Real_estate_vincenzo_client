@@ -80,8 +80,8 @@ const AdminDashboard = () => {
       },
     },
     {
-      title: "_id",
-      dataIndex: "_id",
+      title: "Details",
+      dataIndex: "details",
       render: (text, record) => (
         <div>
           <span
