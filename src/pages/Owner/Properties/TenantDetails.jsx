@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   BadgeEuro,
   CircleX,
@@ -9,6 +9,9 @@ import {
   User,
 } from "lucide-react";
 import ProfileInformation from "../../../components/TenantDetailsTabs/ProfileInformation";
+import HomeDetails from "../../../components/TenantDetailsTabs/HomeDetails";
+import PaymentHistory from "../../../components/TenantDetailsTabs/PaymentHistory";
+import TenantDocument from "../../../components/TenantDetailsTabs/TenantDocument";
 
 const TenantDetails = () => {
   const [activeTab, setActiveTab] = useState("profile");
@@ -20,6 +23,13 @@ const TenantDetails = () => {
     { id: "payment", name: "Payment History", icon: <BadgeEuro /> },
     { id: "document", name: "Document", icon: <File /> },
   ];
+
+  const breadcrumbMapping = {
+    profile: "Profile Information",
+    home: "Home Details",
+    payment: "Payment History",
+    document: "Tenant Document",
+  };
 
   const personalInfo = {
     name: "Christopher",
@@ -43,7 +53,7 @@ const TenantDetails = () => {
       {/* Header with breadcrumb and menu */}
       <div className=" mb-6">
         <div className="text-sm text-gray-500">
-          Home / Tenant / Tenant Details
+          Home / Tenant / Tenant Details/ {breadcrumbMapping[activeTab]}
         </div>
       </div>
 
@@ -51,7 +61,7 @@ const TenantDetails = () => {
       <h1 className="text-2xl font-bold mb-6">Tenant Details</h1>
 
       {/* Tabs - Scrollable on mobile */}
-      <div className="flex justify-between items-cen">
+      <div className="flex justify-between ">
         <div className="overflow-x-auto mb-6">
           <div className="flex min-w-max space-x-4">
             {tabs.map((tab) => (
@@ -102,24 +112,9 @@ const TenantDetails = () => {
       )}
 
       {/* Other tabs content */}
-      {activeTab === "home" && (
-        <div className="bg-white p-4 md:p-6 rounded-lg shadow-sm">
-          <h2 className="text-xl font-semibold">Home Details</h2>
-          <p className="text-gray-500">Home details content goes here</p>
-        </div>
-      )}
-      {activeTab === "payment" && (
-        <div className="bg-white p-4 md:p-6 rounded-lg shadow-sm">
-          <h2 className="text-xl font-semibold">Payment History</h2>
-          <p className="text-gray-500">Payment history content goes here</p>
-        </div>
-      )}
-      {activeTab === "document" && (
-        <div className="bg-white p-4 md:p-6 rounded-lg shadow-sm">
-          <h2 className="text-xl font-semibold">Documents</h2>
-          <p className="text-gray-500">Documents content goes here</p>
-        </div>
-      )}
+      {activeTab === "home" && <HomeDetails />}
+      {activeTab === "payment" && <PaymentHistory />}
+      {activeTab === "document" && <TenantDocument />}
     </div>
   );
 };

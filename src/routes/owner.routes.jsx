@@ -1,3 +1,5 @@
+import Maintenance from "../pages/Owner/Maintenance/Maintenance";
+import MaintenanceDetails from "../pages/Owner/Maintenance/MaintenanceDetails";
 import OwnerDashboard from "../pages/Owner/Owner";
 import AddProperties from "../pages/Owner/Properties/AddProperties";
 import Properties from "../pages/Owner/Properties/Properties";
@@ -41,5 +43,14 @@ export const ownerPaths = [
         element: <AddProperties />,
       },
     ],
+  },
+  {
+    name: "Maintenance",
+    path: "maintenance",
+    element: <Maintenance />,
+  },
+  {
+    path: "maintenance/:id",
+    element: <MaintenanceDetails />,
   },
 ];
