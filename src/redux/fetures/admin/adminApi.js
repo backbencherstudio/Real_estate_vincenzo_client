@@ -14,6 +14,16 @@ const adminApi = baseApi.injectEndpoints({
     providesTags: ["user"],
     }),
 
+    getAllProperties : builder.query({
+      query: ()=>{
+        return {
+          url: `/admin/getAllProterties`,
+          method: "GET",
+        }
+      },
+      providesTags: ["properties"],
+    })
+
 
 
   }),

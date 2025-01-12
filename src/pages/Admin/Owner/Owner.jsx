@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { Select, Table, Tag, Button } from 'antd';
 import { data } from '../../../testJson/testJson';
 import ProfileInformation from '../../../components/TenantDetailsTabs/ProfileInformation';
 import { CircleX, Mail, MoreVertical } from 'lucide-react';
 
-const CreateOwner = () => {
+const Owner = () => {
   const [pageSize, setPageSize] = useState(10);
   const [selectedUser, setSelectedUser] = useState(null);
   const [showMenu, setShowMenu] = useState(false);
@@ -181,4 +181,4 @@ const CreateOwner = () => {
   );
 };
 
-export default CreateOwner;
+export default Owner;
