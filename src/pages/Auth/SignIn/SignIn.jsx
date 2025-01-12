@@ -7,15 +7,12 @@ import authApi from "../../../redux/fetures/auth/authApi";
 import { verifyToken } from "../../../utils/varifyToken";
 import { setUser } from "../../../redux/fetures/auth/authSlice";
 import { useAppDispatch } from './../../../redux/hooks';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function SignIn() {
 
 
   const [login, { isLoading }] = authApi.useLoginMutation();
-  
-
-
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -168,6 +165,14 @@ function SignIn() {
                 </p>
               </div>
             </div>
+            <div className="text-center pt-6">
+              <p className="text-gray-600 text-sm md:text-base">
+                Don’t have an account?
+                <Link to="/signup" className="text-blue-600 hover:text-blue-800 font-medium pl-1">
+                  Sign Up
+                </Link>
+              </p>
+            </div>
           </form>
         </div>
 
@@ -180,6 +185,7 @@ function SignIn() {
           />
         </div>
       </div>
+
       {/* Footer Copyright */}
       <footer className="text-center lg:mt-10 py-4 text-sm text-gray-400">
         <p>© 2024 Copyright - All rights reserved by Real estate</p>

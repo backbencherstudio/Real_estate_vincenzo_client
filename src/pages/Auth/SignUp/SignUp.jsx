@@ -1,15 +1,38 @@
+import { Controller, useForm } from "react-hook-form";
 import imagelogin from "../../../assets/loginpagegirlimage.png";
 import iconimage from "../../../assets/loginiconimage.png";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { Input } from "antd";
+import { Link } from "react-router-dom";
+import authApi from "../../../redux/fetures/auth/authApi";
 
 function SignUp() {
+
+  const [createUser] = authApi.useCreateUserMutation()
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = async (data) => {
+    const userData = {
+      ...data
+    }
+    const result = await createUser(userData);
+    console.log(result);
+  };
+
+
   return (
     <>
-      <div className="max-w-[1300px] mx-auto flex flex-col lg:flex-row items-center gap-8 lg:gap-16 px-4 md:px-8 lg:px-0 pt-8 md:pt-12 lg:pt-16">
-        {/* Left Section */}
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="max-w-[1300px] mx-auto flex flex-col lg:flex-row items-center gap-8 lg:gap-16 px-4 md:px-8 lg:px-0 pt-8 md:pt-12 lg:pt-16"
+      >
         <div className="w-full lg:w-[50%]">
-          {/* Logo Section */}
           <div className="flex items-center pb-6 justify-center lg:justify-start">
             <img className="mr-2 w-8 h-8" src={iconimage} alt="icon" />
             <h2 className="font-inter text-[22px] font-medium leading-[22px] tracking-[-0.88px] bg-gradient-to-r from-[#070127] to-[#A9A9A9] bg-clip-text text-transparent">
@@ -17,7 +40,6 @@ function SignUp() {
             </h2>
           </div>
 
-          {/* Header Section */}
           <div>
             <h3 className="text-[#232323] font-inter text-[28px] md:text-[34px] font-semibold leading-[34px] tracking-[-0.68px] pb-4 text-center lg:text-left">
               Sign Up
@@ -26,10 +48,7 @@ function SignUp() {
               Please Sign Up to continue to your account.
             </p>
           </div>
-
-          {/* Form Section */}
           <div className="pt-8 md:pt-10">
-            {/* Email Field */}
             <div className="mb-4">
               <label
                 htmlFor="name"
@@ -40,13 +59,18 @@ function SignUp() {
               <input
                 type="text"
                 id="name"
-                name="name"
-                className="w-full rounded-[12px] p-4 md:p-6 border-2 border-[#1565C0] bg-white"
-                placeholder="Enter your email"
-                required
+                {...register("name", { required: "Name is required" })}
+                className={`w-full rounded-[12px] p-4 md:p-6 border-2 ${errors.name ? "border-red-500" : "border-[#1565C0]"
+                  } bg-white`}
+                placeholder="Enter your name"
               />
+              {errors.name && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.name.message}
+                </p>
+              )}
             </div>
-            {/* Email Field */}
+
             <div className="mb-4">
               <label
                 htmlFor="email"
@@ -57,14 +81,24 @@ function SignUp() {
               <input
                 type="email"
                 id="email"
-                name="email"
-                className="w-full rounded-[12px] p-4 md:p-6 border-2 border-[#1565C0] bg-white"
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                    message: "Invalid email address",
+                  },
+                })}
+                className={`w-full rounded-[12px] p-4 md:p-6 border-2 ${errors.email ? "border-red-500" : "border-[#1565C0]"
+                  } bg-white`}
                 placeholder="Enter your email"
-                required
               />
+              {errors.email && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.email.message}
+                </p>
+              )}
             </div>
 
-            {/* Password Field */}
             <div className="mb-4">
               <label
                 htmlFor="password"
@@ -72,54 +106,58 @@ function SignUp() {
               >
                 Password
               </label>
-              <Input.Password
-                className="w-full rounded-[12px] p-4 md:p-6 border-2 border-[#CDCDCD] bg-white"
-                placeholder="Password"
-                iconRender={(visible) =>
-                  visible ? <FaRegEye /> : <FaRegEyeSlash />
-                }
+              <Controller
+                name="password"
+                control={control}
+                rules={{
+                  required: "Password is required",
+                  minLength: {
+                    value: 6,
+                    message: "Password must be at least 6 characters long",
+                  },
+                }}
+                render={({ field }) => (
+                  <Input.Password
+                    id="password"
+                    className={`w-full rounded-[12px] p-4 md:p-6 border-2 ${errors.password ? "border-red-500" : "border-[#CDCDCD]"
+                      } bg-white`}
+                    placeholder="Password"
+                    iconRender={(visible) =>
+                      visible ? <FaRegEye /> : <FaRegEyeSlash />
+                    }
+                    {...field}
+                  />
+                )}
               />
+              {errors.password && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.password.message}
+                </p>
+              )}
             </div>
 
-            {/* Uncommented Section for Buttons */}
             <div className="pt-8">
-              <button className="rounded-[12px] bg-gradient-to-r from-[#4A90E2] to-[#1565C0] p-4 md:p-5 w-full text-white font-medium text-lg">
+              <button
+                type="submit"
+                className="rounded-[12px] bg-gradient-to-r from-[#4A90E2] to-[#1565C0] p-4 md:p-5 w-full text-white font-medium text-lg"
+              >
                 Sign Up
               </button>
-
-              {/* Forgot Password */}
-              <div>
-                <p className="text-[#070127] font-inter text-[14px] md:text-[16px] font-normal leading-[1.4] text-right pt-2 md:pt-5">
-                  Forgot Password?
+              <div className="text-center pt-6">
+                <p className="text-gray-600 text-sm md:text-base">
+                  Already have an account?
+                  <Link
+                    to="/signin"
+                    className="text-blue-600 hover:text-blue-800 font-medium pl-1"
+                  >
+                    Sign In
+                  </Link>
                 </p>
               </div>
-
-              {/* Divider */}
-              {/* <div className="flex items-center my-6">
-                            <div className="flex-grow border-t border-gray-300"></div>
-                            <span className="mx-4 text-gray-500">or</span>
-                            <div className="flex-grow border-t border-gray-300"></div>
-                        </div> */}
-
-              {/* Sign In with Google */}
-              {/* <button className="w-full flex items-center justify-center py-4 px-2 border border-gray-300 rounded-full shadow-sm bg-white hover:bg-gray-50 active:bg-gray-200">
-                            <span className="text-base font-medium text-gray-700">Sign in with Google</span>
-                        </button> */}
-
-              {/* Sign Up Link */}
-              {/* <div className="text-center pt-6">
-                            <p className="text-gray-600 text-sm md:text-base">
-                                Don’t have an account?
-                                <a href="#" className="text-blue-600 hover:text-blue-800 font-medium pl-1">
-                                    Sign Up
-                                </a>
-                            </p>
-                        </div> */}
             </div>
           </div>
         </div>
 
-        {/* Right Section */}
         <div className="w-full lg:w-[50%] flex justify-center">
           <img
             src={imagelogin}
@@ -127,9 +165,9 @@ function SignUp() {
             className="w-full max-w-[320px] sm:max-w-[400px] md:max-w-[500px] lg:max-w-[663px] lg:h-auto object-contain"
           />
         </div>
-      </div>
-      {/* Footer Copyright */}
-      <footer className="text-center lg:mt-10  py-4 text-sm text-gray-400">
+      </form>
+
+      <footer className="text-center lg:mt-10 py-4 text-sm text-gray-400">
         <p>© 2024 Copyright - All rights reserved by Real estate</p>
       </footer>
     </>
