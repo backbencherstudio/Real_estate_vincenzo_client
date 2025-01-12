@@ -2,7 +2,7 @@ import React from 'react';
 
 const ProfileInformation = ({ personalInfo, addressInfo }) => {
     return (
-        <div className="bg-white p-4 md:p-6 rounded-lg shadow-sm">
+        <div className="bg-white p-4 md:p-8 rounded-lg shadow-sm">
             {/* Profile Header */}
             <div className="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-4 mb-8">
                 <div className="w-20 h-20 rounded-lg overflow-hidden bg-gray-200 flex-shrink-0">
@@ -15,7 +15,7 @@ const ProfileInformation = ({ personalInfo, addressInfo }) => {
             </div>
 
             {/* Info Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
                 {/* Personal Information */}
                 <div className="space-y-4">
                     <h3 className="text-lg font-semibold mb-4">Personal Information</h3>

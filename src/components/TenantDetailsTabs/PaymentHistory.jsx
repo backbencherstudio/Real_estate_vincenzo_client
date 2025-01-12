@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { data } from '../../testJson/testJson';
 import { Select, Table, Tag } from 'antd';
-import { data } from '../../../testJson/testJson';
-const AllTenant = () => {
+
+const PaymentHistory = () => {
     const [pageSize, setPageSize] = useState(10);
 
     const handlePageSizeChange = (current, size) => {
@@ -42,24 +43,18 @@ const AllTenant = () => {
     ];
     const onChange = (value) => {
         console.log(`selected ${value}`);
-    };
-
-    const onSearch = (value) => {
+      };
+    
+      const onSearch = (value) => {
         console.log("search:", value);
-    };
-
+      };
+    
     return (
         <div>
-            <div className=" mb-6">
-                <div>
-                    <h1 className='text-3xl font-bold'>Tenants</h1>
-                    <p className="text-sm text-gray-500">User Management / Tenant </p>
-                </div>
-            </div>
             <div className="bg-white p-5 mt-10 rounded-2xl">
                 <div className="flex justify-between items-center">
                     <div>
-                        <h1 className="text-xl font-semibold my-5"> Tenents List </h1>
+                        <h1 className=" text-lg font-semibold my-5"> Payment History </h1>
                     </div>{" "}
                     <div>
                         <Select
@@ -104,4 +99,4 @@ const AllTenant = () => {
     );
 };
 
-export default AllTenant;
+export default PaymentHistory;
