@@ -19,6 +19,14 @@ export const ownerPaths = [
         element: <Properties />,
       },
       {
+        path: "properties/addProperties",
+        element: <AddProperties />,
+      },
+      {
+        path: "properties/:id",
+        element: <Properties />,
+      },
+      {
         name: "Tenants",
         path: "tenants",
         element: <Tenants />,
@@ -26,10 +34,6 @@ export const ownerPaths = [
       {
         path: "tenants/:id",
         element: <TenantDetails />,
-      },
-      {
-        path: "properties/addProperties",
-        element: <AddProperties />,
       },
     ],
   },
