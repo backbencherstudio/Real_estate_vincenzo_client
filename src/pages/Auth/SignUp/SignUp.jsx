@@ -2,7 +2,7 @@ import { Controller, useForm } from "react-hook-form";
 import imagelogin from "../../../assets/loginpagegirlimage.png";
 import iconimage from "../../../assets/loginiconimage.png";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
-import { Input } from "antd";
+import { Input, Spin } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import authApi from "../../../redux/fetures/auth/authApi";
 import { useState } from "react";
@@ -11,8 +11,8 @@ import { toast } from "sonner";
 
 function SignUp() {
 
-  const [createUser] = authApi.useCreateUserMutation();
-  const [verifyOTP] = authApi.useVerifyOTPMutation();
+  const [createUser, { isLoading: cIsLoading }] = authApi.useCreateUserMutation();
+  const [verifyOTP, { isLoading: vIsLoading }] = authApi.useVerifyOTPMutation();
   const [showOTP, setShowOTP] = useState(false);
   const navigate = useNavigate();
 
@@ -34,17 +34,16 @@ function SignUp() {
       setShowOTP(true);
     }
   };
-  
+
   const handleVerifyOTP = async (otpValue) => {
     const otp = parseInt(otpValue)
     try {
-      const result = await verifyOTP({otp});      
+      const result = await verifyOTP({ otp });
       if (result?.data?.success) {
         toast.success(result?.data?.message)
         setShowOTP(false);
         navigate("/signin")
       }
-
     } catch (error) {
       console.error('OTP verification failed:', error);
     }
@@ -162,12 +161,24 @@ function SignUp() {
             </div>
 
             <div className="pt-8">
-              <button
-                type="submit"
-                className="rounded-[12px] bg-gradient-to-r from-[#4A90E2] to-[#1565C0] p-4 md:p-5 w-full text-white font-medium text-lg"
-              >
-                Sign Up
-              </button>
+              {
+                cIsLoading ?
+                  <button
+                    type="submit"
+                    className="rounded-[12px] bg-gradient-to-r border border-[#4A90E2] p-4 md:p-5 w-full  font-medium text-lg"
+                  >
+                    <Spin size="large" />
+                  </button>
+                  :
+                  <button
+                    type="submit"
+                    className="rounded-[12px] bg-gradient-to-r from-[#4A90E2] to-[#1565C0] p-4 md:p-5 w-full text-white font-medium text-lg"
+                  >
+                    Sign Un
+                  </button>
+
+              }
+
               <div className="text-center pt-6">
                 <p className="text-gray-600 text-sm md:text-base">
                   Already have an account?
@@ -196,6 +207,7 @@ function SignUp() {
         isOpen={showOTP}
         onClose={() => setShowOTP(false)}
         onVerify={handleVerifyOTP}
+        vIsLoading={vIsLoading}
       />
 
       <footer className="text-center lg:mt-10 py-4 text-sm text-gray-400">
