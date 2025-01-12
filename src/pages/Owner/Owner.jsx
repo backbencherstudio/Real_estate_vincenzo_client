@@ -1,9 +1,14 @@
-import { Tag } from "antd";
+import { Select, Table, Tag } from "antd";
 import DashboardChart from "../../components/AdminComponents/DashboardChart";
-import CustomTable from "../../shared/CustomTable";
 import { dashboardCounterObject } from "../../testJsonData/testJson";
+import { useState } from "react";
 
 const OwnerDashboard = () => {
+  const [pageSize, setPageSize] = useState(10);
+
+  const handlePageSizeChange = (current, size) => {
+    setPageSize(size);
+  };
   const columns = [
     {
       title: "Name",
@@ -59,6 +64,14 @@ const OwnerDashboard = () => {
       status: "complete",
     },
   ];
+
+  const onChange = (value) => {
+    console.log(`selected ${value}`);
+  };
+
+  const onSearch = (value) => {
+    console.log("search:", value);
+  };
   return (
     <div>
       <div>
@@ -90,11 +103,53 @@ const OwnerDashboard = () => {
       <div>
         <DashboardChart />
       </div>
-      <CustomTable
-        title={"Recently Added Properties"}
-        columns={columns}
-        data={data}
-      />
+      <div className="bg-white p-5 mt-10 rounded-2xl">
+        <div className="flex justify-between items-center">
+          <div>
+            <h1 className="clamp-text font-semibold my-5">
+              {" "}
+              Recently Added Properties{" "}
+            </h1>
+          </div>{" "}
+          <div>
+            <Select
+              showSearch
+              placeholder="Select a Status"
+              optionFilterProp="label"
+              onChange={onChange}
+              onSearch={onSearch}
+              options={[
+                {
+                  value: "pending",
+                  label: "Pending",
+                },
+                {
+                  value: "cancel",
+                  label: "Cancel",
+                },
+                {
+                  value: "completed",
+                  label: "Completed",
+                },
+              ]}
+            />
+          </div>
+        </div>
+
+        <Table
+          columns={columns}
+          dataSource={data}
+          scroll={{ x: 800 }}
+          pagination={{
+            pageSize: pageSize,
+            pageSizeOptions: ["5", "10", "15", "20", "25"],
+            showSizeChanger: true,
+            onShowSizeChange: handlePageSizeChange,
+            showTotal: (total, range) =>
+              `${range[0]}-${range[1]} of ${total} items`,
+          }}
+        />
+      </div>
     </div>
   );
 };

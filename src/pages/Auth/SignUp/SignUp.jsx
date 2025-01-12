@@ -162,7 +162,7 @@ function SignUp() {
           <img
             src={imagelogin}
             alt="login illustration"
-            className="w-full max-w-[320px] sm:max-w-[400px] md:max-w-[500px] lg:max-w-[663px] lg:h-auto object-contain"
+            className="w-full sm:max-w-[400px] md:max-w-[500px] lg:max-w-[663px] lg:h-auto object-contain"
           />
         </div>
       </form>
