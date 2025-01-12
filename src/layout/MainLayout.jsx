@@ -15,6 +15,7 @@ const MainLayout = () => {
   };
 
 
+
   const items = [
     {
       label: (
@@ -91,6 +92,8 @@ const MainLayout = () => {
                 minHeight: 360,
               }}
             >
+              this is dashboard
+
               <Outlet />
             </div>
           </Content>

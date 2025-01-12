@@ -1,8 +1,8 @@
 import OwnerDashboard from "../pages/Owner/Owner";
 import AddProperties from "../pages/Owner/Properties/AddProperties";
 import Properties from "../pages/Owner/Properties/Properties";
+import TenantDetails from "../pages/Owner/Properties/TenantDetails";
 import Tenants from "../pages/Owner/Properties/Tenants";
-import TenantDetailsTwo from "../pages/Owner/TenantDetails/TenantDetailsTwo";
 
 export const ownerPaths = [
   {
@@ -25,7 +25,7 @@ export const ownerPaths = [
       },
       {
         path: "tenants/:id",
-        element: <TenantDetailsTwo />,
+        element: <TenantDetails />,
       },
       {
         path: "properties/addProperties",

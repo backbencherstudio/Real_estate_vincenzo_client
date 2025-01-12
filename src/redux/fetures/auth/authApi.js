@@ -13,6 +13,16 @@ const authApi = baseApi.injectEndpoints({
       },
     }),
 
+    verifyOTP: builder.mutation({
+      query: (otpData) => {              
+        return {
+          url: "/auth/verifyOTP",
+           method: "POST",
+           body: otpData,
+       }
+      },
+    }),
+
     getALlUser: builder.query({
       query: (status) => {
         return {
