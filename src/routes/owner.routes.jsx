@@ -35,6 +35,10 @@ export const ownerPaths = [
         path: "tenants/:id",
         element: <TenantDetails />,
       },
+      {
+        path: "properties/addProperties",
+        element: <AddProperties />,
+      },
     ],
   },
 ];

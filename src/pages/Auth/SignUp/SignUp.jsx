@@ -3,12 +3,18 @@ import imagelogin from "../../../assets/loginpagegirlimage.png";
 import iconimage from "../../../assets/loginiconimage.png";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { Input } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import authApi from "../../../redux/fetures/auth/authApi";
+import { useState } from "react";
+import OTPVerification from "../OTPVerification/OTPVerification";
+import { toast } from "sonner";
 
 function SignUp() {
 
-  const [createUser] = authApi.useCreateUserMutation()
+  const [createUser] = authApi.useCreateUserMutation();
+  const [verifyOTP] = authApi.useVerifyOTPMutation();
+  const [showOTP, setShowOTP] = useState(false);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -22,7 +28,26 @@ function SignUp() {
       ...data
     }
     const result = await createUser(userData);
-    console.log(result);
+
+    if (result?.data?.success) {
+      toast.success(result?.data?.message)
+      setShowOTP(true);
+    }
+  };
+  
+  const handleVerifyOTP = async (otpValue) => {
+    const otp = parseInt(otpValue)
+    try {
+      const result = await verifyOTP({otp});      
+      if (result?.data?.success) {
+        toast.success(result?.data?.message)
+        setShowOTP(false);
+        navigate("/signin")
+      }
+
+    } catch (error) {
+      console.error('OTP verification failed:', error);
+    }
   };
 
 
@@ -166,6 +191,12 @@ function SignUp() {
           />
         </div>
       </form>
+
+      <OTPVerification
+        isOpen={showOTP}
+        onClose={() => setShowOTP(false)}
+        onVerify={handleVerifyOTP}
+      />
 
       <footer className="text-center lg:mt-10 py-4 text-sm text-gray-400">
         <p>© 2024 Copyright - All rights reserved by Real estate</p>
