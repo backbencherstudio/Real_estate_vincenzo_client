@@ -1,8 +1,16 @@
 import { Select, Table, Tag } from "antd";
 import DashboardChart from "../../components/AdminComponents/DashboardChart";
 import { dashboardCounterObject } from "../../testJsonData/testJson";
+import { data } from "../../testJson/testJson";
+import { useState } from "react";
 
 const AdminDashboard = () => {
+
+  const [pageSize, setPageSize] = useState(10); 
+
+  const handlePageSizeChange = (current, size) => {
+    setPageSize(size);
+  };
 
   const columns = [
     {
@@ -34,31 +42,6 @@ const AdminDashboard = () => {
           {status}
         </Tag>
       ),
-    },
-  ];
-
-
-  const data = [
-    {
-      key: 1,
-      name: `Edward King `,
-      age: 32,
-      address: `London, Park Lane no. `,
-      status: "pending",
-    },
-    {
-      key: 1,
-      name: `Edward King `,
-      age: 32,
-      address: `London, Park Lane no. `,
-      status: "cancel",
-    },
-    {
-      key: 1,
-      name: `Edward King `,
-      age: 32,
-      address: `London, Park Lane no. `,
-      status: "complete",
     },
   ];
 
@@ -139,7 +122,16 @@ const AdminDashboard = () => {
           columns={columns}
           dataSource={data}
           scroll={{ x: 800 }}
+          pagination={{
+            pageSize: pageSize,
+            pageSizeOptions: ["5", "10", "15", "20", "25"], 
+            showSizeChanger: true,
+            onShowSizeChange: handlePageSizeChange, 
+            showTotal: (total, range) =>
+              `${range[0]}-${range[1]} of ${total} items`, 
+          }}
         />
+
       </div>
 
 
