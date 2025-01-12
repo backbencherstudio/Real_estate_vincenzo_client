@@ -2,6 +2,9 @@ import { Select, Table } from "antd";
 import { useState } from "react";
 import adminApi from "../../../redux/fetures/admin/adminApi";
 import { FaAngleRight } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../../redux/fetures/auth/authSlice";
 
 const AllProperties = () => {
     const [pageSize, setPageSize] = useState(10);
@@ -9,6 +12,13 @@ const AllProperties = () => {
 
     const handlePageSizeChange = (current, size) => {
         setPageSize(size);
+    };
+
+    const navigate = useNavigate();
+    const currentUser = useSelector(selectCurrentUser); 
+  
+    const handleNavigate = (id) => {
+      navigate(`/${currentUser?.role}/properties/${id}`);
     };
 
 
@@ -77,11 +87,16 @@ const AllProperties = () => {
         {
             title: "Status",
             dataIndex: "status",
-            render: () => (
+            render: (text, record) => (
                 <div>
-                    <button className="text-[#4A90E2] flex items-center " >Details <FaAngleRight className="text-[18px] ml-1" /> </button>
+                  <span
+                    onClick={() => handleNavigate(record?.key)}
+                    className="text-[#4A90E2] flex items-center cursor-pointer"
+                  >
+                    Details <FaAngleRight className="text-[18px] ml-1" />
+                  </span>
                 </div>
-            ),
+              ),
         },
     ];
 

@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import img from "../../../assets/download.jpg"; // Sample image
-import img2 from "../../../assets/imageright.png"; // Sample image
-import img3 from "../../../assets/loginiconimage.png"; // Sample image
-import img4 from "../../../assets/loginpagegirlimage.png"; // Sample image
-import CustomButton from "../../../shared/CustomButton";
+import  { useState } from "react";
+import img from "../assets/download.jpg"; // Sample image
+import img2 from "../assets/imageright.png"; // Sample image
+import img3 from "../assets/loginiconimage.png"; // Sample image
+import img4 from "../assets/loginpagegirlimage.png"; // Sample image
+import CustomButton from "./CustomButton";
 import { Table, Tag } from "antd";
-import { data } from "../../../testJson/testJson";
+import { data } from "../testJson/testJson";
 import { BiPlus } from "react-icons/bi";
 
 const PropertyDetails = () => {
@@ -37,8 +37,8 @@ const PropertyDetails = () => {
             status === "pending"
               ? "orange"
               : status === "complete"
-              ? "green"
-              : "red"
+                ? "green"
+                : "red"
           }
           style={{ textTransform: "capitalize" }}
         >
@@ -74,11 +74,10 @@ const PropertyDetails = () => {
                 onClick={() => {
                   setSelectedImage(image); // Set the clicked image as selected
                 }}
-                className={`h-[120px] w-full rounded-lg object-cover cursor-pointer duration-300 ${
-                  image === selectedImage
+                className={`h-[120px] w-full rounded-lg object-cover cursor-pointer duration-300 ${image === selectedImage
                     ? "border-2 border-red-500"
                     : "border-2 border-transparent"
-                }`}
+                  }`}
                 alt="Small Image"
               />
             ))}

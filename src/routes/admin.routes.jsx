@@ -4,6 +4,7 @@ import Owner from "../pages/Admin/Owner/Owner";
 import AllProperties from "../pages/Admin/Properties/AllProperties";
 import AdminProfile from "../pages/Admin/Settings/AdminProfile";
 import TenantDetails from "../pages/Admin/TenantDetails/TenantDetails";
+import PropertyDetails from "../shared/PropertyDetails";
 
 export const adminPaths = [
     {
@@ -16,6 +17,10 @@ export const adminPaths = [
         path: "properties",
         element: <AllProperties />,
     },
+    {
+        path: "properties/:id",
+        element: <PropertyDetails />,
+      },
     {
         name: "User Managment",
         children: [
