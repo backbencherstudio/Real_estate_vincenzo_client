@@ -1,8 +1,11 @@
+import Maintenance from "../pages/Owner/Maintenance/Maintenance";
+import MaintenanceDetails from "../pages/Owner/Maintenance/MaintenanceDetails";
 import OwnerDashboard from "../pages/Owner/Owner";
 import AddProperties from "../pages/Owner/Properties/AddProperties";
 import Properties from "../pages/Owner/Properties/Properties";
+import PropertyDetails from "../pages/Owner/Properties/PropertyDetails";
+import TenantDetails from "../pages/Owner/Properties/TenantDetails";
 import Tenants from "../pages/Owner/Properties/Tenants";
-import TenantDetailsTwo from "../pages/Owner/TenantDetails/TenantDetailsTwo";
 
 export const ownerPaths = [
   {
@@ -19,18 +22,35 @@ export const ownerPaths = [
         element: <Properties />,
       },
       {
+        path: "properties/addProperties",
+        element: <AddProperties />,
+      },
+      {
+        path: "properties/:id",
+        element: <PropertyDetails />,
+      },
+      {
         name: "Tenants",
         path: "tenants",
         element: <Tenants />,
       },
       {
         path: "tenants/:id",
-        element: <TenantDetailsTwo />,
+        element: <TenantDetails />,
       },
       {
         path: "properties/addProperties",
         element: <AddProperties />,
       },
     ],
+  },
+  {
+    name: "Maintenance",
+    path: "maintenance",
+    element: <Maintenance />,
+  },
+  {
+    path: "maintenance/:id",
+    element: <MaintenanceDetails />,
   },
 ];

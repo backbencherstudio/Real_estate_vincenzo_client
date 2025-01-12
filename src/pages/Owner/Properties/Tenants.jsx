@@ -1,11 +1,7 @@
 import { Tag } from "antd";
 import CustomTable from "../../../shared/CustomTable";
-import CustomButton from "../../../shared/CustomButton";
-import { BiPlus } from "react-icons/bi";
-import { useNavigate } from "react-router-dom";
 
 const Tenants = () => {
-  const navigate = useNavigate();
   const columns = [
     {
       title: "Name",
@@ -61,9 +57,9 @@ const Tenants = () => {
       status: "complete",
     },
   ];
-  const handleAddTenants = () => {
-    navigate("addTenants");
-  };
+
+  
+
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -78,14 +74,7 @@ const Tenants = () => {
             </p>
           </span>
         </div>
-        <CustomButton
-          handleClick={handleAddTenants}
-          content={
-            <div className="flex items-center  gap-1">
-              {"Add Tenants"} <BiPlus size={16} />{" "}
-            </div>
-          }
-        />
+        
       </div>
       <CustomTable
         title={"Recently Added Tenants"}

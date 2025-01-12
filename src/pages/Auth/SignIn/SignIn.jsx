@@ -26,20 +26,17 @@ function SignIn() {
 
 
   const onSubmit = async (data) => {
-
     try {
       const response = await login(data).unwrap();
       const token = response.data.accessToken;
       const user = verifyToken(token);
       dispatch(setUser({ user, token }));
-
       if (user) {
         navigate(`/${user.role}/dashboard`);
       }
     } catch (error) {
       console.error("Login error:", error);
     }
-
   };
 
   return (
@@ -146,7 +143,6 @@ function SignIn() {
                   >
                     <Spin size="large" />
                   </button>
-
                   :
                   <button
                     type="submit"
@@ -155,14 +151,13 @@ function SignIn() {
                     Sign In
                   </button>
 
-
               }
 
               {/* Forgot Password */}
-              <div>
-                <p className="text-[#070127] font-inter text-[14px] md:text-[16px] font-normal leading-[1.4] text-right pt-2 md:pt-5">
+              <div className="flex justify-end" >
+                <Link to="/resetpassword" className="text-[#070127] font-inter text-[14px] md:text-[16px] font-normal leading-[1.4] text-right pt-2 md:pt-5">
                   Forgot Password?
-                </p>
+                </Link>
               </div>
             </div>
             <div className="text-center pt-6">

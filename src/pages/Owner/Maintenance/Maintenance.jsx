@@ -4,7 +4,7 @@ import { BiPlus } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-const Properties = () => {
+const Maintenance = () => {
   const navigate = useNavigate();
 
   const [pageSize, setPageSize] = useState(10);
@@ -74,28 +74,28 @@ const Properties = () => {
       status: "complete",
     },
   ];
-  const handleAddProperties = () => {
-    navigate("addProperties");
+  const handleAddMaintenance = () => {
+    navigate("addMaintenance");
   };
   return (
     <div>
       <div className="flex justify-between items-center">
         <div>
           <h2 className="font-manrope text-2xl font-bold leading-[48px] tracking-[-0.03em] text-left">
-            Properties
+            Maintenance
           </h2>
           <span>
             <p className="text-[#64748B] text-[14px] ">
               {" "}
-              <span className="opacity-60">Home /</span> My Properties
+              <span className="opacity-60">Home /</span>Maintenance
             </p>
           </span>
         </div>
         <CustomButton
-          handleClick={handleAddProperties}
+          handleClick={handleAddMaintenance}
           content={
             <div className="flex items-center  gap-1">
-              {"Add Properties"} <BiPlus size={16} />{" "}
+              {"Add Maintenance"} <BiPlus size={16} />{" "}
             </div>
           }
         />
@@ -105,7 +105,7 @@ const Properties = () => {
           <div>
             <h1 className="clamp-text font-semibold my-5">
               {" "}
-              Recently Added Properties{" "}
+              Recently Added Maintenance{" "}
             </h1>
           </div>{" "}
           <div>
@@ -151,4 +151,4 @@ const Properties = () => {
   );
 };
 
-export default Properties;
+export default Maintenance;

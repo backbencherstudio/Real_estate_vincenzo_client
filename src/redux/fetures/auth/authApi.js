@@ -13,6 +13,16 @@ const authApi = baseApi.injectEndpoints({
       },
     }),
 
+    verifyOTP: builder.mutation({
+      query: (otpData) => {              
+        return {
+          url: "/auth/verifyOTP",
+           method: "POST",
+           body: otpData,
+       }
+      },
+    }),
+
     getALlUser: builder.query({
       query: (status) => {
         return {
@@ -29,6 +39,22 @@ const authApi = baseApi.injectEndpoints({
          url: "/auth/login",
           method: "POST",
           body: userInfo,
+      }),
+    }),
+
+    resetPassword: builder.mutation({
+      query: (resetPasswordData) => ({
+         url: "/auth/resetPassword",
+          method: "POST",
+          body: resetPasswordData,
+      }),
+    }),
+
+    verifyOtpForResetPassword: builder.mutation({
+      query: (verifyOtpResetPassword) => ({
+         url: "/auth/verifyOtpForResetPassword",
+          method: "PATCH",
+          body: verifyOtpResetPassword,
       }),
     }),
  

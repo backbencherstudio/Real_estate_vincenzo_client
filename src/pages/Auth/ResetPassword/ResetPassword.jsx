@@ -1,7 +1,78 @@
+import { useForm, Controller } from "react-hook-form";
+import { Input, Spin } from "antd";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import imagelogin from "../../../assets/loginpagegirlimage.png";
 import iconimage from "../../../assets/loginiconimage.png";
+import { Link, useNavigate } from "react-router-dom";
+import authApi from "../../../redux/fetures/auth/authApi";
+import { toast } from "sonner";
+import { useState } from "react";
+import OTPVerification from "../OTPVerification/OTPVerification";
 
 function ResetPassword() {
+
+  const [resetPassword, { isLoading: resetIsLoading }] = authApi.useResetPasswordMutation();
+  const [verifyOtpForResetPassword, { isLoading: VOFRPisLoading }] = authApi.useVerifyOtpForResetPasswordMutation()
+  const [showOTP, setShowOTP] = useState(false);
+  const navigate = useNavigate();
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    control,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      email: '',
+      password: '',
+      confirmPassword: ''
+    }
+  });
+
+
+  const password = watch("password", "");
+
+  const onSubmit = async (data) => {
+    try {
+      console.log(data);
+      const resetPasswordData = {
+        email: data.email,
+        password: data.password,
+      }
+
+      const result = await resetPassword(resetPasswordData);
+
+      console.log(result);
+      if (result?.data?.success) {
+        toast.success(result?.data?.message)
+        setShowOTP(true);
+      }
+    } catch (error) {
+      console.error('Password reset failed:', error);
+    }
+  };
+
+
+  const handleVerifyOTP = async (otpValue) => {
+    const otp = parseInt(otpValue)
+
+    try {
+      const result = await verifyOtpForResetPassword({ otp });
+      console.log(result);
+      if (result?.data?.success) {
+        toast.success(result?.data?.message)
+        setShowOTP(false);
+        navigate("/signin")
+      } else if (!result?.data?.success) {
+        // setShowOTP(false);
+      }
+    } catch (error) {
+      console.error('OTP verification failed:', error);
+    }
+  };
+
+
   return (
     <>
       <div className="max-w-[1200px] mx-auto flex flex-col-reverse md:flex-row-reverse lg:flex-row items-center gap-8 lg:gap-10 px-4 md:px-8 lg:px-0 pt-8 md:pt-12 lg:pt-10">
@@ -21,46 +92,13 @@ function ResetPassword() {
               Reset Password
             </h3>
             <p className="text-[#64748B] font-manrope text-[14px] md:text-[15px] font-medium leading-[24px] tracking-[-0.15px] text-center lg:text-left">
-              Enter Your Email for update password{" "}
+              Enter Your Email for update password
             </p>
           </div>
 
           {/* Form Section */}
-          <div className="pt-8 md:pt-10">
+          <form onSubmit={handleSubmit(onSubmit)} className="pt-8 md:pt-10">
             {/* Email Field */}
-
-            <div className="w-full p-5 flex items-center bg-[#f5f9fd] mb-4 rounded-[16px]">
-              {/* Icon */}
-              <div className="w-8 h-8  flex items-center justify-center rounded-full mr-4">
-                <svg
-                  className="w-7 h-7 text-white te bg-blue-300 rounded-full p-1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-              </div>
-
-              {/* Text Content */}
-              <div>
-                <p className="text-lg text-[#64748B]">
-                  We sent a link to <br></br>
-                  <span className="font-medium text-lg">
-                    hellodemo@gmail.com
-                  </span>
-                </p>
-                <p className="text-lg text-[#64748B]">
-                  to update your password.
-                </p>
-              </div>
-            </div>
             <div className="mb-4">
               <label
                 htmlFor="email"
@@ -71,28 +109,119 @@ function ResetPassword() {
               <input
                 type="email"
                 id="email"
-                name="email"
-                className="w-full rounded-[12px] p-4 md:p-6 border-2 border-[#1565C0] bg-white"
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: "Invalid email address"
+                  }
+                })}
+                className={`w-full rounded-[12px] p-4 md:p-6 border-2 ${errors.email ? "border-red-500" : "border-[#1565C0]"
+                  } bg-white`}
                 placeholder="Enter your email"
-                required
               />
+              {errors.email && (
+                <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+              )}
             </div>
-            <div className="">
-              <button className="rounded-[12px] bg-gradient-to-r from-[#4A90E2] to-[#1565C0] p-4 md:p-5 w-full text-white font-medium text-lg">
-                Continue
-              </button>
+
+            {/* Password Field */}
+            <div className="mb-4">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                New Password
+              </label>
+              <Controller
+                name="password"
+                control={control}
+                rules={{
+                  required: "Password is required",
+                  minLength: {
+                    value: 6,
+                    message: "Password must be at least 6 characters"
+                  }
+                }}
+                render={({ field }) => (
+                  <Input.Password
+                    {...field}
+                    id="password"
+                    className={`w-full rounded-[12px] p-4 md:p-6 border-2 ${errors.password ? "border-red-500" : "border-[#1565C0]"
+                      } bg-white`}
+                    placeholder="Enter your new password"
+                    iconRender={(visible) => (visible ? <FaRegEye /> : <FaRegEyeSlash />)}
+                  />
+                )}
+              />
+              {errors.password && (
+                <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+              )}
             </div>
-          </div>
+
+            {/* Confirm Password Field */}
+            <div className="mb-4">
+              <label
+                htmlFor="confirmPassword"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Confirm Password
+              </label>
+              <Controller
+                name="confirmPassword"
+                control={control}
+                rules={{
+                  required: "Please confirm your password",
+                  validate: value => value === password || "Passwords do not match"
+                }}
+                render={({ field }) => (
+                  <Input.Password
+                    {...field}
+                    id="confirmPassword"
+                    className={`w-full rounded-[12px] p-4 md:p-6 border-2 ${errors.confirmPassword ? "border-red-500" : "border-[#1565C0]"
+                      } bg-white`}
+                    placeholder="Confirm your new password"
+                    iconRender={(visible) => (visible ? <FaRegEye /> : <FaRegEyeSlash />)}
+                  />
+                )}
+              />
+              {errors.confirmPassword && (
+                <p className="text-red-500 text-sm mt-1">{errors.confirmPassword.message}</p>
+              )}
+            </div>
+
+
+            {
+              resetIsLoading ?
+                <button
+                  type="submit"
+                  className="rounded-[12px] bg-gradient-to-r border border-[#4A90E2] p-4 md:p-5 w-full  font-medium text-lg"
+                >
+                  <Spin size="large" />
+                </button>
+                :
+                <button
+                  type="submit"
+                  className="rounded-[12px] bg-gradient-to-r from-[#4A90E2] to-[#1565C0] p-4 md:p-5 w-full text-white font-medium text-lg"
+                >
+                  Continue
+                </button>
+
+            }
+
+
+          </form>
+
           {/* Sign in Link */}
           <div className="text-center pt-4">
             <p className="text-gray-600 text-lg md:text-base">
               Back to
-              <a
-                href="#"
+              <Link
+                to="/signin"
                 className="text-blue-600 hover:text-blue-800 font-medium pl-1"
               >
                 Sign In
-              </a>
+              </Link>
             </p>
           </div>
         </div>
@@ -106,8 +235,16 @@ function ResetPassword() {
           />
         </div>
       </div>
+
+      <OTPVerification
+        isOpen={showOTP}
+        onClose={() => setShowOTP(false)}
+        onVerify={handleVerifyOTP}
+        vIsLoading={VOFRPisLoading}
+      />
+
       {/* Footer Copyright */}
-      <footer className="text-center lg:mt-10  py-4 text-sm text-gray-400">
+      <footer className="text-center lg:mt-10 py-4 text-sm text-gray-400">
         <p>© 2024 Copyright - All rights reserved by Real estate</p>
       </footer>
     </>

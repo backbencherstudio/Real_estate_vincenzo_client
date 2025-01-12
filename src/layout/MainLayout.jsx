@@ -3,17 +3,18 @@ import { Outlet } from "react-router-dom";
 import SideBar from "./SideBar";
 import { FaChevronDown, FaRegUserCircle } from "react-icons/fa";
 import { useAppDispatch } from "../redux/hooks";
-import { logOut } from "../redux/fetures/auth/authSlice";
+import { logOut, selectCurrentUser } from "../redux/fetures/auth/authSlice";
+import { useSelector } from "react-redux";
 
 const { Header, Content } = Layout;
 
 const MainLayout = () => {
-
   const dispatch = useAppDispatch();
   const handleLOgout = () => {
     dispatch(logOut());
   };
 
+  const currentUser = useSelector(selectCurrentUser);
 
   const items = [
     {
@@ -36,7 +37,11 @@ const MainLayout = () => {
       type: "divider",
     },
     {
-      label: <Button onClick={handleLOgout} className="w-full">LogOut</Button>,
+      label: (
+        <Button onClick={handleLOgout} className="w-full">
+          LogOut
+        </Button>
+      ),
       key: "3",
     },
   ];
@@ -62,8 +67,8 @@ const MainLayout = () => {
               )}
 
               <div className="title px-4 py-2 rounded-lg flex-shrink-0">
-                <h2 className="text-xl font-semibold">Name</h2>
-                <h2 className="text-sm">cool@cool.com</h2>
+                <h2 className="text-xl font-semibold">{currentUser?.name}</h2>
+                <h2 className="text-sm">{currentUser?.email}</h2>
               </div>
             </div>
 
