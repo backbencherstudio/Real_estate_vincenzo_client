@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-unescaped-entities */
 import { useRef, useEffect, useState } from 'react';
-import { Modal } from 'antd';
+import { Modal, Spin } from 'antd';
 
-const OTPVerification = ({ isOpen, onClose, onVerify }) => {
+const OTPVerification = ({ isOpen, onClose, onVerify, vIsLoading }) => {
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const inputRefs = useRef([]);
 
@@ -41,7 +41,7 @@ const OTPVerification = ({ isOpen, onClose, onVerify }) => {
   const handlePaste = (e) => {
     e.preventDefault();
     const pastedData = e.clipboardData.getData('text').slice(0, 6);
-    
+
     if (!/^\d+$/.test(pastedData)) return;
 
     const newOtp = [...otp];
@@ -98,13 +98,25 @@ const OTPVerification = ({ isOpen, onClose, onVerify }) => {
           ))}
         </div>
 
-        <button
-          onClick={handleVerify}
-          disabled={otp.some(digit => !digit)}
-          className="w-full py-3 px-4 bg-gradient-to-r from-[#4A90E2] to-[#1565C0] text-white rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          Verify
-        </button>
+        {
+          vIsLoading ?
+            <button
+              type="submit"
+              className="rounded-[12px] bg-gradient-to-r border border-[#4A90E2] p-4 md:p-5 w-full  font-medium text-lg"
+            >
+              <Spin size="large" />
+            </button>
+            :
+            <button
+              onClick={handleVerify}
+              disabled={otp.some(digit => !digit)}
+              type="submit"
+              className="rounded-[12px] bg-gradient-to-r from-[#4A90E2] to-[#1565C0] p-4 md:p-5 w-full text-white font-medium text-lg"
+            >
+              Verify
+            </button>
+
+        }
 
         <div className="text-center mt-4">
           <button

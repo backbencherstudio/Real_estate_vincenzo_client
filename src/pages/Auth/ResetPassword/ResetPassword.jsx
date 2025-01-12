@@ -1,11 +1,21 @@
 import { useForm, Controller } from "react-hook-form";
-import { Input } from "antd";
+import { Input, Spin } from "antd";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import imagelogin from "../../../assets/loginpagegirlimage.png";
 import iconimage from "../../../assets/loginiconimage.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import authApi from "../../../redux/fetures/auth/authApi";
+import { toast } from "sonner";
+import { useState } from "react";
+import OTPVerification from "../OTPVerification/OTPVerification";
 
 function ResetPassword() {
+
+  const [resetPassword, { isLoading: resetIsLoading }] = authApi.useResetPasswordMutation();
+  const [verifyOtpForResetPassword, { isLoading: VOFRPisLoading }] = authApi.useVerifyOtpForResetPasswordMutation()
+  const [showOTP, setShowOTP] = useState(false);
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -20,17 +30,48 @@ function ResetPassword() {
     }
   });
 
-  // Watch password field for confirmation validation
+
   const password = watch("password", "");
 
   const onSubmit = async (data) => {
     try {
-      console.log(data); // Replace with your API call
-      // Handle successful password reset
+      console.log(data);
+      const resetPasswordData = {
+        email: data.email,
+        password: data.password,
+      }
+
+      const result = await resetPassword(resetPasswordData);
+
+      console.log(result);
+      if (result?.data?.success) {
+        toast.success(result?.data?.message)
+        setShowOTP(true);
+      }
     } catch (error) {
       console.error('Password reset failed:', error);
     }
   };
+
+
+  const handleVerifyOTP = async (otpValue) => {
+    const otp = parseInt(otpValue)
+
+    try {
+      const result = await verifyOtpForResetPassword({ otp });
+      console.log(result);
+      if (result?.data?.success) {
+        toast.success(result?.data?.message)
+        setShowOTP(false);
+        navigate("/signin")
+      } else if (!result?.data?.success) {
+        // setShowOTP(false);
+      }
+    } catch (error) {
+      console.error('OTP verification failed:', error);
+    }
+  };
+
 
   return (
     <>
@@ -75,9 +116,8 @@ function ResetPassword() {
                     message: "Invalid email address"
                   }
                 })}
-                className={`w-full rounded-[12px] p-4 md:p-6 border-2 ${
-                  errors.email ? "border-red-500" : "border-[#1565C0]"
-                } bg-white`}
+                className={`w-full rounded-[12px] p-4 md:p-6 border-2 ${errors.email ? "border-red-500" : "border-[#1565C0]"
+                  } bg-white`}
                 placeholder="Enter your email"
               />
               {errors.email && (
@@ -107,9 +147,8 @@ function ResetPassword() {
                   <Input.Password
                     {...field}
                     id="password"
-                    className={`w-full rounded-[12px] p-4 md:p-6 border-2 ${
-                      errors.password ? "border-red-500" : "border-[#1565C0]"
-                    } bg-white`}
+                    className={`w-full rounded-[12px] p-4 md:p-6 border-2 ${errors.password ? "border-red-500" : "border-[#1565C0]"
+                      } bg-white`}
                     placeholder="Enter your new password"
                     iconRender={(visible) => (visible ? <FaRegEye /> : <FaRegEyeSlash />)}
                   />
@@ -139,9 +178,8 @@ function ResetPassword() {
                   <Input.Password
                     {...field}
                     id="confirmPassword"
-                    className={`w-full rounded-[12px] p-4 md:p-6 border-2 ${
-                      errors.confirmPassword ? "border-red-500" : "border-[#1565C0]"
-                    } bg-white`}
+                    className={`w-full rounded-[12px] p-4 md:p-6 border-2 ${errors.confirmPassword ? "border-red-500" : "border-[#1565C0]"
+                      } bg-white`}
                     placeholder="Confirm your new password"
                     iconRender={(visible) => (visible ? <FaRegEye /> : <FaRegEyeSlash />)}
                   />
@@ -152,14 +190,26 @@ function ResetPassword() {
               )}
             </div>
 
-            <div>
-              <button 
-                type="submit"
-                className="rounded-[12px] bg-gradient-to-r from-[#4A90E2] to-[#1565C0] p-4 md:p-5 w-full text-white font-medium text-lg"
-              >
-                Continue
-              </button>
-            </div>
+
+            {
+              resetIsLoading ?
+                <button
+                  type="submit"
+                  className="rounded-[12px] bg-gradient-to-r border border-[#4A90E2] p-4 md:p-5 w-full  font-medium text-lg"
+                >
+                  <Spin size="large" />
+                </button>
+                :
+                <button
+                  type="submit"
+                  className="rounded-[12px] bg-gradient-to-r from-[#4A90E2] to-[#1565C0] p-4 md:p-5 w-full text-white font-medium text-lg"
+                >
+                  Continue
+                </button>
+
+            }
+
+
           </form>
 
           {/* Sign in Link */}
@@ -185,6 +235,13 @@ function ResetPassword() {
           />
         </div>
       </div>
+
+      <OTPVerification
+        isOpen={showOTP}
+        onClose={() => setShowOTP(false)}
+        onVerify={handleVerifyOTP}
+        vIsLoading={VOFRPisLoading}
+      />
 
       {/* Footer Copyright */}
       <footer className="text-center lg:mt-10 py-4 text-sm text-gray-400">
