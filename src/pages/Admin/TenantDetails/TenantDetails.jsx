@@ -16,6 +16,13 @@ const TenantDetails = () => {
         { id: 'document', name: 'Document', icon: <File /> }
     ];
 
+    const breadcrumbMapping = {
+        profile: 'Profile Information',
+        home: 'Home Details',
+        payment: 'Payment History',
+        document: 'Tenant Document'
+    };
+
     const personalInfo = {
         name: 'Christopher',
         email: 'Chrispher@gmail.com',
@@ -38,7 +45,7 @@ const TenantDetails = () => {
             {/* Header with breadcrumb and menu */}
             <div className=" mb-6">
                 <div className="text-sm text-gray-500">
-                    Home / Tenant / Tenant Details
+                    Home / Tenant / Tenant Details/ {breadcrumbMapping[activeTab]}
                 </div>
             </div>
 

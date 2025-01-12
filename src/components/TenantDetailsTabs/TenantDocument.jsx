@@ -18,7 +18,7 @@ const TenantDocument = () => {
                 <div className="space-y-6 bg-white p-8 rounded-md">
                     {documents.map((doc, index) => (
                         <div key={index} className="flex items-center cursor-pointer group group-hover:text-green-500">
-                            <div className="flex items-center group-hover:text-green-500 duration-300">
+                            <div className="flex items-center group-hover:text-green-500 duration-300/">
                                 <img
                                     src={doc.type === "pdf" ? `${pdf}` : `${image}`}
                                     alt={`${doc.type} icon`}
