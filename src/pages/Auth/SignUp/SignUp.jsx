@@ -44,7 +44,6 @@ function SignUp() {
         setShowOTP(false);
         navigate("/signin")
       }
-
     } catch (error) {
       console.error('OTP verification failed:', error);
     }
