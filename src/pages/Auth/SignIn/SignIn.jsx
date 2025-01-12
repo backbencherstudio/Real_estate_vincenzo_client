@@ -11,7 +11,12 @@ import { useNavigate } from "react-router-dom";
 
 function SignIn() {
 
+
   const [login, { isLoading }] = authApi.useLoginMutation();
+  
+
+
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -34,7 +39,6 @@ function SignIn() {
       if (user) {
         navigate(`/${user.role}/dashboard`);
       }
-
     } catch (error) {
       console.error("Login error:", error);
     }

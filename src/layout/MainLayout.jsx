@@ -1,19 +1,35 @@
 import { Button, Dropdown, Layout, Space } from "antd";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import SideBar from "./SideBar";
 import { FaChevronDown, FaRegUserCircle } from "react-icons/fa";
-import { useAppDispatch } from "../redux/hooks";
-import { logOut } from "../redux/fetures/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { logOut, useCurrentToken } from "../redux/fetures/auth/authSlice";
+import { jwtDecode } from "jwt-decode";
+import { useEffect } from "react";
 
 const { Header, Content } = Layout;
 
 const MainLayout = () => {
 
+  const navigate = useNavigate();
+
   const dispatch = useAppDispatch();
   const handleLOgout = () => {
     dispatch(logOut());
   };
+  const token = useAppSelector(useCurrentToken);
+  let user;
 
+  useEffect(() => {
+    if (token) {
+      user = jwtDecode(token);
+    }
+    if (!token) {
+      navigate("/signin");
+    } else {
+      navigate(`/${user.role}/dashboard`);
+    }
+  }, [])
 
 
 
