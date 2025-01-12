@@ -1,3 +1,5 @@
+import DocumentDetails from "../pages/Owner/Documents/DocumentDetails";
+import Documents from "../pages/Owner/Documents/Documents";
 import Maintenance from "../pages/Owner/Maintenance/Maintenance";
 import MaintenanceDetails from "../pages/Owner/Maintenance/MaintenanceDetails";
 import OwnerDashboard from "../pages/Owner/Owner";
@@ -52,5 +54,14 @@ export const ownerPaths = [
   {
     path: "maintenance/:id",
     element: <MaintenanceDetails />,
+  },
+  {
+    name: "Documents",
+    path: "documents",
+    element: <Documents />,
+  },
+  {
+    path: "documents/:id",
+    element: <DocumentDetails />,
   },
 ];
