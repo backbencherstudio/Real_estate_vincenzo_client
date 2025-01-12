@@ -1,11 +1,24 @@
-import { Tag } from "antd";
-import CustomTable from "../../../shared/CustomTable";
+import { Select, Table, Tag } from "antd";
 import CustomButton from "../../../shared/CustomButton";
 import { BiPlus } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const Properties = () => {
   const navigate = useNavigate();
+
+  const [pageSize, setPageSize] = useState(10);
+
+  const handlePageSizeChange = (current, size) => {
+    setPageSize(size);
+  };
+  const onChange = (value) => {
+    console.log(`selected ${value}`);
+  };
+
+  const onSearch = (value) => {
+    console.log("search:", value);
+  };
   const columns = [
     {
       title: "Name",
@@ -87,11 +100,53 @@ const Properties = () => {
           }
         />
       </div>
-      <CustomTable
-        title={"Recently Added Properties"}
-        columns={columns}
-        data={data}
-      />
+      <div className="bg-white p-5 mt-10 rounded-2xl">
+        <div className="flex justify-between items-center">
+          <div>
+            <h1 className="clamp-text font-semibold my-5">
+              {" "}
+              Recently Added Properties{" "}
+            </h1>
+          </div>{" "}
+          <div>
+            <Select
+              showSearch
+              placeholder="Select a Status"
+              optionFilterProp="label"
+              onChange={onChange}
+              onSearch={onSearch}
+              options={[
+                {
+                  value: "pending",
+                  label: "Pending",
+                },
+                {
+                  value: "cancel",
+                  label: "Cancel",
+                },
+                {
+                  value: "completed",
+                  label: "Completed",
+                },
+              ]}
+            />
+          </div>
+        </div>
+
+        <Table
+          columns={columns}
+          dataSource={data}
+          scroll={{ x: 800 }}
+          pagination={{
+            pageSize: pageSize,
+            pageSizeOptions: ["5", "10", "15", "20", "25"],
+            showSizeChanger: true,
+            onShowSizeChange: handlePageSizeChange,
+            showTotal: (total, range) =>
+              `${range[0]}-${range[1]} of ${total} items`,
+          }}
+        />
+      </div>
     </div>
   );
 };
