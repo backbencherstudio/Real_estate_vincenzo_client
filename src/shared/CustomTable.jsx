@@ -1,15 +1,18 @@
 import { Select, Table } from "antd";
 
-const CustomTable = ({ title, columns, data, rowKey = "key" }) => {
-
-   const onChange = (value) => {
+const CustomTable = ({ title, columns, data }) => {
+  const handleRowClick = (record) => {
+    console.log("Row clicked:", record);
+    alert(`Row clicked! Name: ${record.name}, Age: ${record.age}`);
+  };
+  const onChange = (value) => {
     console.log(`selected ${value}`);
   };
 
   const onSearch = (value) => {
     console.log("search:", value);
   };
-  
+
   return (
     <div className="bg-white p-5 mt-10 rounded-2xl">
       <div className="flex justify-between items-center">
@@ -40,11 +43,7 @@ const CustomTable = ({ title, columns, data, rowKey = "key" }) => {
           />
         </div>
       </div>
-      <Table
-        columns={columns}
-        dataSource={data}
-        scroll={{ x: 800 }}
-      />
+      <Table columns={columns} dataSource={data} scroll={{ x: 800 }} />
     </div>
   );
 };

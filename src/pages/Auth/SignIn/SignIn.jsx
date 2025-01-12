@@ -7,11 +7,13 @@ import authApi from "../../../redux/fetures/auth/authApi";
 import { verifyToken } from "../../../utils/varifyToken";
 import { setUser } from "../../../redux/fetures/auth/authSlice";
 import { useAppDispatch } from './../../../redux/hooks';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function SignIn() {
 
+
   const [login, { isLoading }] = authApi.useLoginMutation();
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -34,7 +36,6 @@ function SignIn() {
       if (user) {
         navigate(`/${user.role}/dashboard`);
       }
-
     } catch (error) {
       console.error("Login error:", error);
     }
@@ -43,7 +44,7 @@ function SignIn() {
 
   return (
     <>
-      <div className="max-w-[1300px] mx-auto flex flex-col lg:flex-row items-center gap-8 lg:gap-16 px-4 md:px-8 lg:px-0 pt-8 md:pt-12 lg:pt-16">
+      <div className="max-w-[1200px] mx-auto flex flex-col-reverse md:flex-row-reverse lg:flex-row items-center gap-8 lg:gap-10 px-4 md:px-8 lg:px-0 pt-8 md:pt-12 lg:pt-10">
         {/* Left Section */}
         <div className="w-full lg:w-[50%]">
           {/* Logo Section */}
@@ -164,6 +165,14 @@ function SignIn() {
                 </p>
               </div>
             </div>
+            <div className="text-center pt-6">
+              <p className="text-gray-600 text-sm md:text-base">
+                Don’t have an account?
+                <Link to="/signup" className="text-blue-600 hover:text-blue-800 font-medium pl-1">
+                  Sign Up
+                </Link>
+              </p>
+            </div>
           </form>
         </div>
 
@@ -172,10 +181,11 @@ function SignIn() {
           <img
             src={imagelogin}
             alt="login illustration"
-            className="w-full max-w-[320px] sm:max-w-[400px] md:max-w-[500px] lg:max-w-[663px] lg:h-auto object-contain"
+            className="w-full sm:max-w-[400px] md:max-w-[500px] lg:max-w-[663px] lg:h-auto object-contain"
           />
         </div>
       </div>
+
       {/* Footer Copyright */}
       <footer className="text-center lg:mt-10 py-4 text-sm text-gray-400">
         <p>© 2024 Copyright - All rights reserved by Real estate</p>

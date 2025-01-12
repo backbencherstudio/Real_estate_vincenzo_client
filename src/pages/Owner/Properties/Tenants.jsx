@@ -4,7 +4,7 @@ import CustomButton from "../../../shared/CustomButton";
 import { BiPlus } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 
-const Properties = () => {
+const Tenants = () => {
   const navigate = useNavigate();
   const columns = [
     {
@@ -61,34 +61,34 @@ const Properties = () => {
       status: "complete",
     },
   ];
-  const handleAddProperties = () => {
-    navigate("addProperties");
+  const handleAddTenants = () => {
+    navigate("addTenants");
   };
   return (
     <div>
       <div className="flex justify-between items-center">
         <div>
           <h2 className="font-manrope text-2xl font-bold leading-[48px] tracking-[-0.03em] text-left">
-            Properties
+            Tenants
           </h2>
           <span>
             <p className="text-[#64748B] text-[14px] ">
               {" "}
-              <span className="opacity-60">Home /</span> My Properties
+              <span className="opacity-60">Home /</span> My Tenants
             </p>
           </span>
         </div>
         <CustomButton
-          handleClick={handleAddProperties}
+          handleClick={handleAddTenants}
           content={
             <div className="flex items-center  gap-1">
-              {"Add Properties"} <BiPlus size={16} />{" "}
+              {"Add Tenants"} <BiPlus size={16} />{" "}
             </div>
           }
         />
       </div>
       <CustomTable
-        title={"Recently Added Properties"}
+        title={"Recently Added Tenants"}
         columns={columns}
         data={data}
       />
@@ -96,4 +96,4 @@ const Properties = () => {
   );
 };
 
-export default Properties;
+export default Tenants;
