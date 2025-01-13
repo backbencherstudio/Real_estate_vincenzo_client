@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { BadgeEuro, CircleX, File, Home, Mail, MoreVertical, User } from 'lucide-react';
-import ProfileInformation from '../../../components/TenantDetailsTabs/ProfileInformation';
-import HomeDetails from '../../../components/TenantDetailsTabs/HomeDetails';
-import PaymentHistory from '../../../components/TenantDetailsTabs/PaymentHistory';
-import TenantDocument from '../../../components/TenantDetailsTabs/TenantDocument';
+import ProfileInformation from '../components/TenantDetailsTabs/ProfileInformation';
+import HomeDetails from '../components/TenantDetailsTabs/HomeDetails';
+import PaymentHistory from '../components/TenantDetailsTabs/PaymentHistory';
+import TenantDocument from '../components/TenantDetailsTabs/TenantDocument';
+import sharedApi from '../redux/fetures/sharedApi/sharedApi';
+import { useParams } from 'react-router-dom';
 
 const TenantDetails = () => {
     const [activeTab, setActiveTab] = useState('profile');
     const [showMenu, setShowMenu] = useState(false);
+    const {id} = useParams()
+    const {data} = sharedApi.useGetSingleTenantDetailseQuery(id)
+
+    console.log(data?.data);
+    
 
     const tabs = [
         { id: 'profile', name: 'Profile Information', icon: <User /> },
