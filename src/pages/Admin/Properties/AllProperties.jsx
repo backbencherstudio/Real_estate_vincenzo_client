@@ -9,11 +9,9 @@ import { selectCurrentUser } from "../../../redux/fetures/auth/authSlice";
 const AllProperties = () => {
     const [pageSize, setPageSize] = useState(10);
     const { data: propertyData } = adminApi.useGetAllPropertiesQuery();
-
     const handlePageSizeChange = (current, size) => {
         setPageSize(size);
     };
-
     const navigate = useNavigate();
     const currentUser = useSelector(selectCurrentUser); 
   
