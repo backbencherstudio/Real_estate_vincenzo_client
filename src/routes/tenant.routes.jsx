@@ -1,18 +1,21 @@
-import { Factory } from "lucide-react";
 import Documents from "../pages/Tenant/Documents";
 import MaintenanceRequests from "../pages/Tenant/MaintenanceRequests";
 import PaymentsDetails from "../pages/Tenant/PaymentsDetails/PaymentsDetails";
 import TenantDashboard from "../pages/Tenant/Tenant";
 import TenantPayments from "../pages/Tenant/TenantPayments";
-import Test from "../pages/Tenant/Test/Test";
+import { TfiMenuAlt } from "react-icons/tfi";
+import { MdOutlinePayment } from "react-icons/md";
+import { RxDashboard } from "react-icons/rx";
 
 export const tenantPaths = [
     {
+        icon:<RxDashboard size={18}/>,
         name: "Dashboard",
         path: "dashboard",
         element: <TenantDashboard />,
     },
     {
+        icon:<MdOutlinePayment size={18}/>,
         name: "Payments",
         path: "tenantpayments",
         element: <TenantPayments></TenantPayments>,
@@ -23,6 +26,7 @@ export const tenantPaths = [
         element: <PaymentsDetails />
     },
     {
+        icon:<TfiMenuAlt size={18} />,
         name: "My Apartment",
         children: [
             {

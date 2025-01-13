@@ -66,7 +66,7 @@ function TenantDashboard() {
 
 
   return (
-    <div className="bg-gray-50 min-h-screen p-8">
+    <div className="">
       {/* Header */}
       <div className="flex justify-between items-center mb-1">
         <h1 className="text-3xl font-semibold">Dashboard</h1>
