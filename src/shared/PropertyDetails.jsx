@@ -196,7 +196,6 @@ const PropertyDetails = () => {
           <div>
             <h1 className="clamp-text font-semibold my-5"> Property Details </h1>
           </div>{" "}
-
           <div>
             <Select
               showSearch
@@ -220,7 +219,6 @@ const PropertyDetails = () => {
               ]}
             />
           </div>
-
         </div>
 
         <Table
