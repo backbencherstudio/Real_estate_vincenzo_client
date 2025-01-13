@@ -1,6 +1,7 @@
 import AdminDashboard from "../pages/Admin/Admin";
 import AllTenant from "../pages/Admin/AllTenant/AllTenant";
 import Owner from "../pages/Admin/Owner/Owner";
+import OwnerDetails from "../pages/Admin/Owner/OwnerDetails";
 import AllProperties from "../pages/Admin/Properties/AllProperties";
 import AdminProfile from "../pages/Admin/Settings/AdminProfile";
 import TenantDetails from "../pages/Admin/TenantDetails/TenantDetails";
@@ -28,6 +29,10 @@ export const adminPaths = [
                 name: " Owner",
                 path: "owner",
                 element: <Owner />,
+            },
+            {
+                path: "owner/:id",
+                element: <OwnerDetails />,
             },
             {
                 name: "Tenant",
