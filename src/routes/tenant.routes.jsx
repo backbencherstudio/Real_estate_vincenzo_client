@@ -30,7 +30,7 @@ export const tenantPaths = [
         name: "My Apartment",
         children: [
             {
-                name: "MaintenanceRequests",
+                name: "Maintenance",
                 path: "maintenancerequests",
                 element: <MaintenanceRequests></MaintenanceRequests>,
             },
