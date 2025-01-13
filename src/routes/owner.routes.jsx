@@ -6,8 +6,8 @@ import OwnerDashboard from "../pages/Owner/Owner";
 import AddProperties from "../pages/Owner/Properties/AddProperties";
 import Properties from "../pages/Owner/Properties/Properties";
 import PropertyDetails from "../shared/PropertyDetails";
-import TenantDetails from "../pages/Owner/Properties/TenantDetails";
 import Tenants from "../pages/Owner/Properties/Tenants";
+import TenantDetails from "../shared/TenantDetails";
 
 export const ownerPaths = [
   {

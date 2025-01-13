@@ -1,5 +1,6 @@
 import Documents from "../pages/Tenant/Documents";
 import MaintenanceRequests from "../pages/Tenant/MaintenanceRequests";
+import PaymentsDetails from "../pages/Tenant/PaymentsDetails/PaymentsDetails";
 import TenantDashboard from "../pages/Tenant/Tenant";
 import TenantPayments from "../pages/Tenant/TenantPayments";
 import Test from "../pages/Tenant/Test/Test";
@@ -11,18 +12,18 @@ export const tenantPaths = [
         element: <TenantDashboard />,
     },
     {
-        name: "Tenant", 
+        name: "Payments",
+        path: "tenantpayments",
+        element: <TenantPayments></TenantPayments>,
+    },
+    {
+        // name: "Payments",
+        path: "tenantpayments/:id",
+        element: <PaymentsDetails />
+    },
+    {
+        name: "My Apartment",
         children: [
-            {
-                name: "Test",
-                path: "test",
-                element: <Test />,
-            },
-            {
-                name: "TenantPayments",
-                path: "tenantpayments",
-                element: <TenantPayments></TenantPayments>,
-            },
             {
                 name: "MaintenanceRequests",
                 path: "maintenancerequests",
@@ -33,7 +34,7 @@ export const tenantPaths = [
                 path: "documents",
                 element: Documents,
             },
- 
+
         ],
     },
 ];

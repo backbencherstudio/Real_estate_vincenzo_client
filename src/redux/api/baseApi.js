@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { logOut, setUser } from "../fetures/auth/authSlice";
-import { toast } from 'sonner'
+import { toast } from "sonner";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "http://localhost:5000/api/v1",
@@ -14,11 +14,11 @@ const baseQuery = fetchBaseQuery({
   },
 });
 const baseQueryWithRefreshToken = async (args, api, extraOptions) => {
-  let result = await baseQuery(args, api, extraOptions);   
+  let result = await baseQuery(args, api, extraOptions);
   console.log(result);
-  
+
   if (result?.error?.data.success === false) {
-    toast.error(result?.error?.data.message)
+    toast.error(result?.error?.data.message);
   }
   if (result?.error?.status === 404) {
     // toast.error(`${result?.error?.data.message}`);
@@ -38,16 +38,16 @@ const baseQueryWithRefreshToken = async (args, api, extraOptions) => {
         })
       );
       result = await baseQuery(args, api, extraOptions);
-    } else {    
+    } else {
       api.dispatch(logOut());
     }
-  }    
+  }
   return result;
 };
 
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: baseQueryWithRefreshToken,
-  tagTypes: ["user", "properties"],
+  tagTypes: ["user", "properties", "tenants"],
   endpoints: () => ({}),
 });
