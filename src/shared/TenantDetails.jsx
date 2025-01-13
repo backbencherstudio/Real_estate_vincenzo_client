@@ -14,6 +14,8 @@ const TenantDetails = () => {
     const {data} = sharedApi.useGetSingleTenantDetailseQuery(id)
 
     console.log(data?.data);
+    console.log("gg",data?.data?.userId);
+    console.log("ggwp",data?.data?.propertyId);
     
 
     const tabs = [
@@ -30,22 +32,6 @@ const TenantDetails = () => {
         document: 'Tenant Document'
     };
 
-    const personalInfo = {
-        name: 'Christopher',
-        email: 'Chrispher@gmail.com',
-        contact: '+111 582 654 963',
-        age: '36',
-        familyMember: '6',
-        job: 'Designer'
-    };
-
-    const addressInfo = {
-        address: 'Staten Island, NY 10314, USA',
-        city: 'New York',
-        state: 'Manhattan',
-        zipCode: '1216',
-        country: 'United State'
-    };
 
     return (
         <div className=" mx-auto p-4 ">
@@ -103,12 +89,12 @@ const TenantDetails = () => {
 
             {/* Profile Section */}
             {activeTab === 'profile' && (
-                <ProfileInformation personalInfo={personalInfo} addressInfo={addressInfo} />
+                <ProfileInformation personalInfo={data?.data?.userId} addressInfo={data?.data?.userId} />
             )}
 
             {/* Other tabs content */}
             {activeTab === 'home' && (
-                <HomeDetails />
+                <HomeDetails homeDetails= {data?.data?.propertyId} />
             )}
             {activeTab === 'payment' && (
                 <PaymentHistory />
