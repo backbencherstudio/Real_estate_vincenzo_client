@@ -138,11 +138,10 @@ const PropertyDetails = () => {
             ))}
           </div>
 
-          {/* Large image display */}
           <div className="col-span-3 w-[100%] h-[504px]">
             <img
               className="h-full w-full rounded-xl object-cover"
-              src={selectedImage} // Display selected image
+              src={selectedImage} 
               alt="Large Display"
             />
           </div>

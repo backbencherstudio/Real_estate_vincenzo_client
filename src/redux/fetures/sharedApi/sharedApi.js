@@ -13,6 +13,16 @@ const sharedApi = baseApi.injectEndpoints({
     providesTags: ["properties"],
     }),
 
+    
+    getSingleTenantDetailse : builder.query({
+      query: (id)=>{
+        return {
+          url: `/admin/getSingleTenantDetailse/${id}`,
+          method: "GET",
+        }
+      },
+    })
+
 
 
   }),

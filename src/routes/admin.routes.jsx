@@ -4,8 +4,8 @@ import Owner from "../pages/Admin/Owner/Owner";
 import OwnerDetails from "../pages/Admin/Owner/OwnerDetails";
 import AllProperties from "../pages/Admin/Properties/AllProperties";
 import AdminProfile from "../pages/Admin/Settings/AdminProfile";
-import TenantDetails from "../pages/Admin/TenantDetails/TenantDetails";
 import PropertyDetails from "../shared/PropertyDetails";
+import TenantDetails from "../shared/TenantDetails";
 
 export const adminPaths = [
     {
