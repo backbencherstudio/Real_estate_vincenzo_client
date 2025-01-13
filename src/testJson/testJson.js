@@ -1,4 +1,4 @@
-export const data = [
+export const dummyData = [
     {
       key: 1,
       name: `Edward King `,

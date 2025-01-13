@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { data } from '../../testJson/testJson';
+import  { useState } from 'react';
+import { dummyData } from '../../testJson/testJson';
 import { Select, Table, Tag } from 'antd';
 
 const PaymentHistory = () => {
@@ -83,7 +83,7 @@ const PaymentHistory = () => {
 
                 <Table
                     columns={columns}
-                    dataSource={data}
+                    dataSource={dummyData}
                     scroll={{ x: 800 }}
                     pagination={{
                         pageSize: pageSize,

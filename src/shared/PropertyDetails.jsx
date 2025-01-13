@@ -1,20 +1,30 @@
-import React, { useState } from "react";
-import img from "../../../assets/download.jpg"; // Sample image
-import img2 from "../../../assets/imageright.png"; // Sample image
-import img3 from "../../../assets/loginiconimage.png"; // Sample image
-import img4 from "../../../assets/loginpagegirlimage.png"; // Sample image
-import CustomButton from "../../../shared/CustomButton";
+import  { useState } from "react";
+import img from "../assets/download.jpg"; // Sample image
+import img2 from "../assets/imageright.png"; // Sample image
+import img3 from "../assets/loginiconimage.png"; // Sample image
+import img4 from "../assets/loginpagegirlimage.png"; // Sample image
+import CustomButton from "./CustomButton";
 import { Table, Tag } from "antd";
-import { data } from "../../../testJson/testJson";
+import { dummyData } from "../testJson/testJson";
 import { BiPlus } from "react-icons/bi";
+import { useParams } from "react-router-dom";
+import sharedApi from "../redux/fetures/sharedApi/sharedApi";
 
 const PropertyDetails = () => {
   const [pageSize, setPageSize] = useState(10);
 
   const handlePageSizeChange = (current, size) => {
     setPageSize(size);
-  };
+  };  
   const [selectedImage, setSelectedImage] = useState(img);
+  const {id} = useParams();
+
+  const {data } = sharedApi.useGetPropertieUnitsQuery(id);
+  console.log(data?.data.property);
+  console.log(data?.data.allUnits);
+  
+
+
   const columns = [
     {
       title: "Name",
@@ -37,8 +47,8 @@ const PropertyDetails = () => {
             status === "pending"
               ? "orange"
               : status === "complete"
-              ? "green"
-              : "red"
+                ? "green"
+                : "red"
           }
           style={{ textTransform: "capitalize" }}
         >
@@ -74,11 +84,10 @@ const PropertyDetails = () => {
                 onClick={() => {
                   setSelectedImage(image); // Set the clicked image as selected
                 }}
-                className={`h-[120px] w-full rounded-lg object-cover cursor-pointer duration-300 ${
-                  image === selectedImage
+                className={`h-[120px] w-full rounded-lg object-cover cursor-pointer duration-300 ${image === selectedImage
                     ? "border-2 border-red-500"
                     : "border-2 border-transparent"
-                }`}
+                  }`}
                 alt="Small Image"
               />
             ))}
@@ -127,7 +136,7 @@ const PropertyDetails = () => {
       <div className="mt-3">
         <Table
           columns={columns}
-          dataSource={data}
+          dataSource={dummyData}
           scroll={{ x: 800 }}
           pagination={{
             pageSize: pageSize,

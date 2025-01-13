@@ -1,6 +1,6 @@
 import  { useState } from 'react';
 import { Select, Table, Tag, Button } from 'antd';
-import { data } from '../../../testJson/testJson';
+import { dummyData } from '../../../testJson/testJson';
 import ProfileInformation from '../../../components/TenantDetailsTabs/ProfileInformation';
 import { CircleX, Mail, MoreVertical } from 'lucide-react';
 
@@ -165,7 +165,7 @@ const Owner = () => {
 
         <Table
           columns={columns}
-          dataSource={data}
+          dataSource={dummyData}
           scroll={{ x: 800 }}
           pagination={{
             pageSize: pageSize,
