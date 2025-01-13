@@ -1,45 +1,95 @@
-import  { useState } from 'react';
-import { Select, Table, Tag } from 'antd';
-import { dummyData } from '../../../testJson/testJson';
+import { useState } from 'react';
+import { Select, Table } from 'antd';
+import adminApi from '../../../redux/fetures/admin/adminApi';
+import { FaAngleRight } from 'react-icons/fa6';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from '../../../redux/fetures/auth/authSlice';
 const AllTenant = () => {
     const [pageSize, setPageSize] = useState(10);
+    const { data } = adminApi.useGetAllTenantsQuery();
+    
+    const navigate = useNavigate();
+    const currentUser = useSelector(selectCurrentUser);
+
+    const tableData = data?.data?.map(({
+        createdAt,
+        ownerId,
+        propertyId,
+        unitId,
+        updatedAt,
+        userId,
+        _id,
+    }) => ({
+        key: _id,
+        createdAt,
+        updatedAt,
+        ownerId,
+        propertyName: propertyId?.propertyName || "N/A",
+        totalRent: propertyId?.totalRent || "N/A",
+        unitNumber: unitId?.unitNumber || "N/A",
+        tenantName: userId?.name || "N/A",
+        address: userId?.permanentAddress?.address
+            ? `${userId?.permanentAddress?.address}, ${userId?.permanentAddress?.city || "N/A"}`
+            : "N/A",
+        tenantEmail: userId?.email || "N/A",
+    }));
 
     const handlePageSizeChange = (current, size) => {
         setPageSize(size);
     };
 
+    const handleNavigate = (id) => {
+        navigate(`/${currentUser?.role}/tenant/${id}`);
+    };
+
     const columns = [
         {
-            title: "Name",
-            dataIndex: "name",
+            title: "SL",
+            dataIndex: "sl",
+            render: (text, record, index) => index + 1
         },
         {
-            title: "Age",
-            dataIndex: "age",
+            title: "Name",
+            dataIndex: "tenantName",
+        },
+        {
+            title: "Email",
+            dataIndex: "tenantEmail",
+        },
+        {
+            title: "Property Name",
+            dataIndex: "propertyName",
+        },
+        {
+            title: "Unit",
+            dataIndex: "unitNumber",
+        },
+        {
+            title: "Rent",
+            dataIndex: "totalRent",
         },
         {
             title: "Address",
             dataIndex: "address",
         },
         {
-            title: "Status",
-            dataIndex: "status",
-            render: (status) => (
-                <Tag
-                    color={
-                        status === "pending"
-                            ? "orange"
-                            : status === "complete"
-                                ? "green"
-                                : "red"
-                    }
-                    style={{ textTransform: "capitalize" }}
-                >
-                    {status}
-                </Tag>
+            title: "Details",
+            dataIndex: "details",
+            render: (text, record) => (
+                <div>
+                    <span
+                        onClick={() => handleNavigate(record?.key)}
+                        className="text-[#4A90E2] flex items-center cursor-pointer"
+                    >
+                        Details <FaAngleRight className="text-[18px] ml-1" />
+                    </span>
+                </div>
             ),
         },
     ];
+
+
     const onChange = (value) => {
         console.log(`selected ${value}`);
     };
@@ -88,7 +138,7 @@ const AllTenant = () => {
 
                 <Table
                     columns={columns}
-                    dataSource={dummyData}
+                    dataSource={tableData}
                     scroll={{ x: 800 }}
                     pagination={{
                         pageSize: pageSize,

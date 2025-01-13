@@ -22,10 +22,19 @@ const adminApi = baseApi.injectEndpoints({
         }
       },
       providesTags: ["properties"],
-    })
+    }),
+    
+    getAllTenants : builder.query({
+      query: ()=>{
+        return {
+          url: `/admin/getALlTenants`,
+          method: "GET",
+        }
+      },
+      providesTags: ["tenants"],
+    }),
 
-
-
+    
   }),
 });
 
