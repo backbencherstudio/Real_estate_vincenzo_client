@@ -115,7 +115,7 @@ function DocumentsTenant() {
           <div className="flex justify-start md:justify-end">
             <button
               onClick={() => setIsModalOpen(true)}
-              className="flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              className="flex items-center px-5 py-6  rounded-[12px] bg-gradient-to-r from-[#4A90E2] to-[#1565C0] p-4 md:p-5 w-full text-white font-medium text-lg"
             >
               <span>Add Document</span>
               <Plus className="w-4 h-4 ml-2" />

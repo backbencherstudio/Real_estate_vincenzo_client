@@ -107,7 +107,7 @@ function MaintenanceRequests() {
           <div className="flex justify-start md:justify-end">
             <button
               onClick={() => setIsModalOpen(true)} // Show modal on click
-              className="flex items-center px-3 py-4 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 active:bg-blue-700"
+              className="flex items-center rounded-[12px] bg-gradient-to-r from-[#4A90E2] to-[#1565C0] p-4 md:p-5 w-full text-white font-medium text-lg"
             >
               <span className="hidden sm:inline">Add Maintenance Request</span>
               <Plus className="w-3 h-3 sm:w-4 sm:h-4 ml-1 sm:mr-2" />
