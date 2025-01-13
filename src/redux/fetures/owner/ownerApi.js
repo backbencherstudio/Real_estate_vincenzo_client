@@ -15,11 +15,20 @@ const ownerApi = baseApi.injectEndpoints({
     getAllOwnerProperties: builder.query({
       query: () => {
         return {
-          url: `/owner/677f83aac9e34dc1bd25636b`,
+          url: `/owner/6784e70a816561d1eea5cf95`,
           method: "GET",
         };
       },
       providesTags: ["properties"],
+    }),
+    getOwnerTenants: builder.query({
+      query: () => {
+        return {
+          url: `/owner/unit/6784e70a816561d1eea5cf95`,
+          method: "GET",
+        };
+      },
+      providesTags: ["tenants"],
     }),
   }),
 });

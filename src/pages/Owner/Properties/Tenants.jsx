@@ -1,7 +1,11 @@
 import { Tag } from "antd";
 import CustomTable from "../../../shared/CustomTable";
+import ownerApi from "../../../redux/fetures/owner/ownerApi";
 
 const Tenants = () => {
+  const { data: tenantsData } = ownerApi.useGetOwnerTenantsQuery();
+  console.log(tenantsData);
+
   const columns = [
     {
       title: "Name",
@@ -58,8 +62,6 @@ const Tenants = () => {
     },
   ];
 
-  
-
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -74,7 +76,6 @@ const Tenants = () => {
             </p>
           </span>
         </div>
-        
       </div>
       <CustomTable
         title={"Recently Added Tenants"}
