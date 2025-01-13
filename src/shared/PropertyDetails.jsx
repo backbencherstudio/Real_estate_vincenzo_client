@@ -17,21 +17,6 @@ const PropertyDetails = () => {
   const property = data?.data?.property;
   const allUnits = data?.data?.allUnits;
 
-  // const {
-  //   Description,
-  //   amenities,
-  //   parkingAvailable,
-  //   createdAt,
-  //   houseNumber,
-  //   maintainer,
-  //   unitsAvailable,
-  //   owner,
-  //   // images,
-  //   location,
-  //   name,
-  //   totalRent,
-  // } = property
-  
   const currentTenant = allUnits?.filter(item => item.booked === true )
   
   const tableData = allUnits?.map(({
@@ -209,7 +194,7 @@ const PropertyDetails = () => {
         <div className="flex justify-between items-center">
 
           <div>
-            <h1 className="clamp-text font-semibold my-5"> booked </h1>
+            <h1 className="clamp-text font-semibold my-5"> Property Details </h1>
           </div>{" "}
 
           <div>
