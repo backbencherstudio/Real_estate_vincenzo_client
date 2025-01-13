@@ -6,16 +6,17 @@ import TenantPayments from "../pages/Tenant/TenantPayments";
 import { TfiMenuAlt } from "react-icons/tfi";
 import { MdOutlinePayment } from "react-icons/md";
 import { RxDashboard } from "react-icons/rx";
+import TenantDocuments from "../pages/Tenant/TenantDocuments/TenantDocuments";
 
 export const tenantPaths = [
     {
-        icon:<RxDashboard size={18}/>,
+        icon: <RxDashboard size={18} />,
         name: "Dashboard",
         path: "dashboard",
         element: <TenantDashboard />,
     },
     {
-        icon:<MdOutlinePayment size={18}/>,
+        icon: <MdOutlinePayment size={18} />,
         name: "Payments",
         path: "tenantpayments",
         element: <TenantPayments></TenantPayments>,
@@ -26,18 +27,18 @@ export const tenantPaths = [
         element: <PaymentsDetails />
     },
     {
-        icon:<TfiMenuAlt size={18} />,
+        icon: <TfiMenuAlt size={18} />,
         name: "My Apartment",
         children: [
             {
                 name: "Maintenance",
-                path: "maintenancerequests",
+                path: "maintenance",
                 element: <MaintenanceRequests></MaintenanceRequests>,
             },
             {
                 name: "Documents",
                 path: "documents",
-                element: Documents,
+                element: <TenantDocuments />
             },
 
         ],
