@@ -9,6 +9,7 @@ const OwnerDashboard = () => {
   const handlePageSizeChange = (current, size) => {
     setPageSize(size);
   };
+  
   const columns = [
     {
       title: "Name",
