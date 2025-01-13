@@ -1,65 +1,124 @@
-import  { useState } from "react";
+import { useState } from "react";
 import img from "../assets/download.jpg"; // Sample image
 import img2 from "../assets/imageright.png"; // Sample image
 import img3 from "../assets/loginiconimage.png"; // Sample image
 import img4 from "../assets/loginpagegirlimage.png"; // Sample image
-import CustomButton from "./CustomButton";
-import { Table, Tag } from "antd";
-import { dummyData } from "../testJson/testJson";
-import { BiPlus } from "react-icons/bi";
+import { Select, Table } from "antd";
 import { useParams } from "react-router-dom";
 import sharedApi from "../redux/fetures/sharedApi/sharedApi";
 
 const PropertyDetails = () => {
   const [pageSize, setPageSize] = useState(10);
 
-  const handlePageSizeChange = (current, size) => {
-    setPageSize(size);
-  };  
   const [selectedImage, setSelectedImage] = useState(img);
-  const {id} = useParams();
+  const { id } = useParams();
 
-  const {data } = sharedApi.useGetPropertieUnitsQuery(id);
-  console.log(data?.data.property);
-  console.log(data?.data.allUnits);
+  const { data } = sharedApi.useGetPropertieUnitsQuery(id);
+  const property = data?.data?.property;
+  const allUnits = data?.data?.allUnits;
+
+  // const {
+  //   Description,
+  //   amenities,
+  //   parkingAvailable,
+  //   createdAt,
+  //   houseNumber,
+  //   maintainer,
+  //   unitsAvailable,
+  //   owner,
+  //   // images,
+  //   location,
+  //   name,
+  //   totalRent,
+  // } = property
   
-
+  const currentTenant = allUnits?.filter(item => item.booked === true )
+  
+  const tableData = allUnits?.map(({
+    isSecurityDepositPay,
+    _id,
+    propertyId,
+    unitNumber,
+    numberOfBedroom,
+    numberOfBathroom,
+    numberOfKitchen,
+    rent,
+    booked,
+    createdAt,
+    updatedAt,
+  }) => ({
+    key: _id,
+    isSecurityDepositPay,
+    propertyId,
+    unitNumber,
+    numberOfBedroom,
+    numberOfBathroom,
+    numberOfKitchen,
+    rent,
+    booked,
+    createdAt,
+    updatedAt,
+  }));
 
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
-    },
-    {
-      title: "Age",
-      dataIndex: "age",
-    },
-    {
-      title: "Address",
-      dataIndex: "address",
+      title: "SL",
+      dataIndex: "sl",
+      render: (text, record, index) => index + 1,
     },
     {
       title: "Status",
-      dataIndex: "status",
-      render: (status) => (
-        <Tag
-          color={
-            status === "pending"
-              ? "orange"
-              : status === "complete"
-                ? "green"
-                : "red"
-          }
-          style={{ textTransform: "capitalize" }}
-        >
-          {status}
-        </Tag>
+      dataIndex: "booked",
+      render: (text, record) => (
+        <div>
+          <span
+            className="text-[#4A90E2] flex items-center"
+          >
+            {record.booked ? <p className="text-yellow-700" >Booked</p> : <p className="text-green-500" >Available</p> }
+          </span>
+        </div>
       ),
     },
+    {
+      title: "Unit",
+      dataIndex: "unitNumber",
+    },
+    {
+      title: "Total Rent",
+      dataIndex: "rent",
+      render: (text) => (
+        <div>
+          <h2>${text}</h2>
+        </div>
+      )
+    },
+    {
+      title: "Bedroom",
+      dataIndex: "numberOfBedroom"
+    },
+    {
+      title: "Bathroom",
+      dataIndex: "numberOfBathroom"
+    },
+    {
+      title: "Kitchen",
+      dataIndex: "numberOfKitchen",
+    }
   ];
 
-  const images = [img, img2, img3, img4];
+  const handlePageSizeChange = (current, size) => {
+    setPageSize(size);
+  };
 
+  const onChange = (value) => {
+    console.log(`selected ${value}`);
+  };
+  const onSearch = (value) => {
+    console.log("search:", value);
+  };
+
+
+  const images = [img, img2, img3, img4];
   return (
     <div>
       <div>
@@ -73,6 +132,7 @@ const PropertyDetails = () => {
           </p>
         </span>
       </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mt-4">
         <div className="grid grid-cols-4 gap-2">
           {/* Small images */}
@@ -85,8 +145,8 @@ const PropertyDetails = () => {
                   setSelectedImage(image); // Set the clicked image as selected
                 }}
                 className={`h-[120px] w-full rounded-lg object-cover cursor-pointer duration-300 ${image === selectedImage
-                    ? "border-2 border-red-500"
-                    : "border-2 border-transparent"
+                  ? "border-2 border-red-500"
+                  : "border-2 border-transparent"
                   }`}
                 alt="Small Image"
               />
@@ -102,41 +162,85 @@ const PropertyDetails = () => {
             />
           </div>
         </div>
-        <div>
+        <div className="" >
           <h2 className="heading">
-            Design of a modern house as mansion blue couch
+            {property?.propertyName}
           </h2>
           <p className="text-[#646262] text-lg font-normal mt-8">
-            It is a long established fact that a reader will be distracted a the
-            readable content a pageant its layout. The point of using Lorem
-            Ipsum is that it has a more-or-less normal distributed
+            {property?.Description}
           </p>
+
           <div className="mt-8 text-[1rem]">
-            <div className="flex justify-between">
+            <div className="flex justify-between py-2 ">
               <p>Total Unit</p>
-              <p className="font-semibold ">3</p>
+              <p className="font-semibold "> {property?.numberOfUnits} </p>
             </div>
-            <div className="flex justify-between">
+            <div className="flex justify-between py-2 ">
               <p>Total Rent</p>
-              <p className="font-semibold ">$12,765</p>
+              <p className="font-semibold ">$ {property?.totalRent} </p>
             </div>
+            <div className="flex justify-between py-2 ">
+              <p>Current Tenants</p>
+              <p className="font-semibold ">{currentTenant?.length} </p>
+            </div>
+
+            <div className="flex justify-between py-2 ">
+              <p>Parking</p>
+              <p className="font-semibold ">{ property?.availableParking ? "Yes" : "No" } </p>
+            </div>
+
+            <div className="flex justify-between py-2 ">
+              <p>Location</p>
+              <p className="font-semibold ">{ property?.propertyLocation?.country } , { property?.propertyLocation?.city } </p>
+            </div>
+
+            <div className="flex justify-between py-2 ">
+              <p>Maintainer Name</p>
+              <p className="font-semibold ">{ property?.maintainerName }  </p>
+            </div>
+
           </div>
         </div>
       </div>
-      <div className="flex justify-between mt-10">
-        <h2 className="text-xl font-semibold">Property Details</h2>
-        <CustomButton
-          content={
-            <div className="flex items-center  gap-1">
-              {"Add Unit"} <BiPlus size={16} />{" "}
-            </div>
-          }
-        />
-      </div>
-      <div className="mt-3">
+
+
+
+      <div className="bg-white p-5 mt-10 rounded-2xl">
+        <div className="flex justify-between items-center">
+
+          <div>
+            <h1 className="clamp-text font-semibold my-5"> booked </h1>
+          </div>{" "}
+
+          <div>
+            <Select
+              showSearch
+              placeholder="Select a Status"
+              optionFilterProp="label"
+              onChange={onChange}
+              onSearch={onSearch}
+              options={[
+                {
+                  value: "pending",
+                  label: "Pending",
+                },
+                {
+                  value: "cancel",
+                  label: "Cancel",
+                },
+                {
+                  value: "completed",
+                  label: "Completed",
+                },
+              ]}
+            />
+          </div>
+
+        </div>
+
         <Table
           columns={columns}
-          dataSource={dummyData}
+          dataSource={tableData}
           scroll={{ x: 800 }}
           pagination={{
             pageSize: pageSize,
@@ -148,6 +252,9 @@ const PropertyDetails = () => {
           }}
         />
       </div>
+
+
+
     </div>
   );
 };

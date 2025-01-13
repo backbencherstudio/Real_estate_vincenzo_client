@@ -95,17 +95,16 @@ const AdminDashboard = () => {
     },
   ];
 
-
   const handlePageSizeChange = (current, size) => {
     setPageSize(size);
   };
   const onChange = (value) => {
     console.log(`selected ${value}`);
   };
-
   const onSearch = (value) => {
     console.log("search:", value);
   };
+
 
 
   return (
