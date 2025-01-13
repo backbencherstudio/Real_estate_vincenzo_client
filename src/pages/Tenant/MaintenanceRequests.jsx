@@ -2,9 +2,18 @@ import { Avatar, Table, Tag } from 'antd';
 import 'antd/dist/reset.css'; // To include Ant Design styles
 import tableData from "../../../public/tabledata.json";
 import { Plus } from 'lucide-react';
+import { useState } from 'react';
+import MaintenanceForm from '../../components/Forms/MaintenanceForm';
 
 function MaintenanceRequests() {
+  const [isOpen, setIsOpen] = useState(false);
 
+  const open = () => {
+    setIsOpen(true)
+  }
+  const close = () => {
+    setIsOpen(false)
+  }
 
   const tableDatas = tableData?.map(({ invoice_id, name, amount, due_date, status, profile_picture }) => ({
     key: invoice_id, // Using invoice_id as the key for each row
@@ -62,7 +71,7 @@ function MaintenanceRequests() {
   ];
 
   return (
-    <div>
+    <div className='relative'>
       {/* Header */}
       <div className="w-full p-4 md:px-6 lg:px-8">
         {/* Main Container with responsive padding */}
@@ -98,7 +107,7 @@ function MaintenanceRequests() {
 
           {/* Add Request Button - responsive size and padding */}
           <div className="flex justify-start md:justify-end">
-            <button className="flex items-center py-5 px-6 bg-gradient-to-l to-[#4A90E2] from-[#1565C0] active:translate-y-0.5 duration-150 text-white rounded-md font-bold">
+            <button onClick={open} className="flex items-center py-5 px-6 bg-gradient-to-l to-[#4A90E2] from-[#1565C0] active:translate-y-0.5 duration-150 text-white rounded-md font-bold">
               <span className="hidden sm:inline">Add Maintenance Request</span>
               <Plus className="w-3 h-3 sm:w-4 sm:h-4 ml-1 sm:mr-2" />
               <span className="inline sm:hidden">Add Request</span>
@@ -125,6 +134,11 @@ function MaintenanceRequests() {
           />
         </div>
       </div>
+      {
+        isOpen && (
+          <MaintenanceForm  close={close}/>
+        )
+      }
 
       {/* Footer */}
       <footer className="mt-8 text-center text-sm text-gray-500">
