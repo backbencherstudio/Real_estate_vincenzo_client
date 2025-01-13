@@ -55,7 +55,6 @@ const AllProperties = () => {
     }));
 
 
-
     const columns = [
         {
             title: "SL",

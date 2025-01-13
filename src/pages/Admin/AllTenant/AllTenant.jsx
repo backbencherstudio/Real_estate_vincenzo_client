@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { Select, Table, Tag } from 'antd';
-import { data } from '../../../testJson/testJson';
+import { dummyData } from '../../../testJson/testJson';
 const AllTenant = () => {
     const [pageSize, setPageSize] = useState(10);
 
@@ -88,7 +88,7 @@ const AllTenant = () => {
 
                 <Table
                     columns={columns}
-                    dataSource={data}
+                    dataSource={dummyData}
                     scroll={{ x: 800 }}
                     pagination={{
                         pageSize: pageSize,
