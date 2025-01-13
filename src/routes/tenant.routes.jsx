@@ -1,4 +1,4 @@
-import Documents from "../pages/Tenant/Documents";
+import DocumentsTenant from "../pages/Tenant/DocumentsTenant";
 import MaintenanceRequests from "../pages/Tenant/MaintenanceRequests";
 import TenantDashboard from "../pages/Tenant/Tenant";
 import TenantPayments from "../pages/Tenant/TenantPayments";
@@ -29,9 +29,9 @@ export const tenantPaths = [
                 element: <MaintenanceRequests></MaintenanceRequests>,
             },
             {
-                name: "Documents",
-                path: "documents",
-                element: Documents,
+                name: "DocumentsTenant",
+                path: "documentstenant",
+                element: <DocumentsTenant></DocumentsTenant>
             },
  
         ],
