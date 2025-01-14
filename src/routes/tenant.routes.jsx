@@ -1,5 +1,6 @@
 import DocumentsTenant from "../pages/Tenant/DocumentsTenant";
 import MaintenanceRequests from "../pages/Tenant/MaintenanceRequests";
+import Notification from "../pages/Tenant/Notification";
 import TenantDashboard from "../pages/Tenant/Tenant";
 import TenantPayments from "../pages/Tenant/TenantPayments";
 import Test from "../pages/Tenant/Test/Test";
@@ -32,6 +33,11 @@ export const tenantPaths = [
                 name: "DocumentsTenant",
                 path: "documentstenant",
                 element: <DocumentsTenant></DocumentsTenant>
+            },
+            {
+                name: "Notification",
+                path: "notification",
+                element: <Notification></Notification>,
             },
  
         ],
