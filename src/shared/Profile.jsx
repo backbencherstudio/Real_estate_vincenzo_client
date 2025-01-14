@@ -14,9 +14,6 @@ const Profile = () => {
                 age: data.age,
                 familyMember: data.familyMember,
                 jobTitle: data.jobTitle,
-                name: data.name,
-                dob: data.dob,
-                email: data.email
             },
             permanentAddress: {
                 address: data.address,
@@ -25,10 +22,13 @@ const Profile = () => {
                 zipCode: data.zipCode,
                 country: data.country
             },
-            nid: data.nid // Optional
+            name: data.name,
+            email: data.email,
+            // profileImage : image
         };
-    
+
         console.log("Formatted Form Data Submitted: ", formattedData);
+
     };
 
     const handleImageChange = (event) => {
@@ -105,7 +105,7 @@ const Profile = () => {
                     {/* Phone No */}
                     <div className="relative col-span-4">
                         <input
-                            type="tel"
+                            type="number"
                             placeholder="contact Number"
                             className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
                             {...register("contactNumber", { required: "Contact Number is required" })}
@@ -144,7 +144,7 @@ const Profile = () => {
                     {/* age */}
                     <div className="relative col-span-6">
                         <input
-                            type="text"
+                            type="number"
                             placeholder="age*"
                             className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
                             {...register("age", { required: "Age is required" })}
@@ -157,7 +157,7 @@ const Profile = () => {
                     {/* family member */}
                     <div className="relative col-span-6">
                         <input
-                            type="text"
+                            type="number"
                             placeholder="Family Member*"
                             className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
                             {...register("familyMember", { required: "familyMember is required" })}
@@ -168,20 +168,6 @@ const Profile = () => {
                         {errors.familyMember && <span className="text-red-500 text-sm">{errors.familyMember.message}</span>}
                     </div>
 
-
-                    {/* NID / Passport */}
-
-                    <div className="relative col-span-6 lg:col-span-6">
-                        <input
-                            type="text"
-                            placeholder="NID / Passport"
-                            className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
-                            {...register("nid")}
-                        />
-                        <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
-                            NID / Passport
-                        </label>
-                    </div>
 
                     {/* Country */}
                     <div className="relative col-span-6 lg:col-span-6">
@@ -198,7 +184,7 @@ const Profile = () => {
                     </div>
 
                     {/* State */}
-                    <div className="relative col-span-6 lg:col-span-3">
+                    <div className="relative col-span-6 lg:col-span-6">
                         <input
                             type="text"
                             placeholder="State*"
@@ -212,7 +198,7 @@ const Profile = () => {
                     </div>
 
                     {/* City */}
-                    <div className="relative col-span-6 lg:col-span-3">
+                    <div className="relative col-span-6 lg:col-span-6">
                         <input
                             type="text"
                             placeholder="City*"
@@ -242,7 +228,7 @@ const Profile = () => {
                     {/* Zip Code */}
                     <div className="relative col-span-6 lg:col-span-3">
                         <input
-                            type="text"
+                            type="number"
                             placeholder="Zip Code*"
                             className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
                             {...register("zipCode", { required: "Zip Code is required" })}
