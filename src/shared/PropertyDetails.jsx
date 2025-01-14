@@ -17,10 +17,10 @@ const PropertyDetails = () => {
   const property = data?.data?.property;
   const allUnits = data?.data?.allUnits;
 
-  // console.log(property?.ownerId.numberOfTotalUnits);
-  console.log(allUnits);
+  console.log(id);
+  console.log(data?.data);
   
-
+  
   const currentTenant = allUnits?.filter(item => item.booked === true )
   
   const tableData = allUnits?.map(({

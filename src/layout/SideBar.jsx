@@ -7,6 +7,7 @@ import { useAppSelector } from "../redux/hooks";
 import { useCurrentToken } from "../redux/fetures/auth/authSlice";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import logo from './../assets/logo.svg'
 
 const { Sider } = Layout;
 
@@ -50,7 +51,7 @@ const SideBar = () => {
     <Sider
       style={{
         height: "100vh",
-        width:"278px",
+        width: "278px",
         position: "sticky",
         top: "0",
         left: "0",
@@ -68,7 +69,9 @@ const SideBar = () => {
           backgroundColor: "#1C2434",
         }}
       >
-        <h2 style={{ color: "white" }}> Real Estate </h2>
+        <h2 className="flex items-center gap-2 text-xl" style={{ color: "white" }}>
+          <img src={logo} alt="" className="h-7 w-7" />
+           Real Estate </h2>
       </div>
       <Menu
         theme="dark"
