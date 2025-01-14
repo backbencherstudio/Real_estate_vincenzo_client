@@ -1,7 +1,13 @@
 import { Tag } from "antd";
 import CustomTable from "../../../shared/CustomTable";
+import adminApi from "../../../redux/fetures/admin/adminApi";
 
 const Tenants = () => {
+
+  const { data: tenantData } = adminApi.useGetALlUserQuery("tenant");
+
+  console.log(tenantData?.data);
+  
 
   const columns = [
     {
