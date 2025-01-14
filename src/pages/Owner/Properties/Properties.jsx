@@ -5,19 +5,27 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../../redux/fetures/auth/authSlice";
 import ownerApi from "../../../redux/fetures/owner/ownerApi";
+import CustomButton from "../../../shared/CustomButton";
 
 const AllProperties = () => {
   const [pageSize, setPageSize] = useState(10);
-  const { data: propertyData } = ownerApi.useGetAllOwnerPropertiesQuery();
+  const navigate = useNavigate();
+  const currentUser = useSelector(selectCurrentUser)
+
+
+  const { data: propertyData } = ownerApi.useGetSingleOwnerAllPropertiesQuery(currentUser?.userId);
   const handlePageSizeChange = (current, size) => {
     setPageSize(size);
   };
-  const navigate = useNavigate();
-  const currentUser = useSelector(selectCurrentUser);
 
   const handleNavigate = (id) => {
     navigate(`/${currentUser?.role}/properties/${id}`);
   };
+
+  const addPropertiesNavigation = () => {
+    navigate(`addProperties`);
+  };
+
 
   const tableData = propertyData?.data?.map(
     ({
@@ -107,16 +115,21 @@ const AllProperties = () => {
 
   return (
     <div>
-      <div>
-        <h2 className="font-manrope text-2xl font-bold leading-[48px] tracking-[-0.03em] text-left">
-          Properties
-        </h2>
-        <span>
-          <p className="text-[#64748B] text-[14px] ">
-            {" "}
-            <span className="opacity-60">Home /</span> All Properties
-          </p>
-        </span>
+
+      <div className="flex justify-between items-center" >
+        <div>
+          <h2 className="font-manrope text-2xl font-bold leading-[48px] tracking-[-0.03em] text-left">
+            Properties
+          </h2>
+          <span>
+            <p className="text-[#64748B] text-[14px] ">
+              {" "}
+              <span className="opacity-60">Home /</span> All Properties
+            </p>
+          </span>
+        </div>
+
+        <CustomButton content="Add Properties" handleClick={addPropertiesNavigation} ></CustomButton>
       </div>
 
       <div className="bg-white p-5 mt-10 rounded-2xl">
