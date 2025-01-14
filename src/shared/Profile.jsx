@@ -8,7 +8,27 @@ const Profile = () => {
     const image = watch('image');
 
     const onSubmit = (data) => {
-        console.log("Form Data Submitted: ", data); 
+        const formattedData = {
+            personalInfo: {
+                contactNumber: data.contactNumber,
+                age: data.age,
+                familyMember: data.familyMember,
+                jobTitle: data.jobTitle,
+                name: data.name,
+                dob: data.dob,
+                email: data.email
+            },
+            permanentAddress: {
+                address: data.address,
+                city: data.city,
+                state: data.state,
+                zipCode: data.zipCode,
+                country: data.country
+            },
+            nid: data.nid // Optional
+        };
+    
+        console.log("Formatted Form Data Submitted: ", formattedData);
     };
 
     const handleImageChange = (event) => {
@@ -16,7 +36,7 @@ const Profile = () => {
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                setValue('image', reader.result); 
+                setValue('image', reader.result);
             };
             reader.readAsDataURL(file);
         }
@@ -55,21 +75,21 @@ const Profile = () => {
                 </div>
                 <div className='grid grid-cols-1 lg:grid-cols-12 gap-6'>
                     {/* Full Name */}
-                    <div className="relative col-span-6">
+                    <div className="relative col-span-4">
                         <input
                             type="text"
                             placeholder="Full Name*"
                             className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
-                            {...register("fullName", { required: "Full Name is required" })}
+                            {...register("name", { required: "Full Name is required" })}
                         />
                         <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
                             Full Name*
                         </label>
-                        {errors.fullName && <span className="text-red-500 text-sm">{errors.fullName.message}</span>}
+                        {errors.name && <span className="text-red-500 text-sm">{errors.name.message}</span>}
                     </div>
 
                     {/* Email */}
-                    <div className="relative col-span-6">
+                    <div className="relative col-span-4">
                         <input
                             type="email"
                             placeholder="Email*"
@@ -83,21 +103,34 @@ const Profile = () => {
                     </div>
 
                     {/* Phone No */}
-                    <div className="relative col-span-6">
+                    <div className="relative col-span-4">
                         <input
                             type="tel"
-                            placeholder="Phone No*"
+                            placeholder="contact Number"
                             className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
-                            {...register("phone", { required: "Phone number is required" })}
+                            {...register("contactNumber", { required: "Contact Number is required" })}
                         />
                         <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
-                            Phone No*
+                            Contact No*
                         </label>
-                        {errors.phone && <span className="text-red-500 text-sm">{errors.phone.message}</span>}
+                        {errors.contactNumber && <span className="text-red-500 text-sm">{errors.contactNumber.message}</span>}
+                    </div>
+
+                    <div className="relative col-span-6">
+                        <input
+                            type="text"
+                            placeholder="Job Title*"
+                            className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
+                            {...register("jobTitle", { required: "Job Title is required" })}
+                        />
+                        <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
+                            Job Title*
+                        </label>
+                        {errors.jobTitle && <span className="text-red-500 text-sm">{errors.jobTitle.message}</span>}
                     </div>
 
                     {/* Date of Birth */}
-                    <div className="relative col-span-6">
+                    {/* <div className="relative col-span-6">
                         <input
                             type="date"
                             className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
@@ -107,10 +140,38 @@ const Profile = () => {
                             Date Of Birth*
                         </label>
                         {errors.dob && <span className="text-red-500 text-sm">{errors.dob.message}</span>}
+                    </div> */}
+                    {/* age */}
+                    <div className="relative col-span-6">
+                        <input
+                            type="text"
+                            placeholder="age*"
+                            className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
+                            {...register("age", { required: "Age is required" })}
+                        />
+                        <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
+                            Age*
+                        </label>
+                        {errors.age && <span className="text-red-500 text-sm">{errors.age.message}</span>}
+                    </div>
+                    {/* family member */}
+                    <div className="relative col-span-6">
+                        <input
+                            type="text"
+                            placeholder="Family Member*"
+                            className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
+                            {...register("familyMember", { required: "familyMember is required" })}
+                        />
+                        <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
+                            Family Member*
+                        </label>
+                        {errors.familyMember && <span className="text-red-500 text-sm">{errors.familyMember.message}</span>}
                     </div>
 
+
                     {/* NID / Passport */}
-                    <div className="relative col-span-6 lg:col-span-4">
+
+                    <div className="relative col-span-6 lg:col-span-6">
                         <input
                             type="text"
                             placeholder="NID / Passport"
@@ -123,7 +184,7 @@ const Profile = () => {
                     </div>
 
                     {/* Country */}
-                    <div className="relative col-span-6 lg:col-span-4">
+                    <div className="relative col-span-6 lg:col-span-6">
                         <input
                             type="text"
                             placeholder="Country*"
@@ -137,7 +198,7 @@ const Profile = () => {
                     </div>
 
                     {/* State */}
-                    <div className="relative col-span-6 lg:col-span-4">
+                    <div className="relative col-span-6 lg:col-span-3">
                         <input
                             type="text"
                             placeholder="State*"
@@ -151,7 +212,7 @@ const Profile = () => {
                     </div>
 
                     {/* City */}
-                    <div className="relative col-span-6 lg:col-span-4">
+                    <div className="relative col-span-6 lg:col-span-3">
                         <input
                             type="text"
                             placeholder="City*"
@@ -165,7 +226,7 @@ const Profile = () => {
                     </div>
 
                     {/* Address */}
-                    <div className="relative col-span-6 lg:col-span-4">
+                    <div className="relative col-span-6 lg:col-span-9">
                         <input
                             type="text"
                             placeholder="Address*"
@@ -179,7 +240,7 @@ const Profile = () => {
                     </div>
 
                     {/* Zip Code */}
-                    <div className="relative col-span-6 lg:col-span-4">
+                    <div className="relative col-span-6 lg:col-span-3">
                         <input
                             type="text"
                             placeholder="Zip Code*"
