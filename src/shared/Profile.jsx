@@ -79,11 +79,12 @@ const Profile = () => {
                     <div className="relative col-span-4">
                         <input
                             type="text"
+                            id="name"
                             placeholder="Full Name*"
                             className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
                             {...register("name", { required: "Full Name is required" })}
                         />
-                        <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
+                        <label htmlFor='name' className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500 cursor-text">
                             Full Name*
                         </label>
                         {errors.name && <span className="text-red-500 text-sm">{errors.name.message}</span>}
@@ -227,7 +228,7 @@ const Profile = () => {
                     </div>
 
                     {/* Address */}
-                    <div className="relative col-span-6 lg:col-span-9">
+                    <div className="relative col-span-6 lg:col-span-">
                         <input
                             type="text"
                             placeholder="Address*"
