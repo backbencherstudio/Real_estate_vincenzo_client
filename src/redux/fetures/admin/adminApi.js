@@ -3,7 +3,6 @@ import { baseApi } from "../../api/baseApi";
 const adminApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     
-
     getALlUser: builder.query({
       query: (role) => {
         return {

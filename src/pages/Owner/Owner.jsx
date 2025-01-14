@@ -12,11 +12,15 @@ const OwnerDashboard = () => {
   const handlePageSizeChange = (current, size) => {
     setPageSize(size);
   };
+  
   const currentUser = useSelector(selectCurrentUser);
+
+  // =============================>>>>>>>>  this API not for this page this is for this route http://localhost:5173/owner/properties
   const { data } = ownerApi.useGetSingleOwnerAllPropertiesQuery(currentUser?.userId);
 
-
   console.log(data?.data);
+  
+
 
 
   const tableData = data?.data?.map(({
