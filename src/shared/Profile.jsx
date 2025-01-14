@@ -9,7 +9,27 @@ const Profile = () => {
     const image = watch('image');
 
     const onSubmit = (data) => {
-        console.log("Form Data Submitted: ", data);
+        const formattedData = {
+            personalInfo: {
+                contactNumber: data.contactNumber,
+                age: data.age,
+                familyMember: data.familyMember,
+                jobTitle: data.jobTitle,
+                name: data.name,
+                dob: data.dob,
+                email: data.email
+            },
+            permanentAddress: {
+                address: data.address,
+                city: data.city,
+                state: data.state,
+                zipCode: data.zipCode,
+                country: data.country
+            },
+            nid: data.nid // Optional
+        };
+    
+        console.log("Formatted Form Data Submitted: ", formattedData);
     };
 
     const handleImageChange = (event) => {
@@ -99,10 +119,10 @@ const Profile = () => {
 
                     <div className="relative col-span-6">
                         <input
-                            type="jobTitle"
+                            type="text"
                             placeholder="Job Title*"
                             className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
-                            {...register("jobTitle", { required: "jobTitle is required", pattern: { value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/, message: "Enter a valid jobTitle" } })}
+                            {...register("jobTitle", { required: "Job Title is required" })}
                         />
                         <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
                             Job Title*
@@ -111,7 +131,7 @@ const Profile = () => {
                     </div>
 
                     {/* Date of Birth */}
-                    <div className="relative col-span-6">
+                    {/* <div className="relative col-span-6">
                         <input
                             type="date"
                             className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
@@ -121,7 +141,7 @@ const Profile = () => {
                             Date Of Birth*
                         </label>
                         {errors.dob && <span className="text-red-500 text-sm">{errors.dob.message}</span>}
-                    </div>
+                    </div> */}
                     {/* age */}
                     <div className="relative col-span-6">
                         <input
@@ -207,7 +227,7 @@ const Profile = () => {
                     </div>
 
                     {/* Address */}
-                    <div className="relative col-span-6 lg:col-span-3">
+                    <div className="relative col-span-6 lg:col-span-9">
                         <input
                             type="text"
                             placeholder="Address*"
