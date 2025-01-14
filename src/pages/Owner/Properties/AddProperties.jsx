@@ -1,16 +1,6 @@
-import React, { useState } from "react";
-import {
-  Form,
-  Input,
-  Button,
-  Row,
-  Col,
-  Select,
-  AutoComplete,
-  message,
-} from "antd";
-import { Controller, useForm, useFieldArray } from "react-hook-form";
-import TextArea from "antd/es/input/TextArea";
+import { useState } from "react";
+import { Form, Button, Row, Col, Select, AutoComplete, message } from "antd";
+import { Controller, useForm } from "react-hook-form";
 import { countryData } from "../../../data/data";
 import { MdDelete } from "react-icons/md";
 import { IoCloudUploadOutline } from "react-icons/io5";
@@ -23,7 +13,6 @@ const AddProperties = () => {
     reset,
     formState: { errors },
   } = useForm();
-  const { fields, append, remove } = useFieldArray({ control, name: "images" });
   const [countryOptions, setCountryOptions] = useState([]);
   const [images, setImages] = useState([]);
   const [updateImageIndex, setUpdateImageIndex] = useState(null);
