@@ -23,7 +23,8 @@ const OwnerDetails = () => {
     const ownerData = data?.data.ownerData[0];
     const properties = data?.data.properties;
 
-    console.log(ownerData);
+    console.log("Hello from details",ownerData);
+    console.log("Hello from details",ownerData?.permanentAddress);
     console.log(properties);
 
     const tableData = properties?.map(({
@@ -152,8 +153,8 @@ const OwnerDetails = () => {
             </div>
             <div className="">
                 <ProfileInformation
-                    personalInfo={personalInfo}
-                    addressInfo={addressInfo}
+                    personalInfo={ownerData}
+                    addressInfo={ownerData?.permanentAddress}
                 />
             </div>
 

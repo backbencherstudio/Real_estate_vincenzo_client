@@ -41,10 +41,29 @@ const ProfileInformation = ({ personalInfo = {}, addressInfo = {} }) => {
                 </div>
 
                 {/* Permanent Address */}
-                <div className="space-y-4">
+                {/* <div className="space-y-4">
                     <h3 className="text-lg font-semibold mb-4">Permanent Address</h3>
                     {addressInfo.permanentAddress ? (
                         Object.entries(addressInfo.permanentAddress).map(([key, value]) => (
+                            <div key={key} className="flex flex-col sm:flex-row sm:justify-between pb-2">
+                                <span className="text-gray-600 capitalize mb-1 sm:mb-0">
+                                    {key.replace(/([A-Z])/g, ' $1').trim()}
+                                </span>
+                                <span className="font-medium">
+                                    {typeof value === 'object'
+                                        ? Object.values(value).filter(Boolean).join(', ')
+                                        : value || 'N/A'}
+                                </span>
+                            </div>
+                        ))
+                    ) : (
+                        <p className="text-gray-500">No permanent address available.</p>
+                    )}
+                </div> */}
+                <div className="space-y-4">
+                    <h3 className="text-lg font-semibold mb-4">Permanent Address</h3>
+                    {addressInfo ? (
+                        Object.entries(addressInfo).map(([key, value]) => (
                             <div key={key} className="flex flex-col sm:flex-row sm:justify-between pb-2">
                                 <span className="text-gray-600 capitalize mb-1 sm:mb-0">
                                     {key.replace(/([A-Z])/g, ' $1').trim()}
