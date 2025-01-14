@@ -42,18 +42,15 @@ const AddProperties = () => {
     }
   };
 
-  // Delete Image
   const handleDeleteImage = (index) => {
     setImages((prevImages) => prevImages.filter((_, i) => i !== index));
   };
 
-  // Update Image
   const handleUpdateImage = (index) => {
     setUpdateImageIndex(index);
     document.getElementById("imageUpdateInput").click();
   };
 
-  // Country Search
   const handleSearch = (value) => {
     if (!value) {
       setCountryOptions([]);
@@ -67,7 +64,6 @@ const AddProperties = () => {
     }
   };
 
-  // Submit Form
   const onSubmit = (data) => {
     if (images.length === 0) {
       message.error("Please upload at least one image.");
