@@ -1,11 +1,17 @@
 import  { useState } from 'react';
 import { Select, Table, Tag, Button } from 'antd';
 import { dummyData } from '../../../testJson/testJson';
+import adminApi from '../../../redux/fetures/admin/adminApi';
 
 const Owner = () => {
   const [pageSize, setPageSize] = useState(10);
   const [selectedUser, setSelectedUser] = useState(null);
   const [showMenu, setShowMenu] = useState(false);
+
+  const {data} = adminApi.useGetAllPropertiesQuery();
+
+  console.log(data?.data);
+  
 
 
   const handlePageSizeChange = (current, size) => {
