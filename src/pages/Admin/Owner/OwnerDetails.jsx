@@ -3,10 +3,24 @@ import { useState } from 'react';
 import { Select, Table, Tag } from 'antd';
 import { dummyData } from '../../../testJson/testJson';
 import { CircleX, Mail, MoreVertical } from 'lucide-react';
+import { useParams } from 'react-router-dom';
+import adminApi from '../../../redux/fetures/admin/adminApi';
 
 const OwnerDetails = () => {
     const [pageSize, setPageSize] = useState(10);
     const [showMenu, setShowMenu] = useState(false);
+
+    const { id } = useParams();
+
+    const { data } = adminApi.useGetSingleOwnerAllPropertiesWithOwnerInfoQuery(id)
+
+    const ownerData = data?.data.ownerData[0];
+    const properties = data?.data.properties;
+
+    console.log(ownerData);
+    console.log(properties);
+    
+
 
 
     const handlePageSizeChange = (current, size) => {
@@ -29,6 +43,7 @@ const OwnerDetails = () => {
         zipCode: '1216',
         country: 'United State'
     };
+
     const columns = [
         {
             title: "Name",
