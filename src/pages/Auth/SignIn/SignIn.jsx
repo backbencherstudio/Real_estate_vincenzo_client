@@ -1,9 +1,44 @@
+import { useForm, Controller } from "react-hook-form";
 import imagelogin from "../../../assets/loginpagegirlimage.png";
 import iconimage from "../../../assets/loginiconimage.png";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
-import { Input } from "antd";
+import { Input, Spin } from "antd";
+import authApi from "../../../redux/fetures/auth/authApi";
+import { verifyToken } from "../../../utils/varifyToken";
+import { setUser } from "../../../redux/fetures/auth/authSlice";
+import { useAppDispatch } from './../../../redux/hooks';
+import { Link, useNavigate } from "react-router-dom";
 
 function SignIn() {
+
+
+  const [login, { isLoading }] = authApi.useLoginMutation();
+
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
+
+
+  const onSubmit = async (data) => {
+    try {
+      const response = await login(data).unwrap();
+      const token = response.data.accessToken;
+      const user = verifyToken(token);
+      dispatch(setUser({ user, token }));
+      if (user) {
+        navigate(`/${user.role}/dashboard`);
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+    }
+  };
+
   return (
     <>
       <div className="max-w-[1200px] mx-auto flex flex-col-reverse md:flex-row-reverse lg:flex-row items-center gap-8 lg:gap-10 px-4 md:px-8 lg:px-0 pt-8 md:pt-12 lg:pt-10">
@@ -28,7 +63,7 @@ function SignIn() {
           </div>
 
           {/* Form Section */}
-          <div className="pt-8 md:pt-10">
+          <form onSubmit={handleSubmit(onSubmit)} className="pt-8 md:pt-10">
             {/* Email Field */}
             <div className="mb-4">
               <label
@@ -41,10 +76,22 @@ function SignIn() {
                 type="email"
                 id="email"
                 name="email"
-                className="w-full rounded-[12px] p-4 md:p-6 border-2 border-[#1565C0] bg-white"
+                className={`w-full rounded-[12px] p-4 md:p-6 border-2 ${errors.email ? "border-red-500" : "border-[#1565C0]"
+                  } bg-white`}
                 placeholder="Enter your email"
-                required
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                    message: "Invalid email address",
+                  },
+                })}
               />
+              {errors.email && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.email.message}
+                </p>
+              )}
             </div>
 
             {/* Password Field */}
@@ -55,51 +102,73 @@ function SignIn() {
               >
                 Password
               </label>
-              <Input.Password
-                className="w-full rounded-[12px] p-4 md:p-6 border-2 border-[#CDCDCD] bg-white"
-                placeholder="Password"
-                iconRender={(visible) =>
-                  visible ? <FaRegEye /> : <FaRegEyeSlash />
-                }
+              <Controller
+                name="password"
+                control={control}
+                rules={{
+                  required: "Password is required",
+                  minLength: {
+                    value: 6,
+                    message: "Password must be at least 6 characters long",
+                  },
+                }}
+                render={({ field }) => (
+                  <Input.Password
+                    id="password"
+                    className={`w-full rounded-[12px] p-4 md:p-6 border-2 ${errors.password ? "border-red-500" : "border-[#CDCDCD]"
+                      } bg-white`}
+                    placeholder="Password"
+                    iconRender={(visible) =>
+                      visible ? <FaRegEye /> : <FaRegEyeSlash />
+                    }
+                    {...field}
+                  />
+                )}
               />
+              {errors.password && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.password.message}
+                </p>
+              )}
             </div>
 
-            {/* Uncommented Section for Buttons */}
+            {/* Submit Button */}
+
             <div className="pt-8">
-              <button className="rounded-[12px] bg-gradient-to-r from-[#4A90E2] to-[#1565C0] p-4 md:p-5 w-full text-white font-medium text-lg">
-                Sign In
-              </button>
+              {
+                isLoading ?
+                  <button
+                    type="submit"
+                    className="rounded-[12px] bg-gradient-to-r border border-[#4A90E2] p-4 md:p-5 w-full  font-medium text-lg"
+                  >
+                    <Spin size="large" />
+                  </button>
+                  :
+                  <button
+                    type="submit"
+                    className="rounded-[12px] bg-gradient-to-r from-[#4A90E2] to-[#1565C0] p-4 md:p-5 w-full text-white font-medium text-lg"
+                  >
+                    Sign In
+                  </button>
+
+              }
 
               {/* Forgot Password */}
-              <div>
-                <p className="text-[#070127] font-inter text-[14px] md:text-[16px] font-normal leading-[1.4] text-right pt-2 md:pt-5">
+              <div className="flex justify-end" >
+                <Link to="/resetpassword" className="text-[#070127] font-inter text-[14px] md:text-[16px] font-normal leading-[1.4] text-right pt-2 md:pt-5">
                   Forgot Password?
-                </p>
+                </Link>
               </div>
-
-              {/* Divider */}
-              {/* <div className="flex items-center my-6">
-                            <div className="flex-grow border-t border-gray-300"></div>
-                            <span className="mx-4 text-gray-500">or</span>
-                            <div className="flex-grow border-t border-gray-300"></div>
-                        </div> */}
-
-              {/* Sign In with Google */}
-              {/* <button className="w-full flex items-center justify-center py-4 px-2 border border-gray-300 rounded-full shadow-sm bg-white hover:bg-gray-50 active:bg-gray-200">
-                            <span className="text-base font-medium text-gray-700">Sign in with Google</span>
-                        </button> */}
-
-              {/* Sign Up Link */}
-              {/* <div className="text-center pt-6">
-                            <p className="text-gray-600 text-sm md:text-base">
-                                Don’t have an account?
-                                <a href="#" className="text-blue-600 hover:text-blue-800 font-medium pl-1">
-                                    Sign Up
-                                </a>
-                            </p>
-                        </div> */}
             </div>
-          </div>
+            <div className="text-center pt-6">
+              <p className="text-gray-600 text-sm md:text-base">
+                Don’t have an account?
+                <Link to="/signup" className="text-blue-600 hover:text-blue-800 font-medium pl-1">
+                  Sign Up
+                </Link>
+              </p>
+            </div>
+          </form>
         </div>
 
         {/* Right Section */}
@@ -111,8 +180,9 @@ function SignIn() {
           />
         </div>
       </div>
+
       {/* Footer Copyright */}
-      <footer className="text-center lg:mt-10  py-4 text-sm text-gray-400">
+      <footer className="text-center lg:mt-10 py-4 text-sm text-gray-400">
         <p>© 2024 Copyright - All rights reserved by Real estate</p>
       </footer>
     </>

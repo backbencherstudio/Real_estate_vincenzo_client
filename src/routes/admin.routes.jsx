@@ -1,6 +1,11 @@
 import AdminDashboard from "../pages/Admin/Admin";
-import CreateOwner from "../pages/Admin/createOwner/CreateOwner";
+import AllTenant from "../pages/Admin/AllTenant/AllTenant";
+import Owner from "../pages/Admin/Owner/Owner";
+import OwnerDetails from "../pages/Admin/Owner/OwnerDetails";
+import AllProperties from "../pages/Admin/Properties/AllProperties";
 import AdminProfile from "../pages/Admin/Settings/AdminProfile";
+import PropertyDetails from "../shared/PropertyDetails";
+import TenantDetails from "../shared/TenantDetails";
 
 export const adminPaths = [
     {
@@ -8,16 +13,37 @@ export const adminPaths = [
         path: "dashboard",
         element: <AdminDashboard />,
     },
-
     {
-        name: "Owner Managment",
+        name: "Properties",
+        path: "properties",
+        element: <AllProperties />,
+    },
+    {
+        path: "properties/:id",
+        element: <PropertyDetails />,
+      },
+    {
+        name: "User Managment",
         children: [
-
             {
-                name: "Create Owner",
-                path: "create-owner",
-                element: <CreateOwner />,
+                name: " Owner",
+                path: "owner",
+                element: <Owner />,
             },
+            {
+                path: "owner/:id",
+                element: <OwnerDetails />,
+            },
+            {
+                name: "Tenant",
+                path: "tenant",
+                element: <AllTenant />,
+            },
+            {
+                path: "tenant/:id",
+                element: <TenantDetails />,
+            },
+
         ],
     },
     {
@@ -31,4 +57,3 @@ export const adminPaths = [
         ]
     }
 ];
-

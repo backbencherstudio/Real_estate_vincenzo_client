@@ -1,25 +1,78 @@
+import { FileOutlined, TeamOutlined, ToolOutlined } from "@ant-design/icons";
+import { GrVmMaintenance } from "react-icons/gr";
+import { BsBuildingCheck } from "react-icons/bs";
+import { PiBuildingApartment } from "react-icons/pi";
+import DocumentDetails from "../pages/Owner/Documents/DocumentDetails";
+import Documents from "../pages/Owner/Documents/Documents";
+import Maintenance from "../pages/Owner/Maintenance/Maintenance";
+import MaintenanceDetails from "../pages/Owner/Maintenance/MaintenanceDetails";
 import OwnerDashboard from "../pages/Owner/Owner";
 import AddProperties from "../pages/Owner/Properties/AddProperties";
 import Properties from "../pages/Owner/Properties/Properties";
+import PropertyDetails from "../shared/PropertyDetails";
+import Tenants from "../pages/Owner/Properties/Tenants";
+import TenantDetails from "../shared/TenantDetails";
+import { MdOutlineDashboard } from "react-icons/md";
 
 export const ownerPaths = [
   {
     name: "Dashboard",
     path: "dashboard",
     element: <OwnerDashboard />,
+    icon: <MdOutlineDashboard />,
   },
   {
     name: "Properties",
+    icon: <PiBuildingApartment />,
     children: [
       {
         name: "Properties",
         path: "properties",
         element: <Properties />,
+        icon: <BsBuildingCheck />,
       },
       {
         path: "properties/addProperties",
         element: <AddProperties />,
       },
+      {
+        path: "properties/:id",
+        element: <PropertyDetails />,
+        icon: <FileOutlined />,
+      },
+      {
+        name: "Tenants",
+        path: "tenants",
+        element: <Tenants />,
+        icon: <TeamOutlined />,
+      },
+      {
+        path: "tenants/:id",
+        element: <TenantDetails />,
+        icon: <TeamOutlined />,
+      },
     ],
+  },
+  {
+    name: "Maintenance",
+    path: "maintenance",
+    element: <Maintenance />,
+    icon: <GrVmMaintenance />,
+  },
+  {
+    path: "maintenance/:id",
+    element: <MaintenanceDetails />,
+    icon: <ToolOutlined />,
+  },
+  {
+    name: "Documents",
+    path: "documents",
+    element: <Documents />,
+    icon: <FileOutlined />,
+  },
+  {
+    path: "documents/:id",
+    element: <DocumentDetails />,
+    icon: <FileOutlined />,
   },
 ];

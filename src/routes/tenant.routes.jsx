@@ -1,30 +1,36 @@
 import DocumentsTenant from "../pages/Tenant/DocumentsTenant";
 import MaintenanceRequests from "../pages/Tenant/MaintenanceRequests";
+import PaymentsDetails from "../pages/Tenant/PaymentsDetails/PaymentsDetails";
 import TenantDashboard from "../pages/Tenant/Tenant";
 import TenantPayments from "../pages/Tenant/TenantPayments";
-import Test from "../pages/Tenant/Test/Test";
+import { TfiMenuAlt } from "react-icons/tfi";
+import { MdOutlinePayment } from "react-icons/md";
+import { RxDashboard } from "react-icons/rx";
 
 export const tenantPaths = [
     {
+        icon:<RxDashboard size={18}/>,
         name: "Dashboard",
         path: "dashboard",
         element: <TenantDashboard />,
     },
     {
-        name: "Tenant", 
+        icon:<MdOutlinePayment size={18}/>,
+        name: "Payments",
+        path: "tenantpayments",
+        element: <TenantPayments></TenantPayments>,
+    },
+    {
+        // name: "Payments",
+        path: "tenantpayments/:id",
+        element: <PaymentsDetails />
+    },
+    {
+        icon:<TfiMenuAlt size={18} />,
+        name: "My Apartment",
         children: [
             {
-                name: "Test",
-                path: "test",
-                element: <Test />,
-            },
-            {
-                name: "TenantPayments",
-                path: "tenantpayments",
-                element: <TenantPayments></TenantPayments>,
-            },
-            {
-                name: "MaintenanceRequests",
+                name: "Maintenance",
                 path: "maintenancerequests",
                 element: <MaintenanceRequests></MaintenanceRequests>,
             },
@@ -34,7 +40,6 @@ export const tenantPaths = [
                 element: <DocumentsTenant></DocumentsTenant>
             },
 
- 
         ],
     },
 ];

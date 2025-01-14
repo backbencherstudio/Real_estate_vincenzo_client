@@ -1,8 +1,9 @@
+import Profile from "../../../shared/Profile";
 
 const AdminProfile = () => {
     return (
         <div>
-            <h2>this is admin profile</h2>
+            <Profile />
         </div>
     );
 };
