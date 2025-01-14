@@ -7,6 +7,7 @@ import { TfiMenuAlt } from "react-icons/tfi";
 import { MdOutlinePayment } from "react-icons/md";
 import { RxDashboard } from "react-icons/rx";
 import TenantDocuments from "../pages/Tenant/TenantDocuments/TenantDocuments";
+import { ClipboardMinus, Construction } from "lucide-react";
 
 export const tenantPaths = [
     {
@@ -31,11 +32,13 @@ export const tenantPaths = [
         name: "My Apartment",
         children: [
             {
+                icon:<Construction size={18}/>,
                 name: "Maintenance",
                 path: "maintenance",
                 element: <MaintenanceRequests></MaintenanceRequests>,
             },
             {
+                icon:<ClipboardMinus size={18} />,
                 name: "Documents",
                 path: "documents",
                 element: <TenantDocuments />

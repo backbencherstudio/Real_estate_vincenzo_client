@@ -2,9 +2,21 @@ import { Avatar, Table, Tag } from 'antd';
 import 'antd/dist/reset.css'; // To include Ant Design styles
 import tableData from "./../../../../public/tabledata.json";
 import { Plus } from 'lucide-react';
+import DocumentForm from '../../../components/Forms/DocumentForm';
+import { useState } from 'react';
 
 
 const TenantDocuments = () => {
+      const [isOpen, setIsOpen] = useState(false);
+    
+      const open = () => {
+        setIsOpen(true)
+      }
+      const close = () => {
+        setIsOpen(false)
+      }
+    
+
     const tableDatas = tableData?.map(({ invoice_id, name, amount, due_date, status, profile_picture }) => ({
         key: invoice_id, // Using invoice_id as the key for each row
         invoice_id,
@@ -96,11 +108,9 @@ const TenantDocuments = () => {
                     </div>
 
                     {/* Add Request Button - responsive size and padding */}
-                    <div className="flex justify-start md:justify-end">
-                        <button className="flex items-center px-3 py-4 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 active:bg-blue-700">
-                            <span className="hidden sm:inline">Add Maintenance Request</span>
-                            <Plus className="w-3 h-3 sm:w-4 sm:h-4 ml-1 sm:mr-2" />
-                            <span className="inline sm:hidden">Add Request</span>
+                    <div className="flex justify-between">
+                        <button onClick={open} className="flex items-center py-5 px-6 bg-gradient-to-l to-[#4A90E2] from-[#1565C0] active:translate-y-0.5 duration-150 text-white rounded-md font-bold">
+                            <Plus className="text-xl" />
                         </button>
                     </div>
                 </div>
@@ -124,7 +134,11 @@ const TenantDocuments = () => {
                     />
                 </div>
             </div>
-
+            {
+                isOpen && (
+                    <DocumentForm close={close} />
+                )
+            }
             {/* Footer */}
             <footer className="mt-8 text-center text-sm text-gray-500">
                 &copy; 2024 Copyright - All rights reserved
