@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { Select, Table, Tag, Button } from 'antd';
-import { dummyData } from '../../../testJson/testJson';
+import { Select, Table } from 'antd';
 import adminApi from '../../../redux/fetures/admin/adminApi';
 import { FaAngleRight } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
