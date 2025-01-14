@@ -17,6 +17,10 @@ const PropertyDetails = () => {
   const property = data?.data?.property;
   const allUnits = data?.data?.allUnits;
 
+  // console.log(property?.ownerId.numberOfTotalUnits);
+  console.log(allUnits);
+  
+
   const currentTenant = allUnits?.filter(item => item.booked === true )
   
   const tableData = allUnits?.map(({
@@ -155,14 +159,27 @@ const PropertyDetails = () => {
           </p>
 
           <div className="mt-8 text-[1rem]">
+
             <div className="flex justify-between py-2 ">
               <p>Total Unit</p>
-              <p className="font-semibold "> {property?.numberOfUnits} </p>
+              <p className="font-semibold "> {property?.ownerId.numberOfTotalUnits} </p>
             </div>
+
+            <div className="flex justify-between py-2 ">
+              <p>Total Booked Unit</p>
+              <p className="font-semibold "> {property?.ownerId.bookedUnitNumber} </p>
+            </div>
+
             <div className="flex justify-between py-2 ">
               <p>Total Rent</p>
-              <p className="font-semibold ">$ {property?.totalRent} </p>
+              <p className="font-semibold ">$ {property?.ownerId.totalAmount} </p>
             </div>
+
+            <div className="flex justify-between py-2 ">
+              <p>Total Rented Amount</p>
+              <p className="font-semibold ">$ {property?.ownerId.totalRentAmount} </p>
+            </div>
+
             <div className="flex justify-between py-2 ">
               <p>Current Tenants</p>
               <p className="font-semibold ">{currentTenant?.length} </p>

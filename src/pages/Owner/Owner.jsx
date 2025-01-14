@@ -2,6 +2,9 @@ import { Select, Table, Tag } from "antd";
 import DashboardChart from "../../components/AdminComponents/DashboardChart";
 import { dashboardCounterObject } from "../../testJsonData/testJson";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../redux/fetures/auth/authSlice";
+import ownerApi from "../../redux/fetures/owner/ownerApi";
 
 const OwnerDashboard = () => {
   const [pageSize, setPageSize] = useState(10);
@@ -9,7 +12,47 @@ const OwnerDashboard = () => {
   const handlePageSizeChange = (current, size) => {
     setPageSize(size);
   };
-  
+  const currentUser = useSelector(selectCurrentUser);
+  const { data } = ownerApi.useGetSingleOwnerAllPropertiesQuery(currentUser?.userId);
+
+
+  console.log(data?.data);
+
+
+  const tableData = data?.data?.map(({
+    Description,
+    amenities,
+    availableParking,
+    createdAt,
+    houseNumber,
+    maintainerName,
+    numberOfUnits,
+    ownerId,
+    propertyImages,
+    propertyLocation,
+    propertyName,
+    totalRent,
+    updatedAt,
+    _id,
+  }) => ({
+    key: _id,
+    Description,
+    amenities,
+    availableParking,
+    createdAt,
+    houseNumber,
+    maintainerName,
+    numberOfUnits,
+    ownerId,
+    propertyImages,
+    propertyLocation,
+    propertyName,
+    totalRent,
+    updatedAt,
+  }));
+
+
+
   const columns = [
     {
       title: "Name",
@@ -32,8 +75,8 @@ const OwnerDashboard = () => {
             status === "pending"
               ? "orange"
               : status === "complete"
-              ? "green"
-              : "red"
+                ? "green"
+                : "red"
           }
           style={{ textTransform: "capitalize" }}
         >
@@ -42,7 +85,7 @@ const OwnerDashboard = () => {
       ),
     },
   ];
-  const data = [
+  const data2 = [
     {
       key: 1,
       name: `Edward King `,
@@ -109,7 +152,7 @@ const OwnerDashboard = () => {
           <div>
             <h1 className="clamp-text font-semibold my-5">
               {" "}
-              Recently Added Properties{" "}
+              Recent Payments{" "}
             </h1>
           </div>{" "}
           <div>
@@ -139,7 +182,7 @@ const OwnerDashboard = () => {
 
         <Table
           columns={columns}
-          dataSource={data}
+          dataSource={data2}
           scroll={{ x: 800 }}
           pagination={{
             pageSize: pageSize,
