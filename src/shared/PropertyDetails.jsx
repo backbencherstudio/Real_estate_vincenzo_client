@@ -187,7 +187,7 @@ const PropertyDetails = () => {
 
             <div className="flex justify-between py-2 ">
               <p>Total Unit</p>
-              <p className="font-semibold "> {property?.ownerId?.numberOfTotalUnits | 0} </p>
+              <p className="font-semibold "> {property?.numberOfUnits | 0} </p>
             </div>
 
             <div className="flex justify-between py-2 ">
