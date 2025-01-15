@@ -3,7 +3,6 @@ import { baseApi } from "../../api/baseApi";
 const adminApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     
-
     getALlUser: builder.query({
       query: (role) => {
         return {
@@ -32,6 +31,16 @@ const adminApi = baseApi.injectEndpoints({
         }
       },
       providesTags: ["tenants"],
+    }),
+
+    getSingleOwnerAllPropertiesWithOwnerInfo: builder.query({
+      query: (id) => {
+        return {
+            url: `/admin/getSingleOwnerAllPropertiesWithOwnerInfo/${id}`,
+            method: "GET",
+        };
+    },
+    providesTags: ["owner", "properties"],
     }),
 
     
