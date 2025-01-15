@@ -14,6 +14,18 @@ const ownerApi = baseApi.injectEndpoints({
     providesTags: ["owner", "properties"],
     }),
 
+    getSingleOwnerAllTenants : builder.query({
+      query : (id)=>{
+        return {
+          url : `/owner/unit/${id}`,
+          method :"GET"
+        }
+      },
+      providesTags : ["tenants"]
+    })
+
+
+
     
   }),
 });

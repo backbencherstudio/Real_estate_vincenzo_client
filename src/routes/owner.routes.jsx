@@ -47,7 +47,7 @@ export const ownerPaths = [
         icon: <TeamOutlined />,
       },
       {
-        path: "tenants/:id",
+        path: "tenant/:id",
         element: <TenantDetails />,
         icon: <TeamOutlined />,
       },

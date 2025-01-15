@@ -1,67 +1,75 @@
-import { Tag } from "antd";
 import CustomTable from "../../../shared/CustomTable";
-import adminApi from "../../../redux/fetures/admin/adminApi";
+import ownerApi from "../../../redux/fetures/owner/ownerApi";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../../redux/fetures/auth/authSlice";
+import { FaAngleRight } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 
 const Tenants = () => {
 
-  const { data: tenantData } = adminApi.useGetALlUserQuery("tenant");
+  const currentUser = useSelector(selectCurrentUser)
+  const { data: tenantData } = ownerApi.useGetSingleOwnerAllTenantsQuery(currentUser?.userId)
+  const navigate = useNavigate() 
 
-  console.log(tenantData?.data);
-  
+  const tableData = tenantData?.data?.map(({
+    _id,
+    userId,
+    propertyId,
+    unitId
+  }) => ({
+    key: _id,
+    name: userId.name,
+    contactNumber: userId?.personalInfo?.contactNumber | 0,
+    propertyName: propertyId.propertyName,
+    unitNumber: unitId.unitNumber,
+    rent: unitId.rent,
+
+  }));
+
+  const handleNavigate = (id) => {
+    navigate(`/${currentUser?.role}/tenant/${id}`);
+  };
+
 
   const columns = [
     {
-      title: "Name",
+      title: "SL",
+      dataIndex: "sl",
+      render: (text, record, index) => index + 1
+    },
+    {
+      title: "Tenant Name",
       dataIndex: "name",
     },
     {
-      title: "Age",
-      dataIndex: "age",
+      title: "Property Name",
+      dataIndex: "propertyName",
     },
     {
-      title: "Address",
-      dataIndex: "address",
+      title: "Unit",
+      dataIndex: "unitNumber"
     },
     {
-      title: "Status",
-      dataIndex: "status",
-      render: (status) => (
-        <Tag
-          color={
-            status === "pending"
-              ? "orange"
-              : status === "complete"
-              ? "green"
-              : "red"
-          }
-          style={{ textTransform: "capitalize" }}
-        >
-          {status}
-        </Tag>
+      title: "Current Rent",
+      dataIndex: "rent"
+    },
+    {
+      title: "Contact Number",
+      dataIndex: "contactNumber",
+    },
+    {
+      title: "Details",
+      dataIndex: "details",
+      render: (text, record) => (
+        <div>
+          <span
+            onClick={() => handleNavigate(record?.key)}
+            className="text-[#4A90E2] flex items-center cursor-pointer"
+          >
+            Details <FaAngleRight className="text-[18px] ml-1" />
+          </span>
+        </div>
       ),
-    },
-  ];
-  const data = [
-    {
-      key: 1,
-      name: `Edward King `,
-      age: 32,
-      address: `London, Park Lane no. `,
-      status: "pending",
-    },
-    {
-      key: 1,
-      name: `Edward King `,
-      age: 32,
-      address: `London, Park Lane no. `,
-      status: "cancel",
-    },
-    {
-      key: 1,
-      name: `Edward King `,
-      age: 32,
-      address: `London, Park Lane no. `,
-      status: "complete",
     },
   ];
 
@@ -83,7 +91,7 @@ const Tenants = () => {
       <CustomTable
         title={"Recently Added Tenants"}
         columns={columns}
-        data={data}
+        data={tableData}
       />
     </div>
   );
