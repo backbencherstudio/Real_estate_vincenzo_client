@@ -54,14 +54,34 @@ const AddProperties = () => {
   };
 
   const onSubmit = (data) => {
-    if (images.length === 0) {
-      message.error("Please upload at least one image.");
-      return;
-    }
+    const propertyData = {
+      propertyData: {
+        ownerId: "6784e71e8335ec04cefd64d6",
+        propertyName: data?.propertyName,
+        Description: data?.description,
+        amenities: data?.amenities,
+        availableParking: data?.parking === "yes" ? true : false,
+        propertyLocation: {
+          country: data?.country,
+          state: data?.state,
+          city: data?.city,
+          address: data?.address,
+          zipCode: data?.zipCode,
+        },
+        propertyImages: [],
+        maintainerName: "Sr sohan ",
+        houseNumber: "F-204",
+      },
+    };
+    console.log(propertyData);
 
-    console.log(data);
-    reset();
-    message.success("Property added successfully!");
+    // if (images.length === 0) {
+    //   message.error("Please upload at least one image.");
+    //   return;
+    // }
+
+    // reset();
+    // message.success("Property added successfully!");
   };
 
   return (
@@ -85,19 +105,29 @@ const AddProperties = () => {
           <h2 className="sub-heading">Property Information</h2>
           <Row gutter={[16]} className="mt-8">
             {/* Property Name */}
-            <Col xs={24} sm={24} md={12}>
+            <Col xs={24} sm={24} md={8}>
               <Form.Item required>
-                <div className="relative">
-                  <input
-                    name="propertyName"
-                    type="text"
-                    placeholder="Property Name*"
-                    className="peer w-full px-3 py-3 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
-                  />
-                  <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
-                    Property Name
-                  </label>
-                </div>
+                <Controller
+                  name="propertyName"
+                  control={control}
+                  defaultValue=""
+                  rules={{
+                    required: "Property Name is required",
+                  }}
+                  render={({ field }) => (
+                    <div className="relative">
+                      <input
+                        {...field}
+                        type="text"
+                        placeholder="Property Name"
+                        className="peer w-full px-3 py-3 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
+                      />
+                      <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
+                        Property Name
+                      </label>
+                    </div>
+                  )}
+                />
                 {errors.propertyName && (
                   <p className="text-red-500">{errors.propertyName.message}</p>
                 )}
@@ -105,35 +135,59 @@ const AddProperties = () => {
             </Col>
 
             {/* Number of Units */}
-            <Col xs={24} sm={24} md={12}>
+            <Col xs={24} sm={24} md={8}>
               <Form.Item required>
                 <Controller
-                  name="numberOfUnits"
+                  name="maintainerName"
                   control={control}
                   defaultValue=""
                   rules={{
-                    required: "Number of units is required",
-                    pattern: {
-                      value: /^[0-9]*$/,
-                      message: "Please enter a valid number",
-                    },
+                    required: "Maintainer Name is required",
                   }}
                   render={({ field }) => (
                     <div className="relative">
                       <input
                         {...field}
-                        type="number"
-                        placeholder="Write Number of Units...."
+                        placeholder="Write Maintainer Name...."
                         className="peer w-full px-3 py-3 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
                       />
                       <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
-                        Number of Units
+                        Maintainer Name
                       </label>
                     </div>
                   )}
                 />
-                {errors.numberOfUnits && (
-                  <p className="text-red-500">{errors.numberOfUnits.message}</p>
+                {errors.maintainerName && (
+                  <p className="text-red-500">
+                    {errors.maintainerName.message}
+                  </p>
+                )}
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={24} md={8}>
+              <Form.Item required>
+                <Controller
+                  name="houseNo"
+                  control={control}
+                  defaultValue=""
+                  rules={{
+                    required: "House No is required",
+                  }}
+                  render={({ field }) => (
+                    <div className="relative">
+                      <input
+                        {...field}
+                        placeholder="Write House No...."
+                        className="peer w-full px-3 py-3 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
+                      />
+                      <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
+                        House No
+                      </label>
+                    </div>
+                  )}
+                />
+                {errors.houseNo && (
+                  <p className="text-red-500">{errors.houseNo.message}</p>
                 )}
               </Form.Item>
             </Col>
@@ -329,6 +383,60 @@ const AddProperties = () => {
                 />
                 {errors.city && (
                   <p className="text-red-500">{errors.city.message}</p>
+                )}
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={[16]} className="mt-2">
+            <Col xs={24} sm={12} md={12}>
+              <Form.Item required>
+                <Controller
+                  name="address"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: "Address is required" }}
+                  render={({ field }) => (
+                    <div className="relative">
+                      <input
+                        {...field}
+                        placeholder="Write Address"
+                        className="peer w-full px-3 py-3 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
+                      />
+                      <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
+                        Address
+                      </label>
+                    </div>
+                  )}
+                />
+                {errors.address && (
+                  <p className="text-red-500">{errors.address.message}</p>
+                )}
+              </Form.Item>
+            </Col>
+
+            <Col xs={24} sm={12} md={12}>
+              <Form.Item required>
+                <Controller
+                  name="zipCode"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: "Zip Code is required" }}
+                  render={({ field }) => (
+                    <div className="relative">
+                      <input
+                        {...field}
+                        type="number"
+                        placeholder="Write Zip Code"
+                        className="peer w-full px-3 py-3 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
+                      />
+                      <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
+                        Zip Code
+                      </label>
+                    </div>
+                  )}
+                />
+                {errors.zipCode && (
+                  <p className="text-red-500">{errors.zipCode.message}</p>
                 )}
               </Form.Item>
             </Col>
