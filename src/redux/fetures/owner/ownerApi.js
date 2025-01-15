@@ -2,7 +2,18 @@ import { baseApi } from "../../api/baseApi";
 
 const ownerApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    
+
+      
+    createProperty: builder.mutation({
+      query: (propertyData) => {
+        return {
+            url: "/owner/create-properties",
+            method: "GET",
+            body : propertyData
+        };
+    },
+    providesTags: ["properties"],
+    }),
 
     getSingleOwnerAllProperties: builder.query({
       query: (id) => {
@@ -11,7 +22,7 @@ const ownerApi = baseApi.injectEndpoints({
             method: "GET",
         };
     },
-    providesTags: ["owner", "properties"],
+    providesTags: ["owner"],
     }),
 
     getSingleOwnerAllTenants : builder.query({

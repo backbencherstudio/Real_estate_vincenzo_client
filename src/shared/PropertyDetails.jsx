@@ -162,22 +162,22 @@ const PropertyDetails = () => {
 
             <div className="flex justify-between py-2 ">
               <p>Total Unit</p>
-              <p className="font-semibold "> {property?.ownerId.numberOfTotalUnits} </p>
+              <p className="font-semibold "> {property?.ownerId?.numberOfTotalUnits} </p>
             </div>
 
             <div className="flex justify-between py-2 ">
               <p>Total Booked Unit</p>
-              <p className="font-semibold "> {property?.ownerId.bookedUnitNumber} </p>
+              <p className="font-semibold "> {property?.ownerId?.bookedUnitNumber} </p>
             </div>
 
             <div className="flex justify-between py-2 ">
               <p>Total Rent</p>
-              <p className="font-semibold ">$ {property?.ownerId.totalAmount} </p>
+              <p className="font-semibold ">$ {property?.ownerId?.totalAmount} </p>
             </div>
 
             <div className="flex justify-between py-2 ">
               <p>Total Rented Amount</p>
-              <p className="font-semibold ">$ {property?.ownerId.totalRentAmount} </p>
+              <p className="font-semibold ">$ {property?.ownerId?.totalRentAmount} </p>
             </div>
 
             <div className="flex justify-between py-2 ">

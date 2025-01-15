@@ -5,8 +5,12 @@ import { countryData } from "../../../data/data";
 import { MdDelete } from "react-icons/md";
 import { IoCloudUploadOutline } from "react-icons/io5";
 import { FaAngleRight } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../../redux/fetures/auth/authSlice";
+import ownerApi from "../../../redux/fetures/owner/ownerApi";
 
 const AddProperties = () => {
+  const currentUser = useSelector(selectCurrentUser)
   const {
     control,
     handleSubmit,
@@ -16,6 +20,8 @@ const AddProperties = () => {
   const [countryOptions, setCountryOptions] = useState([]);
   const [images, setImages] = useState([]);
   const [updateImageIndex, setUpdateImageIndex] = useState(null);
+
+  const [createProperty] = ownerApi.useCreatePropertyMutation()
 
   // Handle Image Upload
   const handleImageUpload = (e) => {
@@ -53,10 +59,13 @@ const AddProperties = () => {
     }
   };
 
-  const onSubmit = (data) => {
+
+
+  const onSubmit = async(data) => {
+
     const propertyData = {
       propertyData: {
-        ownerId: "6784e71e8335ec04cefd64d6",
+        ownerId: currentUser?.userId ,
         propertyName: data?.propertyName,
         Description: data?.description,
         amenities: data?.amenities,
@@ -68,12 +77,16 @@ const AddProperties = () => {
           address: data?.address,
           zipCode: data?.zipCode,
         },
-        propertyImages: [],
-        maintainerName: "Sr sohan ",
-        houseNumber: "F-204",
+        propertyImages: images,
+        maintainerName: data?.maintainerName,
+        houseNumber: data?.houseNo,
       },
     };
     console.log(propertyData);
+
+    const responsr = await createProperty(propertyData)
+
+    console.log(responsr);
 
     // if (images.length === 0) {
     //   message.error("Please upload at least one image.");
