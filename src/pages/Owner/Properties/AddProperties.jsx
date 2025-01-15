@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Form, Button, Row, Col, Select, AutoComplete, message } from "antd";
+import { Form, Button, Row, Col, Select, AutoComplete, Spin } from "antd";
 import { Controller, useForm } from "react-hook-form";
 import { countryData } from "../../../data/data";
 import { MdDelete } from "react-icons/md";
@@ -8,6 +8,7 @@ import { FaAngleRight } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../../redux/fetures/auth/authSlice";
 import ownerApi from "../../../redux/fetures/owner/ownerApi";
+import { toast } from "sonner";
 
 const AddProperties = () => {
   const currentUser = useSelector(selectCurrentUser)
@@ -21,9 +22,8 @@ const AddProperties = () => {
   const [images, setImages] = useState([]);
   const [updateImageIndex, setUpdateImageIndex] = useState(null);
 
-  const [createProperty] = ownerApi.useCreatePropertyMutation()
+  const [createProperty, {isLoading}] = ownerApi.useCreatePropertyMutation()
 
-  // Handle Image Upload
   const handleImageUpload = (e) => {
     e.stopPropagation();
     const files = Array.from(e.target.files);
@@ -59,43 +59,34 @@ const AddProperties = () => {
     }
   };
 
-
-
-  const onSubmit = async(data) => {
-
-    const propertyData = {
-      propertyData: {
-        ownerId: currentUser?.userId ,
-        propertyName: data?.propertyName,
-        Description: data?.description,
-        amenities: data?.amenities,
-        availableParking: data?.parking === "yes" ? true : false,
-        propertyLocation: {
-          country: data?.country,
-          state: data?.state,
-          city: data?.city,
-          address: data?.address,
-          zipCode: data?.zipCode,
-        },
-        propertyImages: images,
-        maintainerName: data?.maintainerName,
-        houseNumber: data?.houseNo,
-      },
-    };
-    console.log(propertyData);
-
-    const responsr = await createProperty(propertyData)
-
-    console.log(responsr);
-
-    // if (images.length === 0) {
-    //   message.error("Please upload at least one image.");
-    //   return;
-    // }
-
-    // reset();
-    // message.success("Property added successfully!");
+  const onSubmit = async (data) => {
+    const formData = new FormData();
+    formData.append('ownerId', currentUser?.userId);
+    formData.append('propertyName', data?.propertyName);
+    formData.append('Description', data?.description);
+    formData.append('amenities', data?.amenities);
+    formData.append('availableParking', data?.parking === 'yes');
+    formData.append('maintainerName', data?.maintainerName);
+    formData.append('houseNumber', data?.houseNo);
+    formData.append(
+      'propertyLocation',
+      JSON.stringify({
+        country: data?.country,
+        state: data?.state,
+        city: data?.city,
+        address: data?.address,
+        zipCode: data?.zipCode,
+      })
+    );  
+    images.forEach((file) => formData.append('propertyImages', file));
+    const response = await createProperty(formData);
+    if(response?.data?.success){
+      reset();
+      setImages([]);
+      toast.success(response?.data?.message)
+    }
   };
+  
 
   return (
     <div>
@@ -508,7 +499,9 @@ const AddProperties = () => {
                hover:shadow mt-6"
               htmlType="submit"
             >
-              Submit
+              {
+                isLoading ?  <Spin size="large" /> : "Submit"
+              }
               <FaAngleRight />{" "}
             </Button>
           </div>

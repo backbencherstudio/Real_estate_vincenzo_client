@@ -3,18 +3,6 @@ import { baseApi } from "../../api/baseApi";
 const ownerApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
 
-      
-    createProperty: builder.mutation({
-      query: (propertyData) => {
-        return {
-            url: "/owner/create-properties",
-            method: "GET",
-            body : propertyData
-        };
-    },
-    providesTags: ["properties"],
-    }),
-
     getSingleOwnerAllProperties: builder.query({
       query: (id) => {
         return {
@@ -22,7 +10,7 @@ const ownerApi = baseApi.injectEndpoints({
             method: "GET",
         };
     },
-    providesTags: ["owner"],
+    providesTags: ["properties"],
     }),
 
     getSingleOwnerAllTenants : builder.query({
@@ -33,7 +21,29 @@ const ownerApi = baseApi.injectEndpoints({
         }
       },
       providesTags : ["tenants"]
-    })
+    }),
+
+    createProperty: builder.mutation({
+      query: (propertyData) => {        
+        return {
+            url: "/owner/create-properties",
+            method: "POST",
+            body : propertyData
+        };
+    },
+    invalidatesTags: ["properties"],
+    }),
+    
+    createUnit: builder.mutation({
+      query: (unitData) => {        
+        return {
+            url: "/owner/create-unit",
+            method: "POST",
+            body : unitData
+        };
+    },
+    invalidatesTags: ["properties"],
+    }),
 
 
 

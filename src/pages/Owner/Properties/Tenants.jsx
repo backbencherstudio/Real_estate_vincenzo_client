@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 const Tenants = () => {
 
   const currentUser = useSelector(selectCurrentUser)
-  const { data: tenantData } = ownerApi.useGetSingleOwnerAllTenantsQuery(currentUser?.userId)
+  const { data: tenantData, isLoading } = ownerApi.useGetSingleOwnerAllTenantsQuery(currentUser?.userId)
   const navigate = useNavigate() 
 
   const tableData = tenantData?.data?.map(({
@@ -92,6 +92,7 @@ const Tenants = () => {
         title={"Recently Added Tenants"}
         columns={columns}
         data={tableData}
+        loading={isLoading}
       />
     </div>
   );
