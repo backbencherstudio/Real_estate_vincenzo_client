@@ -8,10 +8,8 @@ const HomeDetails = ({ homeDetails }) => {
     Description,
     propertyLocation,
     numberOfUnits,
-    maintainerName,
     houseNumber,
     availableParking,
-    amenities,
   } = homeDetails;
 
   return (
@@ -37,13 +35,13 @@ const HomeDetails = ({ homeDetails }) => {
         <div className="flex items-center text-lg mb-6">
           <MapPin className="w-5 h-5 mr-2 text-blue-600" />
           <span className="">
-            {`${propertyLocation.address}, ${propertyLocation.city}, ${propertyLocation.state} ${propertyLocation.zipCode}, ${propertyLocation.country}`}
+            {`${propertyLocation?.address}, ${propertyLocation?.city}, ${propertyLocation?.state} ${propertyLocation?.zipCode}, ${propertyLocation?.country}`}
           </span>
         </div>
 
         {/* Additional Details */}
         <div className="space-y-4">
-          <DetailRow label="Tenant Name" value={maintainerName || 'N/A'} />
+          {/* <DetailRow label="Tenant Name" value={maintainerName || 'N/A'} /> */}
           <DetailRow label="House Number" value={houseNumber || 'N/A'} />
           <DetailRow label="Number of Units" value={numberOfUnits || 'N/A'} />
           <DetailRow label="Available Parking" value={availableParking ? "Yes" : "No"} />

@@ -13,9 +13,9 @@ const TenantDetails = () => {
     const {id} = useParams()
     const {data} = sharedApi.useGetSingleTenantDetailseQuery(id)
 
-    console.log(data?.data);
-    console.log("gg",data?.data?.userId);
-    console.log("ggwp",data?.data?.propertyId);
+    console.log(data);
+    // console.log("gg",data?.data?.userId);
+    // console.log("ggwp",data?.data?.propertyId);
     
 
     const tabs = [
@@ -89,7 +89,7 @@ const TenantDetails = () => {
 
             {/* Profile Section */}
             {activeTab === 'profile' && (
-                <ProfileInformation personalInfo={data?.data?.userId} addressInfo={data?.data?.userId} />
+                <ProfileInformation personalInfo={data?.data?.userId} addressInfo={data?.data?.userId?.permanentAddress} />
             )}
 
             {/* Other tabs content */}

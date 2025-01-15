@@ -14,8 +14,8 @@ const ProfileInformation = ({ personalInfo = {}, addressInfo = {} }) => {
                     />
                 </div>
                 <div className="flex-grow">
-                    <h2 className="text-xl font-semibold">Chrispher</h2>
-                    <p className="text-gray-500">Chrispher@gmail.com</p>
+                    <h2 className="text-xl font-semibold">{personalInfo?.name}</h2>
+                    <p className="text-gray-500">{personalInfo?.email}</p>
                 </div>
             </div>
 
@@ -43,8 +43,8 @@ const ProfileInformation = ({ personalInfo = {}, addressInfo = {} }) => {
                 {/* Permanent Address */}
                 <div className="space-y-4">
                     <h3 className="text-lg font-semibold mb-4">Permanent Address</h3>
-                    {addressInfo.permanentAddress ? (
-                        Object.entries(addressInfo.permanentAddress).map(([key, value]) => (
+                    {addressInfo ? (
+                        Object.entries(addressInfo).map(([key, value]) => (
                             <div key={key} className="flex flex-col sm:flex-row sm:justify-between pb-2">
                                 <span className="text-gray-600 capitalize mb-1 sm:mb-0">
                                     {key.replace(/([A-Z])/g, ' $1').trim()}

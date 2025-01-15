@@ -1,12 +1,95 @@
 import ProfileInformation from '../../../components/TenantDetailsTabs/ProfileInformation';
 import { useState } from 'react';
-import { Select, Table, Tag } from 'antd';
-import { dummyData } from '../../../testJson/testJson';
+import { Select, Table } from 'antd';
 import { CircleX, Mail, MoreVertical } from 'lucide-react';
+import { useNavigate, useParams } from 'react-router-dom';
+import adminApi from '../../../redux/fetures/admin/adminApi';
+import { FaAngleRight } from 'react-icons/fa6';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from '../../../redux/fetures/auth/authSlice';
 
 const OwnerDetails = () => {
     const [pageSize, setPageSize] = useState(10);
     const [showMenu, setShowMenu] = useState(false);
+    const { id } = useParams();
+    const { data } = adminApi.useGetSingleOwnerAllPropertiesWithOwnerInfoQuery(id)
+    const navigate = useNavigate();
+    const currentUser = useSelector(selectCurrentUser);
+
+    const handleNavigate = (id) => {
+        navigate(`/${currentUser?.role}/properties/${id}`);
+    };
+
+    const ownerData = data?.data.ownerData[0];
+    const properties = data?.data.properties;
+
+    console.log("Hello from details",ownerData);
+    console.log("Hello from details",ownerData?.permanentAddress);
+    console.log(properties);
+
+    const tableData = properties?.map(({
+        propertyName,
+        numberOfBookedUnits,
+        numberOfUnits,
+        totalRent,
+        totalBookedRent,
+        Description,
+        _id,
+    }) => ({
+        key: _id,
+        propertyName,
+        numberOfBookedUnits,
+        numberOfUnits,
+        totalRent,
+        totalBookedRent,
+        Description,
+    }));
+
+    const columns = [
+        {
+            title: "SL",
+            dataIndex: "sl",
+            render: (text, record, index) => index + 1
+        },
+        {
+            title: "Property Name",
+            dataIndex: "propertyName",
+        },
+        {
+            title: "Total Rent",
+            dataIndex: "totalRent",
+        },
+        {
+            title: "Total Booked Rent",
+            dataIndex: "totalBookedRent",
+        },
+        {
+            title: "Description",
+            dataIndex: "Description",
+            render: (text) => {
+                if (!text) return "-";
+                const words = text.split(" ");
+                const truncated = words.slice(0, 5).join(" ");
+                return words.length > 5 ? `${truncated}...` : text;
+            },
+        },
+        {
+            title: "Details",
+            dataIndex: "details",
+            render: (text, record) => (
+                <div>
+                    <span
+                        onClick={() => handleNavigate(record?.key)}
+                        className="text-[#4A90E2] flex items-center cursor-pointer"
+                    >
+                        Details <FaAngleRight className="text-[18px] ml-1" />
+                    </span>
+                </div>
+            ),
+        },
+    ];
+
+
 
 
     const handlePageSizeChange = (current, size) => {
@@ -29,38 +112,7 @@ const OwnerDetails = () => {
         zipCode: '1216',
         country: 'United State'
     };
-    const columns = [
-        {
-            title: "Name",
-            dataIndex: "name",
-        },
-        {
-            title: "Age",
-            dataIndex: "age",
-        },
-        {
-            title: "Address",
-            dataIndex: "address",
-        },
-        {
-            title: "Status",
-            dataIndex: "status",
-            render: (status) => (
-                <Tag
-                    color={
-                        status === "pending"
-                            ? "orange"
-                            : status === "complete"
-                                ? "green"
-                                : "red"
-                    }
-                    style={{ textTransform: "capitalize" }}
-                >
-                    {status}
-                </Tag>
-            ),
-        },
-    ];
+
 
     const onChange = (value) => {
         console.log(`selected ${value}`);
@@ -101,8 +153,8 @@ const OwnerDetails = () => {
             </div>
             <div className="">
                 <ProfileInformation
-                    personalInfo={personalInfo}
-                    addressInfo={addressInfo}
+                    personalInfo={ownerData}
+                    addressInfo={ownerData?.permanentAddress}
                 />
             </div>
 
@@ -138,7 +190,7 @@ const OwnerDetails = () => {
 
                 <Table
                     columns={columns}
-                    dataSource={dummyData}
+                    dataSource={tableData}
                     scroll={{ x: 800 }}
                     pagination={{
                         pageSize: pageSize,

@@ -2,34 +2,19 @@ import { baseApi } from "../../api/baseApi";
 
 const ownerApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getALlUser: builder.query({
-      query: (role) => {
+    
+
+    getSingleOwnerAllProperties: builder.query({
+      query: (id) => {
         return {
-          url: `/auth/allUsers?role=${role}`,
-          method: "GET",
+            url: `/owner/${id}`,
+            method: "GET",
         };
-      },
-      providesTags: ["user"],
+    },
+    providesTags: ["owner", "properties"],
     }),
 
-    getAllOwnerProperties: builder.query({
-      query: () => {
-        return {
-          url: `/owner/6784e70a816561d1eea5cf95`,
-          method: "GET",
-        };
-      },
-      providesTags: ["properties"],
-    }),
-    getOwnerTenants: builder.query({
-      query: () => {
-        return {
-          url: `/owner/unit/6784e70a816561d1eea5cf95`,
-          method: "GET",
-        };
-      },
-      providesTags: ["tenants"],
-    }),
+    
   }),
 });
 
