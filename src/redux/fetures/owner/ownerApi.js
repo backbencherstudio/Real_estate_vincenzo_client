@@ -45,6 +45,19 @@ const ownerApi = baseApi.injectEndpoints({
     invalidatesTags: ["properties"],
     }),
 
+    createTenant: builder.mutation({
+      query: (tenantData) => {        
+        return {
+            url: "/owner/create-tenant",
+            method: "POST",
+            body : tenantData
+        };
+    },
+    invalidatesTags: ["properties"],
+    }),
+
+
+
 
 
     

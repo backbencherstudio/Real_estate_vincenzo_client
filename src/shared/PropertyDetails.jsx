@@ -27,18 +27,18 @@ const PropertyDetails = () => {
     handleSubmit: handleSubmitUnit,
     reset: resetUnit,
     formState: { errors: errorsUnit }
-  } = useForm(); // This is for the first form (unit form)
+  } = useForm(); 
 
-  // For Tenant Form
   const {
     register: registerTenant,
     handleSubmit: handleSubmitTenant,
     reset: resetTenant,
     formState: { errors: errorsTenant }
-  } = useForm(); // This is for the second form (tenant form)
+  } = useForm(); 
 
 
   const [createUnit, { isLoading }] = ownerApi.useCreateUnitMutation();
+  const [createTenant, {isLoading : tenantIsLoading}] = ownerApi.useCreateTenantMutation();
 
   const [selectedImage, setSelectedImage] = useState(img);
   const { id } = useParams();
@@ -68,7 +68,12 @@ const PropertyDetails = () => {
       ...data,
       ...ids
     }
-    console.log("tenant data = ", tenantData);
+    const res = await createTenant(tenantData);
+    if (res.data.success) {
+      toast.success(res.data.message);
+      resetTenant();
+      setTenantModal2Open(false)
+    }
   }
 
   const tableData = allUnits?.map(({
@@ -566,7 +571,7 @@ const PropertyDetails = () => {
           hover:bg-gradient-to-t hover:from-blue-600 hover:to-blue-700
            hover:shadow" >
                 {
-                  isLoading ? <Spin size="large" /> : "Add Tenant"
+                  tenantIsLoading ? <Spin size="large" /> : "Add Tenant"
                 }
               </button>
             </div>
