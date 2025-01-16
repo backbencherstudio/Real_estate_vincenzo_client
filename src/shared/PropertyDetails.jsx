@@ -14,12 +14,29 @@ import { toast } from "sonner";
 
 const PropertyDetails = () => {
   const [pageSize, setPageSize] = useState(10);
+
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   reset,
+  //   formState: { errors }
+  // } = useForm({});
+
   const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors }
-  } = useForm({});
+    register: registerUnit,
+    handleSubmit: handleSubmitUnit,
+    reset: resetUnit,
+    formState: { errors: errorsUnit }
+  } = useForm(); // This is for the first form (unit form)
+
+  // For Tenant Form
+  const {
+    register: registerTenant,
+    handleSubmit: handleSubmitTenant,
+    reset: resetTenant,
+    formState: { errors: errorsTenant }
+  } = useForm(); // This is for the second form (tenant form)
+
 
   const [createUnit, { isLoading }] = ownerApi.useCreateUnitMutation();
 
@@ -31,10 +48,27 @@ const PropertyDetails = () => {
   const property = data?.data?.property;
   const allUnits = data?.data?.allUnits;
 
-  console.log(property);
-
-
   // const currentTenant = allUnits?.filter(item => item.booked === true)
+  const [tenantModal2Open, setTenantModal2Open] = useState(false);
+  const [ids, setIds] =useState({})
+
+  const addTenantFun = (unitId, ownerId, propertyId) => {
+    const allIds = {
+      unitId,
+      ownerId,
+      propertyId
+    }
+    setTenantModal2Open(true)
+    setIds(allIds);
+  }
+
+  const onSubmitForTenant = async (data) => {
+    const tenantData = {
+      ...data,
+      ...ids
+    }
+    console.log("tenant data = ", tenantData);
+  }
 
   const tableData = allUnits?.map(({
     isSecurityDepositPay,
@@ -48,6 +82,8 @@ const PropertyDetails = () => {
     booked,
     createdAt,
     updatedAt,
+    ownerId,
+
   }) => ({
     key: _id,
     isSecurityDepositPay,
@@ -60,6 +96,7 @@ const PropertyDetails = () => {
     booked,
     createdAt,
     updatedAt,
+    ownerId
   }));
 
   const columns = [
@@ -111,7 +148,7 @@ const PropertyDetails = () => {
       dataIndex: "add tenant",
       render: (text, record) => (
         <div>
-          <button disabled={record.booked} className={ `font-semibold text-green-500 ${record.booked && "text-yellow-700 cursor-not-allowed" } `} >
+          <button onClick={() => addTenantFun(record.key, record.ownerId, record.propertyId)} disabled={record.booked} className={`font-semibold text-green-500 ${record.booked && "text-yellow-700 cursor-not-allowed"} `} >
             Add
           </button>
         </div>
@@ -132,19 +169,17 @@ const PropertyDetails = () => {
       propertyId: id,
       ownerId: currentUser?.userId
     }
-
     const res = await createUnit(unitData)
-
     if (res.data.success) {
       toast.success(res.data.message);
-      reset();
+      resetUnit();
       setModal2Open(false)
     }
 
   };
 
-
   const images = [img, img2, img3, img4];
+
   return (
     <div>
       <div>
@@ -241,23 +276,16 @@ const PropertyDetails = () => {
         </div>
       </div>
 
-
-
       <div className="bg-white p-5 mt-10 rounded-2xl">
         <div className="flex justify-between items-center">
-
           <div>
             <h1 className="clamp-text font-semibold my-5"> Property Details </h1>
           </div>{" "}
-
           <div>
-
             <Button type="primary" onClick={() => setModal2Open(true)}>
               Add Unit
             </Button>
-
           </div>
-
         </div>
 
         <Table
@@ -276,7 +304,6 @@ const PropertyDetails = () => {
       </div>
 
       <Modal
-
         centered
         open={modal2Open}
         footer={null}
@@ -285,23 +312,21 @@ const PropertyDetails = () => {
       >
         <div className="p-5" >
           <h2 className="text-2xl" >Unit Information</h2>
-          <form onSubmit={handleSubmit(onSubmit)} className="mt-5">
+          <form onSubmit={handleSubmitUnit(onSubmit)} className="mt-5">
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6" >
-
-
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
                   Unit Number
                 </label>
                 <input
-                  {...register("unitNumber", { required: "Unit number is required" })}
+                  {...registerUnit("unitNumber", { required: "Unit number is required" })}
                   type="text"
                   className={`w-full p-2 border rounded-lg bg-white text-gray-600 
-              ${errors.unitNumber ? 'border-red-500' : 'border-gray-300'}`}
+              ${errorsUnit.unitNumber ? 'border-red-500' : 'border-gray-300'}`}
                 />
-                {errors.unitNumber && (
-                  <p className="text-red-500 text-sm mt-1">{errors.unitNumber.message}</p>
+                {errorsUnit.unitNumber && (
+                  <p className="text-red-500 text-sm mt-1">{errorsUnit.unitNumber.message}</p>
                 )}
               </div>
 
@@ -310,16 +335,16 @@ const PropertyDetails = () => {
                   Number of Bedroom
                 </label>
                 <input
-                  {...register("numberOfBedroom", {
+                  {...registerUnit("numberOfBedroom", {
                     required: "Number of bedrooms is required",
                     min: { value: 1, message: "Must be at least 1" }
                   })}
                   type="number"
                   className={`w-full p-2 border rounded-lg bg-white text-gray-600
-              ${errors.numberOfBedroom ? 'border-red-500' : 'border-gray-300'}`}
+              ${errorsUnit.numberOfBedroom ? 'border-red-500' : 'border-gray-300'}`}
                 />
-                {errors.numberOfBedroom && (
-                  <p className="text-red-500 text-sm mt-1">{errors.numberOfBedroom.message}</p>
+                {errorsUnit.numberOfBedroom && (
+                  <p className="text-red-500 text-sm mt-1">{errorsUnit.numberOfBedroom.message}</p>
                 )}
               </div>
 
@@ -328,16 +353,16 @@ const PropertyDetails = () => {
                   Number of Bathroom
                 </label>
                 <input
-                  {...register("numberOfBathroom", {
+                  {...registerUnit("numberOfBathroom", {
                     required: "Number of bathrooms is required",
                     min: { value: 1, message: "Must be at least 1" }
                   })}
                   type="number"
                   className={`w-full p-2 border rounded-lg bg-white text-gray-600
-              ${errors.numberOfBathroom ? 'border-red-500' : 'border-gray-300'}`}
+              ${errorsUnit.numberOfBathroom ? 'border-red-500' : 'border-gray-300'}`}
                 />
-                {errors.numberOfBathroom && (
-                  <p className="text-red-500 text-sm mt-1">{errors.numberOfBathroom.message}</p>
+                {errorsUnit.numberOfBathroom && (
+                  <p className="text-red-500 text-sm mt-1">{errorsUnit.numberOfBathroom.message}</p>
                 )}
               </div>
 
@@ -346,16 +371,16 @@ const PropertyDetails = () => {
                   Number of Kitchen
                 </label>
                 <input
-                  {...register("numberOfKitchen", {
+                  {...registerUnit("numberOfKitchen", {
                     required: "Number of kitchens is required",
                     min: { value: 1, message: "Must be at least 1" }
                   })}
                   type="number"
                   className={`w-full p-2 border rounded-lg bg-white text-gray-600
-              ${errors.numberOfKitchen ? 'border-red-500' : 'border-gray-300'}`}
+              ${errorsUnit.numberOfKitchen ? 'border-red-500' : 'border-gray-300'}`}
                 />
-                {errors.numberOfKitchen && (
-                  <p className="text-red-500 text-sm mt-1">{errors.numberOfKitchen.message}</p>
+                {errorsUnit.numberOfKitchen && (
+                  <p className="text-red-500 text-sm mt-1">{errorsUnit.numberOfKitchen.message}</p>
                 )}
               </div>
 
@@ -364,16 +389,16 @@ const PropertyDetails = () => {
                   Rent Amount
                 </label>
                 <input
-                  {...register("rent", {
+                  {...registerUnit("rent", {
                     required: "Rent amount is required",
                     min: { value: 0, message: "Must be a positive number" }
                   })}
                   type="number"
                   className={`w-full p-2 border rounded-lg bg-white text-gray-600
-              ${errors.rent ? 'border-red-500' : 'border-gray-300'}`}
+              ${errorsUnit.rent ? 'border-red-500' : 'border-gray-300'}`}
                 />
-                {errors.rent && (
-                  <p className="text-red-500 text-sm mt-1">{errors.rent.message}</p>
+                {errorsUnit.rent && (
+                  <p className="text-red-500 text-sm mt-1">{errorsUnit.rent.message}</p>
                 )}
               </div>
 
@@ -382,16 +407,16 @@ const PropertyDetails = () => {
                   Security Deposit
                 </label>
                 <input
-                  {...register("securityDeposit", {
+                  {...registerUnit("securityDeposit", {
                     required: "Security deposit is required",
                     min: { value: 0, message: "Must be a positive number" }
                   })}
                   type="number"
                   className={`w-full p-2 border rounded-lg bg-white text-gray-600
-              ${errors.securityDeposit ? 'border-red-500' : 'border-gray-300'}`}
+              ${errorsUnit.securityDeposit ? 'border-red-500' : 'border-gray-300'}`}
                 />
-                {errors.securityDeposit && (
-                  <p className="text-red-500 text-sm mt-1">{errors.securityDeposit.message}</p>
+                {errorsUnit.securityDeposit && (
+                  <p className="text-red-500 text-sm mt-1">{errorsUnit.securityDeposit.message}</p>
                 )}
               </div>
 
@@ -400,16 +425,16 @@ const PropertyDetails = () => {
                   Rent Type
                 </label>
                 <select
-                  {...register("rentType", { required: "Rent type is required" })}
+                  {...registerUnit("rentType", { required: "Rent type is required" })}
                   className={`w-full p-2 border rounded-lg bg-white text-gray-600
-              ${errors.rentType ? 'border-red-500' : 'border-gray-300'}`}
+              ${errorsUnit.rentType ? 'border-red-500' : 'border-gray-300'}`}
                 >
                   <option value="Weekly">Weekly</option>
                   <option value="Monthly">Monthly</option>
                   <option value="Yearly">Yearly</option>
                 </select>
-                {errors.rentType && (
-                  <p className="text-red-500 text-sm mt-1">{errors.rentType.message}</p>
+                {errorsUnit.rentType && (
+                  <p className="text-red-500 text-sm mt-1">{errorsUnit.rentType.message}</p>
                 )}
               </div>
 
@@ -418,16 +443,16 @@ const PropertyDetails = () => {
                   Late Fee
                 </label>
                 <input
-                  {...register("lateFee", {
+                  {...registerUnit("lateFee", {
                     required: "Late fee is required",
                     min: { value: 0, message: "Must be a positive number" }
                   })}
                   type="number"
                   className={`w-full p-2 border rounded-lg bg-white text-gray-600
-              ${errors.lateFee ? 'border-red-500' : 'border-gray-300'}`}
+              ${errorsUnit.lateFee ? 'border-red-500' : 'border-gray-300'}`}
                 />
-                {errors.lateFee && (
-                  <p className="text-red-500 text-sm mt-1">{errors.lateFee.message}</p>
+                {errorsUnit.lateFee && (
+                  <p className="text-red-500 text-sm mt-1">{errorsUnit.lateFee.message}</p>
                 )}
               </div>
 
@@ -436,15 +461,15 @@ const PropertyDetails = () => {
                   Payment Due Date
                 </label>
                 <input
-                  {...register("paymentDueDate", {
+                  {...registerUnit("paymentDueDate", {
                     required: "Payment due date is required"
                   })}
                   type="date"
                   className={`w-full p-2 border rounded-lg bg-white text-gray-600
-              ${errors.paymentDueDate ? 'border-red-500' : 'border-gray-300'}`}
+              ${errorsUnit.paymentDueDate ? 'border-red-500' : 'border-gray-300'}`}
                 />
-                {errors.paymentDueDate && (
-                  <p className="text-red-500 text-sm mt-1">{errors.paymentDueDate.message}</p>
+                {errorsUnit.paymentDueDate && (
+                  <p className="text-red-500 text-sm mt-1">{errorsUnit.paymentDueDate.message}</p>
                 )}
               </div>
 
@@ -457,6 +482,90 @@ const PropertyDetails = () => {
            hover:shadow" >
                 {
                   isLoading ? <Spin size="large" /> : "Add"
+                }
+              </button>
+            </div>
+
+          </form>
+        </div>
+
+      </Modal>
+
+
+      <Modal
+        centered
+        open={tenantModal2Open}
+        footer={null}
+        onCancel={() => setTenantModal2Open(false)}
+        width={1000}
+      >
+        <div className="p-5" >
+          <h2 className="text-2xl" >Tenant Information</h2>
+          <form onSubmit={handleSubmitTenant(onSubmitForTenant)} className="mt-5">
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6" >
+
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Name
+                </label>
+                <input
+                  {...registerTenant("name", { required: "Name is required" })}
+                  type="text"
+                  className={`w-full p-2 border rounded-lg bg-white text-gray-600 
+              ${errorsTenant.name ? 'border-red-500' : 'border-gray-300'}`}
+                />
+                {errorsTenant.name && (
+                  <p className="text-red-500 text-sm mt-1">{errorsTenant.name.message}</p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  email
+                </label>
+                <input
+                  {...registerTenant("email", {
+                    required: "Enter a valid email",
+                    min: { value: 1, message: "Must be at least 1" }
+                  })}
+                  type="email"
+                  className={`w-full p-2 border rounded-lg bg-white text-gray-600
+              ${errorsTenant.email ? 'border-red-500' : 'border-gray-300'}`}
+                />
+                {errorsTenant.email && (
+                  <p className="text-red-500 text-sm mt-1">{errorsTenant.email.message}</p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Password
+                </label>
+                <input
+                  {...registerTenant("password", {
+                    required: "Password is required",
+                    min: { value: 1, message: "Must be at least 1" }
+                  })}
+                  type="password"
+                  className={`w-full p-2 border rounded-lg bg-white text-gray-600
+              ${errorsTenant.password ? 'border-red-500' : 'border-gray-300'}`}
+                />
+                {errorsTenant.password && (
+                  <p className="text-red-500 text-sm mt-1">{errorsTenant.password.message}</p>
+                )}
+              </div>
+
+
+            </div>
+
+
+            <div className="flex justify-end" >
+              <button type="submit" className="text-[16px] px-9 py-2 rounded-md bg-gradient-to-t from-[#468ddf] to-[#1969c3] text-white font-medium 
+          hover:bg-gradient-to-t hover:from-blue-600 hover:to-blue-700
+           hover:shadow" >
+                {
+                  isLoading ? <Spin size="large" /> : "Add Tenant"
                 }
               </button>
             </div>
