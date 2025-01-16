@@ -1,38 +1,26 @@
 import { useForm } from 'react-hook-form';
 import { FaPlus } from "react-icons/fa6";
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from '../redux/fetures/auth/authSlice';
+import sharedApi from '../redux/fetures/sharedApi/sharedApi';
+import { useState } from 'react';
+import { toast } from 'sonner';
+import { Spin } from 'antd';
 
 const Profile = () => {
-    const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm();
+    const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm();
+    const [updateProfile, { isLoading }] = sharedApi.useUpdateProfileMutation();
+
 
     // Watch for image preview
+    const currentUser = useSelector(selectCurrentUser);
     const image = watch('image');
-
-    const onSubmit = (data) => {
-        const formattedData = {
-            personalInfo: {
-                contactNumber: data.contactNumber,
-                age: data.age,
-                familyMember: data.familyMember,
-                jobTitle: data.jobTitle,
-            },
-            permanentAddress: {
-                address: data.address,
-                city: data.city,
-                state: data.state,
-                zipCode: data.zipCode,
-                country: data.country
-            },
-            name: data.name,
-            email: data.email,
-            // profileImage : image
-        };
-
-        console.log("Formatted Form Data Submitted: ", formattedData);
-
-    };
+    const [imageFile, setImageFile] = useState()
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
+        setImageFile(file)
+
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
@@ -41,6 +29,62 @@ const Profile = () => {
             reader.readAsDataURL(file);
         }
     };
+
+    // const onSubmit = (data) => {
+    //     const formattedData = {
+    //         userId : currentUser.userId,
+    //         personalInfo: {
+    //             contactNumber: data.contactNumber,
+    //             age: data.age,
+    //             familyMember: data.familyMember,
+    //             jobTitle: data.jobTitle,
+    //         },
+    //         permanentAddress: {
+    //             address: data.address,
+    //             city: data.city,
+    //             state: data.state,
+    //             zipCode: data.zipCode,
+    //             country: data.country
+    //         },
+    //         name: data.name,
+    //         email: data.email,
+    //         profileImage : image
+    //     };
+
+    //     console.log("Formatted Form Data Submitted: ", formattedData);
+
+    // };
+
+    const onSubmit = async (data) => {
+        console.log(imageFile);
+
+        const formData = new FormData();
+
+        formData.append("userId", currentUser.userId);
+        formData.append("name", data.name);
+        formData.append("personalInfo[contactNumber]", data.contactNumber);
+        formData.append("personalInfo[age]", data.age);
+        formData.append("personalInfo[familyMember]", data.familyMember);
+        formData.append("personalInfo[jobTitle]", data.jobTitle);
+        formData.append("permanentAddress[address]", data.address);
+        formData.append("permanentAddress[city]", data.city);
+        formData.append("permanentAddress[state]", data.state);
+        formData.append("permanentAddress[zipCode]", data.zipCode);
+        formData.append("permanentAddress[country]", data.country);
+
+        if (imageFile) {
+            formData.append("profileImage", imageFile);
+        }
+        const res = await updateProfile(formData);
+
+        if (res.data.success) {
+            toast.success(res.data.message);
+            reset();
+        }
+    };
+
+
+
 
     return (
         <div className='bg-white p-8 rounded-2xl'>
@@ -89,7 +133,7 @@ const Profile = () => {
                     </div>
 
                     {/* Email */}
-                    <div className="relative col-span-4">
+                    {/* <div className="relative col-span-4">
                         <input
                             type="email"
                             placeholder="Email*"
@@ -100,7 +144,7 @@ const Profile = () => {
                             Email*
                         </label>
                         {errors.email && <span className="text-red-500 text-sm">{errors.email.message}</span>}
-                    </div>
+                    </div> */}
 
                     {/* Phone No */}
                     <div className="relative col-span-4">
@@ -239,9 +283,18 @@ const Profile = () => {
                         {errors.zipCode && <span className="text-red-500 text-sm">{errors.zipCode.message}</span>}
                     </div>
                 </div>
-                <button type='submit' className='bg-gradient-to-l to-[#4A90E2] from-[#1565C0] text-white py-5 px-6 rounded-md mt-8 hover:scale-105 duration-300'>
-                    Save Changes
-                </button>
+                {
+                    isLoading ? <button
+                        type="submit"
+                        className="rounded-[12px] bg-gradient-to-r border border-[#4A90E2] p-4 md:p-5 w-full  font-medium text-lg"
+                    >
+                        <Spin size="large" />
+                    </button>
+                        :
+                        <button type='submit' className='bg-gradient-to-l to-[#4A90E2] from-[#1565C0] text-white py-5 px-6 rounded-md mt-8 hover:scale-105 duration-300'>
+                            Save Changes
+                        </button>
+                }
             </form>
         </div>
     );

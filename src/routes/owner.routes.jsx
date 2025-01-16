@@ -13,6 +13,8 @@ import PropertyDetails from "../shared/PropertyDetails";
 import Tenants from "../pages/Owner/Properties/Tenants";
 import TenantDetails from "../shared/TenantDetails";
 import { MdOutlineDashboard } from "react-icons/md";
+import { Bolt, UserPen } from "lucide-react";
+import UserProfile from "../shared/Settings/Profile";
 
 export const ownerPaths = [
   {
@@ -75,4 +77,16 @@ export const ownerPaths = [
     element: <DocumentDetails />,
     icon: <FileOutlined />,
   },
+  {
+    icon: <Bolt size={18} />,
+    name: "Settings",
+    children: [
+        {
+            icon: <UserPen size={18} />,
+            name: "Profile",
+            path: "profile",
+            element: <UserProfile />
+        }
+    ]
+}
 ];
