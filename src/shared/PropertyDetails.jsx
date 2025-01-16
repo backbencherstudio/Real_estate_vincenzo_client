@@ -3,7 +3,7 @@ import img from "../assets/download.jpg";
 import img2 from "../assets/imageright.png";
 import img3 from "../assets/loginiconimage.png";
 import img4 from "../assets/loginpagegirlimage.png";
-import { Button, Modal, Table } from "antd";
+import { Button, Modal, Spin, Table } from "antd";
 import { useParams } from "react-router-dom";
 import sharedApi from "../redux/fetures/sharedApi/sharedApi";
 import { useForm } from "react-hook-form";
@@ -19,9 +19,9 @@ const PropertyDetails = () => {
     handleSubmit,
     reset,
     formState: { errors }
-  } = useForm({ });
+  } = useForm({});
 
-  const [createUnit, {isLoading}] = ownerApi.useCreateUnitMutation();
+  const [createUnit, { isLoading }] = ownerApi.useCreateUnitMutation();
 
   const [selectedImage, setSelectedImage] = useState(img);
   const { id } = useParams();
@@ -32,9 +32,9 @@ const PropertyDetails = () => {
   const allUnits = data?.data?.allUnits;
 
   console.log(property);
-  
 
-  const currentTenant = allUnits?.filter(item => item.booked === true)
+
+  // const currentTenant = allUnits?.filter(item => item.booked === true)
 
   const tableData = allUnits?.map(({
     isSecurityDepositPay,
@@ -105,7 +105,19 @@ const PropertyDetails = () => {
     {
       title: "Kitchen",
       dataIndex: "numberOfKitchen",
-    }
+    },
+    {
+      title: "Add Tenant",
+      dataIndex: "add tenant",
+      render: (text, record) => (
+        <div>
+          <button disabled={record.booked} className={ `font-semibold text-green-500 ${record.booked && "text-yellow-700 cursor-not-allowed" } `} >
+            Add
+          </button>
+        </div>
+      )
+    },
+
   ];
 
   const handlePageSizeChange = (current, size) => {
@@ -117,18 +129,18 @@ const PropertyDetails = () => {
   const onSubmit = async (data) => {
     const unitData = {
       ...data,
-      propertyId : id,
-      ownerId : currentUser?.userId
+      propertyId: id,
+      ownerId: currentUser?.userId
     }
 
     const res = await createUnit(unitData)
 
-    if(res.data.success){
+    if (res.data.success) {
       toast.success(res.data.message);
       reset();
       setModal2Open(false)
     }
-    
+
   };
 
 
@@ -192,7 +204,7 @@ const PropertyDetails = () => {
 
             <div className="flex justify-between py-2 ">
               <p>Total Booked Unit</p>
-              <p className="font-semibold "> {property?.ownerId?.bookedUnitNumber | 0} </p>
+              <p className="font-semibold "> {property?.numberOfBookedUnits | 0} </p>
             </div>
 
             <div className="flex justify-between py-2 ">
@@ -202,13 +214,13 @@ const PropertyDetails = () => {
 
             <div className="flex justify-between py-2 ">
               <p>Total Rented Amount</p>
-              <p className="font-semibold ">$ {property?.ownerId?.totalRentAmount | 0} </p>
+              <p className="font-semibold ">$ {property?.totalBookedRent | 0} </p>
             </div>
 
-            <div className="flex justify-between py-2 ">
+            {/* <div className="flex justify-between py-2 ">
               <p>Current Tenants</p>
               <p className="font-semibold ">{currentTenant?.length} </p>
-            </div>
+            </div> */}
 
             <div className="flex justify-between py-2 ">
               <p>Parking</p>
@@ -440,9 +452,13 @@ const PropertyDetails = () => {
 
 
             <div className="flex justify-end" >
-            <button type="submit" className="text-[16px] px-9 py-2 rounded-md bg-gradient-to-t from-[#468ddf] to-[#1969c3] text-white font-medium 
+              <button type="submit" className="text-[16px] px-9 py-2 rounded-md bg-gradient-to-t from-[#468ddf] to-[#1969c3] text-white font-medium 
           hover:bg-gradient-to-t hover:from-blue-600 hover:to-blue-700
-           hover:shadow" >Add</button>
+           hover:shadow" >
+                {
+                  isLoading ? <Spin size="large" /> : "Add"
+                }
+              </button>
             </div>
 
           </form>
