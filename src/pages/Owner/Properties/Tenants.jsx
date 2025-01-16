@@ -2,6 +2,7 @@ import { Tag } from "antd";
 import CustomTable from "../../../shared/CustomTable";
 
 const Tenants = () => {
+
   const columns = [
     {
       title: "Name",
@@ -58,8 +59,6 @@ const Tenants = () => {
     },
   ];
 
-  
-
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -74,7 +73,6 @@ const Tenants = () => {
             </p>
           </span>
         </div>
-        
       </div>
       <CustomTable
         title={"Recently Added Tenants"}

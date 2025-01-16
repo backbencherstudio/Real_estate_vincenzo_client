@@ -17,6 +17,7 @@ const Owner = () => {
     name,
     numberOfProperty,
     numberOfTotalUnits,
+    bookedUnitNumber,
     totalRentAmount,
     personalInfo,
     _id,
@@ -25,16 +26,20 @@ const Owner = () => {
     name,
     numberOfProperty: numberOfProperty | 0,
     numberOfTotalUnits: numberOfTotalUnits | 0,
+    bookedUnitNumber: bookedUnitNumber | 0,
     totalRentAmount: totalRentAmount | 0,
     contactNumber: personalInfo?.contactNumber | "N/F",
   }));
   const handlePageSizeChange = (current, size) => {
     setPageSize(size);
   };
- 
+
+  console.log(userData?.data);
+
+
   const handleNavigate = (id) => {
     navigate(`/${currentUser?.role}/owner/${id}`);
-};
+  };
 
 
   const columns = [
@@ -54,6 +59,10 @@ const Owner = () => {
     {
       title: "Number of Unit",
       dataIndex: "numberOfTotalUnits",
+    },
+    {
+      title: "Number of Booked Unit",
+      dataIndex: "bookedUnitNumber",
     },
     {
       title: "Current Rent",
