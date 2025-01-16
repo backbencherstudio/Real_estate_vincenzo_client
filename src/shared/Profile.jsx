@@ -79,7 +79,7 @@ const Profile = () => {
 
         if (res.data.success) {
             toast.success(res.data.message);
-            // reset();
+            reset();
         }
     };
 
