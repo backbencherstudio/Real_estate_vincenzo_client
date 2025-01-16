@@ -64,6 +64,7 @@ const PropertyDetails = () => {
 
   const onSubmitForTenant = async (data) => {
     const tenantData = {
+      role : "tenant",
       ...data,
       ...ids
     }
