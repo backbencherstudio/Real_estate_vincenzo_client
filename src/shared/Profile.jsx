@@ -76,14 +76,11 @@ const Profile = () => {
             formData.append("profileImage", imageFile);
         }
         const res = await updateProfile(formData);
-
         if (res.data.success) {
             toast.success(res.data.message);
-            // reset();
+            reset();
         }
     };
-
-
 
 
     return (
