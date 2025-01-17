@@ -9,6 +9,7 @@ import PropertyDetails from "../shared/PropertyDetails";
 import TenantDetails from "../shared/TenantDetails";
 import { FaBuildingUser } from "react-icons/fa6";
 import UserProfile from "../shared/Settings/Profile";
+import Profile from "../shared/Profile";
 
 export const adminPaths = [
     {
@@ -26,7 +27,7 @@ export const adminPaths = [
     {
         path: "properties/:id",
         element: <PropertyDetails />,
-      },
+    },
     {
         icon: <Users size={18} />,
         name: "User Managment",
@@ -63,7 +64,12 @@ export const adminPaths = [
                 name: "Profile",
                 path: "profile",
                 element: <UserProfile />
-            }
+            },
+            {
+
+                path: "profile/edit",
+                element: <Profile />
+            },
         ]
     }
 ];

@@ -32,7 +32,7 @@ const UserProfile = () => {
                     </div>
                     <Link to='edit'>
                         <button>
-                            <UserPen className="h-5 w-5 text-gray-600" />
+                            <UserPen className="h-5 w-5 text-yellow-500" />
                         </button>
                     </Link>
                 </div>

@@ -8,6 +8,7 @@ import { MdOutlinePayment } from "react-icons/md";
 import { RxDashboard } from "react-icons/rx";
 import TenantDocuments from "../pages/Tenant/TenantDocuments/TenantDocuments";
 import { ClipboardMinus, Construction } from "lucide-react";
+import Profile from "../shared/Profile";
 
 export const tenantPaths = [
     {
@@ -43,6 +44,11 @@ export const tenantPaths = [
                 path: "documents",
                 element: <TenantDocuments />
             },
+            {
+
+                path: "profile/edit",
+                element: <Profile />
+              },
 
         ],
     },
