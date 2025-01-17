@@ -21,8 +21,6 @@ const OwnerDashboard = () => {
   console.log(data?.data);
   
 
-
-
   const tableData = data?.data?.map(({
     Description,
     amenities,

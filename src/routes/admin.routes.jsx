@@ -5,10 +5,10 @@ import AllTenant from "../pages/Admin/AllTenant/AllTenant";
 import Owner from "../pages/Admin/Owner/Owner";
 import OwnerDetails from "../pages/Admin/Owner/OwnerDetails";
 import AllProperties from "../pages/Admin/Properties/AllProperties";
-import AdminProfile from "../pages/Admin/Settings/AdminProfile";
 import PropertyDetails from "../shared/PropertyDetails";
 import TenantDetails from "../shared/TenantDetails";
 import { FaBuildingUser } from "react-icons/fa6";
+import UserProfile from "../shared/Settings/Profile";
 
 export const adminPaths = [
     {
@@ -62,7 +62,7 @@ export const adminPaths = [
                 icon: <UserPen size={18} />,
                 name: "Profile",
                 path: "profile",
-                element: <AdminProfile />
+                element: <UserProfile />
             }
         ]
     }

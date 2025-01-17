@@ -1,6 +1,6 @@
 import { Select, Table } from "antd";
 
-const CustomTable = ({ title, columns, data }) => {
+const CustomTable = ({ title, columns, data, loading }) => {
   const handleRowClick = (record) => {
     console.log("Row clicked:", record);
     alert(`Row clicked! Name: ${record.name}, Age: ${record.age}`);
@@ -43,7 +43,7 @@ const CustomTable = ({ title, columns, data }) => {
           />
         </div>
       </div>
-      <Table columns={columns} dataSource={data} scroll={{ x: 800 }} />
+      <Table columns={columns} loading={loading} dataSource={data} scroll={{ x: 800 }} />
     </div>
   );
 };

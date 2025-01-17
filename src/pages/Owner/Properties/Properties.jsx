@@ -13,7 +13,7 @@ const AllProperties = () => {
   const currentUser = useSelector(selectCurrentUser)
 
 
-  const { data: propertyData } = ownerApi.useGetSingleOwnerAllPropertiesQuery(currentUser?.userId);
+  const { data: propertyData, isLoading } = ownerApi.useGetSingleOwnerAllPropertiesQuery(currentUser?.userId);
   const handlePageSizeChange = (current, size) => {
     setPageSize(size);
   };
@@ -130,6 +130,7 @@ const AllProperties = () => {
         </div>
 
         <CustomButton content="Add Properties" handleClick={addPropertiesNavigation} ></CustomButton>
+        
       </div>
 
       <div className="bg-white p-5 mt-10 rounded-2xl">
@@ -200,6 +201,7 @@ const AllProperties = () => {
 
         <Table
           columns={columns}
+          loading={isLoading}
           dataSource={tableData}
           scroll={{ x: 800 }}
           pagination={{
