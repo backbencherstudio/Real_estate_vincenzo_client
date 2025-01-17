@@ -83,8 +83,6 @@ const Profile = () => {
     };
 
 
-
-
     return (
         <div className='bg-white p-8 rounded-2xl'>
             <form onSubmit={handleSubmit(onSubmit)}>
