@@ -27,18 +27,18 @@ const PropertyDetails = () => {
     handleSubmit: handleSubmitUnit,
     reset: resetUnit,
     formState: { errors: errorsUnit }
-  } = useForm(); 
+  } = useForm();
 
   const {
     register: registerTenant,
     handleSubmit: handleSubmitTenant,
     reset: resetTenant,
     formState: { errors: errorsTenant }
-  } = useForm(); 
+  } = useForm();
 
 
   const [createUnit, { isLoading }] = ownerApi.useCreateUnitMutation();
-  const [createTenant, {isLoading : tenantIsLoading}] = ownerApi.useCreateTenantMutation();
+  const [createTenant, { isLoading: tenantIsLoading }] = ownerApi.useCreateTenantMutation();
 
   const [selectedImage, setSelectedImage] = useState(img);
   const { id } = useParams();
@@ -50,7 +50,7 @@ const PropertyDetails = () => {
 
   // const currentTenant = allUnits?.filter(item => item.booked === true)
   const [tenantModal2Open, setTenantModal2Open] = useState(false);
-  const [ids, setIds] =useState({})
+  const [ids, setIds] = useState({})
 
   const addTenantFun = (unitId, ownerId, propertyId) => {
     const allIds = {
@@ -64,7 +64,7 @@ const PropertyDetails = () => {
 
   const onSubmitForTenant = async (data) => {
     const tenantData = {
-      role : "tenant",
+      role: "tenant",
       ...data,
       ...ids
     }
@@ -288,9 +288,12 @@ const PropertyDetails = () => {
             <h1 className="clamp-text font-semibold my-5"> Property Details </h1>
           </div>{" "}
           <div>
-            <Button type="primary" onClick={() => setModal2Open(true)}>
-              Add Unit
-            </Button>
+            {
+              currentUser.role === "owner" &&
+              <Button type="primary" onClick={() => setModal2Open(true)}>
+                Add Unit
+              </Button>
+            }
           </div>
         </div>
 

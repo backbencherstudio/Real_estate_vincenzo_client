@@ -31,6 +31,7 @@ const sharedApi = baseApi.injectEndpoints({
           body:profileData
         }
       },
+      invalidatesTags:["user"]
     })
 
 

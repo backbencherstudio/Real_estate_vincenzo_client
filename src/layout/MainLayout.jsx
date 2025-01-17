@@ -5,6 +5,7 @@ import { FaChevronDown, FaRegUserCircle } from "react-icons/fa";
 import { useAppDispatch } from "../redux/hooks";
 import { logOut, selectCurrentUser } from "../redux/fetures/auth/authSlice";
 import { useSelector } from "react-redux";
+import authApi from "../redux/fetures/auth/authApi";
 
 const { Header, Content } = Layout;
 
@@ -14,7 +15,12 @@ const MainLayout = () => {
     dispatch(logOut());
   };
 
-  const currentUser = useSelector(selectCurrentUser);
+  const currentUser = useSelector(selectCurrentUser)
+    const {data} = authApi.useGetSingleUserInfoQuery(currentUser?.email);
+
+    console.log(`http://localhost:5000${data?.data?.profileImage}`);
+    console.log(data?.data);
+    
 
   const items = [
     {
@@ -59,7 +65,7 @@ const MainLayout = () => {
               {profileImage ? (
                 <img
                   className="size-10 rounded-full object-cover "
-                  src="https://i.pinimg.com/originals/2a/4b/35/2a4b35563af4ce587fd60fd4f29e4631.jpg"
+                  src={`http://localhost:5000${data?.data?.profileImage}`}
                   alt=""
                 />
               ) : (
