@@ -30,36 +30,9 @@ const Profile = () => {
         }
     };
 
-    // const onSubmit = (data) => {
-    //     const formattedData = {
-    //         userId : currentUser.userId,
-    //         personalInfo: {
-    //             contactNumber: data.contactNumber,
-    //             age: data.age,
-    //             familyMember: data.familyMember,
-    //             jobTitle: data.jobTitle,
-    //         },
-    //         permanentAddress: {
-    //             address: data.address,
-    //             city: data.city,
-    //             state: data.state,
-    //             zipCode: data.zipCode,
-    //             country: data.country
-    //         },
-    //         name: data.name,
-    //         email: data.email,
-    //         profileImage : image
-    //     };
-
-    //     console.log("Formatted Form Data Submitted: ", formattedData);
-
-    // };
-
     const onSubmit = async (data) => {
-        console.log(imageFile);
 
         const formData = new FormData();
-
         formData.append("userId", currentUser.userId);
         formData.append("name", data.name);
         formData.append("personalInfo[contactNumber]", data.contactNumber);
