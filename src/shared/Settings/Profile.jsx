@@ -3,28 +3,35 @@ import authApi from "../../redux/fetures/auth/authApi";
 import { selectCurrentUser } from "../../redux/fetures/auth/authSlice";
 import { UserPen } from "lucide-react";
 import { Link } from "react-router-dom";
+import { url } from "../../globalConst/const";
+import { FaRegUser } from "react-icons/fa";
 
 const UserProfile = () => {
     const currentUser = useSelector(selectCurrentUser);
     const { data, isLoading, error } = authApi.useGetSingleUserInfoQuery(currentUser?.email);
 
     if (isLoading) return <p>Loading...</p>;
-    if (error) return <p>Error fetching user information</p>; +
-        console.log(data?.data);
+    if (error) return <p>Error fetching user information</p>;
 
     const userInfo = data?.data || {};
     const { name, email, profileImage, permanentAddress, personalInfo, numberOfProperty, numberOfTotalUnits, totalAmount, totalRentAmount } = userInfo;
+    
 
     return (
         <div>
             <div className="bg-white p-4 md:p-8 rounded-lg shadow-sm">
                 <div className="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-4 mb-8">
                     <div className="w-20 h-20 rounded-lg overflow-hidden bg-gray-200 flex-shrink-0">
+                        {
+                            profileImage ? 
                         <img
-                            src={profileImage || "https://via.placeholder.com/150"}
-                            alt="Profile"
-                            className="w-full h-full object-cover"
+                        src={`${url}${profileImage}`}
+                        alt="Profile"
+                        className="w-full h-full object-cover"
                         />
+
+                        : <FaRegUser />
+                    }
                     </div>
                     <div className="flex-grow">
                         <h2 className="text-xl font-semibold">{name || "No Name"}</h2>

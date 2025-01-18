@@ -95,7 +95,7 @@ const Profile = () => {
                             id="name"
                             placeholder="Full Name*"
                             className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
-                            {...register("name", { required: "Full Name is required" })}
+                            {...register("name")}
                         />
                         <label htmlFor='name' className="absolute left-3 -top-2.5 cursor-text bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
                             Full Name*
@@ -109,7 +109,7 @@ const Profile = () => {
                             id='contactNumber'
                             placeholder="contact Number"
                             className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
-                            {...register("contactNumber", { required: "Contact Number is required" })}
+                            {...register("contactNumber")}
                         />
                         <label htmlFor='contactNumber' className="absolute left-3 -top-2.5 cursor-text bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
                             Contact No*
@@ -123,7 +123,7 @@ const Profile = () => {
                             id='jobTitle'
                             placeholder="Job Title*"
                             className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
-                            {...register("jobTitle", { required: "Job Title is required" })}
+                            {...register("jobTitle")}
                         />
                         <label htmlFor='jobTitle' className="absolute left-3 -top-2.5 cursor-text bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
                             Job Title*
@@ -136,7 +136,7 @@ const Profile = () => {
                             id='age'
                             placeholder="age*"
                             className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
-                            {...register("age", { required: "Age is required" })}
+                            {...register("age")}
                         />
                         <label htmlFor='age' className="absolute left-3 -top-2.5 cursor-text bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
                             Age*
@@ -150,7 +150,7 @@ const Profile = () => {
                             id='familyMember'
                             placeholder="Family Member*"
                             className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
-                            {...register("familyMember", { required: "familyMember is required" })}
+                            {...register("familyMember")}
                         />
                         <label htmlFor='familyMember' className="absolute left-3 -top-2.5 cursor-text bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
                             Family Member*
@@ -166,7 +166,7 @@ const Profile = () => {
                             id='country'
                             placeholder="Country*"
                             className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
-                            {...register("country", { required: "Country is required" })}
+                            {...register("country")}
                         />
                         <label htmlFor='country' className="absolute left-3 -top-2.5 cursor-text bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
                             Country*
@@ -181,7 +181,7 @@ const Profile = () => {
                             id='state'
                             placeholder="State*"
                             className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
-                            {...register("state", { required: "State is required" })}
+                            {...register("state")}
                         />
                         <label htmlFor='state' className="absolute left-3 -top-2.5 cursor-text bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
                             State*
@@ -196,7 +196,7 @@ const Profile = () => {
                             id='city'
                             placeholder="City*"
                             className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
-                            {...register("city", { required: "City is required" })}
+                            {...register("city")}
                         />
                         <label htmlFor='city' className="absolute left-3 -top-2.5 cursor-text bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
                             City*
@@ -211,7 +211,7 @@ const Profile = () => {
                             id='address'
                             placeholder="Address*"
                             className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
-                            {...register("address", { required: "Address is required" })}
+                            {...register("address")}
                         />
                         <label htmlFor='address' className="absolute left-3 -top-2.5 cursor-text bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
                             Address*
@@ -226,7 +226,7 @@ const Profile = () => {
                             id='zipCode'
                             placeholder="Zip Code*"
                             className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
-                            {...register("zipCode", { required: "Zip Code is required" })}
+                            {...register("zipCode")}
                         />
                         <label htmlFor='zipCode' className="absolute left-3 -top-2.5 cursor-text bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
                             Zip Code*
@@ -235,9 +235,10 @@ const Profile = () => {
                     </div>
                 </div>
                 {
-                    isLoading ? <button
+                    isLoading ? 
+                    <button
                         type="submit"
-                        className="rounded-[12px] bg-gradient-to-r border border-[#4A90E2] p-4 md:p-5 w-full  font-medium text-lg"
+                        className="rounded-[12px] bg-gradient-to-r border border-[#4A90E2] p-4 md:p-5 font-medium text-lg"
                     >
                         <Spin size="large" />
                     </button>

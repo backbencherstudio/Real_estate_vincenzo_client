@@ -6,6 +6,7 @@ import { useAppDispatch } from "../redux/hooks";
 import { logOut, selectCurrentUser } from "../redux/fetures/auth/authSlice";
 import { useSelector } from "react-redux";
 import authApi from "../redux/fetures/auth/authApi";
+import { url } from "../globalConst/const";
 
 const { Header, Content } = Layout;
 
@@ -65,7 +66,7 @@ const MainLayout = () => {
               {profileImage ? (
                 <img
                   className="size-10 rounded-full object-cover "
-                  src={`http://localhost:5000${data?.data?.profileImage}`}
+                  src={`${url}${data?.data?.profileImage}`}
                   alt=""
                 />
               ) : (
@@ -73,7 +74,7 @@ const MainLayout = () => {
               )}
 
               <div className="title px-4 py-2 rounded-lg flex-shrink-0">
-                <h2 className="text-xl font-semibold">{currentUser?.name}</h2>
+                <h2 className="text-xl font-semibold">{data?.data?.name}</h2>
                 <h2 className="text-sm">{currentUser?.email}</h2>
               </div>
             </div>
