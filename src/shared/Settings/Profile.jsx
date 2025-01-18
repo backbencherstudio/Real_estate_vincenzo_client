@@ -15,7 +15,7 @@ const UserProfile = () => {
 
     const userInfo = data?.data || {};
     const { name, email, profileImage, permanentAddress, personalInfo, numberOfProperty, numberOfTotalUnits, totalAmount, totalRentAmount } = userInfo;
-    
+
 
     return (
         <div>
@@ -23,15 +23,15 @@ const UserProfile = () => {
                 <div className="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-4 mb-8">
                     <div className="w-20 h-20 rounded-lg overflow-hidden bg-gray-200 flex-shrink-0">
                         {
-                            profileImage ? 
-                        <img
-                        src={`${url}${profileImage}`}
-                        alt="Profile"
-                        className="w-full h-full object-cover"
-                        />
+                            profileImage ?
+                                <img
+                                    src={`${url}${profileImage}`}
+                                    alt="Profile"
+                                    className="w-full h-full object-cover"
+                                />
 
-                        : <FaRegUser />
-                    }
+                                : <FaRegUser />
+                        }
                     </div>
                     <div className="flex-grow">
                         <h2 className="text-xl font-semibold">{name || "No Name"}</h2>
@@ -43,24 +43,24 @@ const UserProfile = () => {
                         </button>
                     </Link>
                 </div>
-                <div className=" border-b mb-6">
+                <div className="mb-6">
                     <h2 className="text-2xl font-extrabold text-gray-800 mb-4 text-center">Property Overview</h2>
 
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                        <div className="flex flex-col items-center">
-                            <p className="text-3xl font-bold text-blue-600">{numberOfProperty}</p>
+                        <div className="flex flex-col items-center bg-zinc-50 p-4 rounded-lg shadow-md">
+                            <p className="text-3xl font-bold text-blue-600">{numberOfProperty || 0}</p>
                             <p className="text-gray-500 text-sm">Properties</p>
                         </div>
-                        <div className="flex flex-col items-center">
-                            <p className="text-3xl font-bold text-indigo-600">{numberOfTotalUnits}</p>
+                        <div className="flex flex-col items-center bg-zinc-50 p-4 rounded-lg shadow-md">
+                            <p className="text-3xl font-bold text-indigo-600">{numberOfTotalUnits || 0}</p>
                             <p className="text-gray-500 text-sm">Total Units</p>
                         </div>
-                        <div className="flex flex-col items-center">
-                            <p className="text-3xl font-bold text-green-600">{totalAmount}</p>
+                        <div className="flex flex-col items-center bg-zinc-50 p-4 rounded-lg shadow-md">
+                            <p className="text-3xl font-bold text-green-600">{totalAmount || 0}</p>
                             <p className="text-gray-500 text-sm">Total Amount</p>
                         </div>
-                        <div className="flex flex-col items-center">
-                            <p className="text-3xl font-bold text-red-600">{totalRentAmount}</p>
+                        <div className="flex flex-col items-center bg-zinc-50 p-4 rounded-lg shadow-md">
+                            <p className="text-3xl font-bold text-red-600">{totalRentAmount || 0}</p>
                             <p className="text-gray-500 text-sm">Total Rent</p>
                         </div>
                     </div>
