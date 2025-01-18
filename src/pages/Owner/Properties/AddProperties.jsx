@@ -81,7 +81,7 @@ const AddProperties = () => {
     images.forEach((file) => formData.append('propertyImages', file));
     const response = await createProperty(formData);
     if(response?.data?.success){
-      reset();
+      // reset();
       setImages([]);
       toast.success(response?.data?.message)
     }
