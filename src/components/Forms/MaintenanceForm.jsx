@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { CircleX } from "lucide-react";
 import { useForm } from "react-hook-form";
 
