@@ -4,9 +4,25 @@ import tableData from "../../../public/tabledata.json";
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
 import MaintenanceForm from '../../components/Forms/MaintenanceForm';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from '../../redux/fetures/auth/authSlice';
+import tenantApi from '../../redux/fetures/tenant/tenantApi';
 
 function MaintenanceRequests() {
   const [isOpen, setIsOpen] = useState(false);
+  
+  const currentUser = useSelector(selectCurrentUser)
+  
+  const {data} = tenantApi.useGetTenantDetailseQuery(currentUser?.userId);
+
+ 
+
+
+  // const {propertyName} = propertyDetails;
+
+  console.log(data?.data);
+  
+
 
   const open = () => {
     setIsOpen(true)
@@ -16,13 +32,13 @@ function MaintenanceRequests() {
   }
 
   const tableDatas = tableData?.map(({ invoice_id, name, amount, due_date, status, profile_picture }) => ({
-    key: invoice_id, // Using invoice_id as the key for each row
+    key: invoice_id, 
     invoice_id,
     name,
     amount,
     due_date,
     status,
-    profile_picture // including this even though it's not in columns, in case you need it later
+    profile_picture 
   }));
 
 
@@ -136,7 +152,7 @@ function MaintenanceRequests() {
       </div>
       {
         isOpen && (
-          <MaintenanceForm  close={close}/>
+          <MaintenanceForm  tenantData={data?.data} close={close}/>
         )
       }
 

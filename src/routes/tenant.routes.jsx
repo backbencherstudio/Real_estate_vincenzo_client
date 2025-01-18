@@ -1,4 +1,3 @@
-import Documents from "../pages/Tenant/Documents";
 import MaintenanceRequests from "../pages/Tenant/MaintenanceRequests";
 import PaymentsDetails from "../pages/Tenant/PaymentsDetails/PaymentsDetails";
 import TenantDashboard from "../pages/Tenant/Tenant";
