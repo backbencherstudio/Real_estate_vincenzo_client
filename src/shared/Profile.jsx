@@ -89,94 +89,70 @@ const Profile = () => {
                 </div>
                 <div className='grid grid-cols-1 lg:grid-cols-12 gap-6'>
                     {/* Full Name */}
-                    <div className="relative col-span-4">
+                    <div className="relative col-span-6">
                         <input
                             type="text"
+                            id="name"
                             placeholder="Full Name*"
                             className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
                             {...register("name", { required: "Full Name is required" })}
                         />
-                        <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
+                        <label htmlFor='name' className="absolute left-3 -top-2.5 cursor-text bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
                             Full Name*
                         </label>
                         {errors.name && <span className="text-red-500 text-sm">{errors.name.message}</span>}
                     </div>
-
-                    {/* Email */}
-                    {/* <div className="relative col-span-4">
-                        <input
-                            type="email"
-                            placeholder="Email*"
-                            className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
-                            {...register("email", { required: "Email is required", pattern: { value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/, message: "Enter a valid email" } })}
-                        />
-                        <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
-                            Email*
-                        </label>
-                        {errors.email && <span className="text-red-500 text-sm">{errors.email.message}</span>}
-                    </div> */}
-
                     {/* Phone No */}
-                    <div className="relative col-span-4">
+                    <div className="relative col-span-6">
                         <input
                             type="number"
+                            id='contactNumber'
                             placeholder="contact Number"
                             className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
                             {...register("contactNumber", { required: "Contact Number is required" })}
                         />
-                        <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
+                        <label htmlFor='contactNumber' className="absolute left-3 -top-2.5 cursor-text bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
                             Contact No*
                         </label>
                         {errors.contactNumber && <span className="text-red-500 text-sm">{errors.contactNumber.message}</span>}
                     </div>
 
-                    <div className="relative col-span-6">
+                    <div className="relative col-span-4">
                         <input
                             type="text"
+                            id='jobTitle'
                             placeholder="Job Title*"
                             className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
                             {...register("jobTitle", { required: "Job Title is required" })}
                         />
-                        <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
+                        <label htmlFor='jobTitle' className="absolute left-3 -top-2.5 cursor-text bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
                             Job Title*
                         </label>
                         {errors.jobTitle && <span className="text-red-500 text-sm">{errors.jobTitle.message}</span>}
                     </div>
-
-                    {/* Date of Birth */}
-                    {/* <div className="relative col-span-6">
-                        <input
-                            type="date"
-                            className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
-                            {...register("dob", { required: "Date of birth is required" })}
-                        />
-                        <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
-                            Date Of Birth*
-                        </label>
-                        {errors.dob && <span className="text-red-500 text-sm">{errors.dob.message}</span>}
-                    </div> */}
-                    {/* age */}
-                    <div className="relative col-span-6">
+                    <div className="relative col-span-4">
                         <input
                             type="number"
+                            id='age'
                             placeholder="age*"
                             className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
                             {...register("age", { required: "Age is required" })}
                         />
-                        <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
+                        <label htmlFor='age' className="absolute left-3 -top-2.5 cursor-text bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
                             Age*
                         </label>
                         {errors.age && <span className="text-red-500 text-sm">{errors.age.message}</span>}
                     </div>
                     {/* family member */}
-                    <div className="relative col-span-6">
+                    <div className="relative col-span-4">
                         <input
                             type="number"
+                            id='familyMember'
                             placeholder="Family Member*"
                             className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
                             {...register("familyMember", { required: "familyMember is required" })}
                         />
-                        <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
+                        <label htmlFor='familyMember' className="absolute left-3 -top-2.5 cursor-text bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
                             Family Member*
                         </label>
                         {errors.familyMember && <span className="text-red-500 text-sm">{errors.familyMember.message}</span>}
@@ -184,14 +160,15 @@ const Profile = () => {
 
 
                     {/* Country */}
-                    <div className="relative col-span-6 lg:col-span-6">
+                    <div className="relative col-span-6 lg:col-span-">
                         <input
                             type="text"
+                            id='country'
                             placeholder="Country*"
                             className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
                             {...register("country", { required: "Country is required" })}
                         />
-                        <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
+                        <label htmlFor='country' className="absolute left-3 -top-2.5 cursor-text bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
                             Country*
                         </label>
                         {errors.country && <span className="text-red-500 text-sm">{errors.country.message}</span>}
@@ -201,53 +178,57 @@ const Profile = () => {
                     <div className="relative col-span-6 lg:col-span-6">
                         <input
                             type="text"
+                            id='state'
                             placeholder="State*"
                             className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
                             {...register("state", { required: "State is required" })}
                         />
-                        <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
+                        <label htmlFor='state' className="absolute left-3 -top-2.5 cursor-text bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
                             State*
                         </label>
                         {errors.state && <span className="text-red-500 text-sm">{errors.state.message}</span>}
                     </div>
 
                     {/* City */}
-                    <div className="relative col-span-6 lg:col-span-6">
+                    <div className="relative col-span-6 lg:col-span-4">
                         <input
                             type="text"
+                            id='city'
                             placeholder="City*"
                             className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
                             {...register("city", { required: "City is required" })}
                         />
-                        <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
+                        <label htmlFor='city' className="absolute left-3 -top-2.5 cursor-text bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
                             City*
                         </label>
                         {errors.city && <span className="text-red-500 text-sm">{errors.city.message}</span>}
                     </div>
 
                     {/* Address */}
-                    <div className="relative col-span-6 lg:col-span-9">
+                    <div className="relative col-span-6 lg:col-span-4">
                         <input
                             type="text"
+                            id='address'
                             placeholder="Address*"
                             className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
                             {...register("address", { required: "Address is required" })}
                         />
-                        <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
+                        <label htmlFor='address' className="absolute left-3 -top-2.5 cursor-text bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
                             Address*
                         </label>
                         {errors.address && <span className="text-red-500 text-sm">{errors.address.message}</span>}
                     </div>
 
                     {/* Zip Code */}
-                    <div className="relative col-span-6 lg:col-span-3">
+                    <div className="relative col-span-6 lg:col-span-4">
                         <input
                             type="number"
+                            id='zipCode'
                             placeholder="Zip Code*"
                             className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
                             {...register("zipCode", { required: "Zip Code is required" })}
                         />
-                        <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
+                        <label htmlFor='zipCode' className="absolute left-3 -top-2.5 cursor-text bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
                             Zip Code*
                         </label>
                         {errors.zipCode && <span className="text-red-500 text-sm">{errors.zipCode.message}</span>}
