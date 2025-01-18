@@ -1,9 +1,11 @@
 import { MapPin } from 'lucide-react';
 import React from 'react';
+import { url } from '../../globalConst/const';
 
 const HomeDetails = ({ homeDetails }) => {
   console.log("home", homeDetails);
   const {
+    propertyImages,
     propertyName,
     Description,
     propertyLocation,
@@ -11,13 +13,14 @@ const HomeDetails = ({ homeDetails }) => {
     houseNumber,
     availableParking,
   } = homeDetails;
-
+  const images = Array.isArray(propertyImages) ? propertyImages : [];
+  console.log("dadadhas",images);
   return (
     <div className="lg:flex gap-8 space-y-4 lg:space-y-0">
       {/* Left side - Image */}
       <div className="lg:w-1/2">
         <img
-          src="https://i.ibb.co.com/NZnJxtY/pexels-fotoaibe-1571459.jpg"
+          src={`${url}${images[0]}`}
           alt="Modern mansion"
           className="w-full lg:h-[650px] xl:h-[550px] object-cover rounded-lg"
         />

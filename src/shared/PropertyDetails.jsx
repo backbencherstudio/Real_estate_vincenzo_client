@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../redux/fetures/auth/authSlice";
 import ownerApi from "../redux/fetures/owner/ownerApi";
 import { toast } from "sonner";
+import { url } from "../globalConst/const";
 
 const PropertyDetails = () => {
   const [pageSize, setPageSize] = useState(10);
@@ -40,13 +41,15 @@ const PropertyDetails = () => {
   const [createUnit, { isLoading }] = ownerApi.useCreateUnitMutation();
   const [createTenant, { isLoading: tenantIsLoading }] = ownerApi.useCreateTenantMutation();
 
-  const [selectedImage, setSelectedImage] = useState(img);
   const { id } = useParams();
   const currentUser = useSelector(selectCurrentUser);
-
+  
   const { data } = sharedApi.useGetPropertieUnitsQuery(id);
   const property = data?.data?.property;
   const allUnits = data?.data?.allUnits;
+  const propertyImages = data?.data?.property?.propertyImages;
+  const images = Array.isArray(propertyImages) ? propertyImages : [];
+  const [selectedImage, setSelectedImage] = useState(images[0]);
 
   // const currentTenant = allUnits?.filter(item => item.booked === true)
   const [tenantModal2Open, setTenantModal2Open] = useState(false);
@@ -199,7 +202,6 @@ const PropertyDetails = () => {
 
   };
 
-  const images = [img, img2, img3, img4];
 
   console.log(property?.propertyImages);
   
@@ -221,13 +223,13 @@ const PropertyDetails = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mt-4">
         <div className="grid grid-cols-4 gap-2">
           {/* Small images */}
-          <div className="col-span-1 grid gap-2">
+          <div className="col-span-1 grid gap-2 h-[504px] overflow-auto custom-scroll">
             {images.map((image, index) => (
               <img
                 key={index}
-                src={image}
+                src={`${url}${image}`}
                 onClick={() => {
-                  setSelectedImage(image); // Set the clicked image as selected
+                  setSelectedImage(image); 
                 }}
                 className={`h-[120px] w-full rounded-lg object-cover cursor-pointer duration-300 ${image === selectedImage
                   ? "border-2 border-red-500"
@@ -241,7 +243,7 @@ const PropertyDetails = () => {
           <div className="col-span-3 w-[100%] h-[504px]">
             <img
               className="h-full w-full rounded-xl object-cover"
-              src={selectedImage}
+              src={`${url}${selectedImage? selectedImage : images[0]}`}
               alt="Large Display"
             />
           </div>
