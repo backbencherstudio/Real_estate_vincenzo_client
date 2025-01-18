@@ -40,7 +40,7 @@ const adminApi = baseApi.injectEndpoints({
             method: "GET",
         };
     },
-    providesTags: ["owner", "properties"],
+    providesTags: ["properties", "user"],
     }),
 
     
