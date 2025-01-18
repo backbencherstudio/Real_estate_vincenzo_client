@@ -7,8 +7,9 @@ import { TfiMenuAlt } from "react-icons/tfi";
 import { MdOutlinePayment } from "react-icons/md";
 import { RxDashboard } from "react-icons/rx";
 import TenantDocuments from "../pages/Tenant/TenantDocuments/TenantDocuments";
-import { ClipboardMinus, Construction } from "lucide-react";
+import { Bolt, ClipboardMinus, Construction, UserPen } from "lucide-react";
 import Profile from "../shared/Profile";
+import UserProfile from "../shared/Settings/Profile";
 
 export const tenantPaths = [
     {
@@ -52,5 +53,22 @@ export const tenantPaths = [
 
         ],
     },
+    {
+        icon: <Bolt size={18} />,
+        name: "Settings",
+        children: [
+          {
+            icon: <UserPen size={18} />,
+            name: "Profile",
+            path: "profile",
+            element: <UserProfile />
+          },
+          {
+    
+            path: "profile/edit",
+            element: <Profile />
+          },
+        ]
+      }
 ];
 
