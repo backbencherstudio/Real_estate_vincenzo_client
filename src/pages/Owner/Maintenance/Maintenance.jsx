@@ -1,17 +1,44 @@
 import { Select, Table, Tag } from "antd";
-import CustomButton from "../../../shared/CustomButton";
-import { BiPlus } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import ownerApi from "../../../redux/fetures/owner/ownerApi";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../../redux/fetures/auth/authSlice";
 
 const Maintenance = () => {
   const navigate = useNavigate();
-
   const [pageSize, setPageSize] = useState(10);
+
+  const currentUser = useSelector(selectCurrentUser)
+
+  const {data} = ownerApi.useGetMaintenanceDataQuery(currentUser?.userId)
+
+  console.log(data?.data);
+
+  const tableData = data?.data?.map(({
+    propertyName,
+    unitNo,
+    issueType,
+    status,
+    createdAt,
+    description,
+    _id,
+  }) => ({
+    key: _id,
+    propertyName,
+    unitNo,
+    issueType,
+    status,
+    createdAt,
+    description
+  }));
+
+
 
   const handlePageSizeChange = (current, size) => {
     setPageSize(size);
   };
+
   const onChange = (value) => {
     console.log(`selected ${value}`);
   };
@@ -19,19 +46,37 @@ const Maintenance = () => {
   const onSearch = (value) => {
     console.log("search:", value);
   };
+
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
+      title : "SL",
+      dataIndex : "sl",
+      render : (text, record, index ) => index + 1
     },
     {
-      title: "Age",
-      dataIndex: "age",
+      title: "Property Name",
+      dataIndex: "propertyName",
     },
     {
-      title: "Address",
-      dataIndex: "address",
+      title: "Unit No",
+      dataIndex: "unitNo",
     },
+    {
+      title: "Issue Type",
+      dataIndex: "issueType",
+    },
+
+    {
+      title: "Description",
+      dataIndex: "description",
+      render: (text) => {
+        if (!text) return "-";
+        const words = text.split(" ");
+        const truncated = words.slice(0, 5).join(" ");
+        return words.length > 5 ? `${truncated}...` : text;
+      },
+    },
+
     {
       title: "Status",
       dataIndex: "status",
@@ -50,33 +95,19 @@ const Maintenance = () => {
         </Tag>
       ),
     },
+
+
+
+// handleClick={handleAddMaintenance}
+
   ];
-  const data = [
-    {
-      key: 1,
-      name: `Edward King `,
-      age: 32,
-      address: `London, Park Lane no. `,
-      status: "pending",
-    },
-    {
-      key: 1,
-      name: `Edward King `,
-      age: 32,
-      address: `London, Park Lane no. `,
-      status: "cancel",
-    },
-    {
-      key: 1,
-      name: `Edward King `,
-      age: 32,
-      address: `London, Park Lane no. `,
-      status: "complete",
-    },
-  ];
+  
+
   const handleAddMaintenance = () => {
     navigate("addMaintenance");
   };
+
+
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -91,14 +122,8 @@ const Maintenance = () => {
             </p>
           </span>
         </div>
-        <CustomButton
-          handleClick={handleAddMaintenance}
-          content={
-            <div className="flex items-center  gap-1">
-              {"Add Maintenance"} <BiPlus size={16} />{" "}
-            </div>
-          }
-        />
+
+
       </div>
       <div className="bg-white p-5 mt-10 rounded-2xl">
         <div className="flex justify-between items-center">
@@ -135,7 +160,7 @@ const Maintenance = () => {
 
         <Table
           columns={columns}
-          dataSource={data}
+          dataSource={tableData}
           scroll={{ x: 800 }}
           pagination={{
             pageSize: pageSize,

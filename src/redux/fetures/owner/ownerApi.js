@@ -6,55 +6,69 @@ const ownerApi = baseApi.injectEndpoints({
     getSingleOwnerAllProperties: builder.query({
       query: (id) => {
         return {
-            url: `/owner/${id}`,
-            method: "GET",
+          url: `/owner/${id}`,
+          method: "GET",
         };
-    },
-    providesTags: ["properties"],
+      },
+      providesTags: ["properties"],
     }),
 
-    getSingleOwnerAllTenants : builder.query({
-      query : (id)=>{
+    getSingleOwnerAllTenants: builder.query({
+      query: (id) => {
         return {
-          url : `/owner/unit/${id}`,
-          method :"GET"
+          url: `/owner/unit/${id}`,
+          method: "GET"
         }
       },
-      providesTags : ["tenants"]
+      providesTags: ["tenants"]
     }),
 
     createProperty: builder.mutation({
-      query: (propertyData) => {        
+      query: (propertyData) => {
         return {
-            url: "/owner/create-properties",
-            method: "POST",
-            body : propertyData
+          url: "/owner/create-properties",
+          method: "POST",
+          body: propertyData
         };
-    },
-    invalidatesTags: ["properties"],
+      },
+      invalidatesTags: ["properties"],
     }),
-    
+
     createUnit: builder.mutation({
-      query: (unitData) => {        
+      query: (unitData) => {
         return {
-            url: "/owner/create-unit",
-            method: "POST",
-            body : unitData
+          url: "/owner/create-unit",
+          method: "POST",
+          body: unitData
         };
-    },
-    invalidatesTags: ["properties"],
+      },
+      invalidatesTags: ["properties"],
     }),
 
     createTenant: builder.mutation({
-      query: (tenantData) => {        
+      query: (tenantData) => {
         return {
-            url: "/owner/create-tenant",
-            method: "POST",
-            body : tenantData
+          url: "/owner/create-tenant",
+          method: "POST",
+          body: tenantData
         };
-    },
-    invalidatesTags: ["properties"],
-    }),    
+      },
+      invalidatesTags: ["properties"],
+    }),
+
+    // =======================================================>>>>> Maintatenance API
+
+    getMaintenanceData: builder.query({
+      query: (ownerId) => {
+        return {
+          url: `/owner/maintenanceData/${ownerId}`,
+          method: "GET",
+        };
+      },
+      // invalidatesTags: ["maintenance"],
+    }),
+
+
   }),
 });
 
