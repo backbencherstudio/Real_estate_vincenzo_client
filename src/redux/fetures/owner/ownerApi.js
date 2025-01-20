@@ -68,6 +68,16 @@ const ownerApi = baseApi.injectEndpoints({
       // invalidatesTags: ["maintenance"],
     }),
 
+    getSingleMaintenanceData: builder.query({
+      query: (maintenanceId) => {
+        return {
+          url: `/owner/singleMaintenanceData/${maintenanceId}`,
+          method: "GET",
+        };
+      },
+      // invalidatesTags: ["maintenance"],
+    }),
+
 
   }),
 });

@@ -4,6 +4,7 @@ import { useState } from "react";
 import ownerApi from "../../../redux/fetures/owner/ownerApi";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../../redux/fetures/auth/authSlice";
+import { FaAngleRight } from "react-icons/fa";
 
 const Maintenance = () => {
   const navigate = useNavigate();
@@ -47,6 +48,11 @@ const Maintenance = () => {
     console.log("search:", value);
   };
 
+  const handleNavigate = (id) => {
+    navigate(`/${currentUser?.role}/maintenance/${id}`);
+  };
+ 
+
   const columns = [
     {
       title : "SL",
@@ -72,8 +78,8 @@ const Maintenance = () => {
       render: (text) => {
         if (!text) return "-";
         const words = text.split(" ");
-        const truncated = words.slice(0, 5).join(" ");
-        return words.length > 5 ? `${truncated}...` : text;
+        const truncated = words.slice(0, 10).join(" ");
+        return words.length > 10 ? `${truncated}...` : text;
       },
     },
 
@@ -83,9 +89,9 @@ const Maintenance = () => {
       render: (status) => (
         <Tag
           color={
-            status === "pending"
+            status === "Pending"
               ? "orange"
-              : status === "complete"
+              : status === "Completed"
               ? "green"
               : "red"
           }
@@ -95,17 +101,25 @@ const Maintenance = () => {
         </Tag>
       ),
     },
+    {
+      title: "Details",
+      dataIndex: "details",
+      render: (text, record) => (
+          <div>
+              <span
+                  onClick={() => handleNavigate(record?.key)}
+                  className="text-[#4A90E2] flex items-center cursor-pointer"
+              >
 
-
-
-// handleClick={handleAddMaintenance}
+                  Details <FaAngleRight className="text-[18px] ml-1" />
+                  
+              </span>
+          </div>
+      ),
+  },
 
   ];
   
-
-  const handleAddMaintenance = () => {
-    navigate("addMaintenance");
-  };
 
 
   return (

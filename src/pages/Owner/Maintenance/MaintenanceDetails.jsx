@@ -1,7 +1,21 @@
 import { MapPin } from "lucide-react";
-import React from "react";
+import { useParams } from "react-router-dom";
+import ownerApi from "../../../redux/fetures/owner/ownerApi";
+import { url } from "../../../globalConst/const";
 
 const MaintenanceDetails = () => {
+
+const {id} = useParams();
+
+const {data} = ownerApi.useGetSingleMaintenanceDataQuery(id)
+
+console.log(data?.data);
+  
+
+
+
+
+
   return (
     <div>
       <div>
@@ -19,7 +33,7 @@ const MaintenanceDetails = () => {
         {/* Left side - Image */}
         <div className="lg:w-1/2">
           <img
-            src="https://i.ibb.co.com/NZnJxtY/pexels-fotoaibe-1571459.jpg"
+            src={`${url}${data?.data.image}`}
             alt="Modern mansion"
             className="w-full lg:h-[650px] xl:h-[550px] object-cover rounded-lg"
           />
