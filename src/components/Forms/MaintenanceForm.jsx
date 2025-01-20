@@ -1,17 +1,48 @@
 /* eslint-disable react/prop-types */
 import { CircleX } from "lucide-react";
 import { useForm } from "react-hook-form";
+import maintenanceApi from "../../redux/fetures/maintenance/maintenanceApi";
+import { toast } from "sonner";
 
 const MaintenanceForm = ({ tenantData, close }) => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
-
-  // Extracting default property and unit number values
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  const [createMaintenance] = maintenanceApi.useCreateMaintenanceMutation()
+  
   const propertyName = tenantData?.propertyId?.propertyName || "Default Property Name";
   const unitNumber = tenantData?.unitId?.unitNumber || "Default Unit Number";
+  const userId = tenantData?.userId;
+  const ownerId = tenantData?.ownerId;
+  const propertyId = tenantData?.propertyId._id;
 
-  const onSubmit = (data) => {
-    console.log(data);
+
+  const onSubmit = async (data) => {
+    const maintenanceData = {
+      ...data,
+      userId,
+      ownerId,
+      propertyId,
+    };
+  
+    const formData = new FormData();
+  
+    for (const key in maintenanceData) {
+      formData.append(key, maintenanceData[key]);
+    }
+    if (data.image && data.image[0]) {
+      formData.append('image', data.image[0]); 
+    }  
+    try {
+      const response = await createMaintenance(formData);
+      if(response?.data?.success){
+        reset();
+        close(false)
+        toast.success(response?.data?.message)
+      }
+    } catch (error) {
+      console.error("Error submitting form data:", error);
+    }
   };
+  
 
   
   return (

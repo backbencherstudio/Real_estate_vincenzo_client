@@ -54,13 +54,7 @@ const ownerApi = baseApi.injectEndpoints({
         };
     },
     invalidatesTags: ["properties"],
-    }),
-
-
-
-
-
-    
+    }),    
   }),
 });
 
