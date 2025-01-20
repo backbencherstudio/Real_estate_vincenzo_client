@@ -75,6 +75,7 @@ const ownerApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags : ["maintenance"]
     }),
 
     statusChangeInMaintenanceData: builder.mutation({

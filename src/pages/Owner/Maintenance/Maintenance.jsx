@@ -14,7 +14,7 @@ const Maintenance = () => {
   const currentUser = useSelector(selectCurrentUser)
 
   const {data} = ownerApi.useGetMaintenanceDataQuery(currentUser?.userId)
-  const [statusChangeInMaintenanceData, {isLoading}] = ownerApi.useStatusChangeInMaintenanceDataMutation()
+  const [statusChangeInMaintenanceData] = ownerApi.useStatusChangeInMaintenanceDataMutation()
 
   const tableData = data?.data?.map(({
     propertyName,
