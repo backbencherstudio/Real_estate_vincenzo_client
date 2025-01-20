@@ -2,19 +2,14 @@ import { MapPin } from "lucide-react";
 import { useParams } from "react-router-dom";
 import ownerApi from "../../../redux/fetures/owner/ownerApi";
 import { url } from "../../../globalConst/const";
+import moment from "moment";
 
 const MaintenanceDetails = () => {
+  const { id } = useParams();
 
-const {id} = useParams();
+  const { data } = ownerApi.useGetSingleMaintenanceDataQuery(id);
 
-const {data} = ownerApi.useGetSingleMaintenanceDataQuery(id)
-
-console.log(data?.data);
-  
-
-
-
-
+  console.log(data?.data);
 
   return (
     <div>
@@ -42,23 +37,22 @@ console.log(data?.data);
         {/* Right side - Details Card */}
         <div className="lg:w-1/2 bg-white rounded-lg p-6 shadow-sm">
           <h1 className="text-lg lg:text-3xl font-bold text-gray-900 mb-4">
-            Design of a modern h mansion blue couch
+            Design of a modern house as mansion blue couch
           </h1>
 
           <div className="flex items-center text-lg mb-6">
-            <MapPin className="w-5 h-5 mr-2 text-blue-600" />
-            <span className="">New York Staten Island, NY 10314, USA</span>
+            <span className="">{data?.data.description}</span>
           </div>
 
           <div className="space-y-4">
-            <DetailRow label="Tenant Name" value="Adam Smith" />
-            <DetailRow label="Unit No" value="5A" />
-            <DetailRow label="Rent" value="$300" />
-            <DetailRow label="Security Deposit" value="$1200" />
-            <DetailRow label="Rent Type" value="Monthly" />
-            <DetailRow label="Late Fee" value="$100" />
-            <DetailRow label="Receipt" value="$100" />
-            <DetailRow label="Payment Due Date" value="30/12/2024" />
+            <DetailRow label="Property Name" value={data?.data.propertyName} />
+            <DetailRow label="Unit No" value={data?.data.unitNo} />
+            <DetailRow label="Issue Type" value={data?.data.issueType} />
+            <DetailRow label="Status" value={data?.data.status} />
+            <DetailRow
+              label="CreatedAt"
+              value={moment(data?.data.createdAt).format("DD MMMM YYYY")}
+            />
           </div>
         </div>
       </div>
