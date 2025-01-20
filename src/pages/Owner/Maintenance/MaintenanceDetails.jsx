@@ -4,17 +4,8 @@ import ownerApi from "../../../redux/fetures/owner/ownerApi";
 import { url } from "../../../globalConst/const";
 
 const MaintenanceDetails = () => {
-
 const {id} = useParams();
-
 const {data} = ownerApi.useGetSingleMaintenanceDataQuery(id)
-
-console.log(data?.data);
-  
-
-
-
-
 
   return (
     <div>

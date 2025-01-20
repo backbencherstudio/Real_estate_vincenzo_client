@@ -1,10 +1,11 @@
-import { Select, Table, Tag } from "antd";
+import { Select, Table } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import ownerApi from "../../../redux/fetures/owner/ownerApi";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../../redux/fetures/auth/authSlice";
 import { FaAngleRight } from "react-icons/fa";
+import { toast } from "sonner";
 
 const Maintenance = () => {
   const navigate = useNavigate();
@@ -13,8 +14,7 @@ const Maintenance = () => {
   const currentUser = useSelector(selectCurrentUser)
 
   const {data} = ownerApi.useGetMaintenanceDataQuery(currentUser?.userId)
-
-  console.log(data?.data);
+  const [statusChangeInMaintenanceData, {isLoading}] = ownerApi.useStatusChangeInMaintenanceDataMutation()
 
   const tableData = data?.data?.map(({
     propertyName,
@@ -51,6 +51,25 @@ const Maintenance = () => {
   const handleNavigate = (id) => {
     navigate(`/${currentUser?.role}/maintenance/${id}`);
   };
+
+
+  const handleStatusChange = async (newStatus,maintenanceId ) => {
+    const status = {
+      maintenanceId ,
+      status : newStatus
+    }
+
+    const response = await statusChangeInMaintenanceData(status)
+
+    if(response?.data?.success){
+      close(false)
+      toast.success(response?.data?.message)
+    }
+
+  };
+  
+
+  
  
 
   const columns = [
@@ -83,24 +102,25 @@ const Maintenance = () => {
       },
     },
 
+
     {
       title: "Status",
       dataIndex: "status",
-      render: (status) => (
-        <Tag
-          color={
-            status === "Pending"
-              ? "orange"
-              : status === "Completed"
-              ? "green"
-              : "red"
-          }
-          style={{ textTransform: "capitalize" }}
-        >
-          {status}
-        </Tag>
+      render: ( status,record) => (
+        <div>
+          <select className={`border p-1 rounded-lg text-center focus:outline-none duration-300 ${status === "Completed" ? "bg-green-50 border border-green-400" : status === "In Progress" ? "bg-yellow-50 border border-yellow-400" : "bg-red-50 border border-red-400"  } `}
+          defaultValue={status}
+          onChange={(e) => handleStatusChange(e.target.value, record?.key)}
+          >
+            <option className=" bg-red-100 " value="Pending">Pending</option>
+            <option className=" bg-yellow-100 " value="In Progress">In Progress</option>
+            <option className=" bg-green-100 " value="Completed">Completed</option>
+          </select>
+          
+        </div>
       ),
     },
+    
     {
       title: "Details",
       dataIndex: "details",
@@ -110,9 +130,7 @@ const Maintenance = () => {
                   onClick={() => handleNavigate(record?.key)}
                   className="text-[#4A90E2] flex items-center cursor-pointer"
               >
-
-                  Details <FaAngleRight className="text-[18px] ml-1" />
-                  
+                  Details <FaAngleRight className="text-[18px] ml-1" />                  
               </span>
           </div>
       ),

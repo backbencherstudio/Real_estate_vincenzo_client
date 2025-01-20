@@ -65,7 +65,7 @@ const ownerApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
-      // invalidatesTags: ["maintenance"],
+      providesTags:["maintenance"]
     }),
 
     getSingleMaintenanceData: builder.query({
@@ -75,7 +75,17 @@ const ownerApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
-      // invalidatesTags: ["maintenance"],
+    }),
+
+    statusChangeInMaintenanceData: builder.mutation({
+      query: (statusData) => {        
+        return {
+          url: `/owner/singleMaintenanceData/${statusData?.maintenanceId}`,
+          method: "PATCH",
+          body : statusData
+        };
+      },
+      invalidatesTags: ["maintenance"],
     }),
 
 
