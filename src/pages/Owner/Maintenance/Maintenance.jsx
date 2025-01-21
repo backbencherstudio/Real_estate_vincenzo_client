@@ -1,10 +1,12 @@
-import { Select, Table, Tag } from "antd";
+import { Select, Table } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import ownerApi from "../../../redux/fetures/owner/ownerApi";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../../redux/fetures/auth/authSlice";
 import { FaAngleRight } from "react-icons/fa";
+import { toast } from "sonner";
+import moment from "moment";
 
 const Maintenance = () => {
   const navigate = useNavigate();
@@ -12,9 +14,8 @@ const Maintenance = () => {
 
   const currentUser = useSelector(selectCurrentUser)
 
-  const {data} = ownerApi.useGetMaintenanceDataQuery(currentUser?.userId)
-
-  console.log(data?.data);
+  const { data, isLoading } = ownerApi.useGetMaintenanceDataQuery(currentUser?.userId)
+  const [statusChangeInMaintenanceData] = ownerApi.useStatusChangeInMaintenanceDataMutation()
 
   const tableData = data?.data?.map(({
     propertyName,
@@ -51,13 +52,30 @@ const Maintenance = () => {
   const handleNavigate = (id) => {
     navigate(`/${currentUser?.role}/maintenance/${id}`);
   };
- 
+
+
+  const handleStatusChange = async (newStatus, maintenanceId) => {
+    const status = {
+      maintenanceId,
+      status: newStatus
+    }
+
+    const response = await statusChangeInMaintenanceData(status)
+
+    if (response?.data?.success) {
+      close(false)
+      toast.success(response?.data?.message)
+    }
+
+  };
+
+
 
   const columns = [
     {
-      title : "SL",
-      dataIndex : "sl",
-      render : (text, record, index ) => index + 1
+      title: "SL",
+      dataIndex: "sl",
+      render: (text, record, index) => index + 1
     },
     {
       title: "Property Name",
@@ -71,55 +89,59 @@ const Maintenance = () => {
       title: "Issue Type",
       dataIndex: "issueType",
     },
-
+    {
+      title: "Issue Created",
+      dataIndex: "createdAt",
+      render: (createdAt) => (
+        <div>
+          {moment(createdAt).format("DD MMMM YYYY, h:mm A")}
+        </div>
+      ),
+    },
     {
       title: "Description",
       dataIndex: "description",
       render: (text) => {
         if (!text) return "-";
         const words = text.split(" ");
-        const truncated = words.slice(0, 10).join(" ");
-        return words.length > 10 ? `${truncated}...` : text;
+        const truncated = words.slice(0, 5).join(" ");
+        return words.length > 5 ? `${truncated}...` : text;
       },
     },
-
     {
       title: "Status",
       dataIndex: "status",
-      render: (status) => (
-        <Tag
-          color={
-            status === "Pending"
-              ? "orange"
-              : status === "Completed"
-              ? "green"
-              : "red"
-          }
-          style={{ textTransform: "capitalize" }}
-        >
-          {status}
-        </Tag>
+      render: (status, record) => (
+        <div>
+          <select className={`border p-1 rounded-lg text-center focus:outline-none duration-300 ${status === "Completed" ? "bg-green-50 border border-green-400" : status === "In Progress" ? "bg-yellow-50 border border-yellow-400" : "bg-red-50 border border-red-400"} `}
+            defaultValue={status}
+            onChange={(e) => handleStatusChange(e.target.value, record?.key)}
+          >
+            <option className=" bg-red-100 " value="Pending">Pending</option>
+            <option className=" bg-yellow-100 " value="In Progress">In Progress</option>
+            <option className=" bg-green-100 " value="Completed">Completed</option>
+          </select>
+
+        </div>
       ),
     },
     {
       title: "Details",
       dataIndex: "details",
       render: (text, record) => (
-          <div>
-              <span
-                  onClick={() => handleNavigate(record?.key)}
-                  className="text-[#4A90E2] flex items-center cursor-pointer"
-              >
-
-                  Details <FaAngleRight className="text-[18px] ml-1" />
-                  
-              </span>
-          </div>
+        <div>
+          <span
+            onClick={() => handleNavigate(record?.key)}
+            className="text-[#4A90E2] flex items-center cursor-pointer"
+          >
+            Details <FaAngleRight className="text-[18px] ml-1" />
+          </span>
+        </div>
       ),
-  },
+    },
 
   ];
-  
+
 
 
   return (
@@ -174,6 +196,7 @@ const Maintenance = () => {
 
         <Table
           columns={columns}
+          loading={isLoading}
           dataSource={tableData}
           scroll={{ x: 800 }}
           pagination={{

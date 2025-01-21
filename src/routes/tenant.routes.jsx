@@ -9,6 +9,8 @@ import TenantDocuments from "../pages/Tenant/TenantDocuments/TenantDocuments";
 import { Bolt, ClipboardMinus, Construction, UserPen } from "lucide-react";
 import Profile from "../shared/Profile";
 import UserProfile from "../shared/Settings/Profile";
+import MaintenanceDetails from "../pages/Owner/Maintenance/MaintenanceDetails";
+import { ToolOutlined } from "@ant-design/icons";
 
 export const tenantPaths = [
     {
@@ -45,7 +47,11 @@ export const tenantPaths = [
                 element: <TenantDocuments />
             },
             {
-
+              path: "maintenance/:id",
+              element: <MaintenanceDetails />,
+              icon: <ToolOutlined />,
+            },
+            {
                 path: "profile/edit",
                 element: <Profile />
               },
