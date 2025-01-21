@@ -4,18 +4,20 @@ import tableData from "./../../../../public/tabledata.json";
 import { Plus } from 'lucide-react';
 import DocumentForm from '../../../components/Forms/DocumentForm';
 import { useState } from 'react';
+import { BiPlus } from 'react-icons/bi';
+import CustomButton from '../../../shared/CustomButton';
 
 
 const TenantDocuments = () => {
-      const [isOpen, setIsOpen] = useState(false);
-    
-      const open = () => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    const open = () => {
         setIsOpen(true)
-      }
-      const close = () => {
+    }
+    const close = () => {
         setIsOpen(false)
-      }
-    
+    }
+
 
     const tableDatas = tableData?.map(({ invoice_id, name, amount, due_date, status, profile_picture }) => ({
         key: invoice_id, // Using invoice_id as the key for each row
@@ -107,12 +109,17 @@ const TenantDocuments = () => {
                         </nav>
                     </div>
 
-                    {/* Add Request Button - responsive size and padding */}
                     <div className="flex justify-between">
-                        <button onClick={open} className="flex items-center py-5 px-6 bg-gradient-to-l to-[#4A90E2] from-[#1565C0] active:translate-y-0.5 duration-150 text-white rounded-md font-bold">
-                            <Plus className="text-xl" />
-                        </button>
+                        <CustomButton
+                            handleClick={open}
+                            content={
+                                <div className="flex items-center  gap-1">
+                                    {"Add Documents"} <BiPlus size={16} />{" "}
+                                </div>
+                            }
+                        />
                     </div>
+                    
                 </div>
             </div>
 

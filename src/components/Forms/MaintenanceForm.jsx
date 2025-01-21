@@ -23,6 +23,7 @@ const MaintenanceForm = ({ tenantData, close }) => {
       propertyId,
     };
   
+  
     const formData = new FormData();
   
     for (const key in maintenanceData) {

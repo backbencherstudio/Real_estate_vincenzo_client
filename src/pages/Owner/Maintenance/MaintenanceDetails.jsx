@@ -1,12 +1,14 @@
-import { MapPin } from "lucide-react";
 import { useParams } from "react-router-dom";
 import ownerApi from "../../../redux/fetures/owner/ownerApi";
 import { url } from "../../../globalConst/const";
 import moment from "moment";
+import { Spin } from "antd";
 
 const MaintenanceDetails = () => {
-const {id} = useParams();
-const {data} = ownerApi.useGetSingleMaintenanceDataQuery(id)
+  const { id } = useParams();
+  const { data, isLoading } = ownerApi.useGetSingleMaintenanceDataQuery(id)
+
+  if (isLoading) return <div className="w-full h-[60vh] flex items-center justify-center " > <Spin size="large" /> </div>
 
   return (
     <div>

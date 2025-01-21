@@ -90,6 +90,18 @@ const ownerApi = baseApi.injectEndpoints({
     }),
 
 
+     // =======================================================>>>>> Document API
+     getSingleOwnerAllTenantsDocuments: builder.query({
+      query: (ownerId) => {
+        return {
+          url: `/document/${ownerId}`,
+          method: "GET",
+        };
+      },
+      providesTags : ["document"]
+    }),
+
+
   }),
 });
 

@@ -1,5 +1,5 @@
-import {  Table, Tag } from 'antd';
-import 'antd/dist/reset.css'; 
+import { Table, Tag } from 'antd';
+import 'antd/dist/reset.css';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
 import MaintenanceForm from '../../components/Forms/MaintenanceForm';
@@ -7,15 +7,16 @@ import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../redux/fetures/auth/authSlice';
 import tenantApi from '../../redux/fetures/tenant/tenantApi';
 import maintenanceApi from '../../redux/fetures/maintenance/maintenanceApi';
+import moment from 'moment';
+import { FaAngleRight } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 function MaintenanceRequests() {
   const [isOpen, setIsOpen] = useState(false);
   const currentUser = useSelector(selectCurrentUser)
-  const {data} = tenantApi.useGetTenantDetailseQuery(currentUser?.userId);
-
-  const {data : maintenanceData} = maintenanceApi.useGetSingleUserMaintenanceDataQuery(currentUser?.userId)
-  
-
+  const navigate = useNavigate();
+  const { data } = tenantApi.useGetTenantDetailseQuery(currentUser?.userId);
+  const { data: maintenanceData } = maintenanceApi.useGetSingleUserMaintenanceDataQuery(currentUser?.userId)
 
   const open = () => {
     setIsOpen(true)
@@ -24,8 +25,8 @@ function MaintenanceRequests() {
     setIsOpen(false)
   }
 
-  const tableDatas = maintenanceData?.data?.map(({ _id, createdAt, issueType ,description, propertyName, status  }) => ({
-    key: _id, 
+  const tableDatas = maintenanceData?.data?.map(({ _id, createdAt, issueType, description, propertyName, status }) => ({
+    key: _id,
     createdAt,
     issueType,
     description,
@@ -33,14 +34,36 @@ function MaintenanceRequests() {
     status,
   }));
 
+  const handleNavigate = (id) => {
+    navigate(`/${currentUser?.role}/maintenance/${id}`);
+  };
+
+
   const columns = [
     { title: 'propertyName', dataIndex: 'propertyName' },
     {
       title: 'Issue Type',
       dataIndex: 'issueType',
     },
-    { title: 'Description', dataIndex: 'description'},
-    { title: 'Ussue Create', dataIndex: 'createdAt' },
+    {
+      title: "Description",
+      dataIndex: "description",
+      render: (text) => {
+        if (!text) return "-";
+        const words = text.split(" ");
+        const truncated = words.slice(0, 8).join(" ");
+        return words.length > 8 ? `${truncated}...` : text;
+      },
+    },
+    {
+      title: 'Ussue Created',
+      dataIndex: 'createdAt',
+      render: (createdAt) => (
+        <div>
+          {moment(createdAt).format("DD MMMM YYYY, h:mm A")}
+        </div>
+      )
+    },
     {
       title: 'Status',
       dataIndex: 'status',
@@ -64,6 +87,20 @@ function MaintenanceRequests() {
         );
       },
       responsive: ['xs', 'sm', 'md', 'lg'],
+    },
+    {
+      title: "Details",
+      dataIndex: "details",
+      render: (text, record) => (
+        <div>
+          <span
+            onClick={() => handleNavigate(record?.key)}
+            className="text-[#4A90E2] flex items-center cursor-pointer"
+          >
+            Details <FaAngleRight className="text-[18px] ml-1" />
+          </span>
+        </div>
+      ),
     },
   ];
 
@@ -126,7 +163,7 @@ function MaintenanceRequests() {
       </div>
       {
         isOpen && (
-          <MaintenanceForm  tenantData={data?.data} close={close}/>
+          <MaintenanceForm tenantData={data?.data} close={close} />
         )
       }
 
