@@ -4,6 +4,8 @@ import tableData from "../../../public/tabledata.json";
 import { Plus } from 'lucide-react';
 
 function Documents() {
+  
+  
 
 
     const tableDatas = tableData?.map(({ invoice_id, name, amount, due_date, status, profile_picture }) => ({

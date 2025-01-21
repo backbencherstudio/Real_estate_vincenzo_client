@@ -11,6 +11,7 @@ const TenantDetails = () => {
     const [activeTab, setActiveTab] = useState('profile');
     const [showMenu, setShowMenu] = useState(false);
     const {id} = useParams()
+    
     const {data} = sharedApi.useGetSingleTenantDetailseQuery(id)
     
 

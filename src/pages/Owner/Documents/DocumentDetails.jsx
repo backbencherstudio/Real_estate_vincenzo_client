@@ -1,7 +1,16 @@
 import { MapPin } from "lucide-react";
-import React from "react";
+import { useParams } from "react-router-dom";
+import documentApi from "../../../redux/fetures/document/documentApi";
+import { url } from "../../../globalConst/const";
+import { Spin } from "antd";
 
 const DocumentDetails = () => {
+
+  const {id} = useParams()
+  const {data, isLoading} = documentApi.useGetSingleDocumentQuery(id)
+
+if (isLoading) return <div className="w-full h-[60vh] flex items-center justify-center " > <Spin size="large" /> </div>
+
   return (
     <div>
       <div>
@@ -19,7 +28,7 @@ const DocumentDetails = () => {
         {/* Left side - Image */}
         <div className="lg:w-1/2">
           <img
-            src="https://i.ibb.co.com/NZnJxtY/pexels-fotoaibe-1571459.jpg"
+            src={`${url}${data?.data?.image}`}
             alt="Modern mansion"
             className="w-full lg:h-[650px] xl:h-[550px] object-cover rounded-lg"
           />

@@ -21,17 +21,16 @@ const UserProfile = () => {
         <div>
             <div className="bg-white p-4 md:p-8 rounded-lg shadow-sm">
                 <div className="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-4 mb-8">
-                    <div className="w-20 h-20 rounded-lg overflow-hidden bg-gray-200 flex-shrink-0">
+                    <div className="w-20 h-20 rounded-lg overflow-hidden bg-gray-200 flex-shrink-0 flex justify-center items-center ">
                         {
-                            profileImage ?
-                                <img
-                                    src={`${url}${profileImage}`}
-                                    alt="Profile"
-                                    className="w-full h-full object-cover"
-                                />
-
-                                : <FaRegUser />
-                        }
+                            profileImage ? 
+                        <img
+                        src={`${url}${profileImage}`}
+                        alt="Profile"
+                        className="w-full h-full object-cover"
+                        />
+                        : <FaRegUser className="size-full p-4" />
+                    }
                     </div>
                     <div className="flex-grow">
                         <h2 className="text-xl font-semibold">{name || "No Name"}</h2>

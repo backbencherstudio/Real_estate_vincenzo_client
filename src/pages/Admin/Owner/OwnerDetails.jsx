@@ -24,8 +24,8 @@ const OwnerDetails = () => {
     const properties = data?.data.properties;
 
     console.log("Hello from details",ownerData);
-    console.log("Hello from details",ownerData?.permanentAddress);
-    console.log(properties);
+    // console.log("Hello from details",ownerData?.permanentAddress);
+    // console.log(properties);
 
     const tableData = properties?.map(({
         propertyName,
@@ -96,22 +96,6 @@ const OwnerDetails = () => {
         setPageSize(size);
     };
 
-    const personalInfo = {
-        name: 'Christopher',
-        email: 'Chrispher@gmail.com',
-        contact: '+111 582 654 963',
-        age: '36',
-        familyMember: '6',
-        job: 'Designer'
-    };
-
-    const addressInfo = {
-        address: 'Staten Island, NY 10314, USA',
-        city: 'New York',
-        state: 'Manhattan',
-        zipCode: '1216',
-        country: 'United State'
-    };
 
 
     const onChange = (value) => {

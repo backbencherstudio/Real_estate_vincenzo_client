@@ -1,46 +1,86 @@
 import { Select, Table, Tag } from "antd";
-import CustomButton from "../../../shared/CustomButton";
-import { BiPlus } from "react-icons/bi";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import documentApi from "../../../redux/fetures/document/documentApi";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../../redux/fetures/auth/authSlice";
+import { url } from "../../../globalConst/const";
+import { FaAngleRight } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const Documents = () => {
-  const navigate = useNavigate();
-
+  const currentUser = useSelector(selectCurrentUser);
   const [pageSize, setPageSize] = useState(10);
-
+  const {data, isLoading} = documentApi.useGetSingleOwnerAllTenantsDocumentsQuery(currentUser?.userId);
+  const navigate = useNavigate()
+  
   const handlePageSizeChange = (current, size) => {
     setPageSize(size);
   };
   const onChange = (value) => {
     console.log(`selected ${value}`);
   };
-
+  
   const onSearch = (value) => {
     console.log("search:", value);
   };
+
+
+  const tableDatas = data?.data?.map(({ _id, tenantName, propertyName, unitNumber, status, image, documentType }) => ({
+    key: _id, 
+    tenantName,
+    propertyName,
+    unitNumber,
+    status,
+    image,
+    documentType
+  }));
+
+  const handleNavigate = (id) => {
+    navigate(`/${currentUser?.role}/documents/${id}`);
+  };
+
+
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
+      title : "SL",
+      dataIndex : "sl",
+      render : (text, record, index)=> index + 1
     },
     {
-      title: "Age",
-      dataIndex: "age",
+      title: "Tenant Name",
+      dataIndex: "tenantName",
     },
     {
-      title: "Address",
-      dataIndex: "address",
+      title: "Property Name",
+      dataIndex: "propertyName",
+    },
+    { 
+      title: "Unite",
+      dataIndex: "unitNumber",
+    },
+    {
+      title: "Attachment",
+      dataIndex: "image",
+      render: (text, record) => (
+        <div>
+          <img className=" w-[80px] h-[50px]" src={`${url}${record.image}`} alt="" />
+        </div>
+      ),
+    },
+    {
+      title : "Document Type",
+      dataIndex : "documentType"
     },
     {
       title: "Status",
       dataIndex: "status",
       render: (status) => (
+
         <Tag
           color={
-            status === "pending"
+            status === "Pending"
               ? "orange"
-              : status === "complete"
+              : status === "Approved"
               ? "green"
               : "red"
           }
@@ -48,35 +88,28 @@ const Documents = () => {
         >
           {status}
         </Tag>
+
+      ),
+    },
+    {
+      title: "Details",
+      dataIndex: "details", 
+      render: (text, record) => (
+        <div>
+          <span
+            onClick={() => handleNavigate(record?.key)}
+            className="text-[#4A90E2] flex items-center cursor-pointer"
+          >
+            Details <FaAngleRight className="text-[18px] ml-1" />
+          </span>
+        </div>
       ),
     },
   ];
-  const data = [
-    {
-      key: 1,
-      name: `Edward King `,
-      age: 32,
-      address: `London, Park Lane no. `,
-      status: "pending",
-    },
-    {
-      key: 1,
-      name: `Edward King `,
-      age: 32,
-      address: `London, Park Lane no. `,
-      status: "cancel",
-    },
-    {
-      key: 1,
-      name: `Edward King `,
-      age: 32,
-      address: `London, Park Lane no. `,
-      status: "complete",
-    },
-  ];
-  const handleAddDocuments = () => {
-    navigate("addDocuments");
-  };
+ 
+  // const handleAddDocuments = () => {
+  //   navigate("addDocuments");
+  // };
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -91,14 +124,14 @@ const Documents = () => {
             </p>
           </span>
         </div>
-        <CustomButton
+        {/* <CustomButton
           handleClick={handleAddDocuments}
           content={
             <div className="flex items-center  gap-1">
               {"Add Documents"} <BiPlus size={16} />{" "}
             </div>
           }
-        />
+        /> */}
       </div>
       <div className="bg-white p-5 mt-10 rounded-2xl">
         <div className="flex justify-between items-center">
@@ -135,7 +168,8 @@ const Documents = () => {
 
         <Table
           columns={columns}
-          dataSource={data}
+          loading={isLoading}
+          dataSource={tableDatas}
           scroll={{ x: 800 }}
           pagination={{
             pageSize: pageSize,

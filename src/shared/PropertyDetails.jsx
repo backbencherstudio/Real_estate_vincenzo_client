@@ -152,17 +152,32 @@ const PropertyDetails = () => {
       title: "Kitchen",
       dataIndex: "numberOfKitchen",
     },
-    {
-      title: "Add Tenant",
-      dataIndex: "add tenant",
-      render: (text, record) => (
-        <div>
-          <button onClick={() => addTenantFun(record.key, record.ownerId, record.propertyId)} disabled={record.booked} className={`font-semibold text-green-500 ${record.booked && "text-yellow-700 cursor-not-allowed"} `} >
-            Add
-          </button>
-        </div>
-      )
-    },
+
+    ...(currentUser.role === "owner"
+      ? [
+          {
+            title: "Add Tenant",
+            dataIndex: "addTenant",
+            render: (text, record) => (
+              <div>
+                <button
+                  onClick={() =>
+                    addTenantFun(record.key, record.ownerId, record.propertyId)
+                  }
+                  disabled={record.booked}
+                  className={`font-semibold text-green-500 ${
+                    record.booked && "text-yellow-700 cursor-not-allowed"
+                  }`}
+                >
+                  Add
+                </button>
+              </div>
+            ),
+          },
+        ]
+      : []), 
+    
+
 
   ];
 
@@ -187,6 +202,9 @@ const PropertyDetails = () => {
 
   };
 
+
+  console.log(property?.propertyImages);
+  
 
   return (
     <div>
