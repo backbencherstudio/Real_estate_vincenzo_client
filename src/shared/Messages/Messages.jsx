@@ -4,6 +4,8 @@ import { MessageInput } from "../../components/Messages/MessageInput";
 
 const Messages = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [currentChat, setCurrentChat] = useState(null);
 
   return (
     <div className="">
