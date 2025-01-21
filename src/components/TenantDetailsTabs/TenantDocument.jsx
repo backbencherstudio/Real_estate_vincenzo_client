@@ -14,7 +14,7 @@ const TenantDocument = () => {
     // ================================== this is tenant Id this api get single user all documents  ( Not : this api call owner and tenent both user documents )
   const {data, isLoading} = documentApi.useFindSingleTenentDocumentByOwnerQuery(id);
 
-  console.log(data?.data);
+  console.log("dsajdasjdajkhd",data?.data);
   
 
     const documents = [
