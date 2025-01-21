@@ -75,11 +75,12 @@ const Documents = () => {
       title: "Status",
       dataIndex: "status",
       render: (status) => (
+
         <Tag
           color={
-            status === "pending"
+            status === "Pending"
               ? "orange"
-              : status === "complete"
+              : status === "Approved"
               ? "green"
               : "red"
           }
@@ -87,6 +88,7 @@ const Documents = () => {
         >
           {status}
         </Tag>
+        
       ),
     },
     {
