@@ -21,7 +21,7 @@ const authApi = baseApi.injectEndpoints({
            params: email,
        }
       },
-      providesTags : ["user"]
+      providesTags : ["user", "properties"]
     }),
 
     verifyOTP: builder.mutation({

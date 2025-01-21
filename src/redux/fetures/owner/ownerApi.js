@@ -31,7 +31,7 @@ const ownerApi = baseApi.injectEndpoints({
           body: propertyData
         };
       },
-      invalidatesTags: ["properties"],
+      invalidatesTags: ["properties", "user"],
     }),
 
     createUnit: builder.mutation({
@@ -42,7 +42,7 @@ const ownerApi = baseApi.injectEndpoints({
           body: unitData
         };
       },
-      invalidatesTags: ["properties"],
+      invalidatesTags: ["properties", "user"],
     }),
 
     createTenant: builder.mutation({
@@ -53,7 +53,7 @@ const ownerApi = baseApi.injectEndpoints({
           body: tenantData
         };
       },
-      invalidatesTags: ["properties"],
+      invalidatesTags: ["properties", "user"],
     }),
 
     // =======================================================>>>>> Maintatenance API
