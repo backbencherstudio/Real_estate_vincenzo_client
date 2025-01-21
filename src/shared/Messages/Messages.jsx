@@ -1,11 +1,40 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MessageList } from "../../components/Messages/MessageList";
 import { MessageInput } from "../../components/Messages/MessageInput";
+import { useSocket } from "../../context/SocketContext";
 
 const Messages = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
+  const { socket } = useSocket();
+
+  useEffect(() => {
+    if (socket) {
+      socket.emit("user_connected", "current-user-id"); // Replace with actual user ID
+
+      socket.on("receive_message", (newMessage) => {
+        if (currentChat && newMessage.chatId === currentChat.id) {
+          setMessages((prev) => [...prev, newMessage]);
+        }
+      });
+
+      socket.on("chat_history", (chatMessages) => {
+        setMessages(chatMessages);
+      });
+
+      return () => {
+        socket.off("receive_message");
+        socket.off("chat_history");
+      };
+    }
+  }, [socket, currentChat]);
+
+  const handleChatSelect = (chat) => {
+    setCurrentChat(chat);
+    socket.emit("join_chat", chat.id);
+    setIsSidebarOpen(false);
+  };
 
   return (
     <div className="">
@@ -24,11 +53,66 @@ const Messages = () => {
           {/* Search and Add Button */}
 
           <div className="overflow-y-auto h-[calc(100%-73px)]">
-            <MessageList />
+            <MessageList onChatSelect={handleChatSelect} />
           </div>
         </div>
+
         <div className="col-span-2 flex flex-col bg-white relative">
-          <MessageInput />
+          <div className="p-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <img
+                src={currentChat?.avatar || "https://via.placeholder.com/40"}
+                alt="User"
+                className="w-10 h-10 rounded-full"
+              />
+              <div>
+                <h3 className="font-semibold">
+                  {currentChat?.name || "Select a chat"}
+                </h3>
+                <span
+                  className={`text-sm ${
+                    currentChat?.isOnline ? "text-green-500" : "text-gray-500"
+                  }`}
+                >
+                  {currentChat?.isOnline ? "Online" : "Offline"}
+                </span>
+              </div>
+            </div>
+          </div>
+          {currentChat ? (
+            <>
+              <div className="flex-grow overflow-y-auto p-4">
+                {messages.map((msg, index) => (
+                  <div
+                    key={msg._id || index}
+                    className={`mb-4 ${
+                      msg.senderId === "current-user-id"
+                        ? "text-right"
+                        : "text-left"
+                    }`}
+                  >
+                    <div
+                      className={`inline-block p-3 rounded-lg ${
+                        msg.senderId === "current-user-id"
+                          ? "bg-blue-500 text-white"
+                          : "bg-gray-100"
+                      }`}
+                    >
+                      {msg.content}
+                    </div>
+                    <div className="text-xs text-gray-500 mt-1">
+                      {new Date(msg.timestamp).toLocaleTimeString()}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <MessageInput currentChat={currentChat} />
+            </>
+          ) : (
+            <div className="flex items-center justify-center h-full text-gray-500">
+              Select a chat to start messaging
+            </div>
+          )}
         </div>
       </div>
       <div className="md:hidden mt-4">
@@ -78,11 +162,44 @@ const Messages = () => {
           </button>
         </div>
         <div className="overflow-y-auto h-[calc(100%-137px)]">
-          <MessageList />
+          <MessageList onChatSelect={handleChatSelect} />
         </div>
       </div>
       <div className="md:hidden mt-4 bg-white rounded-lg  min-h-[660px] p-4 relative">
-        <MessageInput />
+        {currentChat ? (
+          <>
+            <div className="flex-grow overflow-y-auto p-4 mb-20">
+              {messages.map((msg, index) => (
+                <div
+                  key={msg._id || index}
+                  className={`mb-4 ${
+                    msg.senderId === "current-user-id"
+                      ? "text-right"
+                      : "text-left"
+                  }`}
+                >
+                  <div
+                    className={`inline-block p-3 rounded-lg ${
+                      msg.senderId === "current-user-id"
+                        ? "bg-blue-500 text-white"
+                        : "bg-gray-100"
+                    }`}
+                  >
+                    {msg.content}
+                  </div>
+                  <div className="text-xs text-gray-500 mt-1">
+                    {new Date(msg.timestamp).toLocaleTimeString()}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <MessageInput currentChat={currentChat} />
+          </>
+        ) : (
+          <div className="flex items-center justify-center h-full text-gray-500">
+            Select a chat to start messaging
+          </div>
+        )}
       </div>
     </div>
   );
