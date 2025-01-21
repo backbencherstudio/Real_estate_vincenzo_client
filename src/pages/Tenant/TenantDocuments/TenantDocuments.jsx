@@ -6,10 +6,18 @@ import DocumentForm from '../../../components/Forms/DocumentForm';
 import { useState } from 'react';
 import { BiPlus } from 'react-icons/bi';
 import CustomButton from '../../../shared/CustomButton';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from '../../../redux/fetures/auth/authSlice';
+import documentApi from '../../../redux/fetures/document/documentApi';
 
 
 const TenantDocuments = () => {
     const [isOpen, setIsOpen] = useState(false);
+
+    const currentUser = useSelector(selectCurrentUser);
+  const {data} = documentApi.useGetSingleUserAllDocumentsQuery(currentUser.userId)
+
+  console.log(data?.data);
 
     const open = () => {
         setIsOpen(true)

@@ -13,6 +13,16 @@ const documentApi = baseApi.injectEndpoints({
             },
             providesTags: ["document"]
         }),
+        
+        getSingleUserAllDocuments: builder.query({
+            query: (userId) => {
+                return {
+                    url: `/document/singleUserAllDocuments/${userId}`,
+                    method: "GET",
+                };
+            },
+            providesTags: ["document"]
+        }),
 
         createDocument: builder.mutation({
             query: (data) => {
