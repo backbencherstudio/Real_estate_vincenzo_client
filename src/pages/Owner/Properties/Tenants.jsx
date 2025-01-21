@@ -31,6 +31,7 @@ const Tenants = () => {
   };
 
 
+
   const columns = [
     {
       title: "SL",
@@ -66,7 +67,7 @@ const Tenants = () => {
             onClick={() => handleNavigate(record?.key)}
             className="text-[#4A90E2] flex items-center cursor-pointer"
           >
-            Details <FaAngleRight className="text-[18px] ml-1" />
+            Details {record?.userId} <FaAngleRight className="text-[18px] ml-1" />
           </span>
         </div>
       ),

@@ -47,6 +47,17 @@ const documentApi = baseApi.injectEndpoints({
             providesTags: ["document"],
         }),
 
+        findSingleTenentDocumentByOwner: builder.query({
+            query: (tenantId) => {
+                
+                return {
+                    url: `/document/findSingleTenentDocumentByOwner/${tenantId}`,
+                    method: "GET",
+                };
+            },
+            providesTags: ["document"],
+        }),
+
 
 
     }),
