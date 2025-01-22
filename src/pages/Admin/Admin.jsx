@@ -12,12 +12,17 @@ import OverviewData from "./overviewData/OverviewData";
 const AdminDashboard = () => {
   const [pageSize, setPageSize] = useState(10);
   const { data: propertyData } = adminApi.useGetAllPropertiesQuery();
+  const { data: overviewAllData, isLoading } = adminApi.useGetAllDataOverviewByAdminQuery();
   const navigate = useNavigate();
   const currentUser = useSelector(selectCurrentUser);   
 
   const handleNavigate = (id) => {
     navigate(`/${currentUser?.role}/properties/${id}`);
   };
+
+  console.log(overviewAllData?.data);
+  
+  
 
   const tableData = propertyData?.data?.map(({
     Description,
@@ -106,7 +111,6 @@ const AdminDashboard = () => {
   };
 
 
-
   return (
     <div>
       <div>
@@ -120,10 +124,7 @@ const AdminDashboard = () => {
           </p>
         </span>
       </div>
-
-      <OverviewData/>
-
-
+      <OverviewData isLoading={isLoading} overviewAllData={overviewAllData}  />
       <div>
         <DashboardChart />
       </div>

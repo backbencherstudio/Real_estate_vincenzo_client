@@ -1,9 +1,9 @@
+/* eslint-disable react/prop-types */
 import { Spin } from "antd";
-import adminApi from "../../../redux/fetures/admin/adminApi";
 import { Link } from "react-router-dom";
 
-const OverviewData = () => {
-    const { data: overviewAllData, isLoading } = adminApi.useGetAllDataOverviewByAdminQuery();
+const OverviewData = ({isLoading, overviewAllData}) => {
+   
 
     return (
         <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 ">

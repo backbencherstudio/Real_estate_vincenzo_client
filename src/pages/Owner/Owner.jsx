@@ -17,8 +17,9 @@ const OwnerDashboard = () => {
 
   // =============================>>>>>>>>  this API not for this page this is for this route http://localhost:5173/owner/properties
   const { data } = ownerApi.useGetSingleOwnerAllPropertiesQuery(currentUser?.userId);
+  const {data : overviewData} = ownerApi.useGetAllDataOverviewByOwnerQuery(currentUser?.userId);
 
-  console.log(data?.data);
+  console.log(overviewData?.data);
   
 
   const tableData = data?.data?.map(({
@@ -132,7 +133,7 @@ const OwnerDashboard = () => {
         </span>
       </div>
 
-      <div className="mt-8 grid grid-cols-4 gap-10 ">
+      <div className="mt-8 grid grid-cols-3 gap-10 ">
         {dashboardCounterObject?.map((item) => (
           <div className="bg-[#FFFFFF] p-5 rounded-lg " key={item._id}>
             <h2 className="text-[#64748B] font-semibold text-[14px] ">
