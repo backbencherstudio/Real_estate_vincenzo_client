@@ -2,8 +2,21 @@ import React from 'react';
 import image from "./../../assets/image.png"
 import pdf from "./../../assets/pdf.png"
 import { Download } from 'lucide-react';
+import { useParams } from 'react-router-dom';
+import documentApi from '../../redux/fetures/document/documentApi';
 
 const TenantDocument = () => {
+    const {id} = useParams()
+
+    console.log(id);
+    
+
+    // ================================== this is tenant Id this api get single user all documents  ( Not : this api call owner and tenent both user documents )
+  const {data, isLoading} = documentApi.useFindSingleTenentDocumentByOwnerQuery(id);
+
+  console.log(data?.data);
+  
+
     const documents = [
         { name: "Document.PNG", type: "image", url: "#" },
         { name: "Document.PDF", type: "pdf", url: "#" },

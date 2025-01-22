@@ -5,7 +5,6 @@ import { FaRegUser } from "react-icons/fa";
 const ProfileInformation = ({ personalInfo = {}, addressInfo = {} }) => {
     const allowedFields = ["email", "name", "personalInfo", "permanentAddress"];
 
-    console.log(personalInfo?.profileImage);
     
 
     // Helper function to handle null, undefined, or empty values

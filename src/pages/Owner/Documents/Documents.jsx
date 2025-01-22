@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 const Documents = () => {
   const currentUser = useSelector(selectCurrentUser);
   const [pageSize, setPageSize] = useState(10);
-  const {data} = documentApi.useGetSingleOwnerAllTenantsDocumentsQuery(currentUser?.userId);
+  const {data, isLoading} = documentApi.useGetSingleOwnerAllTenantsDocumentsQuery(currentUser?.userId);
   const navigate = useNavigate()
   
   const handlePageSizeChange = (current, size) => {
@@ -75,11 +75,12 @@ const Documents = () => {
       title: "Status",
       dataIndex: "status",
       render: (status) => (
+
         <Tag
           color={
-            status === "pending"
+            status === "Pending"
               ? "orange"
-              : status === "complete"
+              : status === "Approved"
               ? "green"
               : "red"
           }
@@ -87,6 +88,7 @@ const Documents = () => {
         >
           {status}
         </Tag>
+
       ),
     },
     {
@@ -166,6 +168,7 @@ const Documents = () => {
 
         <Table
           columns={columns}
+          loading={isLoading}
           dataSource={tableDatas}
           scroll={{ x: 800 }}
           pagination={{

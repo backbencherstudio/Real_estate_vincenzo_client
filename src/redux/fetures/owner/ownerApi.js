@@ -31,7 +31,7 @@ const ownerApi = baseApi.injectEndpoints({
           body: propertyData
         };
       },
-      invalidatesTags: ["properties"],
+      invalidatesTags: ["properties", "user", "overview"],
     }),
 
     createUnit: builder.mutation({
@@ -42,7 +42,7 @@ const ownerApi = baseApi.injectEndpoints({
           body: unitData
         };
       },
-      invalidatesTags: ["properties"],
+      invalidatesTags: ["properties", "user", "overview"],
     }),
 
     createTenant: builder.mutation({
@@ -53,7 +53,7 @@ const ownerApi = baseApi.injectEndpoints({
           body: tenantData
         };
       },
-      invalidatesTags: ["properties"],
+      invalidatesTags: ["properties", "user", "overview"],
     }),
 
     // =======================================================>>>>> Maintatenance API
@@ -65,7 +65,7 @@ const ownerApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
-      providesTags:["maintenance"]
+      providesTags: ["maintenance"]
     }),
 
     getSingleMaintenanceData: builder.query({
@@ -75,30 +75,42 @@ const ownerApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
-      providesTags : ["maintenance"]
+      providesTags: ["maintenance"]
     }),
 
     statusChangeInMaintenanceData: builder.mutation({
-      query: (statusData) => {        
+      query: (statusData) => {
         return {
           url: `/owner/singleMaintenanceData/${statusData?.maintenanceId}`,
           method: "PATCH",
-          body : statusData
+          body: statusData
         };
       },
       invalidatesTags: ["maintenance"],
     }),
 
 
-     // =======================================================>>>>> Document API
-     getSingleOwnerAllTenantsDocuments: builder.query({
+    // =======================================================>>>>> Document API
+    getSingleOwnerAllTenantsDocuments: builder.query({
       query: (ownerId) => {
         return {
           url: `/document/${ownerId}`,
           method: "GET",
         };
       },
-      providesTags : ["document"]
+      providesTags: ["document"]
+    }),
+
+
+    // =======================================================>>>>> overview  API
+    getAllDataOverviewByOwner: builder.query({
+      query: (ownerId) => {
+        return {
+          url: `/owner/getAllDataOverviewByOwner/${ownerId}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["overview"]
     }),
 
 

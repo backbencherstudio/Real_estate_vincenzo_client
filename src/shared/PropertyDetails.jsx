@@ -201,9 +201,6 @@ const PropertyDetails = () => {
     }
 
   };
-
-
-  console.log(property?.propertyImages);
   
 
   return (
@@ -305,7 +302,7 @@ const PropertyDetails = () => {
       <div className="bg-white p-5 mt-10 rounded-2xl">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="clamp-text font-semibold my-5"> Property Details </h1>
+            <h1 className="clamp-text font-semibold my-5"> {property?.propertyName} <span className="text-xl" >( All Units )</span> </h1>
           </div>{" "}
           <div>
             {
