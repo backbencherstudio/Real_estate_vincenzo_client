@@ -2,19 +2,19 @@ import { baseApi } from "../../api/baseApi";
 
 const adminApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    
+
     getALlUser: builder.query({
       query: (role) => {
         return {
-            url: `/auth/allUsers?role=${role}`,
-            method: "GET",
+          url: `/auth/allUsers?role=${role}`,
+          method: "GET",
         };
-    },
-    providesTags: ["user"],
+      },
+      providesTags: ["user"],
     }),
 
-    getAllProperties : builder.query({
-      query: ()=>{
+    getAllProperties: builder.query({
+      query: () => {
         return {
           url: `/admin/getAllProterties`,
           method: "GET",
@@ -22,9 +22,9 @@ const adminApi = baseApi.injectEndpoints({
       },
       providesTags: ["properties"],
     }),
-    
-    getAllTenants : builder.query({
-      query: ()=>{
+
+    getAllTenants: builder.query({
+      query: () => {
         return {
           url: `/admin/getALlTenants`,
           method: "GET",
@@ -36,14 +36,30 @@ const adminApi = baseApi.injectEndpoints({
     getSingleOwnerAllPropertiesWithOwnerInfo: builder.query({
       query: (id) => {
         return {
-            url: `/admin/getSingleOwnerAllPropertiesWithOwnerInfo/${id}`,
-            method: "GET",
+          url: `/admin/getSingleOwnerAllPropertiesWithOwnerInfo/${id}`,
+          method: "GET",
         };
-    },
-    providesTags: ["properties", "user"],
+      },
+      providesTags: ["properties", "user"],
     }),
 
-    
+
+
+    // =================================================>>>>  All data overview
+    getAllDataOverviewByAdmin: builder.query({
+      query: () => {
+        return {
+          url: `/admin/getAllDataOverviewByAdmin`,
+          method: "GET",
+        };
+      },
+      providesTags: ["properties", "user"],
+    }),
+
+
+
+
+
   }),
 });
 

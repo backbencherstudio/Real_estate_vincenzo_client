@@ -1,19 +1,19 @@
 import { Select, Table } from "antd";
 import DashboardChart from "../../components/AdminComponents/DashboardChart";
-import { dashboardCounterObject } from "../../testJsonData/testJson";
 import { useState } from "react";
 import adminApi from "../../redux/fetures/admin/adminApi";
 import { FaAngleRight } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { selectCurrentUser } from "../../redux/fetures/auth/authSlice";
 import { useSelector } from "react-redux";
+import OverviewData from "./overviewData/OverviewData";
 
 
 const AdminDashboard = () => {
   const [pageSize, setPageSize] = useState(10);
   const { data: propertyData } = adminApi.useGetAllPropertiesQuery();
   const navigate = useNavigate();
-  const currentUser = useSelector(selectCurrentUser); 
+  const currentUser = useSelector(selectCurrentUser);   
 
   const handleNavigate = (id) => {
     navigate(`/${currentUser?.role}/properties/${id}`);
@@ -121,19 +121,8 @@ const AdminDashboard = () => {
         </span>
       </div>
 
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 ">
-        {dashboardCounterObject?.map((item) => (
-          <div className="bg-[#FFFFFF] p-5 rounded-lg " key={item._id}>
-            <h2 className="text-[#64748B] font-semibold text-[14px] ">
-              {item.title}
-            </h2>
-            <h2 className="text-[#1C2434] font-semibold text-[24px] py-4 ">
-              {item.count}
-            </h2>
-            <button className="text-[#4A90E2]">View List</button>
-          </div>
-        ))}
-      </div>
+      <OverviewData/>
+
 
       <div>
         <DashboardChart />
