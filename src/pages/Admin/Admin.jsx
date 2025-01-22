@@ -1,4 +1,4 @@
-import { Select, Table } from "antd";
+import { Select, Spin, Table } from "antd";
 import DashboardChart from "../../components/AdminComponents/DashboardChart";
 import { useState } from "react";
 import adminApi from "../../redux/fetures/admin/adminApi";
@@ -124,7 +124,12 @@ const AdminDashboard = () => {
           </p>
         </span>
       </div>
-      <OverviewData isLoading={isLoading} overviewAllData={overviewAllData}  />
+
+      {
+        isLoading ? <div className="flex justify-center items-center h-[150px] " ><Spin size="large" /></div> :
+      <OverviewData  overviewAllData={overviewAllData}  />
+      }
+
       <div>
         <DashboardChart />
       </div>
