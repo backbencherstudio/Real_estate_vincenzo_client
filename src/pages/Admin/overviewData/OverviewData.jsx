@@ -10,7 +10,7 @@ const OverviewData = ({ overviewAllData }) => {
         <div className={`mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10`}>
             {
                 overviewAllData?.data.ownersLength &&
-                <div className="bg-[#FFFFFF] p-5 rounded-lg ">
+                <div className="bg-[#FFFFFF] p-5 rounded-lg shadow-md ">
                     <h2 className="text-[#64748B] font-semibold text-[14px] ">
                         Property Owner
                     </h2>
@@ -21,7 +21,7 @@ const OverviewData = ({ overviewAllData }) => {
                 </div>
             }
 
-            <div className="bg-[#FFFFFF] p-5 rounded-lg ">
+            <div className="bg-[#FFFFFF] p-5 rounded-lg shadow-md ">
                 <h2 className="text-[#64748B] font-semibold text-[14px] ">
                     Total Property
                 </h2>
@@ -35,7 +35,7 @@ const OverviewData = ({ overviewAllData }) => {
             {
                 overviewAllData?.data.unitsLength && 
 
-            <div className="bg-[#FFFFFF] p-5 rounded-lg ">
+            <div className="bg-[#FFFFFF] p-5 rounded-lg shadow-md ">
                 <h2 className="text-[#64748B] font-semibold text-[14px] ">
                     Total Unit
                 </h2>
@@ -46,7 +46,7 @@ const OverviewData = ({ overviewAllData }) => {
             </div>
             }
 
-            <div className="bg-[#FFFFFF] p-5 rounded-lg ">
+            <div className="bg-[#FFFFFF] p-5 rounded-lg shadow-md ">
                 <h2 className="text-[#64748B] font-semibold text-[14px] ">
                     Total Tenant
                 </h2>
