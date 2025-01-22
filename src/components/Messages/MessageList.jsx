@@ -2,46 +2,19 @@ import { useState, useEffect } from "react";
 import { useSocket } from "../../context/SocketContext";
 import adminApi from "../../redux/fetures/admin/adminApi";
 
-export const MessageList = ({ onChatSelect }) => {
+export const MessageList = ({ onChatSelect, userData }) => {
   const [chats, setChats] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const { socket, onlineUsers } = useSocket();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { data: userData } = adminApi.useGetALlUserQuery("tenant");
-  console.log(userData?.data);
-  useEffect(() => {
-    if (socket) {
-      // Get initial chats
-      socket.emit("get_chats");
-      socket.on("chats_received", (receivedChats) => {
-        setChats(receivedChats || []);
-        setIsLoading(false);
-      });
-
-      socket.on("new_message_notification", (chatId) => {
-        setChats((prevChats) =>
-          prevChats.map((chat) =>
-            chat.id === chatId
-              ? { ...chat, unreadCount: (chat.unreadCount || 0) + 1 }
-              : chat
-          )
-        );
-      });
-
-      return () => {
-        socket.off("chats_received");
-        socket.off("new_message_notification");
-      };
-    }
-  }, [socket]);
 
   // Safe filtering of chats
-  const filteredUsers = userData?.data?.filter((user) =>
+  const filteredUsers = userData?.filter((user) =>
     (user?.name || "").toLowerCase().includes((searchTerm || "").toLowerCase())
   );
 
-  if (isLoading) {
+  if (!isLoading) {
     return (
       <div className="p-4">
         <div className="animate-pulse">
