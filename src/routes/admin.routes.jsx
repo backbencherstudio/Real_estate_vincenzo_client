@@ -45,7 +45,7 @@ export const adminPaths = [
             {
                 icon: <FaBuildingUser size={18} />,
                 name: "Tenant",
-                path: "tenant",
+                path: "tenants",
                 element: <AllTenant />,
             },
             {
