@@ -38,16 +38,10 @@ export const tenantPaths = [
                 element: <MaintenanceRequests></MaintenanceRequests>,
             },
             {
-<<<<<<< HEAD
-                name: "DocumentsTenant",
-                path: "documentstenant",
-                element: <DocumentsTenant></DocumentsTenant>
-=======
                 icon:<ClipboardMinus size={18} />,
                 name: "Documents",
                 path: "documents",
                 element: <TenantDocuments />
->>>>>>> ecc7206689cd6929ac135e3e7fbd0d5ed00cc343
             },
 
         ],
