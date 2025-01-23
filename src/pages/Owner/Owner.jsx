@@ -1,10 +1,10 @@
-import { Select, Table, Tag } from "antd";
+import { Select, Spin, Table, Tag } from "antd";
 import DashboardChart from "../../components/AdminComponents/DashboardChart";
-import { dashboardCounterObject } from "../../testJsonData/testJson";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../redux/fetures/auth/authSlice";
 import ownerApi from "../../redux/fetures/owner/ownerApi";
+import OverviewData from "../Admin/overviewData/OverviewData";
 
 const OwnerDashboard = () => {
   const [pageSize, setPageSize] = useState(10);
@@ -12,50 +12,51 @@ const OwnerDashboard = () => {
   const handlePageSizeChange = (current, size) => {
     setPageSize(size);
   };
-  
+
   const currentUser = useSelector(selectCurrentUser);
 
   // =============================>>>>>>>>  this API not for this page this is for this route http://localhost:5173/owner/properties
-  const { data } = ownerApi.useGetSingleOwnerAllPropertiesQuery(currentUser?.userId);
+  const { data } = ownerApi.useGetSingleOwnerAllPropertiesQuery(
+    currentUser?.userId
+  );
+  const { data: overviewData, isLoading } =
+    ownerApi.useGetAllDataOverviewByOwnerQuery(currentUser?.userId);
 
-  console.log(data?.data);
-  
+  console.log(overviewData?.data);
 
-
-
-  const tableData = data?.data?.map(({
-    Description,
-    amenities,
-    availableParking,
-    createdAt,
-    houseNumber,
-    maintainerName,
-    numberOfUnits,
-    ownerId,
-    propertyImages,
-    propertyLocation,
-    propertyName,
-    totalRent,
-    updatedAt,
-    _id,
-  }) => ({
-    key: _id,
-    Description,
-    amenities,
-    availableParking,
-    createdAt,
-    houseNumber,
-    maintainerName,
-    numberOfUnits,
-    ownerId,
-    propertyImages,
-    propertyLocation,
-    propertyName,
-    totalRent,
-    updatedAt,
-  }));
-
-
+  const tableData = data?.data?.map(
+    ({
+      Description,
+      amenities,
+      availableParking,
+      createdAt,
+      houseNumber,
+      maintainerName,
+      numberOfUnits,
+      ownerId,
+      propertyImages,
+      propertyLocation,
+      propertyName,
+      totalRent,
+      updatedAt,
+      _id,
+    }) => ({
+      key: _id,
+      Description,
+      amenities,
+      availableParking,
+      createdAt,
+      houseNumber,
+      maintainerName,
+      numberOfUnits,
+      ownerId,
+      propertyImages,
+      propertyLocation,
+      propertyName,
+      totalRent,
+      updatedAt,
+    })
+  );
 
   const columns = [
     {
@@ -79,8 +80,8 @@ const OwnerDashboard = () => {
             status === "pending"
               ? "orange"
               : status === "complete"
-                ? "green"
-                : "red"
+              ? "green"
+              : "red"
           }
           style={{ textTransform: "capitalize" }}
         >
@@ -134,30 +135,21 @@ const OwnerDashboard = () => {
         </span>
       </div>
 
-      <div className="mt-8 grid grid-cols-4 gap-10 ">
-        {dashboardCounterObject?.map((item) => (
-          <div className="bg-[#FFFFFF] p-5 rounded-lg " key={item._id}>
-            <h2 className="text-[#64748B] font-semibold text-[14px] ">
-              {item.title}
-            </h2>
-            <h2 className="text-[#1C2434] font-semibold text-[24px] py-4 ">
-              {item.count}
-            </h2>
-            <button className="text-[#4A90E2]">View List</button>
-          </div>
-        ))}
-      </div>
+      {isLoading ? (
+        <div className="flex justify-center items-center h-[150px] ">
+          <Spin size="large" />
+        </div>
+      ) : (
+        <OverviewData overviewAllData={overviewData} />
+      )}
 
       <div>
-        <DashboardChart />
+        <DashboardChart overviewData={overviewData} />
       </div>
       <div className="bg-white p-5 mt-10 rounded-2xl">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="clamp-text font-semibold my-5">
-              {" "}
-              Recent Payments{" "}
-            </h1>
+            <h1 className="clamp-text font-semibold my-5"> Recent Payments </h1>
           </div>{" "}
           <div>
             <Select

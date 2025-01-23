@@ -11,11 +11,8 @@ const TenantDetails = () => {
     const [activeTab, setActiveTab] = useState('profile');
     const [showMenu, setShowMenu] = useState(false);
     const {id} = useParams()
+    
     const {data} = sharedApi.useGetSingleTenantDetailseQuery(id)
-
-    console.log(data);
-    // console.log("gg",data?.data?.userId);
-    // console.log("ggwp",data?.data?.propertyId);
     
 
     const tabs = [

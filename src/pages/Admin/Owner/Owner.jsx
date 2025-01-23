@@ -30,6 +30,7 @@ const Owner = () => {
     totalRentAmount: totalRentAmount | 0,
     contactNumber: personalInfo?.contactNumber | "N/F",
   }));
+  
   const handlePageSizeChange = (current, size) => {
     setPageSize(size);
   };

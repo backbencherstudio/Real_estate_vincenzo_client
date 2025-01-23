@@ -13,6 +13,17 @@ const authApi = baseApi.injectEndpoints({
       },
     }),
 
+    getSingleUserInfo: builder.query({
+      query: (email) => {
+        return {
+          url: `/auth?email=${email}`,
+           method: "GET",
+           params: email,
+       }
+      },
+      providesTags : ["user", "properties"]
+    }),
+
     verifyOTP: builder.mutation({
       query: (otpData) => {              
         return {

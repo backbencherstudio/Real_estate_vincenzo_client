@@ -1,21 +1,45 @@
-import React from 'react';
+import React from "react";
+import { url } from "../../globalConst/const";
+import { FaRegUser } from "react-icons/fa";
 
 const ProfileInformation = ({ personalInfo = {}, addressInfo = {} }) => {
     const allowedFields = ["email", "name", "personalInfo", "permanentAddress"];
+
+    
+
+    // Helper function to handle null, undefined, or empty values
+    const displayValue = (value) => {
+        if (typeof value === "object" && value !== null) {
+            return Object.values(value).filter(Boolean).join(", ") || "N/A";
+        }
+        return value || "N/A";
+    };
+
     return (
         <div className="bg-white p-4 md:p-8 rounded-lg shadow-sm">
             {/* Profile Header */}
             <div className="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-4 mb-8">
                 <div className="w-20 h-20 rounded-lg overflow-hidden bg-gray-200 flex-shrink-0">
-                    <img
-                        src="https://i.ibb.co/64FD6zw/nafiz.jpg"
+
+                    {
+                                            personalInfo?.profileImage ? 
+                                            <img
+                                            src={`${url}${personalInfo?.profileImage}`}
+                                            alt="Profile"
+                                            className="w-full h-full object-cover"
+                                            />
+                                            : <FaRegUser className="size-full p-4" />
+                                        }
+
+                    {/* <img
+                        src={`${url}${personalInfo?.profileImage}`}
                         alt="Profile"
                         className="w-full h-full object-cover"
-                    />
+                    /> */}
                 </div>
                 <div className="flex-grow">
-                    <h2 className="text-xl font-semibold">{personalInfo?.name}</h2>
-                    <p className="text-gray-500">{personalInfo?.email}</p>
+                    <h2 className="text-xl font-semibold">{displayValue(personalInfo?.name)}</h2>
+                    <p className="text-gray-500">{displayValue(personalInfo?.email)}</p>
                 </div>
             </div>
 
@@ -29,13 +53,9 @@ const ProfileInformation = ({ personalInfo = {}, addressInfo = {} }) => {
                         .map(([key, value]) => (
                             <div key={key} className="flex flex-col sm:flex-row sm:justify-between pb-2">
                                 <span className="text-gray-600 capitalize mb-1 sm:mb-0">
-                                    {key.replace(/([A-Z])/g, ' $1').trim()}
+                                    {key.replace(/([A-Z])/g, " $1").trim()}
                                 </span>
-                                <span className="font-medium">
-                                    {typeof value === 'object'
-                                        ? Object.values(value).filter(Boolean).join(', ')
-                                        : value || 'N/A'}
-                                </span>
+                                <span className="font-medium">{displayValue(value)}</span>
                             </div>
                         ))}
                 </div>
@@ -43,17 +63,13 @@ const ProfileInformation = ({ personalInfo = {}, addressInfo = {} }) => {
                 {/* Permanent Address */}
                 <div className="space-y-4">
                     <h3 className="text-lg font-semibold mb-4">Permanent Address</h3>
-                    {addressInfo ? (
+                    {Object.keys(addressInfo).length ? (
                         Object.entries(addressInfo).map(([key, value]) => (
                             <div key={key} className="flex flex-col sm:flex-row sm:justify-between pb-2">
                                 <span className="text-gray-600 capitalize mb-1 sm:mb-0">
-                                    {key.replace(/([A-Z])/g, ' $1').trim()}
+                                    {key.replace(/([A-Z])/g, " $1").trim()}
                                 </span>
-                                <span className="font-medium">
-                                    {typeof value === 'object'
-                                        ? Object.values(value).filter(Boolean).join(', ')
-                                        : value || 'N/A'}
-                                </span>
+                                <span className="font-medium">{displayValue(value)}</span>
                             </div>
                         ))
                     ) : (

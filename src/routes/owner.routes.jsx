@@ -12,7 +12,11 @@ import Properties from "../pages/Owner/Properties/Properties";
 import PropertyDetails from "../shared/PropertyDetails";
 import Tenants from "../pages/Owner/Properties/Tenants";
 import TenantDetails from "../shared/TenantDetails";
-import { MdOutlineDashboard } from "react-icons/md";
+import { MdOutlineDashboard, MdOutlineMessage } from "react-icons/md";
+import { Bolt, UserPen } from "lucide-react";
+import UserProfile from "../shared/Settings/Profile";
+import Profile from "../shared/Profile";
+import Messages from "../shared/Messages/Messages";
 
 export const ownerPaths = [
   {
@@ -21,6 +25,7 @@ export const ownerPaths = [
     element: <OwnerDashboard />,
     icon: <MdOutlineDashboard />,
   },
+
   {
     name: "Properties",
     icon: <PiBuildingApartment />,
@@ -47,7 +52,7 @@ export const ownerPaths = [
         icon: <TeamOutlined />,
       },
       {
-        path: "tenants/:id",
+        path: "tenant/:id",
         element: <TenantDetails />,
         icon: <TeamOutlined />,
       },
@@ -74,5 +79,27 @@ export const ownerPaths = [
     path: "documents/:id",
     element: <DocumentDetails />,
     icon: <FileOutlined />,
+  },
+  {
+    name: "Messages",
+    path: "messages",
+    element: <Messages />,
+    icon: <MdOutlineMessage />,
+  },
+  {
+    icon: <Bolt size={18} />,
+    name: "Settings",
+    children: [
+      {
+        icon: <UserPen size={18} />,
+        name: "Profile",
+        path: "profile",
+        element: <UserProfile />,
+      },
+      {
+        path: "profile/edit",
+        element: <Profile />,
+      },
+    ],
   },
 ];

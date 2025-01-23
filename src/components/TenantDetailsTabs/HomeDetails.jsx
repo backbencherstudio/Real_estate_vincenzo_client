@@ -1,23 +1,31 @@
 import { MapPin } from 'lucide-react';
 import React from 'react';
+import { url } from '../../globalConst/const';
 
 const HomeDetails = ({ homeDetails }) => {
   console.log("home", homeDetails);
   const {
+    maintainerName,
+    propertyImages,
     propertyName,
     Description,
     propertyLocation,
     numberOfUnits,
     houseNumber,
     availableParking,
+    totalRent,
+    totalBookedRent,
+    numberOfBookedUnits,
+  
   } = homeDetails;
-
+  const images = Array.isArray(propertyImages) ? propertyImages : [];
+  console.log("dadadhas",images);
   return (
     <div className="lg:flex gap-8 space-y-4 lg:space-y-0">
       {/* Left side - Image */}
       <div className="lg:w-1/2">
         <img
-          src="https://i.ibb.co.com/NZnJxtY/pexels-fotoaibe-1571459.jpg"
+          src={`${url}${images[0]}`}
           alt="Modern mansion"
           className="w-full lg:h-[650px] xl:h-[550px] object-cover rounded-lg"
         />
@@ -41,16 +49,13 @@ const HomeDetails = ({ homeDetails }) => {
 
         {/* Additional Details */}
         <div className="space-y-4">
-          {/* <DetailRow label="Tenant Name" value={maintainerName || 'N/A'} /> */}
+          <DetailRow label="Tenant Name" value={maintainerName || 'N/A'} />
           <DetailRow label="House Number" value={houseNumber || 'N/A'} />
           <DetailRow label="Number of Units" value={numberOfUnits || 'N/A'} />
+          <DetailRow label="Number Of Booked Units" value={numberOfBookedUnits || 0} />
           <DetailRow label="Available Parking" value={availableParking ? "Yes" : "No"} />
-          <DetailRow label="Rent" value="$300" />
-          <DetailRow label="Security Deposit" value="$1200" />
-          <DetailRow label="Rent Type" value="Monthly" />
-          <DetailRow label="Late Fee" value="$100" />
-          <DetailRow label="Receipt" value="$100" />
-          <DetailRow label="Payment Due Date" value="30/12/2024" />
+          <DetailRow label="Rent" value={totalRent || 0} />
+          <DetailRow label="Security Deposit" value={totalBookedRent || 0} />
         </div>
       </div>
     </div>

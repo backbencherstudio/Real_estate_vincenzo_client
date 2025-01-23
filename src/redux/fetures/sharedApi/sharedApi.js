@@ -21,7 +21,20 @@ const sharedApi = baseApi.injectEndpoints({
           method: "GET",
         }
       },
+    }),
+
+    updateProfile : builder.mutation({
+      query: (profileData)=>{
+        return {
+          url: "/auth",
+          method: "PATCH",
+          body:profileData
+        }
+      },
+      invalidatesTags:["user"]
     })
+
+
 
 
 
