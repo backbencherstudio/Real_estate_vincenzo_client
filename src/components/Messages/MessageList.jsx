@@ -4,7 +4,6 @@ export const MessageList = ({ onChatSelect, userData, currentUser }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  console.log(userData);
 
   // Safe filtering of chats - exclude current user and apply search filter
   const filteredUsers = userData?.filter(
@@ -14,7 +13,6 @@ export const MessageList = ({ onChatSelect, userData, currentUser }) => {
         .toLowerCase()
         .includes((searchTerm || "").toLowerCase())
   );
-  console.log(filteredUsers);
 
   if (!isLoading) {
     return (
@@ -34,6 +32,7 @@ export const MessageList = ({ onChatSelect, userData, currentUser }) => {
   if (error) {
     return <div className="p-4 text-center text-red-500">{error}</div>;
   }
+  console.log(filteredUsers);
 
   return (
     <div className="h-[600px]">

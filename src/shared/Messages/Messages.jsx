@@ -12,9 +12,9 @@ const Messages = () => {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   const [currentChat, setCurrentChat] = useState(null);
-  const [recipient, setRecipient] = useState("");
   const [user, setUser] = useState("");
   const currentUser = useSelector(selectCurrentUser);
+  const [recipient, setRecipient] = useState(currentUser?.email);
   const { data: userData } = adminApi.useGetALlUserQuery("");
   const [unreadMessages, setUnreadMessages] = useState({});
   const [lastMessages, setLastMessages] = useState({});
@@ -146,10 +146,10 @@ const Messages = () => {
     e.preventDefault();
     if (message && recipient) {
       const messageData = {
-        to: recipient,
+        recipient: recipient,
         message: message,
         timestamp: new Date(),
-        user: currentUser?.email,
+        sender: currentUser?.email,
       };
       socket.emit("message", messageData);
       setMessage(""); // Clear input after sending
