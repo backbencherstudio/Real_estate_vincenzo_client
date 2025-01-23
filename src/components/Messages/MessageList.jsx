@@ -5,7 +5,6 @@ export const MessageList = ({ onChatSelect, userData, currentUser }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Safe filtering of chats - exclude current user and apply search filter
   const filteredUsers = userData?.filter(
     (user) =>
       user.email !== currentUser &&
@@ -106,7 +105,8 @@ export const MessageList = ({ onChatSelect, userData, currentUser }) => {
                       : "text-gray-500"
                   }`}
                 >
-                  {user.lastMessage?.content || "No messages yet"}
+                  {/* {user.lastMessage?.content || "No messages yet"} */}
+                  {user.email || "No messages yet"}
                 </p>
               </div>
               <div className="flex flex-col items-end">

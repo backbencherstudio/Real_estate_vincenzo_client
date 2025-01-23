@@ -30,42 +30,32 @@ const Messages = () => {
   }, [messages]);
 
   // Fetch message history when component mounts or recipient changes
-  useEffect(() => {
-    if (recipient) {
-      fetch("http://localhost:4000/chats")
-        .then((response) => response.json())
-        .then((data) => {
-          // Filter messages for the current chat
-          const chatMessages = data.filter(
-            (msg) =>
-              (msg.recipient === recipient &&
-                msg.sender === currentUser?.email) ||
-              (msg.recipient === currentUser?.email && msg.sender === recipient)
-          );
-          setMessages(chatMessages);
-
-          // Update last message for all users - get the most recent message
-          const lastMessagesMap = {};
-          data.forEach((msg) => {
-            const otherUser =
-              msg.sender === currentUser?.email ? msg.recipient : msg.sender;
-            // Only update if this message is more recent than the existing one
-            if (
-              !lastMessagesMap[otherUser] ||
-              new Date(msg.timestamp) >
-                new Date(lastMessagesMap[otherUser].timestamp)
-            ) {
-              lastMessagesMap[otherUser] = {
-                content: msg.content,
-                timestamp: msg.timestamp,
-              };
-            }
-          });
-          setLastMessages(lastMessagesMap);
-        })
-        .catch((error) => console.error("Error fetching messages:", error));
-    }
-  }, [recipient, currentUser]);
+  // useEffect(() => {
+  //   if (recipient) {
+  //     fetch("http://localhost:4000/chats")
+  //       .then((response) => response.json())
+  //       .then((data) => {
+  //         setMessages(data);
+  //         const lastMessagesMap = {};
+  //         data.forEach((msg) => {
+  //           const otherUser =
+  //             msg.sender === currentUser?.email ? msg.recipient : msg.sender;
+  //           if (
+  //             !lastMessagesMap[otherUser] ||
+  //             new Date(msg.timestamp) >
+  //               new Date(lastMessagesMap[otherUser].timestamp)
+  //           ) {
+  //             lastMessagesMap[otherUser] = {
+  //               content: msg.content,
+  //               timestamp: msg.timestamp,
+  //             };
+  //           }
+  //         });
+  //         setLastMessages(lastMessagesMap);
+  //       })
+  //       .catch((error) => console.error("Error fetching messages:", error));
+  //   }
+  // }, [recipient, currentUser]);
 
   useEffect(() => {
     socket.emit("join", currentUser?.email);
@@ -81,7 +71,6 @@ const Messages = () => {
       setOnlineUsers(users);
     });
 
-    // Listen for user connected event
     socket.on("user_connected", (userId) => {
       setOnlineUsers((prev) => ({
         ...prev,
@@ -89,7 +78,6 @@ const Messages = () => {
       }));
     });
 
-    // Listen for user disconnected event
     socket.on("user_disconnected", (userId) => {
       setOnlineUsers((prev) => ({
         ...prev,
@@ -99,14 +87,15 @@ const Messages = () => {
 
     socket.on("message", (message) => {
       setMessages((prevMessages) => [...prevMessages, message]);
-
-      // Update last message when receiving new message
-      setLastMessages((prev) => ({
-        ...prev,
-        [message.sender === currentUser?.email
-          ? message.recipient
-          : message.sender]: message.content,
-      }));
+      // setLastMessages((prev) => ({
+      //   ...prev,
+      //   [message.sender === currentUser?.email
+      //     ? message.recipient
+      //     : message.sender]: {
+      //     content: message.content,
+      //     timestamp: message.timestamp,
+      //   },
+      // }));
 
       if (message.sender !== currentUser?.email) {
         setUnreadMessages((prev) => ({
@@ -123,7 +112,6 @@ const Messages = () => {
     socket.on("user list", (userList) => {
       // console.log("User list updated:", userList);
     });
-
     return () => {
       socket.emit("user_offline", currentUser?.email);
       socket.off("online_users");
@@ -234,26 +222,33 @@ const Messages = () => {
                 {messages
                   .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
                   .map((msg, index) => (
-                    <div
-                      key={msg._id || index}
-                      className={`mb-4 ${
-                        msg.sender === currentUser?.email
-                          ? "text-right"
-                          : "text-left"
-                      }`}
-                    >
-                      <div
-                        className={`inline-block p-3 rounded-lg ${
-                          msg.sender === currentUser?.email
-                            ? "bg-blue-500 text-white"
-                            : "bg-gray-100"
-                        }`}
-                      >
-                        {msg.content}
-                      </div>
-                      <div className="text-xs text-gray-500 mt-1">
-                        {new Date(msg.timestamp).toLocaleTimeString()}
-                      </div>
+                    <div key={index}>
+                      {((msg.sender === currentUser?.email &&
+                        msg.recipient === currentChat?.email) ||
+                        (msg.recipient === currentUser?.email &&
+                          msg.sender === currentChat?.email)) && (
+                        <div
+                          key={msg._id || index}
+                          className={`mb-4 ${
+                            msg.sender === currentUser?.email
+                              ? "text-right"
+                              : "text-left"
+                          }`}
+                        >
+                          <div
+                            className={`inline-block p-3 rounded-lg ${
+                              msg.sender === currentUser?.email
+                                ? "bg-blue-500 text-white"
+                                : "bg-gray-100"
+                            }`}
+                          >
+                            {msg.content}
+                          </div>
+                          <div className="text-xs text-gray-500 mt-1">
+                            {new Date(msg.timestamp).toLocaleTimeString()}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   ))}
               </div>
@@ -320,44 +315,77 @@ const Messages = () => {
         <div className="overflow-y-auto h-[calc(100%-137px)]">
           <MessageList
             onChatSelect={handleChatSelect}
-            userData={userData?.data}
+            userData={userData?.data?.map((user) => ({
+              ...user,
+              hasUnread: unreadMessages[user.email] || false,
+              lastMessage: lastMessages[user.email] || "No messages yet",
+              isOnline: onlineUsers[user.email] || false,
+            }))}
             currentUser={currentUser?.email}
           />
         </div>
       </div>
       <div className="md:hidden mt-4 bg-white rounded-lg  h-[660px] p-4 relative">
+        <div className="p-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <img
+              src={currentChat?.avatar || "https://via.placeholder.com/40"}
+              alt="User"
+              className="w-10 h-10 rounded-full"
+            />
+            <div>
+              <h3 className="font-semibold">
+                {currentChat?.name || "Select a chat"}
+              </h3>
+              <span
+                className={`text-sm ${
+                  onlineUsers[currentChat?.email]
+                    ? "text-green-500"
+                    : "text-gray-500"
+                }`}
+              >
+                {onlineUsers[currentChat?.email] ? "Online" : "Offline"}
+              </span>
+            </div>
+          </div>
+        </div>
         {currentChat ? (
           <>
-            <div className="flex-grow h-[540px] overflow-scroll p-4 mb-10">
+            <div
+              className="flex-grow h-[540px] overflow-y-auto p-4 mb-10 pb-10"
+              style={{ display: "flex", flexDirection: "column-reverse" }}
+            >
+              <div ref={messagesEndRef} />
               {messages
-                .filter(
-                  (msg) =>
-                    (msg.to === recipient &&
-                      msg.user === "sr.sohan088@gmail.com") ||
-                    (msg.to === "sr.sohan088@gmail.com" &&
-                      msg.user === recipient)
-                )
+                .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
                 .map((msg, index) => (
-                  <div
-                    key={msg._id || index}
-                    className={`mb-4 ${
-                      msg.user === "sr.sohan088@gmail.com"
-                        ? "text-right"
-                        : "text-left"
-                    }`}
-                  >
-                    <div
-                      className={`inline-block p-3 rounded-lg ${
-                        msg.user === "sr.sohan088@gmail.com"
-                          ? "bg-blue-500 text-white"
-                          : "bg-gray-100"
-                      }`}
-                    >
-                      {msg.message}
-                    </div>
-                    <div className="text-xs text-gray-500 mt-1">
-                      {new Date(msg.timestamp).toLocaleTimeString()}
-                    </div>
+                  <div key={index}>
+                    {((msg.sender === currentUser?.email &&
+                      msg.recipient === currentChat?.email) ||
+                      (msg.recipient === currentUser?.email &&
+                        msg.sender === currentChat?.email)) && (
+                      <div
+                        key={msg._id || index}
+                        className={`mb-4 ${
+                          msg.sender === currentUser?.email
+                            ? "text-right"
+                            : "text-left"
+                        }`}
+                      >
+                        <div
+                          className={`inline-block p-3 rounded-lg ${
+                            msg.sender === currentUser?.email
+                              ? "bg-blue-500 text-white"
+                              : "bg-gray-100"
+                          }`}
+                        >
+                          {msg.content}
+                        </div>
+                        <div className="text-xs text-gray-500 mt-1">
+                          {new Date(msg.timestamp).toLocaleTimeString()}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 ))}
             </div>
