@@ -8,6 +8,8 @@ const SubscriptionForm = () => {
     const [email, setEmail] = useState('');
     const [amount, setAmount] = useState('');
     const [message, setMessage] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [invoiceUrl, setInvoiceUrl] = useState(null);
 
     const handleSubscribe = async (e) => {
         e.preventDefault();
@@ -22,10 +24,12 @@ const SubscriptionForm = () => {
             return;
         }
 
+        setLoading(true);
         try {
             const cardElement = elements.getElement(CardElement);
             if (!cardElement) {
                 setMessage("Payment details are missing. Please check and try again.");
+                setLoading(false);
                 return;
             }
             const { paymentMethod, error: paymentError } = await stripe.createPaymentMethod({
@@ -36,6 +40,7 @@ const SubscriptionForm = () => {
             if (paymentError) {
                 console.error("Error creating payment method:", paymentError);
                 setMessage(paymentError.message || "Failed to create payment method.");
+                setLoading(false);
                 return;
             }
 
@@ -48,18 +53,24 @@ const SubscriptionForm = () => {
             });
 
             console.log(response?.data);
-            
 
-            setMessage(`Subscription created successfully! ID: ${response.data.subscriptionId}`);
+            if (response?.data?.hostedInvoiceUrl) {
+                setInvoiceUrl(response.data.hostedInvoiceUrl);
+            }
+
+            // setMessage(`Subscription created successfully! ID: ${response.data.subscriptionId}`);
+            setMessage(`Subscription created successfully!`);
         } catch (error) {
             console.error('Error creating subscription:', error);
 
             setMessage(error.response?.data?.error || "Failed to create subscription. Please try again.");
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <div className="max-w-md mx-auto font-sans">
+        <div className="max-w-md mx-auto font-sans p-6 bg-white shadow-md rounded-md">
             <h1 className="text-center text-2xl font-bold text-gray-800">Subscribe to Our Service</h1>
             <form onSubmit={handleSubscribe} className="flex flex-col gap-6 mt-6">
                 <div>
@@ -97,12 +108,22 @@ const SubscriptionForm = () => {
 
                 <button 
                     type="submit"
-                    disabled={!stripe}
-                    className="w-full bg-blue-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-sm font-medium">
-                    Subscribe
+                    disabled={!stripe || loading}
+                    className={`w-full py-2 px-4 rounded-md shadow-sm text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${loading ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}>
+                    {loading ? 'Processing...' : 'Subscribe'}
                 </button>
 
                 {message && <p className={`text-center mt-4 ${message.startsWith('Subscription created') ? 'text-green-500' : 'text-red-500'}`}>{message}</p>}
+
+                {invoiceUrl && (
+                    <a 
+                        href={invoiceUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="text-blue-600 hover:underline mt-2 block text-center">
+                        View Your Invoice
+                    </a>
+                )}
             </form>
         </div>
     );
