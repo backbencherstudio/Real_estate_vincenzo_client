@@ -16,8 +16,14 @@ const Messages = () => {
   const currentUser = useSelector(selectCurrentUser);
   const [recipient, setRecipient] = useState(currentUser?.email);
   const { data: userData } = adminApi.useGetALlUserQuery("");
-  const [unreadMessages, setUnreadMessages] = useState({});
-  const [lastMessages, setLastMessages] = useState({});
+  const [unreadMessages, setUnreadMessages] = useState(() => {
+    const saved = localStorage.getItem("unreadMessages");
+    return saved ? JSON.parse(saved) : {};
+  });
+  const [lastMessages, setLastMessages] = useState(() => {
+    const saved = localStorage.getItem("lastMessages");
+    return saved ? JSON.parse(saved) : {};
+  });
   const messagesEndRef = useRef(null);
   const [onlineUsers, setOnlineUsers] = useState({});
 
@@ -88,30 +94,43 @@ const Messages = () => {
     socket.on("message", (message) => {
       setMessages((prevMessages) => [...prevMessages, message]);
 
-      // Update last message for the specific conversation only
       const otherUser =
         message.sender === currentUser?.email
           ? message.recipient
           : message.sender;
-      setLastMessages((prev) => ({
-        ...prev,
-        [otherUser]: {
-          content: message.content,
-          timestamp: message.timestamp,
-        },
-      }));
 
-      // Only mark as unread if:
-      // 1. Message is received (not sent by current user)
-      // 2. Message is not from currently selected chat
+      // Update last messages
+      setLastMessages((prev) => {
+        const newLastMessages = {
+          ...prev,
+          [otherUser]: {
+            content: message.content,
+            timestamp: message.timestamp,
+          },
+        };
+        localStorage.setItem("lastMessages", JSON.stringify(newLastMessages));
+        return newLastMessages;
+      });
+
+      // Only update unread count if:
+      // 1. Current user is the recipient (not the sender)
+      // 2. The message is not from the currently selected chat
       if (
+        message.recipient === currentUser?.email &&
         message.sender !== currentUser?.email &&
         (!currentChat || message.sender !== currentChat.email)
       ) {
-        setUnreadMessages((prev) => ({
-          ...prev,
-          [message.sender]: (prev[message.sender] || 0) + 1,
-        }));
+        setUnreadMessages((prev) => {
+          const newUnreadMessages = {
+            ...prev,
+            [message.sender]: (prev[message.sender] || 0) + 1,
+          };
+          localStorage.setItem(
+            "unreadMessages",
+            JSON.stringify(newUnreadMessages)
+          );
+          return newUnreadMessages;
+        });
       }
     });
 
@@ -142,30 +161,34 @@ const Messages = () => {
   }, [recipient, userData?.data]);
   const sendMessage = (e) => {
     e.preventDefault();
-    if (message && recipient) {
+    if (message && currentChat) {
+      // Make sure we have both message and recipient
       const messageData = {
-        recipient: recipient,
-        message: message,
-        timestamp: new Date(),
+        message: message, // Changed from 'message' to 'content' to match the format
+        recipient: currentChat.email,
         sender: currentUser?.email,
+        timestamp: new Date().toISOString(),
       };
+
       socket.emit("message", messageData);
       setMessage(""); // Clear input after sending
-    } else {
-      console.warn("Input or recipient is empty");
     }
   };
-  const handleChatSelect = (chat) => {
-    setRecipient(chat.email);
-    setCurrentChat(chat);
-    socket.emit("join_chat", chat.email);
-    setIsSidebarOpen(false);
-
-    // Clear unread status when chat is selected
-    setUnreadMessages((prev) => ({
-      ...prev,
-      [chat.email]: false,
-    }));
+  const handleChatSelect = (user) => {
+    setCurrentChat(user);
+    if (unreadMessages[user.email]) {
+      setUnreadMessages((prev) => {
+        const newUnreadMessages = {
+          ...prev,
+          [user.email]: 0,
+        };
+        localStorage.setItem(
+          "unreadMessages",
+          JSON.stringify(newUnreadMessages)
+        );
+        return newUnreadMessages;
+      });
+    }
   };
 
   return (
