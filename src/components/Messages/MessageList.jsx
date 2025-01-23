@@ -14,7 +14,19 @@ export const MessageList = ({ onChatSelect, userData, currentUser }) => {
         .toLowerCase()
         .includes((searchTerm || "").toLowerCase())
   );
-  console.log(filteredUsers);
+
+  // Sort users by last message timestamp
+  const sortedUsers = filteredUsers?.sort((a, b) => {
+    const timestampA = a.lastMessage?.timestamp
+      ? new Date(a.lastMessage.timestamp)
+      : new Date(0);
+    const timestampB = b.lastMessage?.timestamp
+      ? new Date(b.lastMessage.timestamp)
+      : new Date(0);
+    return timestampB - timestampA;
+  });
+
+  console.log(sortedUsers);
 
   if (!isLoading) {
     return (
@@ -48,7 +60,7 @@ export const MessageList = ({ onChatSelect, userData, currentUser }) => {
       </div>
 
       <div className="overflow-y-auto">
-        {filteredUsers?.map((user) => (
+        {sortedUsers?.map((user) => (
           <button
             key={user.id}
             onClick={() => onChatSelect(user)}
