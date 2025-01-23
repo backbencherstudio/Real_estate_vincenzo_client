@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { MessageList } from "../../components/Messages/MessageList";
 import { MessageInput } from "../../components/Messages/MessageInput";
 import io from "socket.io-client";
@@ -16,15 +16,146 @@ const Messages = () => {
   const [user, setUser] = useState("");
   const currentUser = useSelector(selectCurrentUser);
   const { data: userData } = adminApi.useGetALlUserQuery("");
+  const [unreadMessages, setUnreadMessages] = useState({});
+  const [lastMessages, setLastMessages] = useState({});
+  const messagesEndRef = useRef(null);
+  const [onlineUsers, setOnlineUsers] = useState({});
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  // Fetch all messages and set last messages when component mounts
+  useEffect(() => {
+    fetch("http://localhost:4000/chats")
+      .then((response) => response.json())
+      .then((data) => {
+        // Update last message for all users - get the most recent message
+        const lastMessagesMap = {};
+        data.forEach((msg) => {
+          // Only process messages where current user is either sender or recipient
+          if (
+            msg.sender === currentUser?.email ||
+            msg.recipient === currentUser?.email
+          ) {
+            const otherUser =
+              msg.sender === currentUser?.email ? msg.recipient : msg.sender;
+            // Only update if this message is more recent than the existing one
+            if (
+              !lastMessagesMap[otherUser] ||
+              new Date(msg.timestamp) >
+                new Date(lastMessagesMap[otherUser].timestamp)
+            ) {
+              lastMessagesMap[otherUser] = {
+                content: msg.content,
+                timestamp: msg.timestamp,
+              };
+            }
+          }
+        });
+        setLastMessages(lastMessagesMap);
+      })
+      .catch((error) => console.error("Error fetching messages:", error));
+  }, [currentUser]);
+
+  // Fetch messages for specific chat when recipient changes
+  useEffect(() => {
+    if (recipient) {
+      fetch("http://localhost:4000/chats")
+        .then((response) => response.json())
+        .then((data) => {
+          // Filter messages for the current chat
+          const chatMessages = data.filter(
+            (msg) =>
+              (msg.recipient === recipient &&
+                msg.sender === currentUser?.email) ||
+              (msg.recipient === currentUser?.email && msg.sender === recipient)
+          );
+          setMessages(chatMessages);
+        })
+        .catch((error) => console.error("Error fetching messages:", error));
+    }
+  }, [recipient, currentUser]);
+
   useEffect(() => {
     socket.emit("join", currentUser?.email);
 
     socket.on("connect", () => {
       console.log("Connected to socket server");
+      // Emit user online status when connected
+      socket.emit("user_online", currentUser?.email);
+    });
+
+    // Listen for online users updates
+    socket.on("online_users", (users) => {
+      setOnlineUsers(users);
+    });
+
+    // Listen for user connected event
+    socket.on("user_connected", (userId) => {
+      setOnlineUsers((prev) => ({
+        ...prev,
+        [userId]: true,
+      }));
+    });
+
+    // Listen for user disconnected event
+    socket.on("user_disconnected", (userId) => {
+      setOnlineUsers((prev) => ({
+        ...prev,
+        [userId]: false,
+      }));
     });
 
     socket.on("message", (message) => {
-      setMessages((prevMessages) => [...prevMessages, message]);
+      // Only update messages if the current user is the sender or intended recipient
+      if (
+        (message.sender === currentUser?.email &&
+          message.recipient === recipient) ||
+        (message.recipient === currentUser?.email &&
+          message.sender === recipient)
+      ) {
+        setMessages((prevMessages) => {
+          // Check if message already exists to prevent duplication
+          const messageExists = prevMessages.some(
+            (msg) =>
+              msg._id === message._id ||
+              (msg.timestamp === message.timestamp &&
+                msg.content === message.content)
+          );
+          return messageExists ? prevMessages : [...prevMessages, message];
+        });
+      }
+
+      // Update last message for the relevant chat
+      if (
+        message.sender === currentUser?.email ||
+        message.recipient === currentUser?.email
+      ) {
+        const otherUser =
+          message.sender === currentUser?.email
+            ? message.recipient
+            : message.sender;
+        setLastMessages((prev) => ({
+          ...prev,
+          [otherUser]: {
+            content: message.content,
+            timestamp: message.timestamp,
+          },
+        }));
+
+        // Set unread only if message is received and not from current user
+        if (message.sender !== currentUser?.email) {
+          setUnreadMessages((prev) => ({
+            ...prev,
+            [message.sender]: true,
+          }));
+        }
+      }
     });
 
     socket.on("message history", (history) => {
@@ -32,15 +163,19 @@ const Messages = () => {
     });
 
     socket.on("user list", (userList) => {
-      console.log("User list updated:", userList);
+      // console.log("User list updated:", userList);
     });
 
     return () => {
+      socket.emit("user_offline", currentUser?.email);
+      socket.off("online_users");
+      socket.off("user_connected");
+      socket.off("user_disconnected");
       socket.off("message");
       socket.off("message history");
       socket.off("user list");
     };
-  }, []);
+  }, [currentUser, recipient]);
   useEffect(() => {
     if (recipient) {
       const foundUser = userData?.data.find((u) => u.email === recipient);
@@ -50,8 +185,6 @@ const Messages = () => {
     }
   }, [recipient, userData?.data]);
   const sendMessage = (e) => {
-    console.log(message, recipient);
-
     e.preventDefault();
     if (message && recipient) {
       const messageData = {
@@ -67,11 +200,16 @@ const Messages = () => {
     }
   };
   const handleChatSelect = (chat) => {
-    console.log(chat.email);
     setRecipient(chat.email);
     setCurrentChat(chat);
     socket.emit("join_chat", chat.email);
     setIsSidebarOpen(false);
+
+    // Clear unread status when chat is selected
+    setUnreadMessages((prev) => ({
+      ...prev,
+      [chat.email]: false,
+    }));
   };
 
   return (
@@ -93,7 +231,15 @@ const Messages = () => {
           <div className="overflow-y-auto h-full">
             <MessageList
               onChatSelect={handleChatSelect}
-              userData={userData?.data}
+              userData={userData?.data?.map((user) => ({
+                ...user,
+                hasUnread: unreadMessages[user.email] || false,
+                lastMessage: lastMessages[user.email] || {
+                  content: "No messages yet",
+                  timestamp: null,
+                },
+                isOnline: onlineUsers[user.email] || false,
+              }))}
               currentUser={currentUser?.email}
             />
           </div>
@@ -113,25 +259,25 @@ const Messages = () => {
                 </h3>
                 <span
                   className={`text-sm ${
-                    currentChat?.isOnline ? "text-green-500" : "text-gray-500"
+                    onlineUsers[currentChat?.email]
+                      ? "text-green-500"
+                      : "text-gray-500"
                   }`}
                 >
-                  {currentChat?.isOnline ? "Online" : "Offline"}
+                  {onlineUsers[currentChat?.email] ? "Online" : "Offline"}
                 </span>
               </div>
             </div>
           </div>
           {currentChat ? (
             <>
-              <div className="flex-grow h-[540px] overflow-scroll p-4 mb-10">
+              <div
+                className="flex-grow h-[540px] overflow-y-auto p-4 mb-10"
+                style={{ display: "flex", flexDirection: "column-reverse" }}
+              >
+                <div ref={messagesEndRef} />
                 {messages
-                  .filter(
-                    (msg) =>
-                      (msg.recipient === recipient &&
-                        msg.sender === currentUser?.email) ||
-                      (msg.recipient === currentUser?.email &&
-                        msg.sender === recipient)
-                  )
+                  .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
                   .map((msg, index) => (
                     <div
                       key={msg._id || index}
@@ -141,8 +287,6 @@ const Messages = () => {
                           : "text-left"
                       }`}
                     >
-                      {console.log(msg)}
-
                       <div
                         className={`inline-block p-3 rounded-lg ${
                           msg.sender === currentUser?.email
