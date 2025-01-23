@@ -29,40 +29,7 @@ const Messages = () => {
     scrollToBottom();
   }, [messages]);
 
-  // Fetch all messages and set last messages when component mounts
-  useEffect(() => {
-    fetch("http://localhost:4000/chats")
-      .then((response) => response.json())
-      .then((data) => {
-        // Update last message for all users - get the most recent message
-        const lastMessagesMap = {};
-        data.forEach((msg) => {
-          // Only process messages where current user is either sender or recipient
-          if (
-            msg.sender === currentUser?.email ||
-            msg.recipient === currentUser?.email
-          ) {
-            const otherUser =
-              msg.sender === currentUser?.email ? msg.recipient : msg.sender;
-            // Only update if this message is more recent than the existing one
-            if (
-              !lastMessagesMap[otherUser] ||
-              new Date(msg.timestamp) >
-                new Date(lastMessagesMap[otherUser].timestamp)
-            ) {
-              lastMessagesMap[otherUser] = {
-                content: msg.content,
-                timestamp: msg.timestamp,
-              };
-            }
-          }
-        });
-        setLastMessages(lastMessagesMap);
-      })
-      .catch((error) => console.error("Error fetching messages:", error));
-  }, [currentUser]);
-
-  // Fetch messages for specific chat when recipient changes
+  // Fetch message history when component mounts or recipient changes
   useEffect(() => {
     if (recipient) {
       fetch("http://localhost:4000/chats")
@@ -76,6 +43,25 @@ const Messages = () => {
               (msg.recipient === currentUser?.email && msg.sender === recipient)
           );
           setMessages(chatMessages);
+
+          // Update last message for all users - get the most recent message
+          const lastMessagesMap = {};
+          data.forEach((msg) => {
+            const otherUser =
+              msg.sender === currentUser?.email ? msg.recipient : msg.sender;
+            // Only update if this message is more recent than the existing one
+            if (
+              !lastMessagesMap[otherUser] ||
+              new Date(msg.timestamp) >
+                new Date(lastMessagesMap[otherUser].timestamp)
+            ) {
+              lastMessagesMap[otherUser] = {
+                content: msg.content,
+                timestamp: msg.timestamp,
+              };
+            }
+          });
+          setLastMessages(lastMessagesMap);
         })
         .catch((error) => console.error("Error fetching messages:", error));
     }
@@ -112,49 +98,21 @@ const Messages = () => {
     });
 
     socket.on("message", (message) => {
-      // Only update messages if the current user is the sender or intended recipient
-      if (
-        (message.sender === currentUser?.email &&
-          message.recipient === recipient) ||
-        (message.recipient === currentUser?.email &&
-          message.sender === recipient)
-      ) {
-        setMessages((prevMessages) => {
-          // Check if message already exists to prevent duplication
-          const messageExists = prevMessages.some(
-            (msg) =>
-              msg._id === message._id ||
-              (msg.timestamp === message.timestamp &&
-                msg.content === message.content)
-          );
-          return messageExists ? prevMessages : [...prevMessages, message];
-        });
-      }
+      setMessages((prevMessages) => [...prevMessages, message]);
 
-      // Update last message for the relevant chat
-      if (
-        message.sender === currentUser?.email ||
-        message.recipient === currentUser?.email
-      ) {
-        const otherUser =
-          message.sender === currentUser?.email
-            ? message.recipient
-            : message.sender;
-        setLastMessages((prev) => ({
+      // Update last message when receiving new message
+      setLastMessages((prev) => ({
+        ...prev,
+        [message.sender === currentUser?.email
+          ? message.recipient
+          : message.sender]: message.content,
+      }));
+
+      if (message.sender !== currentUser?.email) {
+        setUnreadMessages((prev) => ({
           ...prev,
-          [otherUser]: {
-            content: message.content,
-            timestamp: message.timestamp,
-          },
+          [message.sender]: true,
         }));
-
-        // Set unread only if message is received and not from current user
-        if (message.sender !== currentUser?.email) {
-          setUnreadMessages((prev) => ({
-            ...prev,
-            [message.sender]: true,
-          }));
-        }
       }
     });
 
@@ -175,7 +133,7 @@ const Messages = () => {
       socket.off("message history");
       socket.off("user list");
     };
-  }, [currentUser, recipient]);
+  }, [currentUser]);
   useEffect(() => {
     if (recipient) {
       const foundUser = userData?.data.find((u) => u.email === recipient);
@@ -234,10 +192,7 @@ const Messages = () => {
               userData={userData?.data?.map((user) => ({
                 ...user,
                 hasUnread: unreadMessages[user.email] || false,
-                lastMessage: lastMessages[user.email] || {
-                  content: "No messages yet",
-                  timestamp: null,
-                },
+                lastMessage: lastMessages[user.email] || "No messages yet",
                 isOnline: onlineUsers[user.email] || false,
               }))}
               currentUser={currentUser?.email}
