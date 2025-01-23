@@ -87,23 +87,30 @@ const Messages = () => {
 
     socket.on("message", (message) => {
       setMessages((prevMessages) => [...prevMessages, message]);
+
+      // Update last message for the specific conversation only
+      const otherUser =
+        message.sender === currentUser?.email
+          ? message.recipient
+          : message.sender;
       setLastMessages((prev) => ({
         ...prev,
-        [message.sender === currentUser?.email
-          ? message.recipient
-          : message.sender]: {
+        [otherUser]: {
           content: message.content,
           timestamp: message.timestamp,
         },
       }));
 
+      // Only mark as unread if:
+      // 1. Message is received (not sent by current user)
+      // 2. Message is not from currently selected chat
       if (
         message.sender !== currentUser?.email &&
-        message.sender !== currentChat?.email
+        (!currentChat || message.sender !== currentChat.email)
       ) {
         setUnreadMessages((prev) => ({
           ...prev,
-          [message.sender]: true,
+          [message.sender]: (prev[message.sender] || 0) + 1,
         }));
       }
     });
@@ -182,9 +189,10 @@ const Messages = () => {
               onChatSelect={handleChatSelect}
               userData={userData?.data?.map((user) => ({
                 ...user,
-                hasUnread: unreadMessages[user.email] || false,
-                lastMessage: lastMessages[user.email] || "No messages yet",
+                hasUnread: Boolean(unreadMessages[user.email]),
+                lastMessage: lastMessages[user.email],
                 isOnline: onlineUsers[user.email] || false,
+                unreadCount: unreadMessages[user.email] || 0,
               }))}
               currentUser={currentUser?.email}
             />
@@ -320,9 +328,10 @@ const Messages = () => {
             onChatSelect={handleChatSelect}
             userData={userData?.data?.map((user) => ({
               ...user,
-              hasUnread: unreadMessages[user.email] || false,
-              lastMessage: lastMessages[user.email] || "No messages yet",
+              hasUnread: Boolean(unreadMessages[user.email]),
+              lastMessage: lastMessages[user.email],
               isOnline: onlineUsers[user.email] || false,
+              unreadCount: unreadMessages[user.email] || 0,
             }))}
             currentUser={currentUser?.email}
           />
