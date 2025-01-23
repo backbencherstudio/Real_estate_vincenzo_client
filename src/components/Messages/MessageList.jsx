@@ -1,17 +1,17 @@
-import { useState, useEffect } from "react";
-import { useSocket } from "../../context/SocketContext";
-import adminApi from "../../redux/fetures/admin/adminApi";
+import { useState } from "react";
 
-export const MessageList = ({ onChatSelect, userData }) => {
-  const [chats, setChats] = useState([]);
+export const MessageList = ({ onChatSelect, userData, currentUser }) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const { socket, onlineUsers } = useSocket();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Safe filtering of chats
-  const filteredUsers = userData?.filter((user) =>
-    (user?.name || "").toLowerCase().includes((searchTerm || "").toLowerCase())
+  // Safe filtering of chats - exclude current user and apply search filter
+  const filteredUsers = userData?.filter(
+    (user) =>
+      user.email !== currentUser &&
+      (user?.name || "")
+        .toLowerCase()
+        .includes((searchTerm || "").toLowerCase())
   );
 
   if (!isLoading) {
@@ -73,7 +73,7 @@ export const MessageList = ({ onChatSelect, userData }) => {
                   {user.name || "Unknown User"}
                 </h3>
                 <p className="text-gray-500 text-sm truncate">
-                  {user.lastMessage || "No messages yet"}
+                  {user.email || "No messages yet"}
                 </p>
               </div>
               <div className="flex flex-col items-end">

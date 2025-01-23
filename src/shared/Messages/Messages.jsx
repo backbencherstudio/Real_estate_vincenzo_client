@@ -3,6 +3,8 @@ import { MessageList } from "../../components/Messages/MessageList";
 import { MessageInput } from "../../components/Messages/MessageInput";
 import io from "socket.io-client";
 import adminApi from "../../redux/fetures/admin/adminApi";
+import { selectCurrentUser } from "../../redux/fetures/auth/authSlice";
+import { useSelector } from "react-redux";
 const socket = io("http://localhost:4000");
 
 const Messages = () => {
@@ -12,9 +14,10 @@ const Messages = () => {
   const [currentChat, setCurrentChat] = useState(null);
   const [recipient, setRecipient] = useState("");
   const [user, setUser] = useState("");
-  const { data: userData } = adminApi.useGetALlUserQuery("tenant");
+  const currentUser = useSelector(selectCurrentUser);
+  const { data: userData } = adminApi.useGetALlUserQuery("");
   useEffect(() => {
-    socket.emit("join", "sr.sohan088@gmail.com");
+    socket.emit("join", currentUser?.email);
 
     socket.on("connect", () => {
       console.log("Connected to socket server");
@@ -25,7 +28,6 @@ const Messages = () => {
     });
 
     socket.on("message history", (history) => {
-      console.log("Message history received:", history);
       setMessages(history);
     });
 
@@ -56,7 +58,7 @@ const Messages = () => {
         to: recipient,
         message: message,
         timestamp: new Date(),
-        user: "sr.sohan088@gmail.com",
+        user: currentUser?.email,
       };
       socket.emit("message", messageData);
       setMessage(""); // Clear input after sending
@@ -71,7 +73,6 @@ const Messages = () => {
     socket.emit("join_chat", chat.email);
     setIsSidebarOpen(false);
   };
-  console.log(messages);
 
   return (
     <div className="">
@@ -93,6 +94,7 @@ const Messages = () => {
             <MessageList
               onChatSelect={handleChatSelect}
               userData={userData?.data}
+              currentUser={currentUser?.email}
             />
           </div>
         </div>
@@ -125,23 +127,25 @@ const Messages = () => {
                 {messages
                   .filter(
                     (msg) =>
-                      (msg.to === recipient &&
-                        msg.sender === "sr.sohan088@gmail.com") ||
-                      (msg.sender === "sr.sohan088@gmail.com" &&
-                        msg.recipient === recipient)
+                      (msg.recipient === recipient &&
+                        msg.sender === currentUser?.email) ||
+                      (msg.recipient === currentUser?.email &&
+                        msg.sender === recipient)
                   )
                   .map((msg, index) => (
                     <div
                       key={msg._id || index}
                       className={`mb-4 ${
-                        msg.sender === "sr.sohan088@gmail.com"
+                        msg.sender === currentUser?.email
                           ? "text-right"
                           : "text-left"
                       }`}
                     >
+                      {console.log(msg)}
+
                       <div
                         className={`inline-block p-3 rounded-lg ${
-                          msg.sender === "sr.sohan088@gmail.com"
+                          msg.sender === currentUser?.email
                             ? "bg-blue-500 text-white"
                             : "bg-gray-100"
                         }`}
@@ -218,6 +222,7 @@ const Messages = () => {
           <MessageList
             onChatSelect={handleChatSelect}
             userData={userData?.data}
+            currentUser={currentUser?.email}
           />
         </div>
       </div>

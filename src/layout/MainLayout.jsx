@@ -16,12 +16,11 @@ const MainLayout = () => {
     dispatch(logOut());
   };
 
-  const currentUser = useSelector(selectCurrentUser)
-    const {data} = authApi.useGetSingleUserInfoQuery(currentUser?.email);
+  const currentUser = useSelector(selectCurrentUser);
+  const { data } = authApi.useGetSingleUserInfoQuery(currentUser?.email);
 
-    // console.log(`http://localhost:5000${data?.data?.profileImage}`);
-    // console.log(data?.data);
-    
+  // console.log(`http://localhost:5000${data?.data?.profileImage}`);
+  // console.log(data?.data);
 
   const items = [
     {
