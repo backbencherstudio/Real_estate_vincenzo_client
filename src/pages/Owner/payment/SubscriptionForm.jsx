@@ -1,11 +1,16 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import axios from "axios";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../../redux/fetures/auth/authSlice";
 
 const SubscriptionForm = () => {
+
+    const currentUser = useSelector(selectCurrentUser);
+
     const stripe = useStripe();
     const elements = useElements();
-    const [email, setEmail] = useState('');
+    const [email, setEmail] = useState(currentUser?.email);
     const [amount, setAmount] = useState('');
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
@@ -81,7 +86,7 @@ const SubscriptionForm = () => {
                         placeholder="Enter your email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        required
+                        readOnly
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                     />
                 </div>
