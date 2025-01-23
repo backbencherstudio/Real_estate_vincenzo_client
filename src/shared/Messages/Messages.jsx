@@ -9,26 +9,26 @@ const Messages = () => {
   const [currentChat, setCurrentChat] = useState(null);
   const { socket } = useSocket();
 
-  useEffect(() => {
-    if (socket) {
-      socket.emit("user_connected", "current-user-id"); // Replace with actual user ID
+  // useEffect(() => {
+  //   if (socket) {
+  //     socket.emit("user_connected", "current-user-id"); // Replace with actual user ID
 
-      socket.on("receive_message", (newMessage) => {
-        if (currentChat && newMessage.chatId === currentChat.id) {
-          setMessages((prev) => [...prev, newMessage]);
-        }
-      });
+  //     socket.on("receive_message", (newMessage) => {
+  //       if (currentChat && newMessage.chatId === currentChat.id) {
+  //         setMessages((prev) => [...prev, newMessage]);
+  //       }
+  //     });
 
-      socket.on("chat_history", (chatMessages) => {
-        setMessages(chatMessages);
-      });
+  //     socket.on("chat_history", (chatMessages) => {
+  //       setMessages(chatMessages);
+  //     });
 
-      return () => {
-        socket.off("receive_message");
-        socket.off("chat_history");
-      };
-    }
-  }, [socket, currentChat]);
+  //     return () => {
+  //       socket.off("receive_message");
+  //       socket.off("chat_history");
+  //     };
+  //   }
+  // }, []);
 
   const handleChatSelect = (chat) => {
     setCurrentChat(chat);
