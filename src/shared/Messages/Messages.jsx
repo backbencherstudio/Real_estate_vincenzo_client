@@ -30,32 +30,32 @@ const Messages = () => {
   }, [messages]);
 
   // Fetch message history when component mounts or recipient changes
-  // useEffect(() => {
-  //   if (recipient) {
-  //     fetch("http://localhost:4000/chats")
-  //       .then((response) => response.json())
-  //       .then((data) => {
-  //         setMessages(data);
-  //         const lastMessagesMap = {};
-  //         data.forEach((msg) => {
-  //           const otherUser =
-  //             msg.sender === currentUser?.email ? msg.recipient : msg.sender;
-  //           if (
-  //             !lastMessagesMap[otherUser] ||
-  //             new Date(msg.timestamp) >
-  //               new Date(lastMessagesMap[otherUser].timestamp)
-  //           ) {
-  //             lastMessagesMap[otherUser] = {
-  //               content: msg.content,
-  //               timestamp: msg.timestamp,
-  //             };
-  //           }
-  //         });
-  //         setLastMessages(lastMessagesMap);
-  //       })
-  //       .catch((error) => console.error("Error fetching messages:", error));
-  //   }
-  // }, [recipient, currentUser]);
+  useEffect(() => {
+    if (recipient) {
+      fetch("http://localhost:4000/chats")
+        .then((response) => response.json())
+        .then((data) => {
+          setMessages(data);
+          const lastMessagesMap = {};
+          data.forEach((msg) => {
+            const otherUser =
+              msg.sender === currentUser?.email ? msg.recipient : msg.sender;
+            if (
+              !lastMessagesMap[otherUser] ||
+              new Date(msg.timestamp) >
+                new Date(lastMessagesMap[otherUser].timestamp)
+            ) {
+              lastMessagesMap[otherUser] = {
+                content: msg.content,
+                timestamp: msg.timestamp,
+              };
+            }
+          });
+          setLastMessages(lastMessagesMap);
+        })
+        .catch((error) => console.error("Error fetching messages:", error));
+    }
+  }, [recipient, currentUser]);
 
   useEffect(() => {
     socket.emit("join", currentUser?.email);
@@ -87,17 +87,20 @@ const Messages = () => {
 
     socket.on("message", (message) => {
       setMessages((prevMessages) => [...prevMessages, message]);
-      // setLastMessages((prev) => ({
-      //   ...prev,
-      //   [message.sender === currentUser?.email
-      //     ? message.recipient
-      //     : message.sender]: {
-      //     content: message.content,
-      //     timestamp: message.timestamp,
-      //   },
-      // }));
+      setLastMessages((prev) => ({
+        ...prev,
+        [message.sender === currentUser?.email
+          ? message.recipient
+          : message.sender]: {
+          content: message.content,
+          timestamp: message.timestamp,
+        },
+      }));
 
-      if (message.sender !== currentUser?.email) {
+      if (
+        message.sender !== currentUser?.email &&
+        message.sender !== currentChat?.email
+      ) {
         setUnreadMessages((prev) => ({
           ...prev,
           [message.sender]: true,
