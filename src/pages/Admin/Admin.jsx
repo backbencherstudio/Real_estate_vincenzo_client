@@ -19,6 +19,9 @@ const AdminDashboard = () => {
   const handleNavigate = (id) => {
     navigate(`/${currentUser?.role}/properties/${id}`);
   };
+
+  console.log(overviewAllData);
+  
   
 
   const tableData = propertyData?.data?.map(({
