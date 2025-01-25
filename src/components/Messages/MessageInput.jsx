@@ -1,7 +1,22 @@
+import { useState } from "react";
 import { BsEmojiSmile } from "react-icons/bs";
 import { IoIosAttach, IoIosSend } from "react-icons/io";
+import EmojiPicker from "emoji-picker-react";
 
 export const MessageInput = ({ sendMessage, message, setMessage }) => {
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+
+  const onEmojiClick = (emojiObject) => {
+    setMessage((prevMessage) => prevMessage + emojiObject.emoji);
+    setShowEmojiPicker(false);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    sendMessage(e);
+    setShowEmojiPicker(false);
+  };
+
   // const handleTyping = (e) => {
   //   setMessage(e.target.value);
 
@@ -30,9 +45,26 @@ export const MessageInput = ({ sendMessage, message, setMessage }) => {
 
   return (
     <div>
-      <div className="md:p-4 py-4 border-t border-gray-100 absolute bg-white bottom-0 w-[90%] md:w-full ">
-        <form onSubmit={sendMessage} className="flex gap-2 items-center">
-          <BsEmojiSmile className="text-gray-400 h-6 w-6 cursor-pointer" />
+      <div className="md:p-4 py-4 border-t border-gray-100 absolute bg-white bottom-0 w-[90%] md:w-full">
+        <form
+          onSubmit={handleSubmit}
+          className="flex gap-2 items-center relative"
+        >
+          <div className="relative">
+            <BsEmojiSmile
+              className="text-gray-400 h-6 w-6 cursor-pointer"
+              onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+            />
+            {showEmojiPicker && (
+              <div className="absolute bottom-12 left-0 z-50">
+                <EmojiPicker
+                  onEmojiClick={onEmojiClick}
+                  disableAutoFocus={true}
+                  native
+                />
+              </div>
+            )}
+          </div>
           <input
             type="text"
             value={message}
