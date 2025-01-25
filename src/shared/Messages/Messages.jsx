@@ -236,6 +236,22 @@ const Messages = () => {
     }
   };
 
+  const deleteMessage = (messageId) => {
+    socket.emit("delete_message", messageId);
+  };
+
+  useEffect(() => {
+    socket.on("message_deleted", (messageId) => {
+      setMessages((prevMessages) =>
+        prevMessages.filter((msg) => msg._id !== messageId)
+      );
+    });
+
+    return () => {
+      socket.off("message_deleted");
+    };
+  }, []);
+
   return (
     <div className="">
       {/* Header */}
@@ -314,17 +330,41 @@ const Messages = () => {
                               : "text-left"
                           }`}
                         >
-                          <div
-                            className={`inline-block p-3 rounded-lg ${
-                              msg.sender === currentUser?.email
-                                ? "bg-blue-500 text-white"
-                                : "bg-gray-100"
-                            }`}
-                          >
-                            {msg.content}
-                          </div>
-                          <div className="text-xs text-gray-500 mt-1">
-                            {new Date(msg.timestamp).toLocaleTimeString()}
+                          <div className="relative group inline-block">
+                            {msg.sender === currentUser?.email && (
+                              <button
+                                onClick={() => deleteMessage(msg._id)}
+                                className="absolute -left-8 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out"
+                                title="Delete message"
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  className="h-5 w-5 text-red-500 hover:text-red-700"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                  />
+                                </svg>
+                              </button>
+                            )}
+                            <div
+                              className={`p-3 rounded-lg ${
+                                msg.sender === currentUser?.email
+                                  ? "bg-blue-500 text-white"
+                                  : "bg-gray-100"
+                              }`}
+                            >
+                              {msg.content}
+                            </div>
+                            <div className="text-xs text-gray-500 mt-1">
+                              {new Date(msg.timestamp).toLocaleTimeString()}
+                            </div>
                           </div>
                         </div>
                       )}
@@ -452,17 +492,41 @@ const Messages = () => {
                             : "text-left"
                         }`}
                       >
-                        <div
-                          className={`inline-block p-3 rounded-lg ${
-                            msg.sender === currentUser?.email
-                              ? "bg-blue-500 text-white"
-                              : "bg-gray-100"
-                          }`}
-                        >
-                          {msg.content}
-                        </div>
-                        <div className="text-xs text-gray-500 mt-1">
-                          {new Date(msg.timestamp).toLocaleTimeString()}
+                        <div className="relative group inline-block">
+                          {msg.sender === currentUser?.email && (
+                            <button
+                              onClick={() => deleteMessage(msg._id)}
+                              className="absolute -left-8 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out"
+                              title="Delete message"
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-5 w-5 text-red-500 hover:text-red-700"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                />
+                              </svg>
+                            </button>
+                          )}
+                          <div
+                            className={`p-3 rounded-lg ${
+                              msg.sender === currentUser?.email
+                                ? "bg-blue-500 text-white"
+                                : "bg-gray-100"
+                            }`}
+                          >
+                            {msg.content}
+                          </div>
+                          <div className="text-xs text-gray-500 mt-1">
+                            {new Date(msg.timestamp).toLocaleTimeString()}
+                          </div>
                         </div>
                       </div>
                     )}
