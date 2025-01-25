@@ -68,7 +68,6 @@ const Messages = () => {
 
     socket.on("connect", () => {
       console.log("Connected to socket server");
-      // Emit user online status when connected
       socket.emit("user_online", currentUser?.email);
     });
 
@@ -94,27 +93,7 @@ const Messages = () => {
     socket.on("message", (message) => {
       setMessages((prevMessages) => [...prevMessages, message]);
 
-      const otherUser =
-        message.sender === currentUser?.email
-          ? message.recipient
-          : message.sender;
-
-      // Update last messages
-      setLastMessages((prev) => {
-        const newLastMessages = {
-          ...prev,
-          [otherUser]: {
-            content: message.content,
-            timestamp: message.timestamp,
-          },
-        };
-        localStorage.setItem("lastMessages", JSON.stringify(newLastMessages));
-        return newLastMessages;
-      });
-
-      // Only update unread count if:
-      // 1. Current user is the recipient (not the sender)
-      // 2. The message is not from the currently selected chat
+      // Only update unread count for incoming messages not from current chat
       if (
         message.recipient === currentUser?.email &&
         message.sender !== currentUser?.email &&
@@ -132,6 +111,23 @@ const Messages = () => {
           return newUnreadMessages;
         });
       }
+
+      // Update last messages
+      const otherUser =
+        message.sender === currentUser?.email
+          ? message.recipient
+          : message.sender;
+      setLastMessages((prev) => {
+        const newLastMessages = {
+          ...prev,
+          [otherUser]: {
+            content: message.content,
+            timestamp: message.timestamp,
+          },
+        };
+        localStorage.setItem("lastMessages", JSON.stringify(newLastMessages));
+        return newLastMessages;
+      });
     });
 
     socket.on("message history", (history) => {
@@ -141,6 +137,30 @@ const Messages = () => {
     socket.on("user list", (userList) => {
       // console.log("User list updated:", userList);
     });
+
+    // Fetch initial unread messages when component mounts
+    const fetchInitialUnreadMessages = async () => {
+      try {
+        // Get unread messages count directly from the server
+        const response = await fetch(
+          `http://localhost:4000/messages/unread/${currentUser?.email}`
+        );
+        const unreadCounts = await response.json();
+
+        console.log("Initial unread counts:", unreadCounts); // Debug log
+
+        // Update unread messages state and localStorage
+        setUnreadMessages(unreadCounts);
+        localStorage.setItem("unreadMessages", JSON.stringify(unreadCounts));
+      } catch (error) {
+        console.error("Error fetching initial unread messages:", error);
+      }
+    };
+
+    if (currentUser?.email) {
+      fetchInitialUnreadMessages();
+    }
+
     return () => {
       socket.emit("user_offline", currentUser?.email);
       socket.off("online_users");
@@ -162,32 +182,57 @@ const Messages = () => {
   const sendMessage = (e) => {
     e.preventDefault();
     if (message && currentChat) {
-      // Make sure we have both message and recipient
       const messageData = {
-        message: message, // Changed from 'message' to 'content' to match the format
+        content: message, // Changed from 'message' to 'content'
         recipient: currentChat.email,
         sender: currentUser?.email,
         timestamp: new Date().toISOString(),
+        read: false,
       };
 
       socket.emit("message", messageData);
-      setMessage(""); // Clear input after sending
+      setMessage("");
     }
   };
-  const handleChatSelect = (user) => {
+  const handleChatSelect = async (user) => {
     setCurrentChat(user);
-    if (unreadMessages[user.email]) {
-      setUnreadMessages((prev) => {
-        const newUnreadMessages = {
-          ...prev,
-          [user.email]: 0,
-        };
-        localStorage.setItem(
-          "unreadMessages",
-          JSON.stringify(newUnreadMessages)
-        );
-        return newUnreadMessages;
+
+    try {
+      // Mark messages as read in the backend
+      const response = await fetch("http://localhost:4000/messages/mark-read", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          sender: user.email,
+          recipient: currentUser?.email,
+        }),
       });
+
+      if (response.ok) {
+        // Update local messages state
+        setMessages((prevMessages) =>
+          prevMessages.map((msg) =>
+            msg.sender === user.email && msg.recipient === currentUser?.email
+              ? { ...msg, read: true }
+              : msg
+          )
+        );
+
+        // Clear unread count for this user
+        setUnreadMessages((prev) => {
+          const newUnreadMessages = { ...prev };
+          delete newUnreadMessages[user.email]; // Remove the unread count for this user
+          localStorage.setItem(
+            "unreadMessages",
+            JSON.stringify(newUnreadMessages)
+          );
+          return newUnreadMessages;
+        });
+      }
+    } catch (error) {
+      console.error("Error marking messages as read:", error);
     }
   };
 
