@@ -5,7 +5,7 @@ import io from "socket.io-client";
 import adminApi from "../../redux/fetures/admin/adminApi";
 import { selectCurrentUser } from "../../redux/fetures/auth/authSlice";
 import { useSelector } from "react-redux";
-const socket = io("http://localhost:4000");
+const socket = io("http://localhost:5000");
 
 const Messages = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -38,7 +38,7 @@ const Messages = () => {
   // Fetch message history when component mounts or recipient changes
   useEffect(() => {
     if (recipient) {
-      fetch("http://localhost:4000/chats")
+      fetch("http://localhost:5000/chats")
         .then((response) => response.json())
         .then((data) => {
           setMessages(data);
@@ -143,7 +143,7 @@ const Messages = () => {
       try {
         // Get unread messages count directly from the server
         const response = await fetch(
-          `http://localhost:4000/messages/unread/${currentUser?.email}`
+          `http://localhost:5000/messages/unread/${currentUser?.email}`
         );
         const unreadCounts = await response.json();
 
@@ -199,7 +199,7 @@ const Messages = () => {
 
     try {
       // Mark messages as read in the backend
-      const response = await fetch("http://localhost:4000/messages/mark-read", {
+      const response = await fetch("http://localhost:5000/messages/mark-read", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
