@@ -73,9 +73,10 @@ const UserProfile = () => {
 
                 {/* Info Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+
                     <div className="space-y-4">
                         <h3 className="text-lg font-semibold mb-4">Personal Information</h3>
-                        {personalInfo ? (
+                        {personalInfo  ? (
                             Object.entries(personalInfo).map(([key, value]) => (
                                 <div
                                     key={key}
@@ -91,6 +92,8 @@ const UserProfile = () => {
                             <p className="text-gray-500">No personal information available.</p>
                         )}
                     </div>
+
+
 
                     <div className="space-y-4">
                         <h3 className="text-lg font-semibold mb-4">Permanent Address</h3>

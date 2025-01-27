@@ -12,51 +12,51 @@ const OwnerDashboard = () => {
   const handlePageSizeChange = (current, size) => {
     setPageSize(size);
   };
-  
+
   const currentUser = useSelector(selectCurrentUser);
 
   // =============================>>>>>>>>  this API not for this page this is for this route http://localhost:5173/owner/properties
-  const { data } = ownerApi.useGetSingleOwnerAllPropertiesQuery(currentUser?.userId);
-  const {data : overviewData, isLoading} = ownerApi.useGetAllDataOverviewByOwnerQuery(currentUser?.userId);
-
-
+  const { data } = ownerApi.useGetSingleOwnerAllPropertiesQuery(
+    currentUser?.userId
+  );
+  const { data: overviewData, isLoading } =
+    ownerApi.useGetAllDataOverviewByOwnerQuery(currentUser?.userId);
 
   console.log(overviewData?.data);
-  
 
-  const tableData = data?.data?.map(({
-    Description,
-    amenities,
-    availableParking,
-    createdAt,
-    houseNumber,
-    maintainerName,
-    numberOfUnits,
-    ownerId,
-    propertyImages,
-    propertyLocation,
-    propertyName,
-    totalRent,
-    updatedAt,
-    _id,
-  }) => ({
-    key: _id,
-    Description,
-    amenities,
-    availableParking,
-    createdAt,
-    houseNumber,
-    maintainerName,
-    numberOfUnits,
-    ownerId,
-    propertyImages,
-    propertyLocation,
-    propertyName,
-    totalRent,
-    updatedAt,
-  }));
-
-
+  const tableData = data?.data?.map(
+    ({
+      Description,
+      amenities,
+      availableParking,
+      createdAt,
+      houseNumber,
+      maintainerName,
+      numberOfUnits,
+      ownerId,
+      propertyImages,
+      propertyLocation,
+      propertyName,
+      totalRent,
+      updatedAt,
+      _id,
+    }) => ({
+      key: _id,
+      Description,
+      amenities,
+      availableParking,
+      createdAt,
+      houseNumber,
+      maintainerName,
+      numberOfUnits,
+      ownerId,
+      propertyImages,
+      propertyLocation,
+      propertyName,
+      totalRent,
+      updatedAt,
+    })
+  );
 
   const columns = [
     {
@@ -80,8 +80,8 @@ const OwnerDashboard = () => {
             status === "pending"
               ? "orange"
               : status === "complete"
-                ? "green"
-                : "red"
+              ? "green"
+              : "red"
           }
           style={{ textTransform: "capitalize" }}
         >
@@ -135,24 +135,21 @@ const OwnerDashboard = () => {
         </span>
       </div>
 
-      {
-        isLoading ? <div className="flex justify-center items-center h-[150px] " ><Spin size="large" /></div> :
-      <OverviewData  overviewAllData={overviewData}  />
-      }
-
-
-
+      {isLoading ? (
+        <div className="flex justify-center items-center h-[150px] ">
+          <Spin size="large" />
+        </div>
+      ) : (
+        <OverviewData overviewAllData={overviewData} />
+      )}
 
       <div>
-        <DashboardChart />
+        <DashboardChart overviewData={overviewData} />
       </div>
       <div className="bg-white p-5 mt-10 rounded-2xl">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="clamp-text font-semibold my-5">
-              {" "}
-              Recent Payments{" "}
-            </h1>
+            <h1 className="clamp-text font-semibold my-5"> Recent Payments </h1>
           </div>{" "}
           <div>
             <Select
