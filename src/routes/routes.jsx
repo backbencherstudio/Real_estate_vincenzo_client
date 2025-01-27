@@ -10,6 +10,8 @@ import SignIn from "../pages/Auth/signIn/SignIn";
 import SignUp from "../pages/Auth/SignUp/SignUp";
 import ResetPassword from "../pages/Auth/ResetPassword/ResetPassword";
 import ProtectedRoute from "../layout/ProtectedRoute";
+import SubscriptionPlan from "../pages/Auth/subscriptionPlan/SubscriptionPlan";
+import OwnerProtectedRoute from "../layout/OwnerProtectedRoute";
 
 const routes = createBrowserRouter([
   {
@@ -30,9 +32,9 @@ const routes = createBrowserRouter([
     path: "/owner",
     element: <App></App>,
     element: (
-      <ProtectedRoute role="owner">
+      <OwnerProtectedRoute role="owner">
         <App></App>
-      </ProtectedRoute>
+      </OwnerProtectedRoute>
     ),
     children: routeGenerator(ownerPaths),
   },
@@ -57,6 +59,10 @@ const routes = createBrowserRouter([
   {
     path: "/signup",
     element: <SignUp></SignUp>,
+  },
+  {
+    path: "/subscription-plan",
+    element: <SubscriptionPlan/>
   },
   {
     path: "/resetpassword",
