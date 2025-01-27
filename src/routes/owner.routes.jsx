@@ -26,7 +26,6 @@ export const ownerPaths = [
     element: <OwnerDashboard />,
     icon: <MdOutlineDashboard />,
   },
-
   {
     name: "Properties",
     icon: <PiBuildingApartment />,
@@ -104,7 +103,7 @@ export const ownerPaths = [
     ],
   },
   {
-    name : "payment",
+    name : "Update plan",
     path : "payment",
     element : <StripePayment/>
   }

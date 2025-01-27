@@ -44,7 +44,7 @@ const UserProfile = () => {
                 </div>
 
                 {
-                currentUser.role !== "admin" && 
+                currentUser.role === "owner" && 
 
                 <div className="mb-6">
                     <h2 className="text-2xl font-extrabold text-gray-800 mb-4 text-center">Property Overview</h2>

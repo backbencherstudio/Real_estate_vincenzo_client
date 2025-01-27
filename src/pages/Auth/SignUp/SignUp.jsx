@@ -40,9 +40,13 @@ function SignUp() {
     try {
       const result = await verifyOTP({ otp });
       if (result?.data?.success) {
+        if(!result?.data?.data?.email){
+          return toast.error("Registration failed. Please try again or reach out to support for assistance.")
+        }
+        localStorage.setItem("email", result?.data?.data?.email)     
         toast.success(result?.data?.message)
         setShowOTP(false);
-        navigate("/signin")
+        navigate("/subscription-plan")
       }
     } catch (error) {
       console.error('OTP verification failed:', error);

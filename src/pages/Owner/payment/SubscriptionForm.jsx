@@ -1,24 +1,40 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import axios from "axios";
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import { selectCurrentUser } from "../../../redux/fetures/auth/authSlice";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { Navigate, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut, selectCurrentUser } from "../../../redux/fetures/auth/authSlice";
 
 const SubscriptionForm = () => {
 
-    const currentUser = useSelector(selectCurrentUser);
-
+    const navigate = useNavigate()
     const stripe = useStripe();
     const elements = useElements();
-    const [email, setEmail] = useState(currentUser?.email);
+    const [email, setEmail] = useState("");
     const [amount, setAmount] = useState('');
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
     const [invoiceUrl, setInvoiceUrl] = useState(null);
+    const dispatch = useDispatch();
+    const currentUser = useSelector(selectCurrentUser);
+
+    useEffect(() => {
+        if (currentUser?.email) {
+            setEmail(currentUser.email); 
+            return;
+        }
+        const email = localStorage.getItem("email");
+        if (!email) {
+            dispatch(logOut());
+            navigate("/signin", { replace: true }); 
+            return;
+        }
+        setEmail(email); 
+    }, [currentUser, dispatch, navigate]);
 
     const handleSubscribe = async (e) => {
         e.preventDefault();
-
         if (!email || !amount || isNaN(amount) || parseFloat(amount) <= 0) {
             setMessage("Please provide a valid email and subscription amount.");
             return;
@@ -49,22 +65,16 @@ const SubscriptionForm = () => {
                 return;
             }
 
-            console.log("PaymentMethod created:", paymentMethod);
-
             const response = await axios.post('http://localhost:5000/api/v1/payment/stripe', {
                 email,
                 amount,
-                paymentMethodId: paymentMethod.id, 
+                paymentMethodId: paymentMethod.id,
             });
 
-            console.log(response?.data);
-
-            if (response?.data?.hostedInvoiceUrl) {
-                setInvoiceUrl(response.data.hostedInvoiceUrl);
+            if (response?.data?.customer_id) {
+                navigate("/signin")
+                toast.success("Subscription created successfully!, check your email")
             }
-
-            // setMessage(`Subscription created successfully! ID: ${response.data.subscriptionId}`);
-            setMessage(`Subscription created successfully!`);
         } catch (error) {
             console.error('Error creating subscription:', error);
 
@@ -111,7 +121,7 @@ const SubscriptionForm = () => {
                     </div>
                 </div>
 
-                <button 
+                <button
                     type="submit"
                     disabled={!stripe || loading}
                     className={`w-full py-2 px-4 rounded-md shadow-sm text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${loading ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}>
@@ -120,15 +130,16 @@ const SubscriptionForm = () => {
 
                 {message && <p className={`text-center mt-4 ${message.startsWith('Subscription created') ? 'text-green-500' : 'text-red-500'}`}>{message}</p>}
 
-                {invoiceUrl && (
-                    <a 
-                        href={invoiceUrl} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
+                {invoiceUrl && (  // this invoice download code need to table , for owner and user and admin table 
+                    <a
+                        href={invoiceUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="text-blue-600 hover:underline mt-2 block text-center">
                         View Your Invoice
                     </a>
                 )}
+
             </form>
         </div>
     );
