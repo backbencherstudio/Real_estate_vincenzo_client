@@ -1,8 +1,8 @@
 export const dashboardCounterObject = [
-    {
-        title : "Property Owner",
-        count : 12,
-    },
+    // {
+    //     title : "Property Owner",
+    //     count : 12,
+    // },
     {
         title : "Total Property",
         count : 40,
