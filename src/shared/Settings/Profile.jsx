@@ -43,6 +43,10 @@ const UserProfile = () => {
                     </Link>
                 </div>
 
+                <div>
+                    <h2>If you want to cancele your plan <button className="font-bold text-red-600 " >click here</button> </h2>
+                </div>
+
                 {
                 currentUser.role === "owner" && 
 
