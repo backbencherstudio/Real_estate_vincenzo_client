@@ -11,12 +11,12 @@ export const SocketProvider = ({ children }) => {
     const newSocket = io("http://localhost:5000"); // Replace with your backend URL
     setSocket(newSocket);
 
-  //   newSocket.on("users_online", (users) => {
-  //     setOnlineUsers(users);
-  //   });
+    newSocket.on("users_online", (users) => {
+      setOnlineUsers(users);
+    });
 
-  //   return () => newSocket.close();
-  // }, []);
+    return () => newSocket.close();
+  }, []);
 
   return (
     <SocketContext.Provider value={{ socket, onlineUsers }}>

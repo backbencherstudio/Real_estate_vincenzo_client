@@ -38,9 +38,7 @@ const Messages = () => {
   // Fetch message history when component mounts or recipient changes
   useEffect(() => {
     if (recipient) {
-      fetch(
-        `http://localhost:5000/api/v1/messages/chats?email=${currentUser?.email}`
-      )
+      fetch(`http://localhost:5000/chats?email=${currentUser?.email}`)
         .then((response) => response.json())
         .then((data) => {
           setMessages(data);
