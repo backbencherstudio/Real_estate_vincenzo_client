@@ -1,8 +1,4 @@
 import { useState } from "react";
-import img from "../assets/download.jpg";
-import img2 from "../assets/imageright.png";
-import img3 from "../assets/loginiconimage.png";
-import img4 from "../assets/loginpagegirlimage.png";
 import { Button, Modal, Spin, Table } from "antd";
 import { useParams } from "react-router-dom";
 import sharedApi from "../redux/fetures/sharedApi/sharedApi";
@@ -12,9 +8,11 @@ import { selectCurrentUser } from "../redux/fetures/auth/authSlice";
 import ownerApi from "../redux/fetures/owner/ownerApi";
 import { toast } from "sonner";
 import { url } from "../globalConst/const";
+import authApi from "../redux/fetures/auth/authApi";
 
 const PropertyDetails = () => {
   const [pageSize, setPageSize] = useState(10);
+  
 
   // const {
   //   register,
@@ -42,7 +40,9 @@ const PropertyDetails = () => {
   const [createTenant, { isLoading: tenantIsLoading }] = ownerApi.useCreateTenantMutation();
 
   const { id } = useParams();
+
   const currentUser = useSelector(selectCurrentUser);
+    const { data : ownerData, isLoading : userLoading , error } = authApi.useGetSingleUserInfoQuery(currentUser?.email);
   
   const { data } = sharedApi.useGetPropertieUnitsQuery(id);
   const property = data?.data?.property;
@@ -184,8 +184,36 @@ const PropertyDetails = () => {
   const handlePageSizeChange = (current, size) => {
     setPageSize(size);
   };
+
   const [modal2Open, setModal2Open] = useState(false);
 
+  console.log(ownerData?.data);
+
+
+  
+
+  // const addUnitModalShowFun = () =>{
+  //   if(ownerData?.data?.getTotalUnit === ownerData?.data?.numberOfTotalUnits){
+  //     return toast.error("You are not able to add no more unit fill up your subscribed unit, if you want to add more unit then update your plan ")
+  //   }else{
+  //     setModal2Open(true)
+  //   }
+  // }
+
+  const addUnitModalShowFun = () => {
+    const totalUnits = ownerData?.data?.getTotalUnit || 0;
+    const bookedUnits = ownerData?.data?.numberOfTotalUnits || 0;
+  
+    if (totalUnits === bookedUnits) {
+      return toast.error(
+        "You have reached the maximum number of units allowed by your subscription plan. To add more units, please update your plan."
+      );
+    }
+  
+    setModal2Open(true);
+  };
+
+  
 
   const onSubmit = async (data) => {
     const unitData = {
@@ -307,7 +335,7 @@ const PropertyDetails = () => {
           <div>
             {
               currentUser.role === "owner" &&
-              <Button type="primary" onClick={() => setModal2Open(true)}>
+              <Button type="primary" onClick={addUnitModalShowFun}>
                 Add Unit
               </Button>
             }

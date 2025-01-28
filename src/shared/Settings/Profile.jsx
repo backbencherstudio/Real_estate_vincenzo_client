@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import { useSelector } from "react-redux";
 import authApi from "../../redux/fetures/auth/authApi";
 import { selectCurrentUser } from "../../redux/fetures/auth/authSlice";
@@ -5,6 +6,8 @@ import { UserPen } from "lucide-react";
 import { Link } from "react-router-dom";
 import { url } from "../../globalConst/const";
 import { FaRegUser } from "react-icons/fa";
+import Swal from "sweetalert2";
+import { toast } from "sonner";
 
 const UserProfile = () => {
     const currentUser = useSelector(selectCurrentUser);
@@ -14,12 +17,32 @@ const UserProfile = () => {
     if (isLoading) return <p>Loading...</p>;
     if (error) return <p>Error fetching user information</p>;
 
+    console.log(data?.data);
+
+
     const userInfo = data?.data || {};
     const { name, email, profileImage, permanentAddress, personalInfo, numberOfProperty, numberOfTotalUnits, totalAmount, totalRentAmount } = userInfo;
 
-    const cancelsubscriptionFun = async () =>{
-        const res =  await cancelsubscription(currentUser?.customerId)
-        console.log(res);        
+    const cancelsubscriptionFun = async () => {
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't cancel your plan",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, cancel it!"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const res = await cancelsubscription(currentUser?.customerId)
+                if (res.data?.subscriptionId) {
+                    toast.success(res.data.message)
+                }
+            }
+        });
+
+
     }
 
 
@@ -29,14 +52,14 @@ const UserProfile = () => {
                 <div className="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-4 mb-8">
                     <div className="w-20 h-20 rounded-lg overflow-hidden bg-gray-200 flex-shrink-0 flex justify-center items-center ">
                         {
-                            profileImage ? 
-                        <img
-                        src={`${url}${profileImage}`}
-                        alt="Profile"
-                        className="w-full h-full object-cover"
-                        />
-                        : <FaRegUser className="size-full p-4" />
-                    }
+                            profileImage ?
+                                <img
+                                    src={`${url}${profileImage}`}
+                                    alt="Profile"
+                                    className="w-full h-full object-cover"
+                                />
+                                : <FaRegUser className="size-full p-4" />
+                        }
                     </div>
                     <div className="flex-grow">
                         <h2 className="text-xl font-semibold">{name || "No Name"}</h2>
@@ -51,36 +74,65 @@ const UserProfile = () => {
 
                 {
                     currentUser.role === "owner" &&
-                <div>
-                    <h2>If you want to cancele your plan <button className="font-bold text-red-600 " onClick={cancelsubscriptionFun} >click here</button> </h2>
-                </div>
+                    <div className="p-4 bg-gray-50 rounded-md shadow-md mb-8">
+                        <h2 className="text-lg font-semibold text-gray-800 mb-2">
+                            Summary of Your Subscription
+                        </h2>
+                        <p className="text-gray-700 ">
+                            - <strong>Total Units:</strong> <span className="font-bold text-blue-700 text-xl"  >{data?.data?.getTotalUnit || 0}</span>
+                        </p>
+                        <p className="text-gray-700 ">
+                            - <strong>Added Units:</strong> <span className="font-bold text-red-700 text-xl" >{data?.data?.numberOfTotalUnits || 0}</span>
+                        </p>
+                        <p className="text-gray-700  mb-4">
+                            - <strong>Available Units to Add:</strong> <span className="font-bold text-green-700 text-xl" >{data?.data?.getTotalUnit - data?.data?.numberOfTotalUnits || 0}</span>
+                        </p>
+                        <div className="mt-4">
+                            <p className="text-gray-700">
+                                If you'd like to cancel your current plan, you can do so by clicking the button below.
+                            </p>
+                            <button
+                                className="mt-2 bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition font-semibold"
+                                onClick={cancelsubscriptionFun}
+                            >
+                                Cancel Subscription
+                            </button>
+                        </div>
+                    </div>
+
+                    // <div>
+                    //     <h2>You get total {data?.data?.getTotalUnit} Units </h2>
+                    //     <h2>Your total booked units was {data?.data?.bookedUnitNumber} </h2>
+                    //     <h2>Now You can add  {data?.data?.getTotalUnit - data?.data?.bookedUnitNumber} more units </h2>
+                    //     <h2>If you want to cancel your plan <button className="font-bold text-red-600 " onClick={cancelsubscriptionFun} >click here</button> </h2>
+                    // </div>
                 }
 
                 {
-                currentUser.role === "owner" && 
+                    currentUser.role === "owner" &&
 
-                <div className="mb-6">
-                    <h2 className="text-2xl font-extrabold text-gray-800 mb-4 text-center">Property Overview</h2>
+                    <div className="mb-6">
+                        <h2 className="text-2xl font-extrabold text-gray-800 mb-4 text-center">Property Overview</h2>
 
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                        <div className="flex flex-col items-center bg-zinc-50 p-4 rounded-lg shadow-md">
-                            <p className="text-3xl font-bold text-blue-600">{numberOfProperty || 0}</p>
-                            <p className="text-gray-500 text-sm">Properties</p>
-                        </div>
-                        <div className="flex flex-col items-center bg-zinc-50 p-4 rounded-lg shadow-md">
-                            <p className="text-3xl font-bold text-indigo-600">{numberOfTotalUnits || 0}</p>
-                            <p className="text-gray-500 text-sm">Total Units</p>
-                        </div>
-                        <div className="flex flex-col items-center bg-zinc-50 p-4 rounded-lg shadow-md">
-                            <p className="text-3xl font-bold text-green-600">{totalAmount || 0}</p>
-                            <p className="text-gray-500 text-sm">Total Amount</p>
-                        </div>
-                        <div className="flex flex-col items-center bg-zinc-50 p-4 rounded-lg shadow-md">
-                            <p className="text-3xl font-bold text-red-600">{totalRentAmount || 0}</p>
-                            <p className="text-gray-500 text-sm">Total Rent</p>
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div className="flex flex-col items-center bg-zinc-50 p-4 rounded-lg shadow-md">
+                                <p className="text-3xl font-bold text-blue-600">{numberOfProperty || 0}</p>
+                                <p className="text-gray-500 text-sm">Properties</p>
+                            </div>
+                            <div className="flex flex-col items-center bg-zinc-50 p-4 rounded-lg shadow-md">
+                                <p className="text-3xl font-bold text-indigo-600">{numberOfTotalUnits || 0}</p>
+                                <p className="text-gray-500 text-sm">Total Units</p>
+                            </div>
+                            <div className="flex flex-col items-center bg-zinc-50 p-4 rounded-lg shadow-md">
+                                <p className="text-3xl font-bold text-green-600">{totalAmount || 0}</p>
+                                <p className="text-gray-500 text-sm">Total Amount</p>
+                            </div>
+                            <div className="flex flex-col items-center bg-zinc-50 p-4 rounded-lg shadow-md">
+                                <p className="text-3xl font-bold text-red-600">{totalRentAmount || 0}</p>
+                                <p className="text-gray-500 text-sm">Total Rent</p>
+                            </div>
                         </div>
                     </div>
-                </div>
                 }
 
 
@@ -89,7 +141,7 @@ const UserProfile = () => {
 
                     <div className="space-y-4">
                         <h3 className="text-lg font-semibold mb-4">Personal Information</h3>
-                        {personalInfo  ? (
+                        {personalInfo ? (
                             Object.entries(personalInfo).map(([key, value]) => (
                                 <div
                                     key={key}
