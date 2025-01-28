@@ -8,9 +8,9 @@ const stripePromise = loadStripe('pk_test_51NFvq6ArRmO7hNaVcPS5MwczdEtM4yEMOclov
 
 const StripePayment = () => {
     const plans = [
-        { name: 'Starter Plan', range: [1, 4], description: "Manage 1-4 users at $20 per unit/month.", price: 20 },
-        { name: 'Growth Plan', range: [5, 12], description: "Manage 5-12 users at $18 per unit/month.", price: 18 },
-        { name: 'Professional Plan', range: [13, 40], description: "Manage 13-40 users at $15 per unit/month.", price: 15 },
+        { name: 'Starter', range: [1, 4], description: "Manage 1-4 users at $20 per unit/month.", price: 20 },
+        { name: 'Growth', range: [5, 12], description: "Manage 5-12 users at $18 per unit/month.", price: 18 },
+        { name: 'Professional', range: [13, 40], description: "Manage 13-40 users at $15 per unit/month.", price: 15 },
     ];
 
     const [selectedPlan, setSelectedPlan] = useState(plans[0]);
@@ -23,35 +23,35 @@ const StripePayment = () => {
     };
 
     const incrementUserCount = (plan) => {
-        if (plan.name === 'Starter Plan' && starterUserCount < plan.range[1]) {
+        if (plan.name === 'Starter' && starterUserCount < plan.range[1]) {
             setStarterUserCount(starterUserCount + 1);
         }
-        if (plan.name === 'Growth Plan' && growthUserCount < plan.range[1]) {
+        if (plan.name === 'Growth' && growthUserCount < plan.range[1]) {
             setGrowthUserCount(growthUserCount + 1);
         }
-        if (plan.name === 'Professional Plan' && professionalUserCount < plan.range[1]) {
+        if (plan.name === 'Professional' && professionalUserCount < plan.range[1]) {
             setProfessionalUserCount(professionalUserCount + 1);
         }
     };
 
     const decrementUserCount = (plan) => {
-        if (plan.name === 'Starter Plan' && starterUserCount > plan.range[0]) {
+        if (plan.name === 'Starter' && starterUserCount > plan.range[0]) {
             setStarterUserCount(starterUserCount - 1);
         }
-        if (plan.name === 'Growth Plan' && growthUserCount > plan.range[0]) {
+        if (plan.name === 'Growth' && growthUserCount > plan.range[0]) {
             setGrowthUserCount(growthUserCount - 1);
         }
-        if (plan.name === 'Professional Plan' && professionalUserCount > plan.range[0]) {
+        if (plan.name === 'Professional' && professionalUserCount > plan.range[0]) {
             setProfessionalUserCount(professionalUserCount - 1);
         }
     };
 
     const totalPrice = selectedPlan
-        ? selectedPlan.name === 'Starter Plan'
+        ? selectedPlan.name === 'Starter'
             ? starterUserCount * selectedPlan.price
-            : selectedPlan.name === 'Growth Plan'
+            : selectedPlan.name === 'Growth'
                 ? growthUserCount * selectedPlan.price
-                : selectedPlan.name === 'Professional Plan'
+                : selectedPlan.name === 'Professional'
                     ? professionalUserCount * selectedPlan.price
                     : 0
         : 0;
@@ -86,21 +86,21 @@ const StripePayment = () => {
                                                     <button
                                                         onClick={() => decrementUserCount(plan)}
                                                         className="border h-4 w-8 pb-0.5 flex justify-center items-center rounded text-lg"
-                                                        disabled={plan.name === 'Starter Plan' ? starterUserCount <= plan.range[0] : plan.name === 'Growth Plan' ? growthUserCount <= plan.range[0] : professionalUserCount <= plan.range[0]}
+                                                        disabled={plan.name === 'Starter' ? starterUserCount <= plan.range[0] : plan.name === 'Growth' ? growthUserCount <= plan.range[0] : professionalUserCount <= plan.range[0]}
                                                     >
                                                         -
                                                     </button>
                                                     <span className="text-lg">
-                                                        {plan.name === 'Starter Plan'
+                                                        {plan.name === 'Starter'
                                                             ? starterUserCount
-                                                            : plan.name === 'Growth Plan'
+                                                            : plan.name === 'Growth'
                                                                 ? growthUserCount
                                                                 : professionalUserCount}
                                                     </span>
                                                     <button
                                                         onClick={() => incrementUserCount(plan)}
                                                         className="border h-4 w-8 pb-0.5 flex justify-center items-center rounded text-lg"
-                                                        disabled={plan.name === 'Starter Plan' ? starterUserCount >= plan.range[1] : plan.name === 'Growth Plan' ? growthUserCount >= plan.range[1] : professionalUserCount >= plan.range[1]}
+                                                        disabled={plan.name === 'Starter' ? starterUserCount >= plan.range[1] : plan.name === 'Growth' ? growthUserCount >= plan.range[1] : professionalUserCount >= plan.range[1]}
                                                     >
                                                         +
                                                     </button>
