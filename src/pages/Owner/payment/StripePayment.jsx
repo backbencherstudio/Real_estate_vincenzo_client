@@ -57,14 +57,14 @@ const StripePayment = () => {
         : 0;
     console.log(totalPrice)
     return (
-        <div className="md:flex justify-center bg-white shadow-md rounded-md max-w-5xl mx-auto p-4">
+        <div className="md:flex justify-center bg-white shadow-md rounded-md max-w-5xl mx-auto p-6">
             <div className=" md:w-1/2">
                 <h1 className="text-2xl font-bold">Plan Type:</h1>
                 <div className="space-y-4">
                     {plans.map((plan) => (
                         <div
                             key={plan.name}
-                            className={`border ${selectedPlan?.name === plan.name ? 'border-blue-500 ring-4 ring-blue-100' : 'border-gray-300'} bg-white rounded-lg cursor-pointer`}
+                            className={`border transition-all duration-300 ease-in-out transform ${selectedPlan?.name === plan.name ? 'border-blue-500 ring-4 ring-blue-100 scale-105' : 'border-gray-300'} bg-white rounded-lg cursor-pointer`}
                             onClick={() => handlePlanSelect(plan)}
                         >
                             <div className="flex p-4 gap-2">
@@ -75,7 +75,7 @@ const StripePayment = () => {
                                         <div className="text-gray-500 text-lg"><GrRadialSelected /></div>
                                     )}
                                 </div>
-                                <div className="flex justify-between w-full">
+                                <div className="flex justify-between w-full transition-opacity duration-300 ease-in-out">
                                     <div>
                                         <h2 className="text-base lg:text-xl font-bold">{plan.name}</h2>
                                         <p className="text-xs lg:text-sm -mt-3">{plan.description}</p>
@@ -85,7 +85,7 @@ const StripePayment = () => {
                                                 <div className="flex items-center gap-2">
                                                     <button
                                                         onClick={() => decrementUserCount(plan)}
-                                                        className="border h-4 w-8 pb-0.5 flex justify-center items-center rounded text-lg"
+                                                        className="border h-4 w-8 pb-0.5 flex justify-center items-center rounded text-lg transition-transform duration-200 hover:scale-110"
                                                         disabled={plan.name === 'Starter Plan' ? starterUserCount <= plan.range[0] : plan.name === 'Growth Plan' ? growthUserCount <= plan.range[0] : professionalUserCount <= plan.range[0]}
                                                     >
                                                         -
@@ -99,7 +99,7 @@ const StripePayment = () => {
                                                     </span>
                                                     <button
                                                         onClick={() => incrementUserCount(plan)}
-                                                        className="border h-4 w-8 pb-0.5 flex justify-center items-center rounded text-lg"
+                                                        className="border h-4 w-8 pb-0.5 flex justify-center items-center rounded text-lg transition-transform duration-200 hover:scale-110"
                                                         disabled={plan.name === 'Starter Plan' ? starterUserCount >= plan.range[1] : plan.name === 'Growth Plan' ? growthUserCount >= plan.range[1] : professionalUserCount >= plan.range[1]}
                                                     >
                                                         +
