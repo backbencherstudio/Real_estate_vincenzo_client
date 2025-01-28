@@ -7,7 +7,7 @@ import {  useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut, selectCurrentUser } from "../../../redux/fetures/auth/authSlice";
 
-const SubscriptionForm = ({selectedPlan, totalPrice, userCount}) => {
+const SubscriptionForm = ({selectedPlan, totalPrice, userCount }) => {
     console.log(totalPrice,selectedPlan, userCount)
 
     const navigate = useNavigate()

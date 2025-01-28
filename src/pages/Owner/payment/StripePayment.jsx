@@ -56,6 +56,12 @@ const StripePayment = () => {
                     : 0
         : 0;
     console.log(totalPrice)
+    const getUserCount = () => {
+        if (selectedPlan.name === 'Starter Plan') return starterUserCount;
+        if (selectedPlan.name === 'Growth Plan') return growthUserCount;
+        if (selectedPlan.name === 'Professional Plan') return professionalUserCount;
+        return 0;
+    };
     return (
         <div className="md:flex justify-center bg-white shadow-md rounded-md max-w-5xl mx-auto p-6">
             <div className=" md:w-1/2">
@@ -121,7 +127,7 @@ const StripePayment = () => {
             <div className="md:w-1/2">
                 {selectedPlan ? (
                     <Elements stripe={stripePromise}>
-                        <SubscriptionForm selectedPlan={selectedPlan} totalPrice={totalPrice} userCount={growthUserCount} />
+                        <SubscriptionForm selectedPlan={selectedPlan} totalPrice={totalPrice} userCount={getUserCount()} />
                     </Elements>
                 ) : (
                     <div className="text-gray-500 text-center mt-10">
