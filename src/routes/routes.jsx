@@ -32,9 +32,9 @@ const routes = createBrowserRouter([
     path: "/owner",
     element: <App></App>,
     element: (
-      // <OwnerProtectedRoute role="owner">
+      <OwnerProtectedRoute role="owner">
         <App></App>
-      // </OwnerProtectedRoute>
+       </OwnerProtectedRoute>
     ),
     children: routeGenerator(ownerPaths),
   },
