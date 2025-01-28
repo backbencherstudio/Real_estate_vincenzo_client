@@ -12,8 +12,6 @@ const OwnerProtectedRoute = ({ children, role }) => {
   if (token) {
     user = verifyToken(token);
   }
-
-  console.log(user);
   
 
   if (user?.customerId && !user?.customerId) {
