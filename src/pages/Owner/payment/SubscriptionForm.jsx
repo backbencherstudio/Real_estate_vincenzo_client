@@ -7,8 +7,8 @@ import {  useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut, selectCurrentUser } from "../../../redux/fetures/auth/authSlice";
 
-const SubscriptionForm = ({selectedPlan, totalPrice, unitCount }) => {
-    console.log(totalPrice, unitCount)
+const SubscriptionForm = ({selectedPlan, totalPrice, getTotalUnit }) => {
+    console.log(totalPrice, getTotalUnit)
 
     const navigate = useNavigate()
     const stripe = useStripe();
@@ -69,6 +69,7 @@ const SubscriptionForm = ({selectedPlan, totalPrice, unitCount }) => {
 
             const response = await axios.post('http://localhost:5000/api/v1/payment/stripe', {
                 email,
+                getTotalUnit,
                 amount: totalPrice.toString(),
                 paymentMethodId: paymentMethod.id,
             });

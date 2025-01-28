@@ -20,8 +20,7 @@ const AdminDashboard = () => {
     navigate(`/${currentUser?.role}/properties/${id}`);
   };
 
-  console.log(overviewAllData);
-  
+  // console.log(overviewAllData); 
   
   
 
