@@ -1,5 +1,5 @@
 import { Button, Dropdown, Layout, Space } from "antd";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import SideBar from "./SideBar";
 import { FaChevronDown, FaRegUserCircle } from "react-icons/fa";
 import { useAppDispatch } from "../redux/hooks";
@@ -11,8 +11,10 @@ import { url } from "../globalConst/const";
 const { Header, Content } = Layout;
 
 const MainLayout = () => {
+  const navigate = useNavigate()
   const dispatch = useAppDispatch();
   const handleLOgout = () => {
+    navigate("/signin")
     dispatch(logOut());
   };
 

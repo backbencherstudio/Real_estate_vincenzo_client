@@ -9,12 +9,18 @@ import { FaRegUser } from "react-icons/fa";
 const UserProfile = () => {
     const currentUser = useSelector(selectCurrentUser);
     const { data, isLoading, error } = authApi.useGetSingleUserInfoQuery(currentUser?.email);
+    const [cancelsubscription] = authApi.useCancelsubscriptionMutation()
 
     if (isLoading) return <p>Loading...</p>;
     if (error) return <p>Error fetching user information</p>;
 
     const userInfo = data?.data || {};
     const { name, email, profileImage, permanentAddress, personalInfo, numberOfProperty, numberOfTotalUnits, totalAmount, totalRentAmount } = userInfo;
+
+    const cancelsubscriptionFun = async () =>{
+        const res =  await cancelsubscription(currentUser?.customerId)
+        console.log(res);        
+    }
 
 
     return (
@@ -43,9 +49,12 @@ const UserProfile = () => {
                     </Link>
                 </div>
 
+                {
+                    currentUser.role === "owner" &&
                 <div>
-                    <h2>If you want to cancele your plan <button className="font-bold text-red-600 " >click here</button> </h2>
+                    <h2>If you want to cancele your plan <button className="font-bold text-red-600 " onClick={cancelsubscriptionFun} >click here</button> </h2>
                 </div>
+                }
 
                 {
                 currentUser.role === "owner" && 

@@ -4,73 +4,80 @@ const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
 
     createUser: builder.mutation({
-      query: (userData) => {              
+      query: (userData) => {
         return {
           url: "/auth/create-user",
-           method: "POST",
-           body: userData,
-       }
+          method: "POST",
+          body: userData,
+        }
       },
     }),
 
     getSingleUserInfo: builder.query({
-      query: (email) => {        
+      query: (email) => {
         return {
           url: `/auth?email=${email}`,
-           method: "GET",
-           params: email,
-       }
+          method: "GET",
+          params: email,
+        }
       },
-      providesTags : ["user", "properties"]
+      providesTags: ["user", "properties"]
     }),
 
     verifyOTP: builder.mutation({
-      query: (otpData) => {              
+      query: (otpData) => {
         return {
           url: "/auth/verifyOTP",
-           method: "POST",
-           body: otpData,
-       }
+          method: "POST",
+          body: otpData,
+        }
       },
     }),
 
     getALlUser: builder.query({
       query: (status) => {
         return {
-            url: "/auth/allUsers",
-            method: "GET",
-            params: { status }, 
+          url: "/auth/allUsers",
+          method: "GET",
+          params: { status },
         };
-    },
-    providesTags: ["user"],
+      },
+      providesTags: ["user"],
     }),
 
     login: builder.mutation({
       query: (userInfo) => ({
-         url: "/auth/login",
-          method: "POST",
-          body: userInfo,
+        url: "/auth/login",
+        method: "POST",
+        body: userInfo,
       }),
     }),
 
     resetPassword: builder.mutation({
       query: (resetPasswordData) => ({
-         url: "/auth/resetPassword",
-          method: "POST",
-          body: resetPasswordData,
+        url: "/auth/resetPassword",
+        method: "POST",
+        body: resetPasswordData,
       }),
     }),
 
     verifyOtpForResetPassword: builder.mutation({
       query: (verifyOtpResetPassword) => ({
-         url: "/auth/verifyOtpForResetPassword",
-          method: "PATCH",
-          body: verifyOtpResetPassword,
+        url: "/auth/verifyOtpForResetPassword",
+        method: "PATCH",
+        body: verifyOtpResetPassword,
       }),
     }),
- 
 
-    
+    cancelsubscription: builder.mutation({
+      query: (customerId) => ({
+        url: `/payment/cancel-subscription/${customerId}`,
+        method: "POST",
+      }),
+    }),
+
+
+
   }),
 });
 

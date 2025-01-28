@@ -9,7 +9,7 @@ const Tenants = () => {
 
   const currentUser = useSelector(selectCurrentUser)
   const { data: tenantData, isLoading } = ownerApi.useGetSingleOwnerAllTenantsQuery(currentUser?.userId)
-  const navigate = useNavigate() 
+  const navigate = useNavigate()
 
   const tableData = tenantData?.data?.map(({
     _id,
@@ -18,11 +18,11 @@ const Tenants = () => {
     unitId
   }) => ({
     key: _id,
-    name: userId.name,
+    name: userId?.name,
     contactNumber: userId?.personalInfo?.contactNumber | 0,
-    propertyName: propertyId.propertyName,
-    unitNumber: unitId.unitNumber,
-    rent: unitId.rent,
+    propertyName: propertyId?.propertyName,
+    unitNumber: unitId?.unitNumber,
+    rent: unitId?.rent,
 
   }));
 
@@ -41,6 +41,11 @@ const Tenants = () => {
     {
       title: "Tenant Name",
       dataIndex: "name",
+      render: (text, record) => (
+        <div>
+          <h2> {record.name ? record.name : "---"} </h2>
+        </div>
+      )
     },
     {
       title: "Property Name",
