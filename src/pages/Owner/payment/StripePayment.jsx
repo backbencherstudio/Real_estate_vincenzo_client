@@ -121,7 +121,7 @@ const StripePayment = () => {
             <div className="md:w-1/2">
                 {selectedPlan ? (
                     <Elements stripe={stripePromise}>
-                        <SubscriptionForm selectedPlan={selectedPlan} totalPrice={totalPrice} />
+                        <SubscriptionForm selectedPlan={selectedPlan} totalPrice={totalPrice} userCount={growthUserCount} />
                     </Elements>
                 ) : (
                     <div className="text-gray-500 text-center mt-10">
