@@ -1,8 +1,11 @@
 import { Select } from "antd";
 import { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../redux/fetures/auth/authSlice";
 const DashboardChart = ({ overviewData }) => {
-  console.log(overviewData?.data);
+  const currentUser = useSelector(selectCurrentUser);
+  console.log(currentUser);
   const handleChange = (value) => {
     console.log(`selected ${value}`);
   };
@@ -81,7 +84,57 @@ const DashboardChart = ({ overviewData }) => {
       categories: overviewData?.data?.monthlyTenants?.map((item) => item.date),
     },
   };
-
+  const donutChartOptions = {
+    series: [90, 15],
+    chart: {
+      type: "donut",
+    },
+    colors: ["#4a90e2", "#E0E0E0"],
+    labels: ["Received Rent", "Due Rent"],
+    plotOptions: {
+      pie: {
+        donut: {
+          labels: {
+            show: true,
+            total: {
+              show: false,
+            },
+          },
+        },
+      },
+    },
+    legend: {
+      show: true,
+      position: "bottom",
+      labels: {
+        colors: "#000000",
+      },
+      formatter: function (seriesName, opts) {
+        return [
+          seriesName,
+          " - ",
+          opts.w.globals.series[opts.seriesIndex],
+          "$",
+        ];
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    responsive: [
+      {
+        breakpoint: 480,
+        options: {
+          chart: {
+            width: 200,
+          },
+          legend: {
+            position: "bottom",
+          },
+        },
+      },
+    ],
+  };
   useEffect(() => {
     setTimeout(() => {
       window.dispatchEvent(new Event("resize"));
@@ -89,8 +142,16 @@ const DashboardChart = ({ overviewData }) => {
   }, []);
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mt-4">
-      <div className="bg-white p-5 rounded-md relative overflow-hidden">
+    <div
+      className={`grid grid-cols-1 ${
+        currentUser?.role === "owner" ? "lg:grid-cols-3" : "lg:grid-cols-2"
+      } lg:gap-10 mt-4`}
+    >
+      <div
+        className={`bg-white p-5 rounded-md relative overflow-hidden ${
+          currentUser.role === "owner" ? "col-span-2" : "col-span-1"
+        }`}
+      >
         <div className="flex justify-between">
           <h2>Property Overview</h2>
 
@@ -130,41 +191,82 @@ const DashboardChart = ({ overviewData }) => {
           </div>
         </div>
       </div>
-      <div className="bg-white p-5 rounded-md relative overflow-hidden">
-        <div className="flex justify-between">
-          <h2>Tenant Overview</h2>
-          <Select
-            defaultValue="lucy"
-            style={{
-              width: 150,
-            }}
-            onChange={handleChange}
-            options={[
-              {
-                label: <span>manager</span>,
-                title: "manager",
-                options: [
+      <div className="bg-white mt-5 lg:mt-0 p-5 rounded-md relative overflow-hidden col-span-1">
+        {currentUser?.role === "admin" ? (
+          <div>
+            <div className="flex justify-between">
+              <h2>Tenant Overview</h2>
+              <Select
+                defaultValue="lucy"
+                style={{
+                  width: 150,
+                }}
+                onChange={handleChange}
+                options={[
                   {
-                    label: <span>Jack</span>,
-                    value: "Jack",
+                    label: <span>manager</span>,
+                    title: "manager",
+                    options: [
+                      {
+                        label: <span>Jack</span>,
+                        value: "Jack",
+                      },
+                      {
+                        label: <span>Lucy</span>,
+                        value: "Lucy",
+                      },
+                    ],
                   },
+                ]}
+              />
+            </div>
+            <div className="mt-5">
+              <ReactApexChart
+                options={tenantChartOptions}
+                series={tenantChartOptions.series}
+                type="bar"
+                height={350}
+              />
+            </div>
+          </div>
+        ) : (
+          <div>
+            <div className="flex justify-between">
+              <h2>Rent Overview</h2>
+              <Select
+                defaultValue="lucy"
+                style={{
+                  width: 150,
+                }}
+                onChange={handleChange}
+                options={[
                   {
-                    label: <span>Lucy</span>,
-                    value: "Lucy",
+                    label: <span>manager</span>,
+                    title: "manager",
+                    options: [
+                      {
+                        label: <span>Jack</span>,
+                        value: "Jack",
+                      },
+                      {
+                        label: <span>Lucy</span>,
+                        value: "Lucy",
+                      },
+                    ],
                   },
-                ],
-              },
-            ]}
-          />
-        </div>
-        <div className="mt-5">
-          <ReactApexChart
-            options={tenantChartOptions}
-            series={tenantChartOptions.series}
-            type="bar"
-            height={350}
-          />
-        </div>
+                ]}
+              />
+            </div>
+            <div className="mt-5">
+              <ReactApexChart
+                options={donutChartOptions}
+                series={donutChartOptions.series}
+                type="donut"
+                height={350}
+              />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
