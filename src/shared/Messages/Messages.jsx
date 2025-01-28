@@ -1,40 +1,256 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { MessageList } from "../../components/Messages/MessageList";
 import { MessageInput } from "../../components/Messages/MessageInput";
-import { useSocket } from "../../context/SocketContext";
+import io from "socket.io-client";
+import adminApi from "../../redux/fetures/admin/adminApi";
+import { selectCurrentUser } from "../../redux/fetures/auth/authSlice";
+import { useSelector } from "react-redux";
+const socket = io("http://localhost:5000");
 
 const Messages = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [messages, setMessages] = useState([]);
+  const [message, setMessage] = useState("");
   const [currentChat, setCurrentChat] = useState(null);
-  const { socket } = useSocket();
+  const [user, setUser] = useState("");
+  const currentUser = useSelector(selectCurrentUser);
+  const [recipient, setRecipient] = useState(currentUser?.email);
+  const { data: userData } = adminApi.useGetALlUserQuery("");
+  const [unreadMessages, setUnreadMessages] = useState(() => {
+    const saved = localStorage.getItem("unreadMessages");
+    return saved ? JSON.parse(saved) : {};
+  });
+  const [lastMessages, setLastMessages] = useState(() => {
+    const saved = localStorage.getItem("lastMessages");
+    return saved ? JSON.parse(saved) : {};
+  });
+  const messagesEndRef = useRef(null);
+  const [onlineUsers, setOnlineUsers] = useState({});
 
-  // useEffect(() => {
-  //   if (socket) {
-  //     socket.emit("user_connected", "current-user-id"); // Replace with actual user ID
-
-  //     socket.on("receive_message", (newMessage) => {
-  //       if (currentChat && newMessage.chatId === currentChat.id) {
-  //         setMessages((prev) => [...prev, newMessage]);
-  //       }
-  //     });
-
-  //     socket.on("chat_history", (chatMessages) => {
-  //       setMessages(chatMessages);
-  //     });
-
-  //     return () => {
-  //       socket.off("receive_message");
-  //       socket.off("chat_history");
-  //     };
-  //   }
-  // }, []);
-
-  const handleChatSelect = (chat) => {
-    setCurrentChat(chat);
-    socket.emit("join_chat", chat.id);
-    setIsSidebarOpen(false);
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  // Fetch message history when component mounts or recipient changes
+  useEffect(() => {
+    if (recipient) {
+      fetch(`http://localhost:5000/chats?email=${currentUser?.email}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setMessages(data);
+          const lastMessagesMap = {};
+          data.forEach((msg) => {
+            const otherUser =
+              msg.sender === currentUser?.email ? msg.recipient : msg.sender;
+            if (
+              !lastMessagesMap[otherUser] ||
+              new Date(msg.timestamp) >
+                new Date(lastMessagesMap[otherUser].timestamp)
+            ) {
+              lastMessagesMap[otherUser] = {
+                content: msg.content,
+                timestamp: msg.timestamp,
+              };
+            }
+          });
+          setLastMessages(lastMessagesMap);
+        })
+        .catch((error) => console.error("Error fetching messages:", error));
+    }
+  }, [recipient, currentUser]);
+
+  useEffect(() => {
+    socket.emit("join", currentUser?.email);
+
+    socket.on("connect", () => {
+      console.log("Connected to socket server");
+      socket.emit("user_online", currentUser?.email);
+    });
+
+    // Listen for online users updates
+    socket.on("online_users", (users) => {
+      setOnlineUsers(users);
+    });
+
+    socket.on("user_connected", (userId) => {
+      setOnlineUsers((prev) => ({
+        ...prev,
+        [userId]: true,
+      }));
+    });
+
+    socket.on("user_disconnected", (userId) => {
+      setOnlineUsers((prev) => ({
+        ...prev,
+        [userId]: false,
+      }));
+    });
+
+    socket.on("message", (message) => {
+      setMessages((prevMessages) => [...prevMessages, message]);
+
+      // Only update unread count for incoming messages not from current chat
+      if (
+        message.recipient === currentUser?.email &&
+        message.sender !== currentUser?.email &&
+        (!currentChat || message.sender !== currentChat.email)
+      ) {
+        setUnreadMessages((prev) => {
+          const newUnreadMessages = {
+            ...prev,
+            [message.sender]: (prev[message.sender] || 0) + 1,
+          };
+          localStorage.setItem(
+            "unreadMessages",
+            JSON.stringify(newUnreadMessages)
+          );
+          return newUnreadMessages;
+        });
+      }
+
+      // Update last messages
+      const otherUser =
+        message.sender === currentUser?.email
+          ? message.recipient
+          : message.sender;
+      setLastMessages((prev) => {
+        const newLastMessages = {
+          ...prev,
+          [otherUser]: {
+            content: message.content,
+            timestamp: message.timestamp,
+          },
+        };
+        localStorage.setItem("lastMessages", JSON.stringify(newLastMessages));
+        return newLastMessages;
+      });
+    });
+
+    socket.on("message history", (history) => {
+      setMessages(history);
+    });
+
+    socket.on("user list", (userList) => {
+      // console.log("User list updated:", userList);
+    });
+
+    // Fetch initial unread messages when component mounts
+    const fetchInitialUnreadMessages = async () => {
+      try {
+        // Get unread messages count directly from the server
+        const response = await fetch(
+          `http://localhost:5000/messages/unread/${currentUser?.email}`
+        );
+        const unreadCounts = await response.json();
+
+        console.log("Initial unread counts:", unreadCounts); // Debug log
+
+        // Update unread messages state and localStorage
+        setUnreadMessages(unreadCounts);
+        localStorage.setItem("unreadMessages", JSON.stringify(unreadCounts));
+      } catch (error) {
+        console.error("Error fetching initial unread messages:", error);
+      }
+    };
+
+    if (currentUser?.email) {
+      fetchInitialUnreadMessages();
+    }
+
+    return () => {
+      socket.emit("user_offline", currentUser?.email);
+      socket.off("online_users");
+      socket.off("user_connected");
+      socket.off("user_disconnected");
+      socket.off("message");
+      socket.off("message history");
+      socket.off("user list");
+    };
+  }, [currentUser]);
+  useEffect(() => {
+    if (recipient) {
+      const foundUser = userData?.data.find((u) => u.email === recipient);
+      if (foundUser) {
+        setUser(foundUser);
+      }
+    }
+  }, [recipient, userData?.data]);
+  const sendMessage = (e) => {
+    e.preventDefault();
+    if (message && currentChat) {
+      const messageData = {
+        content: message, // Changed from 'message' to 'content'
+        recipient: currentChat.email,
+        sender: currentUser?.email,
+        timestamp: new Date().toISOString(),
+        read: false,
+      };
+
+      socket.emit("message", messageData);
+      setMessage("");
+    }
+  };
+  const handleChatSelect = async (user) => {
+    setCurrentChat(user);
+
+    try {
+      // Mark messages as read in the backend
+      const response = await fetch("http://localhost:5000/messages/mark-read", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          sender: user.email,
+          recipient: currentUser?.email,
+        }),
+      });
+
+      if (response.ok) {
+        // Update local messages state
+        setMessages((prevMessages) =>
+          prevMessages.map((msg) =>
+            msg.sender === user.email && msg.recipient === currentUser?.email
+              ? { ...msg, read: true }
+              : msg
+          )
+        );
+
+        // Clear unread count for this user
+        setUnreadMessages((prev) => {
+          const newUnreadMessages = { ...prev };
+          delete newUnreadMessages[user.email]; // Remove the unread count for this user
+          localStorage.setItem(
+            "unreadMessages",
+            JSON.stringify(newUnreadMessages)
+          );
+          return newUnreadMessages;
+        });
+      }
+    } catch (error) {
+      console.error("Error marking messages as read:", error);
+    }
+  };
+
+  const deleteMessage = (messageId) => {
+    socket.emit("delete_message", messageId);
+  };
+
+  useEffect(() => {
+    socket.on("message_deleted", (messageId) => {
+      setMessages((prevMessages) =>
+        prevMessages.filter((msg) => msg._id !== messageId)
+      );
+    });
+
+    return () => {
+      socket.off("message_deleted");
+    };
+  }, []);
 
   return (
     <div className="">
@@ -52,8 +268,18 @@ const Messages = () => {
         <div className="col-span-1 border-r border-gray-100">
           {/* Search and Add Button */}
 
-          <div className="overflow-y-auto h-[calc(100%-73px)]">
-            <MessageList onChatSelect={handleChatSelect} />
+          <div className="overflow-y-auto h-full">
+            <MessageList
+              onChatSelect={handleChatSelect}
+              userData={userData?.data?.map((user) => ({
+                ...user,
+                hasUnread: Boolean(unreadMessages[user.email]),
+                lastMessage: lastMessages[user.email],
+                isOnline: onlineUsers[user.email] || false,
+                unreadCount: unreadMessages[user.email] || 0,
+              }))}
+              currentUser={currentUser?.email}
+            />
           </div>
         </div>
 
@@ -71,42 +297,86 @@ const Messages = () => {
                 </h3>
                 <span
                   className={`text-sm ${
-                    currentChat?.isOnline ? "text-green-500" : "text-gray-500"
+                    onlineUsers[currentChat?.email]
+                      ? "text-green-500"
+                      : "text-gray-500"
                   }`}
                 >
-                  {currentChat?.isOnline ? "Online" : "Offline"}
+                  {onlineUsers[currentChat?.email] ? "Online" : "Offline"}
                 </span>
               </div>
             </div>
           </div>
           {currentChat ? (
             <>
-              <div className="flex-grow overflow-y-auto p-4">
-                {messages.map((msg, index) => (
-                  <div
-                    key={msg._id || index}
-                    className={`mb-4 ${
-                      msg.senderId === "current-user-id"
-                        ? "text-right"
-                        : "text-left"
-                    }`}
-                  >
-                    <div
-                      className={`inline-block p-3 rounded-lg ${
-                        msg.senderId === "current-user-id"
-                          ? "bg-blue-500 text-white"
-                          : "bg-gray-100"
-                      }`}
-                    >
-                      {msg.content}
+              <div
+                className="flex-grow h-[540px] overflow-y-auto p-4 mb-10"
+                style={{ display: "flex", flexDirection: "column-reverse" }}
+              >
+                <div ref={messagesEndRef} />
+                {messages
+                  .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+                  .map((msg, index) => (
+                    <div key={index}>
+                      {((msg.sender === currentUser?.email &&
+                        msg.recipient === currentChat?.email) ||
+                        (msg.recipient === currentUser?.email &&
+                          msg.sender === currentChat?.email)) && (
+                        <div
+                          key={msg._id || index}
+                          className={`mb-4 ${
+                            msg.sender === currentUser?.email
+                              ? "text-right"
+                              : "text-left"
+                          }`}
+                        >
+                          <div className="relative group inline-block">
+                            {msg.sender === currentUser?.email && (
+                              <button
+                                onClick={() => deleteMessage(msg._id)}
+                                className="absolute -left-8 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out"
+                                title="Delete message"
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  className="h-5 w-5 text-red-500 hover:text-red-700"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                  />
+                                </svg>
+                              </button>
+                            )}
+                            <div
+                              className={`p-3 rounded-lg ${
+                                msg.sender === currentUser?.email
+                                  ? "bg-blue-500 text-white"
+                                  : "bg-gray-100"
+                              }`}
+                            >
+                              {msg.content}
+                            </div>
+                            <div className="text-xs text-gray-500 mt-1">
+                              {new Date(msg.timestamp).toLocaleTimeString()}
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
-                    <div className="text-xs text-gray-500 mt-1">
-                      {new Date(msg.timestamp).toLocaleTimeString()}
-                    </div>
-                  </div>
-                ))}
+                  ))}
               </div>
-              <MessageInput currentChat={currentChat} />
+              <MessageInput
+                currentChat={currentChat}
+                message={message}
+                setMessage={setMessage}
+                sendMessage={sendMessage}
+              />
             </>
           ) : (
             <div className="flex items-center justify-center h-full text-gray-500">
@@ -162,38 +432,113 @@ const Messages = () => {
           </button>
         </div>
         <div className="overflow-y-auto h-[calc(100%-137px)]">
-          <MessageList onChatSelect={handleChatSelect} />
+          <MessageList
+            onChatSelect={handleChatSelect}
+            userData={userData?.data?.map((user) => ({
+              ...user,
+              hasUnread: Boolean(unreadMessages[user.email]),
+              lastMessage: lastMessages[user.email],
+              isOnline: onlineUsers[user.email] || false,
+              unreadCount: unreadMessages[user.email] || 0,
+            }))}
+            currentUser={currentUser?.email}
+          />
         </div>
       </div>
-      <div className="md:hidden mt-4 bg-white rounded-lg  min-h-[660px] p-4 relative">
+      <div className="md:hidden mt-4 bg-white rounded-lg  h-[660px] p-4 relative">
+        <div className="p-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <img
+              src={currentChat?.avatar || "https://via.placeholder.com/40"}
+              alt="User"
+              className="w-10 h-10 rounded-full"
+            />
+            <div>
+              <h3 className="font-semibold">
+                {currentChat?.name || "Select a chat"}
+              </h3>
+              <span
+                className={`text-sm ${
+                  onlineUsers[currentChat?.email]
+                    ? "text-green-500"
+                    : "text-gray-500"
+                }`}
+              >
+                {onlineUsers[currentChat?.email] ? "Online" : "Offline"}
+              </span>
+            </div>
+          </div>
+        </div>
         {currentChat ? (
           <>
-            <div className="flex-grow overflow-y-auto p-4 mb-20">
-              {messages.map((msg, index) => (
-                <div
-                  key={msg._id || index}
-                  className={`mb-4 ${
-                    msg.senderId === "current-user-id"
-                      ? "text-right"
-                      : "text-left"
-                  }`}
-                >
-                  <div
-                    className={`inline-block p-3 rounded-lg ${
-                      msg.senderId === "current-user-id"
-                        ? "bg-blue-500 text-white"
-                        : "bg-gray-100"
-                    }`}
-                  >
-                    {msg.content}
+            <div
+              className="flex-grow h-[540px] overflow-y-auto p-4 mb-10 pb-10"
+              style={{ display: "flex", flexDirection: "column-reverse" }}
+            >
+              <div ref={messagesEndRef} />
+              {messages
+                .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+                .map((msg, index) => (
+                  <div key={index}>
+                    {((msg.sender === currentUser?.email &&
+                      msg.recipient === currentChat?.email) ||
+                      (msg.recipient === currentUser?.email &&
+                        msg.sender === currentChat?.email)) && (
+                      <div
+                        key={msg._id || index}
+                        className={`mb-4 ${
+                          msg.sender === currentUser?.email
+                            ? "text-right"
+                            : "text-left"
+                        }`}
+                      >
+                        <div className="relative group inline-block">
+                          {msg.sender === currentUser?.email && (
+                            <button
+                              onClick={() => deleteMessage(msg._id)}
+                              className="absolute -left-8 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out"
+                              title="Delete message"
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-5 w-5 text-red-500 hover:text-red-700"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                />
+                              </svg>
+                            </button>
+                          )}
+                          <div
+                            className={`p-3 rounded-lg ${
+                              msg.sender === currentUser?.email
+                                ? "bg-blue-500 text-white"
+                                : "bg-gray-100"
+                            }`}
+                          >
+                            {msg.content}
+                          </div>
+                          <div className="text-xs text-gray-500 mt-1">
+                            {new Date(msg.timestamp).toLocaleTimeString()}
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
-                  <div className="text-xs text-gray-500 mt-1">
-                    {new Date(msg.timestamp).toLocaleTimeString()}
-                  </div>
-                </div>
-              ))}
+                ))}
             </div>
-            <MessageInput currentChat={currentChat} />
+            <MessageInput
+              currentChat={currentChat}
+              message={message}
+              setMessage={setMessage}
+              sendMessage={sendMessage}
+            />
           </>
         ) : (
           <div className="flex items-center justify-center h-full text-gray-500">

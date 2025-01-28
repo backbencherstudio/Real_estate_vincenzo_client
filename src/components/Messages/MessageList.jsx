@@ -1,47 +1,43 @@
-import { useState, useEffect } from "react";
-import { useSocket } from "../../context/SocketContext";
-import adminApi from "../../redux/fetures/admin/adminApi";
+import { useState } from "react";
 
-export const MessageList = ({ onChatSelect }) => {
-  const [chats, setChats] = useState([]);
+export const MessageList = ({ onChatSelect, userData, currentUser }) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const { socket, onlineUsers } = useSocket();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { data: userData } = adminApi.useGetALlUserQuery("tenant");
-  console.log(userData?.data);
-  useEffect(() => {
-    if (socket) {
-      // Get initial chats
-      socket.emit("get_chats");
-      socket.on("chats_received", (receivedChats) => {
-        setChats(receivedChats || []);
-        setIsLoading(false);
-      });
 
-      socket.on("new_message_notification", (chatId) => {
-        setChats((prevChats) =>
-          prevChats.map((chat) =>
-            chat.id === chatId
-              ? { ...chat, unreadCount: (chat.unreadCount || 0) + 1 }
-              : chat
-          )
-        );
-      });
+  const filteredUsers = userData
+    ?.filter(
+      (user) =>
+        user.email !== currentUser &&
+        (user?.name || "")
+          .toLowerCase()
+          .includes((searchTerm || "").toLowerCase())
+    )
+    .sort((a, b) => {
+      // Debug logs
+      console.log(
+        "User A:",
+        a.name,
+        "Last message time:",
+        a.lastMessage?.timestamp || a.lastMessageTime
+      );
+      console.log(
+        "User B:",
+        b.name,
+        "Last message time:",
+        b.lastMessage?.timestamp || b.lastMessageTime
+      );
 
-      return () => {
-        socket.off("chats_received");
-        socket.off("new_message_notification");
-      };
-    }
-  }, [socket]);
+      const timeA = a.lastMessage?.timestamp || a.lastMessageTime || 0;
+      const timeB = b.lastMessage?.timestamp || b.lastMessageTime || 0;
 
-  // Safe filtering of chats
-  const filteredUsers = userData?.data?.filter((user) =>
-    (user?.name || "").toLowerCase().includes((searchTerm || "").toLowerCase())
-  );
+      // Debug the actual values being compared
+      console.log("Comparing:", new Date(timeB), "-", new Date(timeA));
 
-  if (isLoading) {
+      return new Date(timeB) - new Date(timeA); // Most recent first
+    });
+
+  if (!isLoading) {
     return (
       <div className="p-4">
         <div className="animate-pulse">
@@ -59,6 +55,7 @@ export const MessageList = ({ onChatSelect }) => {
   if (error) {
     return <div className="p-4 text-center text-red-500">{error}</div>;
   }
+  console.log(filteredUsers);
 
   return (
     <div className="h-[600px]">
@@ -77,7 +74,9 @@ export const MessageList = ({ onChatSelect }) => {
           <button
             key={user.id}
             onClick={() => onChatSelect(user)}
-            className="w-full text-left hover:bg-gray-50 p-4 border-b border-gray-100"
+            className={`w-full text-left hover:bg-gray-50 p-4 border-b border-gray-100 ${
+              user.hasUnread ? "bg-blue-50" : ""
+            }`}
           >
             <div className="flex items-center gap-3">
               <div className="relative">
@@ -94,17 +93,52 @@ export const MessageList = ({ onChatSelect }) => {
                     </span>
                   </div>
                 )}
+                <span
+                  className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${
+                    user.isOnline ? "bg-green-500" : "bg-gray-400"
+                  }`}
+                ></span>
               </div>
               <div className="flex-grow">
-                <h3 className="font-semibold text-sm">
-                  {user.name || "Unknown User"}
-                </h3>
-                <p className="text-gray-500 text-sm truncate">
-                  {user.lastMessage || "No messages yet"}
+                <div className="flex items-center justify-between">
+                  <h3
+                    className={`text-sm ${
+                      user.hasUnread
+                        ? "font-bold text-blue-900"
+                        : "font-semibold"
+                    }`}
+                  >
+                    {user.name || "Unknown User"}
+                  </h3>
+                  {user.lastMessage?.timestamp && (
+                    <span className="text-xs text-gray-400">
+                      {new Date(user.lastMessage.timestamp).toLocaleTimeString(
+                        [],
+                        {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        }
+                      )}
+                    </span>
+                  )}
+                </div>
+                <p
+                  className={`text-sm truncate ${
+                    user.hasUnread
+                      ? "font-semibold text-blue-800"
+                      : "text-gray-500"
+                  }`}
+                >
+                  {/* {user.lastMessage?.content || "No messages yet"} */}
+                  {user.email || "No messages yet"}
                 </p>
               </div>
               <div className="flex flex-col items-end">
-                <span className="text-xs text-gray-400">
+                <span
+                  className={`text-xs ${
+                    user.hasUnread ? "text-blue-600 font-bold" : "text-gray-400"
+                  }`}
+                >
                   {user.lastMessageTime
                     ? new Date(user.lastMessageTime).toLocaleTimeString([], {
                         hour: "2-digit",
@@ -113,7 +147,7 @@ export const MessageList = ({ onChatSelect }) => {
                     : ""}
                 </span>
                 {user.unreadCount > 0 && (
-                  <span className="bg-blue-500 text-white text-xs rounded-full px-2 py-1 mt-1">
+                  <span className="bg-blue-500 text-white font-bold text-xs rounded-full px-2 py-1 mt-1">
                     {user.unreadCount}
                   </span>
                 )}

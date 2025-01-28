@@ -10,9 +10,11 @@ import Swal from "sweetalert2";
 import { toast } from "sonner";
 
 const UserProfile = () => {
-    const currentUser = useSelector(selectCurrentUser);
-    const { data, isLoading, error } = authApi.useGetSingleUserInfoQuery(currentUser?.email);
-    const [cancelsubscription] = authApi.useCancelsubscriptionMutation()
+  const currentUser = useSelector(selectCurrentUser);
+  const { data, isLoading, error } = authApi.useGetSingleUserInfoQuery(
+    currentUser?.email
+  );
+  const [cancelsubscription] = authApi.useCancelsubscriptionMutation();
 
     if (isLoading) return <p>Loading...</p>;
     if (error) return <p>Error fetching user information</p>;
@@ -20,8 +22,18 @@ const UserProfile = () => {
     console.log(data?.data);
 
 
-    const userInfo = data?.data || {};
-    const { name, email, profileImage, permanentAddress, personalInfo, numberOfProperty, numberOfTotalUnits, totalAmount, totalRentAmount } = userInfo;
+  const userInfo = data?.data || {};
+  const {
+    name,
+    email,
+    profileImage,
+    permanentAddress,
+    personalInfo,
+    numberOfProperty,
+    numberOfTotalUnits,
+    totalAmount,
+    totalRentAmount,
+  } = userInfo;
 
     const cancelsubscriptionFun = async () => {
 
@@ -160,28 +172,28 @@ const UserProfile = () => {
 
 
 
-                    <div className="space-y-4">
-                        <h3 className="text-lg font-semibold mb-4">Permanent Address</h3>
-                        {permanentAddress ? (
-                            Object.entries(permanentAddress).map(([key, value]) => (
-                                <div
-                                    key={key}
-                                    className="flex flex-col sm:flex-row sm:justify-between pb-2"
-                                >
-                                    <span className="text-gray-600 capitalize mb-1 sm:mb-0">
-                                        {key.replace(/([A-Z])/g, " $1").trim()}
-                                    </span>
-                                    <span className="font-medium">{value || "N/A"}</span>
-                                </div>
-                            ))
-                        ) : (
-                            <p className="text-gray-500">No permanent address available.</p>
-                        )}
-                    </div>
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold mb-4">Permanent Address</h3>
+            {permanentAddress ? (
+              Object.entries(permanentAddress).map(([key, value]) => (
+                <div
+                  key={key}
+                  className="flex flex-col sm:flex-row sm:justify-between pb-2"
+                >
+                  <span className="text-gray-600 capitalize mb-1 sm:mb-0">
+                    {key.replace(/([A-Z])/g, " $1").trim()}
+                  </span>
+                  <span className="font-medium">{value || "N/A"}</span>
                 </div>
-            </div>
+              ))
+            ) : (
+              <p className="text-gray-500">No permanent address available.</p>
+            )}
+          </div>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default UserProfile;
