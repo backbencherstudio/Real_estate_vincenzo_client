@@ -12,7 +12,6 @@ import ResetPassword from "../pages/Auth/ResetPassword/ResetPassword";
 import ProtectedRoute from "../layout/ProtectedRoute";
 import SubscriptionPlan from "../pages/Auth/subscriptionPlan/SubscriptionPlan";
 import OwnerProtectedRoute from "../layout/OwnerProtectedRoute";
-
 const routes = createBrowserRouter([
   {
     path: "/",
