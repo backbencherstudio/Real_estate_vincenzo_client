@@ -6,21 +6,25 @@ import { Spin } from "antd";
 
 const DocumentDetails = () => {
 
-  const {id} = useParams()
-  const {data, isLoading} = documentApi.useGetSingleDocumentQuery(id)
+  const { id } = useParams()
+  const { data, isLoading } = documentApi.useGetSingleDocumentQuery(id)
 
-if (isLoading) return <div className="w-full h-[60vh] flex items-center justify-center " > <Spin size="large" /> </div>
+  console.log(data?.data)
+
+  const { propertyName, unitNumber, tenantName, documentType, description } = data?.data || {}
+
+  if (isLoading) return <div className="w-full h-[60vh] flex items-center justify-center " > <Spin size="large" /> </div>
 
   return (
     <div>
       <div>
         <h2 className="font-manrope text-2xl font-bold leading-[48px] tracking-[-0.03em] text-left">
-          Maintenance
+          Documents
         </h2>
         <span>
           <p className="text-[#64748B] text-[14px] ">
             {" "}
-            <span className="opacity-60">Home / </span>Maintenance Details
+            <span className="opacity-60">Home / </span>Documents Details
           </p>
         </span>
       </div>
@@ -37,23 +41,19 @@ if (isLoading) return <div className="w-full h-[60vh] flex items-center justify-
         {/* Right side - Details Card */}
         <div className="lg:w-1/2 bg-white rounded-lg p-6 shadow-sm">
           <h1 className="text-lg lg:text-3xl font-bold text-gray-900 mb-4">
-            Design of a modern h mansion blue couch
+            {propertyName}
           </h1>
 
           <div className="flex items-center text-lg mb-6">
             <MapPin className="w-5 h-5 mr-2 text-blue-600" />
-            <span className="">New York Staten Island, NY 10314, USA</span>
+            <span className="">{description}</span>
           </div>
 
           <div className="space-y-4">
-            <DetailRow label="Tenant Name" value="Adam Smith" />
-            <DetailRow label="Unit No" value="5A" />
-            <DetailRow label="Rent" value="$300" />
-            <DetailRow label="Security Deposit" value="$1200" />
-            <DetailRow label="Rent Type" value="Monthly" />
-            <DetailRow label="Late Fee" value="$100" />
-            <DetailRow label="Receipt" value="$100" />
-            <DetailRow label="Payment Due Date" value="30/12/2024" />
+            <DetailRow label="Tenant Name" value={tenantName} />
+            <DetailRow label="Unit No" value={unitNumber} />
+            <DetailRow label="Document Type" value={documentType} />
+
           </div>
         </div>
       </div>
