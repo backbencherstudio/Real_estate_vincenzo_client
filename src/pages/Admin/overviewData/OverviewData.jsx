@@ -10,7 +10,7 @@ const OverviewData = ({ overviewAllData }) => {
         <div className={`mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10`}>
             {
                 overviewAllData?.data.ownersLength &&
-                <div className="bg-[#FFFFFF] p-5 rounded-lg ">
+                <div className="bg-[#FFFFFF] p-5 rounded-lg shadow-md ">
                     <h2 className="text-[#64748B] font-semibold text-[14px] ">
                         Property Owner
                     </h2>
@@ -21,7 +21,7 @@ const OverviewData = ({ overviewAllData }) => {
                 </div>
             }
 
-            <div className="bg-[#FFFFFF] p-5 rounded-lg ">
+            <div className="bg-[#FFFFFF] p-5 rounded-lg shadow-md ">
                 <h2 className="text-[#64748B] font-semibold text-[14px] ">
                     Total Property
                 </h2>
@@ -31,11 +31,10 @@ const OverviewData = ({ overviewAllData }) => {
                 <Link to={`/${currentUser?.role}/properties`} className="text-[#4A90E2]">View List</Link>
             </div>
 
-{/* ===========================  This field not shoe right now ====================== */}
             {
-                overviewAllData?.data.unitsLength && 
+                overviewAllData?.data.unitsLength  ?
 
-            <div className="bg-[#FFFFFF] p-5 rounded-lg ">
+            <div className="bg-[#FFFFFF] p-5 rounded-lg shadow-md ">
                 <h2 className="text-[#64748B] font-semibold text-[14px] ">
                     Total Unit
                 </h2>
@@ -44,9 +43,24 @@ const OverviewData = ({ overviewAllData }) => {
                 </h2>
                 <button className="text-[#4A90E2]">View List</button>
             </div>
+            : 
+
+            ( currentUser.role !== "admin" &&  
+
+                <div className="bg-[#FFFFFF] p-5 rounded-lg ">
+                <h2 className="text-[#64748B] font-semibold text-[14px] ">
+                    Total Unit
+                </h2>
+                <h2 className="text-[#1C2434] font-semibold text-[24px] py-4 ">
+                    {overviewAllData?.data.unitsLength}
+                </h2>
+                <button className="text-[#4A90E2]">View List</button>
+            </div>
+              )
+            
             }
 
-            <div className="bg-[#FFFFFF] p-5 rounded-lg ">
+            <div className="bg-[#FFFFFF] p-5 rounded-lg shadow-md ">
                 <h2 className="text-[#64748B] font-semibold text-[14px] ">
                     Total Tenant
                 </h2>

@@ -17,6 +17,7 @@ import { Bolt, UserPen } from "lucide-react";
 import UserProfile from "../shared/Settings/Profile";
 import Profile from "../shared/Profile";
 import Messages from "../shared/Messages/Messages";
+import StripePayment from "../pages/Owner/payment/StripePayment";
 
 export const ownerPaths = [
   {
@@ -25,7 +26,6 @@ export const ownerPaths = [
     element: <OwnerDashboard />,
     icon: <MdOutlineDashboard />,
   },
-
   {
     name: "Properties",
     icon: <PiBuildingApartment />,
@@ -102,4 +102,9 @@ export const ownerPaths = [
       },
     ],
   },
+  {
+    name : "Update plan",
+    path : "payment",
+    element : <StripePayment/>
+  }
 ];
