@@ -44,7 +44,7 @@ const UserProfile = () => {
                 </div>
 
                 <div>
-                    <h2>If you want to cancele your plan <button className="font-bold text-red-600 " >click here</button> </h2>
+                    <h2>If you want to cancel your plan <button className="font-bold text-red-600 " >Click here</button> </h2>
                 </div>
 
                 {
