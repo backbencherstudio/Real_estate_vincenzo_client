@@ -1,8 +1,9 @@
+/* eslint-disable react/prop-types */
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Navigate, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut, selectCurrentUser } from "../../../redux/fetures/auth/authSlice";
 
@@ -71,7 +72,8 @@ const SubscriptionForm = ({selectedPlan, totalPrice,}) => {
                 amount: totalPrice.toString(),
                 paymentMethodId: paymentMethod.id,
             });
-
+            
+            
             if (response?.data?.customer_id) {
                 navigate("/signin")
                 toast.success("Subscription created successfully!, check your email")

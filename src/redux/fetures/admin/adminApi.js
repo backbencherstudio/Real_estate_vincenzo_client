@@ -4,11 +4,12 @@ const adminApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
 
     getALlUser: builder.query({
-      query: (role) => {
+      query: (query) => {      
+        const queryString = new URLSearchParams(query).toString();  
         return {
-          url: `/auth/allUsers?role=${role}`,
+          url: `/auth/allUsers?${queryString}`,
           method: "GET",
-        };
+        };  
       },
       providesTags: ["user"],
     }),

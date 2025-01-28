@@ -12,18 +12,23 @@ const OwnerProtectedRoute = ({ children, role }) => {
   if (token) {
     user = verifyToken(token);
   }
-
-  if(!user?.customerId){
+  
+  if (!user?.customerId) {
     dispatch(logOut());
-    return <Navigate to="/signin" replace={true}></Navigate>;
-  }  
-
-  if (role !== undefined && role !== user?.role ) {
-    dispatch(logOut());
-    return <Navigate to="/signin" replace={true}></Navigate>;
+    return <Navigate to="/signin" replace />;
   }
+
+  if (user?.subscriptionStatus !== "active") {
+    return <Navigate to="/subscription-plan" replace />;
+  }
+
+  if (role !== undefined && role !== user?.role) {
+    dispatch(logOut());
+    return <Navigate to="/signin" replace />;
+  }
+
   if (!token) {
-    return <Navigate to="/signin" replace={true}></Navigate>;
+    return <Navigate to="/signin" replace />;
   }
 
   return children;
