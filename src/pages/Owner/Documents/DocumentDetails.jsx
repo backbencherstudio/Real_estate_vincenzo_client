@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import documentApi from "../../../redux/fetures/document/documentApi";
 import { url } from "../../../globalConst/const";
 import { Spin } from "antd";
+import { IoMdCloseCircleOutline } from "react-icons/io";
 
 const DocumentDetails = () => {
 
@@ -39,22 +40,30 @@ const DocumentDetails = () => {
         </div>
 
         {/* Right side - Details Card */}
-        <div className="lg:w-1/2 bg-white rounded-lg p-6 shadow-sm">
-          <h1 className="text-lg lg:text-3xl font-bold text-gray-900 mb-4">
-            {propertyName}
-          </h1>
+        <div className="flex flex-col justify-between lg:w-1/2 bg-white rounded-lg p-6 shadow-sm">
+          <div className="gap-4">
+            <h1 className="text-lg lg:text-3xl font-bold text-gray-900 mb-4">
+              {propertyName}
+            </h1>
 
-          <div className="flex items-center text-lg mb-6">
-            <MapPin className="w-5 h-5 mr-2 text-blue-600" />
-            <span className="">{description}</span>
+            <div className="flex items-center text-lg mb-6">
+              <MapPin className="w-5 h-5 mr-2 text-blue-600" />
+              <span className="text-sm">{description}</span>
+            </div>
+
+            <div className="space-y-4">
+              <DetailRow label="Tenant Name" value={tenantName} />
+              <DetailRow label="Property Name" value={propertyName} />
+              <DetailRow label="Unit No" value={unitNumber} />
+              <DetailRow label="Document Type" value={documentType} />
+
+            </div>
+            
           </div>
-
-          <div className="space-y-4">
-            <DetailRow label="Tenant Name" value={tenantName} />
-            <DetailRow label="Unit No" value={unitNumber} />
-            <DetailRow label="Document Type" value={documentType} />
-
-          </div>
+          <div className="flex gap-4 justify-end">
+              <button className="bg-gradient-to-l px-6 from-[#1565C0] to-[#4A90E2] hover:from-[#4A90E2] hover:to-[#1565C0] text-white py-5 rounded-md font-medium duration-300">Approve</button>
+              <button className="px-6 py-5 border rounded-md flex items-center gap-2 hover:bg-red-500/20 hover:text-red-500 font-medium duration-300">Reject <IoMdCloseCircleOutline className="text-red-500" /> </button>
+            </div>
         </div>
       </div>
     </div>
