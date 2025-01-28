@@ -1,18 +1,20 @@
+/* eslint-disable react/prop-types */
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Navigate, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut, selectCurrentUser } from "../../../redux/fetures/auth/authSlice";
 
-const SubscriptionForm = () => {
+const SubscriptionForm = ({selectedPlan, totalPrice, userCount }) => {
+    console.log(totalPrice,selectedPlan, userCount)
 
     const navigate = useNavigate()
     const stripe = useStripe();
     const elements = useElements();
     const [email, setEmail] = useState("");
-    const [amount, setAmount] = useState('');
+    const [amount, setAmount] = useState(totalPrice);
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
     const [invoiceUrl, setInvoiceUrl] = useState(null);
@@ -67,10 +69,11 @@ const SubscriptionForm = () => {
 
             const response = await axios.post('http://localhost:5000/api/v1/payment/stripe', {
                 email,
-                amount,
+                amount: totalPrice.toString(),
                 paymentMethodId: paymentMethod.id,
             });
-
+            
+            
             if (response?.data?.customer_id) {
                 navigate("/signin")
                 toast.success("Subscription created successfully!, check your email")
@@ -85,7 +88,7 @@ const SubscriptionForm = () => {
     };
 
     return (
-        <div className="max-w-md mx-auto font-sans p-6 bg-white shadow-md rounded-md">
+        <div className="max-w-md mx-auto font-sans p-6">
             <h1 className="text-center text-2xl font-bold text-gray-800">Subscribe to Our Service</h1>
             <form onSubmit={handleSubscribe} className="flex flex-col gap-6 mt-6">
                 <div>
@@ -107,7 +110,7 @@ const SubscriptionForm = () => {
                         type="number"
                         id="amount"
                         placeholder="Enter amount"
-                        value={amount}
+                        value={totalPrice}
                         onChange={(e) => setAmount(e.target.value)}
                         required
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"

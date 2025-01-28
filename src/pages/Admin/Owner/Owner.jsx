@@ -8,7 +8,11 @@ import { selectCurrentUser } from '../../../redux/fetures/auth/authSlice';
 
 const Owner = () => {
   const [pageSize, setPageSize] = useState(10);
-  const { data: userData } = adminApi.useGetALlUserQuery("owner");
+  const query = {
+    role: "owner",
+    subscriptionStatus: "active"
+  }
+  const { data: userData } = adminApi.useGetALlUserQuery(query);
   const currentUser = useSelector(selectCurrentUser)
 
   const navigate = useNavigate()
@@ -30,12 +34,10 @@ const Owner = () => {
     totalRentAmount: totalRentAmount | 0,
     contactNumber: personalInfo?.contactNumber | "N/F",
   }));
-  
+
   const handlePageSizeChange = (current, size) => {
     setPageSize(size);
   };
-
-  console.log(userData?.data);
 
 
   const handleNavigate = (id) => {
