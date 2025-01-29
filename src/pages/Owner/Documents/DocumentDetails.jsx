@@ -4,17 +4,28 @@ import documentApi from "../../../redux/fetures/document/documentApi";
 import { url } from "../../../globalConst/const";
 import { Spin } from "antd";
 import { IoMdCloseCircleOutline } from "react-icons/io";
+import { toast } from "sonner";
 
 const DocumentDetails = () => {
 
   const { id } = useParams()
   const { data, isLoading } = documentApi.useGetSingleDocumentQuery(id)
-
-  console.log(data?.data)
-
   const { propertyName, unitNumber, tenantName, documentType, description } = data?.data || {}
+  const [updateDocumentStatusByOwner, {isLoading : updateDocumentIsLoading}] = documentApi.useUpdateDocumentStatusByOwnerMutation(id)
+  if (isLoading || updateDocumentIsLoading) return <div className="w-full h-[60vh] flex items-center justify-center " > <Spin size="large" /> </div>
 
-  if (isLoading) return <div className="w-full h-[60vh] flex items-center justify-center " > <Spin size="large" /> </div>
+  const documentStatusCheangeFun = async (status) =>{
+    const updateStatus = {
+      documentId : id,
+      status
+    }
+    const response = await updateDocumentStatusByOwner(updateStatus);
+
+    if(response?.data?.success){
+      toast.success(response?.data?.message)
+    }
+    
+  }
 
   return (
     <div>
@@ -61,8 +72,10 @@ const DocumentDetails = () => {
             
           </div>
           <div className="flex gap-4 justify-end">
-              <button className="bg-gradient-to-l px-6 from-[#1565C0] to-[#4A90E2] hover:from-[#4A90E2] hover:to-[#1565C0] text-white py-5 rounded-md font-medium duration-300">Approve</button>
-              <button className="px-6 py-5 border rounded-md flex items-center gap-2 hover:bg-red-500/20 hover:text-red-500 font-medium duration-300">Reject <IoMdCloseCircleOutline className="text-red-500" /> </button>
+              <button onClick={()=>documentStatusCheangeFun("Approved")}
+               className="bg-gradient-to-l px-6 from-[#1565C0] to-[#4A90E2] hover:from-[#4A90E2] hover:to-[#1565C0] text-white py-5 rounded-md font-medium duration-300">Approve</button>
+              <button onClick={()=>documentStatusCheangeFun("Reject")}
+               className="px-6 py-5 border rounded-md flex items-center gap-2 hover:bg-red-500/20 hover:text-red-500 font-medium duration-300">Reject <IoMdCloseCircleOutline className="text-red-500" /> </button>
             </div>
         </div>
       </div>

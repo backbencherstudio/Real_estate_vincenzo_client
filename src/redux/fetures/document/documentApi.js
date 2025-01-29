@@ -13,7 +13,7 @@ const documentApi = baseApi.injectEndpoints({
             },
             providesTags: ["document"]
         }),
-        
+
         getSingleUserAllDocuments: builder.query({
             query: (userId) => {
                 return {
@@ -37,8 +37,6 @@ const documentApi = baseApi.injectEndpoints({
 
         getSingleDocument: builder.query({
             query: (documentId) => {
-                console.log(documentId);
-                
                 return {
                     url: `/document/singleDocument/${documentId}`,
                     method: "GET",
@@ -49,13 +47,25 @@ const documentApi = baseApi.injectEndpoints({
 
         findSingleTenentDocumentByOwner: builder.query({
             query: (tenantId) => {
-                
                 return {
                     url: `/document/findSingleTenentDocumentByOwner/${tenantId}`,
                     method: "GET",
                 };
             },
             providesTags: ["document"],
+        }),
+
+        updateDocumentStatusByOwner: builder.mutation({
+            query: ({ status, documentId }) => {
+                console.log(60, status, documentId);
+                
+                return {
+                    url: `/document/updateDocumentStatusByOwner/${documentId}`,
+                    method: "PATCH",
+                    body: {status}
+                };
+            },
+            invalidatesTags: ["document"],
         }),
 
 
