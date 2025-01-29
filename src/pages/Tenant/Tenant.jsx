@@ -1,39 +1,41 @@
 
-import { Avatar, Table, Tag } from 'antd';
-import 'antd/dist/reset.css';  // To include Ant Design styles
-import tableData from "../../../public/tabledata.json"
+import {  Table, Tag } from 'antd';
+import 'antd/dist/reset.css';  
 import { RiSettingsFill } from 'react-icons/ri';
 import money from './../../assets/money.svg'
+import tenantApi from '../../redux/fetures/tenant/tenantApi';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from '../../redux/fetures/auth/authSlice';
 
 
 function TenantDashboard() {
+  const currentUser = useSelector(selectCurrentUser)
 
-  const tableDatas = tableData?.map(({ invoice_id, name, amount, due_date, status, profile_picture }) => ({
-    key: invoice_id, // Using invoice_id as the key for each row
-    invoice_id,
-    name,
-    amount,
-    due_date,
-    status,
-    profile_picture // including this even though it's not in columns, in case you need it later
+  const {data} = tenantApi.useGetSingleUserAllPaymentDataQuery(currentUser?.userId)
+  console.log(data?.data);
+  
+  const getDynamicDate = (year = new Date().getFullYear(), month = new Date().getMonth() + 1) => {
+    return new Date(year, month - 1, 5).toLocaleDateString();
+  };
+
+  const tableDatas = data?.data?.map(({ _id, invoice, propertyId, unitId,  status }) => ({
+    key: _id, 
+    invoice,
+    propertyName : propertyId?.propertyName,
+    rent : unitId?.rent,
+    lastDate: getDynamicDate(),
+    status,     
   }));
 
 
   const columns = [
-    { title: 'Invoice ID', dataIndex: 'invoice_id', responsive: ['xs', 'sm', 'md', 'lg'] },
+    { title: 'Invoice ID', dataIndex: 'invoice' },
     {
-      title: 'Name',
-      dataIndex: '',
-      render: (record) => (
-        <div className="flex items-center">
-          <Avatar src={record.profile_picture} size={40} className="mr-4" />
-          <span>{record.name}</span>
-        </div>
-      ),
-      responsive: ['xs', 'sm', 'md', 'lg'],
+      title: 'Property Name',
+      dataIndex: 'propertyName',
     },
-    { title: 'Amount', dataIndex: 'amount', responsive: ['xs', 'sm', 'md', 'lg'] },
-    { title: 'Due Date', dataIndex: 'due_date', responsive: ['md', 'lg'] },
+    { title: 'Rent', dataIndex: 'rent'  },
+    { title: 'Last Date', dataIndex: "lastDate" },
     {
       title: 'Status',
       dataIndex: 'status',
@@ -58,8 +60,21 @@ function TenantDashboard() {
           </Tag>
         );
       },
-      responsive: ['xs', 'sm', 'md', 'lg'],
     },
+    {
+          title: "Pay",
+          dataIndex: "",
+          render: (text, record) => (
+            <div>
+              <button
+                className="text-[#4A90E2]  cursor-pointer border border-sky-100 px-4 rounded "
+              >
+                Pay 
+              </button>
+            </div>
+          ),
+        },
+
   ];
 
 
@@ -174,6 +189,7 @@ function TenantDashboard() {
         <div className="overflow-x-auto">
           <Table
             className="rounded-md shadow-lg bg-white"
+            scroll={{ x: 800 }}
             columns={columns}
             dataSource={tableDatas}
             pagination={false}

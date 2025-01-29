@@ -12,7 +12,6 @@ const sharedApi = baseApi.injectEndpoints({
     },
     providesTags: ["properties"],
     }),
-
     
     getSingleTenantDetailse : builder.query({
       query: (id)=>{
@@ -33,6 +32,8 @@ const sharedApi = baseApi.injectEndpoints({
       },
       invalidatesTags:["user"]
     })
+
+    
 
 
 

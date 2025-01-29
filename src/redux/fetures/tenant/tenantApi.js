@@ -13,6 +13,16 @@ const tenantApi = baseApi.injectEndpoints({
       },
     }),
 
+    getSingleUserAllPaymentData : builder.query({
+      query: (id)=>{
+        return {
+          url: `/payment/getSingleUserAllPaymentData/${id}`,
+          method: "GET",
+        }
+      },
+      providesTags:["payment"]
+    }),
+
 
   }),
 });
