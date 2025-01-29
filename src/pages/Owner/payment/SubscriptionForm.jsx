@@ -6,10 +6,10 @@ import { toast } from "sonner";
 import {  useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut, selectCurrentUser } from "../../../redux/fetures/auth/authSlice";
+import authApi from "../../../redux/fetures/auth/authApi";
 
 const SubscriptionForm = ({selectedPlan, totalPrice, getTotalUnit }) => {
-    console.log(totalPrice, getTotalUnit)
-
+    
     const navigate = useNavigate()
     const stripe = useStripe();
     const elements = useElements();
@@ -19,7 +19,8 @@ const SubscriptionForm = ({selectedPlan, totalPrice, getTotalUnit }) => {
     const [loading, setLoading] = useState(false);
     const [invoiceUrl, setInvoiceUrl] = useState(null);
     const dispatch = useDispatch();
-    const currentUser = useSelector(selectCurrentUser);
+    const currentUser = useSelector(selectCurrentUser);    
+    const { data } = authApi.useGetSingleUserInfoQuery(email);
 
     useEffect(() => {
         if (currentUser?.email) {
@@ -37,6 +38,14 @@ const SubscriptionForm = ({selectedPlan, totalPrice, getTotalUnit }) => {
 
     const handleSubscribe = async (e) => {
         e.preventDefault();
+
+        if (getTotalUnit < data?.data.numberOfTotalUnits) {
+            return toast.error(
+              `You have already added ${data?.data.numberOfTotalUnits} units. You cannot purchase only ${getTotalUnit} units. To add more, please update your plan to exceed your currently booked units.`
+            );
+          }
+          
+
         if (!email || !amount || isNaN(amount) || parseFloat(amount) <= 0) {
             setMessage("Please provide a valid email and subscription amount.");
             return;
