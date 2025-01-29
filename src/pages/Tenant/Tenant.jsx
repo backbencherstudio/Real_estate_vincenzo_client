@@ -6,6 +6,7 @@ import money from './../../assets/money.svg'
 import tenantApi from '../../redux/fetures/tenant/tenantApi';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../redux/fetures/auth/authSlice';
+import moment from 'moment';
 
 
 function TenantDashboard() {
@@ -18,13 +19,14 @@ function TenantDashboard() {
     return new Date(year, month - 1, 5).toLocaleDateString();
   };
 
-  const tableDatas = data?.data?.map(({ _id, invoice, propertyId, unitId,  status }) => ({
+  const tableDatas = data?.data?.map(({ _id, invoice, propertyId, unitId,  status, createdAt }) => ({
     key: _id, 
     invoice,
     propertyName : propertyId?.propertyName,
     rent : unitId?.rent,
     lastDate: getDynamicDate(),
     status,     
+    createdAt
   }));
 
 
@@ -36,6 +38,12 @@ function TenantDashboard() {
     },
     { title: 'Rent', dataIndex: 'rent'  },
     { title: 'Last Date', dataIndex: "lastDate" },
+    { title: 'Created Payment', dataIndex: "createdAt" , 
+      render: (createdAt) => (
+            <div>
+              {moment(createdAt).format("M/D/YYYY")} 
+            </div>
+          ), },
     {
       title: 'Status',
       dataIndex: 'status',
