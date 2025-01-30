@@ -1,34 +1,67 @@
 
-import {  Table, Tag } from 'antd';
-import 'antd/dist/reset.css';  
+import { Button, Modal, Table, Tag } from 'antd';
+import 'antd/dist/reset.css';
 import { RiSettingsFill } from 'react-icons/ri';
 import money from './../../assets/money.svg'
 import tenantApi from '../../redux/fetures/tenant/tenantApi';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../redux/fetures/auth/authSlice';
 import moment from 'moment';
+import { useState } from 'react';
+import authApi from '../../redux/fetures/auth/authApi';
 
 
 function TenantDashboard() {
   const currentUser = useSelector(selectCurrentUser)
+  const { data } = tenantApi.useGetSingleUserAllPaymentDataQuery(currentUser?.userId);
+  const { data: userData } = authApi.useGetSingleUserInfoQuery(currentUser?.email);
+  const [open, setOpen] = useState(false);
+  const [paymentData, setPaymentData] = useState({})
 
-  const {data} = tenantApi.useGetSingleUserAllPaymentDataQuery(currentUser?.userId)
-  console.log(data?.data);
+  const currentDate = new Date().toLocaleDateString("en-US", {
+    month: "numeric",
+    day: "numeric",
+    year: "numeric",
+  });
   
+
   const getDynamicDate = (year = new Date().getFullYear(), month = new Date().getMonth() + 1) => {
-    return new Date(year, month - 1, 5).toLocaleDateString();
+    return new Date(year, month - 1, 31).toLocaleDateString();
   };
 
-  const tableDatas = data?.data?.map(({ _id, invoice, propertyId, unitId,  status, createdAt }) => ({
-    key: _id, 
+  // console.log(userData?.data);
+  // console.log(paymentData);
+  const isLateFee = paymentData?.lastDate < getDynamicDate();
+
+  console.log(paymentData?.lastDate );
+  console.log(currentDate );
+
+
+  console.log(isLateFee);
+  
+
+
+
+  const tableDatas = data?.data?.map(({ _id, invoice, propertyId, unitId, ownerId, userId, status, createdAt }) => ({
+    key: _id,
     invoice,
-    propertyName : propertyId?.propertyName,
-    rent : unitId?.rent,
+    propertyId: propertyId._id,
+    propertyName: propertyId?.propertyName,
+    rent: unitId?.rent,
+    lateFee: unitId?.lateFee,
+    securityDeposit: unitId?.securityDeposit,
+    ownerId,
+    userId: userId._id,
     lastDate: getDynamicDate(),
-    status,     
+    status,
     createdAt
   }));
 
+
+  const handleModalFun = (data) => {
+    setOpen(true)
+    setPaymentData(data)
+  }
 
   const columns = [
     { title: 'Invoice ID', dataIndex: 'invoice' },
@@ -36,14 +69,17 @@ function TenantDashboard() {
       title: 'Property Name',
       dataIndex: 'propertyName',
     },
-    { title: 'Rent', dataIndex: 'rent'  },
+    { title: 'Rent', dataIndex: 'rent' },
+    { title: 'Late Fee', dataIndex: 'lateFee' },
     { title: 'Last Date', dataIndex: "lastDate" },
-    { title: 'Created Payment', dataIndex: "createdAt" , 
+    {
+      title: 'Created Payment', dataIndex: "createdAt",
       render: (createdAt) => (
-            <div>
-              {moment(createdAt).format("M/D/YYYY")} 
-            </div>
-          ), },
+        <div>
+          {moment(createdAt).format("M/D/YYYY")}
+        </div>
+      ),
+    },
     {
       title: 'Status',
       dataIndex: 'status',
@@ -70,20 +106,19 @@ function TenantDashboard() {
       },
     },
     {
-          title: "Pay",
-          dataIndex: "",
-          render: (text, record) => (
-            <div>
-              <button
-                className="text-[#4A90E2]  cursor-pointer border border-sky-100 px-4 rounded "
-              >
-                Pay 
-              </button>
-            </div>
-          ),
-        },
+      title: "Pay",
+      dataIndex: "",
+      render: (text, record) => (
+        <div>
+          <Button type="primary" onClick={() => handleModalFun(record)}>
+            Pay
+          </Button>
+        </div>
+      ),
+    },
 
   ];
+
 
 
 
@@ -209,6 +244,35 @@ function TenantDashboard() {
       <footer className="mt-8 text-center text-sm text-gray-500">
         &copy; 2024 Copyright - All rights reserved
       </footer>
+
+
+
+      <Modal
+        title="This Month Payment History"
+        centered
+        open={open}
+        onOk={() => setOpen(false)}
+        onCancel={() => setOpen(false)}
+        width={1000}
+      >
+
+        {
+          !userData?.data?.isSecurityDepositPay && <h2> Security deposit must be pay, For the first time :: <span className='text-[18px] text-green-600 ' >{paymentData?.securityDeposit || 0}</span> $/= </h2>
+        }
+        <h2>current rent :: {paymentData?.rent} </h2>
+        <h2>Late Fee :: {paymentData?.lateFee} </h2>
+        <h2> Last date for payment :: {paymentData?.lastDate} </h2>
+        <h2>current date :: {currentDate} </h2>
+        <h2>If you crose the last payment data you must be pay with late payment :: {paymentData?.rent + paymentData?.lateFee} </h2>
+
+
+
+
+
+      </Modal>
+
+
+
     </div>
   );
 }

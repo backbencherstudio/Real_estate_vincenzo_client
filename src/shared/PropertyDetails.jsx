@@ -483,9 +483,9 @@ const PropertyDetails = () => {
                   className={`w-full p-2 border rounded-lg bg-white text-gray-600
               ${errorsUnit.rentType ? 'border-red-500' : 'border-gray-300'}`}
                 >
-                  <option value="Weekly">Weekly</option>
+                  {/* <option value="Weekly">Weekly</option> */}
                   <option value="Monthly">Monthly</option>
-                  <option value="Yearly">Yearly</option>
+                  {/* <option value="Yearly">Yearly</option> */}
                 </select>
                 {errorsUnit.rentType && (
                   <p className="text-red-500 text-sm mt-1">{errorsUnit.rentType.message}</p>
@@ -510,7 +510,7 @@ const PropertyDetails = () => {
                 )}
               </div>
 
-              <div className="space-y-2">
+              {/* <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
                   Payment Due Date
                 </label>
@@ -525,12 +525,12 @@ const PropertyDetails = () => {
                 {errorsUnit.paymentDueDate && (
                   <p className="text-red-500 text-sm mt-1">{errorsUnit.paymentDueDate.message}</p>
                 )}
-              </div>
+              </div> */}
 
             </div>
 
 
-            <div className="flex justify-end" >
+            <div className="flex justify-end mt-4" >
               <button type="submit" className="text-[16px] px-9 py-2 rounded-md bg-gradient-to-t from-[#468ddf] to-[#1969c3] text-white font-medium 
           hover:bg-gradient-to-t hover:from-blue-600 hover:to-blue-700
            hover:shadow" >
