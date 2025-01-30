@@ -9,6 +9,13 @@ import { selectCurrentUser } from '../../redux/fetures/auth/authSlice';
 import moment from 'moment';
 import { useState } from 'react';
 import authApi from '../../redux/fetures/auth/authApi';
+import { Elements } from '@stripe/react-stripe-js';
+import StripeTenantForm from './StripeTenantForm';
+import { loadStripe } from '@stripe/stripe-js';
+
+const stripePromise = loadStripe(
+  "pk_test_51NFvq6ArRmO7hNaVcPS5MwczdEtM4yEMOclovA0k5LtJTxhtzKZ2SKim3p8qmvssQ7j7bREjoRRmHB9Gvz8n8Dfm00UOo9bZYg"
+);
 
 
 function TenantDashboard() {
@@ -23,23 +30,16 @@ function TenantDashboard() {
     day: "numeric",
     year: "numeric",
   });
-  
+
 
   const getDynamicDate = (year = new Date().getFullYear(), month = new Date().getMonth() + 1) => {
     return new Date(year, month - 1, 31).toLocaleDateString();
   };
 
-  // console.log(userData?.data);
-  // console.log(paymentData);
-  const isLateFee = paymentData?.lastDate < getDynamicDate();
+  const totalAmount = paymentData?.rent
 
-  console.log(paymentData?.lastDate );
-  console.log(currentDate );
-
-
-  console.log(isLateFee);
+  console.log(data?.data);
   
-
 
 
   const tableDatas = data?.data?.map(({ _id, invoice, propertyId, unitId, ownerId, userId, status, createdAt }) => ({
@@ -256,14 +256,22 @@ function TenantDashboard() {
         width={1000}
       >
 
-        {
-          !userData?.data?.isSecurityDepositPay && <h2> Security deposit must be pay, For the first time :: <span className='text-[18px] text-green-600 ' >{paymentData?.securityDeposit || 0}</span> $/= </h2>
-        }
-        <h2>current rent :: {paymentData?.rent} </h2>
-        <h2>Late Fee :: {paymentData?.lateFee} </h2>
-        <h2> Last date for payment :: {paymentData?.lastDate} </h2>
-        <h2>current date :: {currentDate} </h2>
-        <h2>If you crose the last payment data you must be pay with late payment :: {paymentData?.rent + paymentData?.lateFee} </h2>
+        <div>
+          {
+            !userData?.data?.isSecurityDepositPay && <h2> Security deposit must be pay, For the first time :: <span className='text-[18px] text-green-600 ' >{paymentData?.securityDeposit || 0}</span> $/= </h2>
+          }
+          <h2>current rent :: {paymentData?.rent} </h2>
+          <h2>Late Fee :: {paymentData?.lateFee} </h2>
+          <h2> Last date for payment :: {paymentData?.lastDate} </h2>
+          <h2>current date :: {currentDate} </h2>
+          <h2>If you crose the last payment data you must be pay with late payment :: {paymentData?.rent + paymentData?.lateFee} </h2>
+        </div>
+
+        <div>
+          <Elements stripe={stripePromise}>
+            <StripeTenantForm paymentData={paymentData} totalAmount={totalAmount} setOpen={setOpen} />
+          </Elements>
+        </div>
 
 
 

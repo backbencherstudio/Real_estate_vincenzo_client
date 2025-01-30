@@ -23,6 +23,19 @@ const tenantApi = baseApi.injectEndpoints({
       providesTags:["payment"]
     }),
 
+    paymentPlacedApi : builder.mutation({
+      query: (data)=>{        
+        return {
+          url: "/payment/stripeTenantPayment",
+          method: "POST",
+          body : data
+        }
+      },
+      invalidatesTags:["payment"]
+    }),
+
+    
+
 
   }),
 });
