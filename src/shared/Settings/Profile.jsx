@@ -16,9 +16,14 @@ const UserProfile = () => {
     currentUser?.email
   );
   const [cancelsubscription] = authApi.useCancelsubscriptionMutation();
-  const { data : tenantData } = tenantApi.useGetTenantDetailseQuery(currentUser?.userId);
 
-  console.log(tenantData?.data);
+  let tenantWithOwnerData
+  if(currentUser?.role === "tenant"){
+      const { data : tenantDatas } = tenantApi.useGetTenantDetailseQuery( currentUser?.userId);
+      tenantWithOwnerData = tenantDatas?.data?.ownerId
+  }
+
+  console.log(tenantWithOwnerData);
   
 
     if (isLoading) return <p>Loading...</p>;
