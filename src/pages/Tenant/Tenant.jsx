@@ -7,7 +7,7 @@ import tenantApi from '../../redux/fetures/tenant/tenantApi';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../redux/fetures/auth/authSlice';
 import moment from 'moment';
-import { useState } from 'react';
+import {  useState } from 'react';
 import authApi from '../../redux/fetures/auth/authApi';
 import { Elements } from '@stripe/react-stripe-js';
 import StripeTenantForm from './StripeTenantForm';
@@ -20,10 +20,13 @@ const stripePromise = loadStripe(
 
 function TenantDashboard() {
   const currentUser = useSelector(selectCurrentUser)
-  const { data } = tenantApi.useGetSingleUserAllPaymentDataQuery(currentUser?.userId);
+  const { data } = tenantApi.useGetSingleUserAllPaymentDataQuery(currentUser?.userId,  {
+    pollingInterval: 15000,
+  });
   const { data: userData } = authApi.useGetSingleUserInfoQuery(currentUser?.email);
   const [open, setOpen] = useState(false);
   const [paymentData, setPaymentData] = useState({})
+
 
   const currentDate = new Date().toLocaleDateString("en-US", {
     month: "numeric",
@@ -35,12 +38,7 @@ function TenantDashboard() {
   const getDynamicDate = (year = new Date().getFullYear(), month = new Date().getMonth() + 1) => {
     return new Date(year, month - 1, 31).toLocaleDateString();
   };
-
   const totalAmount = paymentData?.rent
-
-  console.log(data?.data);
-  
-
 
   const tableDatas = data?.data?.map(({ _id, invoice, propertyId, unitId, ownerId, userId, status, createdAt }) => ({
     key: _id,
@@ -63,8 +61,39 @@ function TenantDashboard() {
     setPaymentData(data)
   }
 
+  const downloadInvoice = (url) => {
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
+
+
+
   const columns = [
-    { title: 'Invoice ID', dataIndex: 'invoice' },
+    {
+      title: 'Invoice', dataIndex: 'invoice',
+      render: (text, record) => (
+        <div>
+          {record.invoice && record.invoice.startsWith("http") ? (
+            <button
+              onClick={() => downloadInvoice(record.invoice)}
+              style={{
+                background: "none",
+                border: "none",
+                color: "#2575fc",
+                textDecoration: "none",
+                fontWeight: "bold",
+                cursor: "pointer",
+              }}
+            >
+              📄 Download
+            </button>
+          ) : (
+            "Upcoming"
+          )}
+        </div>
+      )
+
+
+    },
     {
       title: 'Property Name',
       dataIndex: 'propertyName',

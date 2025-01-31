@@ -16,10 +16,6 @@ import tenantApi from "../../redux/fetures/tenant/tenantApi";
 const StripeTenantForm = ({ paymentData, totalAmount, setOpen }) => {
     const [paymentPlacedApi] = tenantApi.usePaymentPlacedApiMutation()
     const currentUser = useSelector(selectCurrentUser)
-
-    console.log(paymentData?.key);
-    
-
     const stripe = useStripe();
     const elements = useElements();
     const [loading, setLoading] = useState(false);
@@ -51,7 +47,7 @@ const StripeTenantForm = ({ paymentData, totalAmount, setOpen }) => {
                 paymentMethodId: paymentMethod.id,
                 amount: parseInt(totalAmount),
                 monthlyPaymentId: paymentData?.key,
-            });
+            });            
 
             if (data?.data?.success) {
                 setSuccess(true);
@@ -60,7 +56,7 @@ const StripeTenantForm = ({ paymentData, totalAmount, setOpen }) => {
                 elements.getElement(CardNumberElement)?.clear();
                 elements.getElement(CardExpiryElement)?.clear();
                 elements.getElement(CardCvcElement)?.clear();
-                toast.success(data?.message || "Payment successful!");
+                toast.success(data?.data?.message || "Payment successful!");                
                 return;
             }
 
