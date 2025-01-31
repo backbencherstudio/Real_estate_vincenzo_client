@@ -30,7 +30,7 @@ function TenantDashboard() {
   const [successPaymentData, setSuccessPaymentData] = useState({});
 
   console.log(successPaymentData);
-  
+  console.log(data?.data)
 
   const handlePageSizeChange = (current, size) => {
     setPageSize(size);
@@ -50,7 +50,7 @@ function TenantDashboard() {
 
 
   const getDynamicDate = (year = new Date().getFullYear(), month = new Date().getMonth() + 1) => {
-    return new Date(year, month - 1, 31).toLocaleDateString();
+    return new Date(year, month - 2, 31).toLocaleDateString();
   };
   const totalAmount = paymentData?.rent
 

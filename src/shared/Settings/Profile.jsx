@@ -2,7 +2,7 @@
 import { useSelector } from "react-redux";
 import authApi from "../../redux/fetures/auth/authApi";
 import { selectCurrentUser } from "../../redux/fetures/auth/authSlice";
-import { UserPen } from "lucide-react";
+import { MapPin, UserPen } from "lucide-react";
 import { Link } from "react-router-dom";
 import { url } from "../../globalConst/const";
 import { FaRegUser } from "react-icons/fa";
@@ -15,7 +15,7 @@ const UserProfile = () => {
     const { data, isLoading, error } = authApi.useGetSingleUserInfoQuery(
         currentUser?.email,
         {
-            pollingInterval : 20000
+            pollingInterval: 20000
         }
     );
     const [cancelsubscription] = authApi.useCancelsubscriptionMutation();
@@ -68,9 +68,53 @@ const UserProfile = () => {
 
 
     return (
-        <div>
-            <div className="bg-white p-4 md:p-8 rounded-lg shadow-sm">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <div className="col-span-4">
+                {
+                    currentUser.role === "tenant" &&
+                    <div className=" bg-white rounded-lg shadow-md h-full">
+                        <div className="relative h-32 bg-gradient-to-r from-blue-500 to-blue-600">
+                            <div className="absolute -bottom-12 left-6">
+                                <div className="h-24 w-24 rounded-full border-4 border-white overflow-hidden bg-gray-100">
+                                    <img
+                                        src={`${url}${tenantWithOwnerData?.profileImage}`}
+                                        alt={tenantWithOwnerData?.name}
+                                        className="h-full w-full object-cover"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="pt-16 pb-6 px-6">
+                            <div className="space-y-4">
+                                <div>
+                                    <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
+                                        {tenantWithOwnerData?.name}
+                                    </h2>
+                                    <p className="text-sm text-gray-500">Property Owner</p>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <div className="flex items-start gap-2">
+                                        <MapPin className="h-5 w-5 text-blue-500 mt-1 flex-shrink-0" />
+                                        <div className="space-y-1">
+                                            <p className="text-gray-700">{tenantWithOwnerData?.permanentAddress?.address}</p>
+                                            <p className="text-gray-600">
+                                                {tenantWithOwnerData?.permanentAddress?.city}, {tenantWithOwnerData?.permanentAddress?.state}
+                                            </p>
+                                            <p className="text-gray-600">{tenantWithOwnerData?.permanentAddress?.country}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+            </div>
+            <div className={`${currentUser.role === "tenant" ? "col-span-8" : "col-span-12"} bg-white p-4  md:p-8 rounded-lg shadow-sm`}>
                 <div className="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-4 mb-8">
+
                     <div className="w-20 h-20 rounded-lg overflow-hidden bg-gray-200 flex-shrink-0 flex justify-center items-center ">
                         {
                             profileImage ?
@@ -93,10 +137,13 @@ const UserProfile = () => {
                     </Link>
                 </div>
 
+
+
+
                 {
                     currentUser.role === "owner" &&
 
-                    <div>                        
+                    <div>
                         <div className="mb-6">
                             <h2 className="text-2xl font-semibold text-gray-800">
                                 💰 Your Current Paid Amount <span className="text-[10px] uppercase font-bold text-green-600 " >( rent )</span> :
@@ -131,13 +178,6 @@ const UserProfile = () => {
                             </div>
                         </div>
                     </div>
-
-                    // <div>
-                    //     <h2>You get total {data?.data?.getTotalUnit} Units </h2>
-                    //     <h2>Your total booked units was {data?.data?.bookedUnitNumber} </h2>
-                    //     <h2>Now You can add  {data?.data?.getTotalUnit - data?.data?.bookedUnitNumber} more units </h2>
-                    //     <h2>If you want to cancel your plan <button className="font-bold text-red-600 " onClick={cancelsubscriptionFun} >click here</button> </h2>
-                    // </div>
                 }
 
                 {
