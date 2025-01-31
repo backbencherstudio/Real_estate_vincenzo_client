@@ -8,6 +8,7 @@ import { url } from "../../globalConst/const";
 import { FaRegUser } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { toast } from "sonner";
+import tenantApi from "../../redux/fetures/tenant/tenantApi";
 
 const UserProfile = () => {
   const currentUser = useSelector(selectCurrentUser);
@@ -15,11 +16,13 @@ const UserProfile = () => {
     currentUser?.email
   );
   const [cancelsubscription] = authApi.useCancelsubscriptionMutation();
+  const { data : tenantData } = tenantApi.useGetTenantDetailseQuery(currentUser?.userId);
+
+  console.log(tenantData?.data);
+  
 
     if (isLoading) return <p>Loading...</p>;
     if (error) return <p>Error fetching user information</p>;
-
-    console.log(data?.data);
 
 
   const userInfo = data?.data || {};

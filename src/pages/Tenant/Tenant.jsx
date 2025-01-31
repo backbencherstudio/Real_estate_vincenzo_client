@@ -26,6 +26,18 @@ function TenantDashboard() {
   const { data: userData } = authApi.useGetSingleUserInfoQuery(currentUser?.email);
   const [open, setOpen] = useState(false);
   const [paymentData, setPaymentData] = useState({})
+  const [pageSize, setPageSize] = useState(10);
+
+  const handlePageSizeChange = (current, size) => {
+    setPageSize(size);
+  };
+
+  const dueRent = data?.data
+  ?.filter(item => item.status !== "Paid") 
+  ?.map(item => item.unitId.rent); 
+
+  const totalDueRent = dueRent?.reduce((acc, rent) => acc + rent, 0);
+
 
 
   const currentDate = new Date().toLocaleDateString("en-US", {
@@ -40,7 +52,7 @@ function TenantDashboard() {
   };
   const totalAmount = paymentData?.rent
 
-  const tableDatas = data?.data?.map(({ _id, invoice, propertyId, unitId, ownerId, userId, status, createdAt }) => ({
+  const tableData = data?.data?.map(({ _id, invoice, propertyId, unitId, ownerId, userId, status, createdAt }) => ({
     key: _id,
     invoice,
     propertyId: propertyId._id,
@@ -64,7 +76,6 @@ function TenantDashboard() {
   const downloadInvoice = (url) => {
     window.open(url, "_blank", "noopener,noreferrer");
   };
-
 
 
   const columns = [
@@ -139,7 +150,7 @@ function TenantDashboard() {
       dataIndex: "",
       render: (text, record) => (
         <div>
-          <Button type="primary" onClick={() => handleModalFun(record)}>
+          <Button disabled={record.status === "Paid"} type="primary" onClick={() => handleModalFun(record)}>
             Pay
           </Button>
         </div>
@@ -147,9 +158,6 @@ function TenantDashboard() {
     },
 
   ];
-
-
-
 
 
   return (
@@ -171,11 +179,11 @@ function TenantDashboard() {
             <img src={money} alt="" />
           </div>
           <div>
-            <div className="text-3xl font-bold">$800</div>
+            <div className="text-3xl font-bold">${ totalDueRent || 0  }</div>
             <h2 className="text-gray-600 text-sm">Rent Due</h2>
-            <a href="#" className="text-blue-500 text-sm mt-2 inline-block">
+            {/* <a href="#" className="text-blue-500 text-sm mt-2 inline-block">
               View Details
-            </a>
+            </a> */}
           </div>
         </div>
         <div className="flex gap-4 items-baseline bg-white p-4 md:p-6 rounded-lg shadow-sm">
@@ -183,11 +191,11 @@ function TenantDashboard() {
             <RiSettingsFill />
           </div>
           <div>
-            <div className="text-3xl font-bold">02</div>
+            <div className="text-3xl font-bold">{ dueRent?.length | 0 }</div>
             <h2 className="text-gray-600 text-sm">Pending Payment</h2>
-            <a href="#" className="text-blue-500 text-sm mt-2 inline-block">
+            {/* <a href="#" className="text-blue-500 text-sm mt-2 inline-block">
               View Details
-            </a>
+            </a> */}
           </div>
         </div>
       </div>
@@ -196,8 +204,9 @@ function TenantDashboard() {
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold">Recent Payments</h2>
           <div className="flex space-x-2">
+
             {/* All Dropdown */}
-            <div className="relative">
+            {/* <div className="relative">
               <button
                 className="flex items-center bg-gray-100 px-4 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
@@ -217,10 +226,9 @@ function TenantDashboard() {
                   />
                 </svg>
               </button>
-            </div>
-
+            </div> */}
             {/* This Month Dropdown */}
-            <div className="relative">
+            {/* <div className="relative">
               <button
                 className="flex items-center bg-gray-100 px-4 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
@@ -254,19 +262,27 @@ function TenantDashboard() {
                   />
                 </svg>
               </button>
-            </div>
+            </div> */}
+            
+
           </div>
         </div>
 
         <div className="overflow-x-auto">
           <Table
-            className="rounded-md shadow-lg bg-white"
-            scroll={{ x: 800 }}
             columns={columns}
-            dataSource={tableDatas}
-            pagination={false}
-            bordered
+            dataSource={tableData}
+            scroll={{ x: 800 }}
+            pagination={{
+              pageSize: pageSize,
+              pageSizeOptions: ["5", "10", "15", "20", "25"],
+              showSizeChanger: true,
+              onShowSizeChange: handlePageSizeChange,
+              showTotal: (total, range) =>
+                `${range[0]}-${range[1]} of ${total} items`,
+            }}
           />
+          
         </div>
       </div>
       {/* Footer */}
@@ -283,6 +299,8 @@ function TenantDashboard() {
         onOk={() => setOpen(false)}
         onCancel={() => setOpen(false)}
         width={1000}
+        footer={false}
+        
       >
 
         <div>

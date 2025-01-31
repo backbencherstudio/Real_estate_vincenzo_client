@@ -1,32 +1,42 @@
 import { baseApi } from "../../api/baseApi";
 
 const tenantApi = baseApi.injectEndpoints({
-  endpoints: (builder) => ({
+  endpoints: (builder) => ({    
+
     
-    getTenantDetails: builder.query({
-      query: (id) => ({
-        url: `/tenant/${id}`,
-        method: "GET",
-      }),
-      providesTags: ["payment"], 
+    getTenantDetailse : builder.query({
+      query: (id)=>{
+        return {
+          url: `/tenant/${id}`,
+          method: "GET",
+        }
+      },
     }),
 
-    getSingleUserAllPaymentData: builder.query({
-      query: (id) => ({
-        url: `/payment/getSingleUserAllPaymentData/${id}`,
-        method: "GET",
-      }),
-      providesTags: ["payment"], 
+    getSingleUserAllPaymentData : builder.query({
+      query: (id)=>{
+        return {
+          url: `/payment/getSingleUserAllPaymentData/${id}`,
+          method: "GET",
+        }
+      },
+      providesTags:["payment"]
     }),
 
-    paymentPlacedApi: builder.mutation({
-      query: (data) => ({
-        url: "/payment/stripeTenantPayment",
-        method: "POST",
-        body: data,
-      }),
-      invalidatesTags: ["payment"], 
+    paymentPlacedApi : builder.mutation({
+      query: (data)=>{
+        return {
+          url: "/payment/stripeTenantPayment",
+          method: "POST",
+          body : data
+        }
+      },
+      providesTags:["payment"]
     }),
+
+    
+
+
   }),
 });
 

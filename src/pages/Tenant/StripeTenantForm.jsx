@@ -141,7 +141,7 @@ const StripeTenantForm = ({ paymentData, totalAmount, setOpen }) => {
             <button
                 type="submit"
                 disabled={!stripe || loading}
-                className={`w-full mt-6 py-3 text-white font-bold rounded-lg ${loading
+                className={`w-full my-6 py-3 text-white font-bold rounded-lg ${loading
                         ? "bg-gray-400 cursor-not-allowed"
                         : "bg-orange-600 hover:opacity-90"
                     }`}

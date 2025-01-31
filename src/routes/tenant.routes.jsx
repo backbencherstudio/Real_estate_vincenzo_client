@@ -1,9 +1,8 @@
 import MaintenanceRequests from "../pages/Tenant/MaintenanceRequests";
 import PaymentsDetails from "../pages/Tenant/PaymentsDetails/PaymentsDetails";
 import TenantDashboard from "../pages/Tenant/Tenant";
-import TenantPayments from "../pages/Tenant/TenantPayments";
 import { TfiMenuAlt } from "react-icons/tfi";
-import { MdOutlineMessage, MdOutlinePayment } from "react-icons/md";
+import { MdOutlineMessage } from "react-icons/md";
 import { RxDashboard } from "react-icons/rx";
 import TenantDocuments from "../pages/Tenant/TenantDocuments/TenantDocuments";
 import { Bolt, ClipboardMinus, Construction, UserPen } from "lucide-react";
@@ -20,12 +19,12 @@ export const tenantPaths = [
     path: "dashboard",
     element: <TenantDashboard />,
   },
-  {
-    icon: <MdOutlinePayment size={18} />,
-    name: "Payments",
-    path: "tenantpayments",
-    element: <TenantPayments></TenantPayments>,
-  },
+  // {
+  //   icon: <MdOutlinePayment size={18} />,
+  //   name: "Payments",
+  //   path: "tenantpayments",
+  //   element: <TenantPayments></TenantPayments>,
+  // },
   {
     // name: "Payments",
     path: "tenantpayments/:id",
