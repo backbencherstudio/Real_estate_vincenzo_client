@@ -12,7 +12,9 @@ const Owner = () => {
     role: "owner",
     subscriptionStatus: "active"
   }
-  const { data: userData } = adminApi.useGetALlUserQuery(query);
+  const { data: userData } = adminApi.useGetALlUserQuery(query , {
+    pollingInterval : 20000
+  } );
   const currentUser = useSelector(selectCurrentUser)
 
   const navigate = useNavigate()
@@ -24,6 +26,7 @@ const Owner = () => {
     bookedUnitNumber,
     totalRentAmount,
     personalInfo,
+    paidAmount,
     _id,
   }) => ({
     key: _id,
@@ -32,6 +35,7 @@ const Owner = () => {
     numberOfTotalUnits: numberOfTotalUnits | 0,
     bookedUnitNumber: bookedUnitNumber | 0,
     totalRentAmount: totalRentAmount | 0,
+    paidAmount : paidAmount | 0,
     contactNumber: personalInfo?.contactNumber | "N/F",
   }));
 
@@ -70,6 +74,10 @@ const Owner = () => {
     {
       title: "Current Rent",
       dataIndex: "totalRentAmount",
+    },
+    {
+      title: "Current Paid Amount",
+      dataIndex: "paidAmount",
     },
     {
       title: "Contact No",

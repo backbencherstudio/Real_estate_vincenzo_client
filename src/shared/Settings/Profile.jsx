@@ -11,37 +11,40 @@ import { toast } from "sonner";
 import tenantApi from "../../redux/fetures/tenant/tenantApi";
 
 const UserProfile = () => {
-  const currentUser = useSelector(selectCurrentUser);
-  const { data, isLoading, error } = authApi.useGetSingleUserInfoQuery(
-    currentUser?.email
-  );
-  const [cancelsubscription] = authApi.useCancelsubscriptionMutation();
+    const currentUser = useSelector(selectCurrentUser);
+    const { data, isLoading, error } = authApi.useGetSingleUserInfoQuery(
+        currentUser?.email,
+        {
+            pollingInterval : 20000
+        }
+    );
+    const [cancelsubscription] = authApi.useCancelsubscriptionMutation();
 
-  let tenantWithOwnerData
-  if(currentUser?.role === "tenant"){
-      const { data : tenantDatas } = tenantApi.useGetTenantDetailseQuery( currentUser?.userId);
-      tenantWithOwnerData = tenantDatas?.data?.ownerId
-  }
+    let tenantWithOwnerData
+    if (currentUser?.role === "tenant") {
+        const { data: tenantDatas } = tenantApi.useGetTenantDetailseQuery(currentUser?.userId);
+        tenantWithOwnerData = tenantDatas?.data?.ownerId
+    }
 
-  console.log(tenantWithOwnerData);
-  
+    console.log(tenantWithOwnerData);
+
 
     if (isLoading) return <p>Loading...</p>;
     if (error) return <p>Error fetching user information</p>;
 
 
-  const userInfo = data?.data || {};
-  const {
-    name,
-    email,
-    profileImage,
-    permanentAddress,
-    personalInfo,
-    numberOfProperty,
-    numberOfTotalUnits,
-    totalAmount,
-    totalRentAmount,
-  } = userInfo;
+    const userInfo = data?.data || {};
+    const {
+        name,
+        email,
+        profileImage,
+        permanentAddress,
+        personalInfo,
+        numberOfProperty,
+        numberOfTotalUnits,
+        totalAmount,
+        totalRentAmount,
+    } = userInfo;
 
     const cancelsubscriptionFun = async () => {
 
@@ -61,8 +64,6 @@ const UserProfile = () => {
                 }
             }
         });
-
-
     }
 
 
@@ -94,29 +95,40 @@ const UserProfile = () => {
 
                 {
                     currentUser.role === "owner" &&
-                    <div className="p-4 bg-gray-50 rounded-md shadow-md mb-8">
-                        <h2 className="text-lg font-semibold text-gray-800 mb-2">
-                            Summary of Your Subscription
-                        </h2>
-                        <p className="text-gray-700 ">
-                            - <strong>Total Units:</strong> <span className="font-bold text-blue-700 text-xl"  >{data?.data?.getTotalUnit || 0}</span>
-                        </p>
-                        <p className="text-gray-700 ">
-                            - <strong>Added Units:</strong> <span className="font-bold text-red-700 text-xl" >{data?.data?.numberOfTotalUnits || 0}</span>
-                        </p>
-                        <p className="text-gray-700  mb-4">
-                            - <strong>Available Units to Add:</strong> <span className="font-bold text-green-700 text-xl" >{data?.data?.getTotalUnit - data?.data?.numberOfTotalUnits || 0}</span>
-                        </p>
-                        <div className="mt-4">
-                            <p className="text-gray-700">
-                                If you'd like to cancel your current plan, you can do so by clicking the button below.
+
+                    <div>                        
+                        <div className="mb-6">
+                            <h2 className="text-2xl font-semibold text-gray-800">
+                                💰 Your Current Paid Amount <span className="text-[10px] uppercase font-bold text-green-600 " >( rent )</span> :
+                                <span className="text-blue-600 font-bold"> ${data?.data?.paidAmount ?? "0.00"} </span>
+                            </h2>
+                        </div>
+
+
+                        <div className="p-4 bg-gray-50 rounded-md shadow-md mb-8">
+                            <h2 className="text-lg font-semibold text-gray-800 mb-2">
+                                Summary of Your Subscription
+                            </h2>
+                            <p className="text-gray-700 ">
+                                - <strong>Total Units:</strong> <span className="font-bold text-blue-700 text-xl"  >{data?.data?.getTotalUnit || 0}</span>
                             </p>
-                            <button
-                                className="mt-2 bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition font-semibold"
-                                onClick={cancelsubscriptionFun}
-                            >
-                                Cancel Subscription
-                            </button>
+                            <p className="text-gray-700 ">
+                                - <strong>Added Units:</strong> <span className="font-bold text-red-700 text-xl" >{data?.data?.numberOfTotalUnits || 0}</span>
+                            </p>
+                            <p className="text-gray-700  mb-4">
+                                - <strong>Available Units to Add:</strong> <span className="font-bold text-green-700 text-xl" >{data?.data?.getTotalUnit - data?.data?.numberOfTotalUnits || 0}</span>
+                            </p>
+                            <div className="mt-4">
+                                <p className="text-gray-700">
+                                    If you'd like to cancel your current plan, you can do so by clicking the button below.
+                                </p>
+                                <button
+                                    className="mt-2 bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition font-semibold"
+                                    onClick={cancelsubscriptionFun}
+                                >
+                                    Cancel Subscription
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -180,28 +192,28 @@ const UserProfile = () => {
 
 
 
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold mb-4">Permanent Address</h3>
-            {permanentAddress ? (
-              Object.entries(permanentAddress).map(([key, value]) => (
-                <div
-                  key={key}
-                  className="flex flex-col sm:flex-row sm:justify-between pb-2"
-                >
-                  <span className="text-gray-600 capitalize mb-1 sm:mb-0">
-                    {key.replace(/([A-Z])/g, " $1").trim()}
-                  </span>
-                  <span className="font-medium">{value || "N/A"}</span>
+                    <div className="space-y-4">
+                        <h3 className="text-lg font-semibold mb-4">Permanent Address</h3>
+                        {permanentAddress ? (
+                            Object.entries(permanentAddress).map(([key, value]) => (
+                                <div
+                                    key={key}
+                                    className="flex flex-col sm:flex-row sm:justify-between pb-2"
+                                >
+                                    <span className="text-gray-600 capitalize mb-1 sm:mb-0">
+                                        {key.replace(/([A-Z])/g, " $1").trim()}
+                                    </span>
+                                    <span className="font-medium">{value || "N/A"}</span>
+                                </div>
+                            ))
+                        ) : (
+                            <p className="text-gray-500">No permanent address available.</p>
+                        )}
+                    </div>
                 </div>
-              ))
-            ) : (
-              <p className="text-gray-500">No permanent address available.</p>
-            )}
-          </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default UserProfile;

@@ -27,6 +27,10 @@ function TenantDashboard() {
   const [open, setOpen] = useState(false);
   const [paymentData, setPaymentData] = useState({})
   const [pageSize, setPageSize] = useState(10);
+  const [successPaymentData, setSuccessPaymentData] = useState({});
+
+  console.log(successPaymentData);
+  
 
   const handlePageSizeChange = (current, size) => {
     setPageSize(size);
@@ -37,8 +41,6 @@ function TenantDashboard() {
   ?.map(item => item.unitId.rent); 
 
   const totalDueRent = dueRent?.reduce((acc, rent) => acc + rent, 0);
-
-
 
   const currentDate = new Date().toLocaleDateString("en-US", {
     month: "numeric",
@@ -66,7 +68,6 @@ function TenantDashboard() {
     status,
     createdAt
   }));
-
 
   const handleModalFun = (data) => {
     setOpen(true)
@@ -316,7 +317,7 @@ function TenantDashboard() {
 
         <div>
           <Elements stripe={stripePromise}>
-            <StripeTenantForm paymentData={paymentData} totalAmount={totalAmount} setOpen={setOpen} />
+            <StripeTenantForm paymentData={paymentData} totalAmount={totalAmount} setOpen={setOpen} setSuccessPaymentData={setSuccessPaymentData} />
           </Elements>
         </div>
 

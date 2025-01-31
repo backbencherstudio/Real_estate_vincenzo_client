@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../redux/fetures/auth/authSlice";
 import { toast } from "sonner";
 import tenantApi from "../../redux/fetures/tenant/tenantApi";
-const StripeTenantForm = ({ paymentData, totalAmount, setOpen }) => {
+const StripeTenantForm = ({ paymentData, totalAmount, setOpen, setSuccessPaymentData }) => {
     const [paymentPlacedApi] = tenantApi.usePaymentPlacedApiMutation()
     const currentUser = useSelector(selectCurrentUser)
     const stripe = useStripe();
@@ -23,6 +23,8 @@ const StripeTenantForm = ({ paymentData, totalAmount, setOpen }) => {
     const [success, setSuccess] = useState(false);
     const [email, setEmail] = useState(currentUser?.email);
 
+    console.log(paymentData);
+    
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -47,12 +49,14 @@ const StripeTenantForm = ({ paymentData, totalAmount, setOpen }) => {
                 paymentMethodId: paymentMethod.id,
                 amount: parseInt(totalAmount),
                 monthlyPaymentId: paymentData?.key,
+                ownerId : paymentData?.ownerId
             });            
 
             if (data?.data?.success) {
                 setSuccess(true);
                 setOpen(false)
                 setLoading(false);
+                setSuccessPaymentData(data?.data)
                 elements.getElement(CardNumberElement)?.clear();
                 elements.getElement(CardExpiryElement)?.clear();
                 elements.getElement(CardCvcElement)?.clear();
