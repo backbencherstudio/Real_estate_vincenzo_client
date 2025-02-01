@@ -1,4 +1,3 @@
-
 import { Button, Modal, Table, Tag } from 'antd';
 import 'antd/dist/reset.css';
 import { RiSettingsFill } from 'react-icons/ri';
@@ -7,7 +6,7 @@ import tenantApi from '../../redux/fetures/tenant/tenantApi';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../redux/fetures/auth/authSlice';
 import moment from 'moment';
-import {  useState } from 'react';
+import { useState } from 'react';
 import authApi from '../../redux/fetures/auth/authApi';
 import { Elements } from '@stripe/react-stripe-js';
 import StripeTenantForm from './StripeTenantForm';
@@ -20,7 +19,7 @@ const stripePromise = loadStripe(
 
 function TenantDashboard() {
   const currentUser = useSelector(selectCurrentUser)
-  const { data } = tenantApi.useGetSingleUserAllPaymentDataQuery(currentUser?.userId,  {
+  const { data } = tenantApi.useGetSingleUserAllPaymentDataQuery(currentUser?.userId, {
     pollingInterval: 15000,
   });
   const { data: userData } = authApi.useGetSingleUserInfoQuery(currentUser?.email);
@@ -37,8 +36,8 @@ function TenantDashboard() {
   };
 
   const dueRent = data?.data
-  ?.filter(item => item.status !== "Paid") 
-  ?.map(item => item.unitId.rent); 
+    ?.filter(item => item.status !== "Paid")
+    ?.map(item => item.unitId.rent);
 
   const totalDueRent = dueRent?.reduce((acc, rent) => acc + rent, 0);
 
@@ -50,9 +49,21 @@ function TenantDashboard() {
 
 
   const getDynamicDate = (year = new Date().getFullYear(), month = new Date().getMonth() + 1) => {
-    return new Date(year, month - 2, 31).toLocaleDateString();
+    return new Date(year, month -2 , 31).toLocaleDateString();
   };
-  const totalAmount = paymentData?.rent
+
+  // Calculate if payment is late and determine total amount
+  const isPaymentLate = (lastDate) => {
+    const dueDate = new Date(lastDate);
+    const today = new Date();
+    return today > dueDate;
+  };
+
+  const calculateTotalAmount = (rent, lateFee, lastDate) => {
+    return isPaymentLate(lastDate) ? rent + lateFee : rent;
+  };
+
+  const totalAmount = calculateTotalAmount(paymentData?.rent, paymentData?.lateFee, paymentData?.lastDate);
 
   const tableData = data?.data?.map(({ _id, invoice, propertyId, unitId, ownerId, userId, status, createdAt }) => ({
     key: _id,
@@ -180,7 +191,7 @@ function TenantDashboard() {
             <img src={money} alt="" />
           </div>
           <div>
-            <div className="text-3xl font-bold">${ totalDueRent || 0  }</div>
+            <div className="text-3xl font-bold">${totalDueRent || 0}</div>
             <h2 className="text-gray-600 text-sm">Rent Due</h2>
             {/* <a href="#" className="text-blue-500 text-sm mt-2 inline-block">
               View Details
@@ -192,7 +203,7 @@ function TenantDashboard() {
             <RiSettingsFill />
           </div>
           <div>
-            <div className="text-3xl font-bold">{ dueRent?.length | 0 }</div>
+            <div className="text-3xl font-bold">{dueRent?.length | 0}</div>
             <h2 className="text-gray-600 text-sm">Pending Payment</h2>
             {/* <a href="#" className="text-blue-500 text-sm mt-2 inline-block">
               View Details
@@ -204,69 +215,7 @@ function TenantDashboard() {
       <div className="bg-white p-6 rounded-lg shadow-sm">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold">Recent Payments</h2>
-          <div className="flex space-x-2">
-
-            {/* All Dropdown */}
-            {/* <div className="relative">
-              <button
-                className="flex items-center bg-gray-100 px-4 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <span className="mr-2">All</span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-4 h-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </button>
-            </div> */}
-            {/* This Month Dropdown */}
-            {/* <div className="relative">
-              <button
-                className="flex items-center bg-gray-100 px-4 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-4 h-4 mr-2"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M5 8h14M5 12h14m-7 4h7"
-                  />
-                </svg>
-                <span>This Month</span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-4 h-4 ml-2"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </button>
-            </div> */}
-            
-
-          </div>
+          
         </div>
 
         <div className="overflow-x-auto">
@@ -283,7 +232,7 @@ function TenantDashboard() {
                 `${range[0]}-${range[1]} of ${total} items`,
             }}
           />
-          
+
         </div>
       </div>
       {/* Footer */}
@@ -294,31 +243,76 @@ function TenantDashboard() {
 
 
       <Modal
-        title="This Month Payment History"
+        title="Monthly Rent Payment"
         centered
         open={open}
         onOk={() => setOpen(false)}
         onCancel={() => setOpen(false)}
         width={1000}
         footer={false}
-        
+
       >
 
-        <div>
-          {
-            !userData?.data?.isSecurityDepositPay && <h2> Security deposit must be pay, For the first time :: <span className='text-[18px] text-green-600 ' >{paymentData?.securityDeposit || 0}</span> $/= </h2>
-          }
-          <h2>current rent :: {paymentData?.rent} </h2>
-          <h2>Late Fee :: {paymentData?.lateFee} </h2>
-          <h2> Last date for payment :: {paymentData?.lastDate} </h2>
-          <h2>current date :: {currentDate} </h2>
-          <h2>If you crose the last payment data you must be pay with late payment :: {paymentData?.rent + paymentData?.lateFee} </h2>
-        </div>
+        <div className='flex flex-col md:flex-row justify-between items-start md:items-center gap-8 p-6 rounded-lg shadow-sm'>
+          <div className='w-full space-y-4'>
+            {
+              !userData?.data?.isSecurityDepositPay && (
+                <div className="px-4 py-2 bg-yellow-50 border border-yellow-200 rounded-lg">
+                  <h2 className="text-lg font-medium text-yellow-800">
+                    Security Deposit Required:
+                    <span className=" ml-2 font-bold text-green-600">
+                      ${paymentData?.securityDeposit || 0}
+                    </span>
+                  </h2>
+                  {/* <p className="mt-1 text-sm text-yellow-600">This is a one-time payment required for new tenants</p> */}
+                </div>
+              )
+            }
 
-        <div>
-          <Elements stripe={stripePromise}>
-            <StripeTenantForm paymentData={paymentData} totalAmount={totalAmount} setOpen={setOpen} setSuccessPaymentData={setSuccessPaymentData} />
-          </Elements>
+            <div className="space-y-3">
+              <div className="flex justify-between items-center p-2 bg-white rounded-md shadow-sm">
+                <span className="text-gray-600">Current Rent</span>
+                <span className="text-lg font-semibold">${paymentData?.rent}</span>
+              </div>
+
+           
+                <div className="flex justify-between items-center p-2 bg-white rounded-md shadow-sm">
+                  <span className="text-gray-600">Late Fee (Applied)</span>
+                  <span className="text-lg font-semibold text-red-600">${paymentData?.lateFee}</span>
+                </div>
+
+              <div className="flex justify-between items-center p-2 bg-white rounded-md shadow-sm">
+                <span className="text-gray-600">Total Amount Due</span>
+                <span className="text-lg font-bold">${totalAmount}</span>
+              </div>
+
+              <div className="flex justify-between items-center p-2 bg-white rounded-md shadow-sm">
+                <span className="text-gray-600">Payment Due Date</span>
+                <span className="text-lg font-semibold">{paymentData?.lastDate}</span>
+              </div>
+
+              <div className="flex justify-between items-center p-2 bg-white rounded-md shadow-sm">
+                <span className="text-gray-600">Current Date</span>
+                <span className="text-lg font-semibold">{currentDate}</span>
+              </div>
+
+              <div className="px-4 pt-2  bg-red-50 border border-red-200 rounded-lg mt-4">
+                <p className="text-red-800">
+                  <span className="font-medium">Late Payment Notice: </span>
+                  If payment is made after the due date, total amount will be:
+                  <span className="font-bold ml-2">
+                    ${paymentData?.rent + paymentData?.lateFee}
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className='w-full rounded-lg shadow-sm'>
+            <Elements stripe={stripePromise}>
+              <StripeTenantForm paymentData={paymentData} totalAmount={totalAmount} setOpen={setOpen} setSuccessPaymentData={setSuccessPaymentData} />
+            </Elements>
+          </div>
         </div>
 
 
