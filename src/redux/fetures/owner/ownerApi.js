@@ -123,6 +123,17 @@ const ownerApi = baseApi.injectEndpoints({
       providesTags: ["paymentOverview"]
     }),
 
+    // =======================================================>>>>> overview payment API ( monthly )
+    getPaymentDataOverviewByOwner: builder.query({
+      query: ({ ownerId, selectedDate }) => {    
+        return {
+          url: `/owner/getPaymentDataOverviewByOwner/${ownerId}?selectedDate=${selectedDate}`, 
+          method: "GET"
+        };
+      },
+    }),
+    
+
 
   }),
 });

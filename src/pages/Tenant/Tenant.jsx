@@ -49,7 +49,7 @@ function TenantDashboard() {
 
 
   const getDynamicDate = (year = new Date().getFullYear(), month = new Date().getMonth() + 1) => {
-    return new Date(year, month - 2, 5).toLocaleDateString();
+    return new Date(year, month - 1, 5).toLocaleDateString();
   };
 
   // Calculate if payment is late and determine total amount
@@ -78,9 +78,9 @@ function TenantDashboard() {
 
   const totalAmount = calculateTotalAmount(paymentData?.rent, paymentData?.lateFee, paymentData?.lastDate);
 
-  console.log(totalAmount);
-  console.log(totalAmount?.lateFee);
-  console.log(totalAmount?.total);
+  // console.log(totalAmount);
+  // console.log(totalAmount?.lateFee);
+  // console.log(totalAmount?.total);
   
 
   const tableData = data?.data?.map(({ _id, invoice, propertyId, unitId, ownerId, userId, status, createdAt, PaymentPlaced, lateFee, paidAmount }) => ({
@@ -98,7 +98,7 @@ function TenantDashboard() {
     status,
     createdAt,
     PaymentPlacedDate: PaymentPlaced,
-    paidAmount
+    paidAmount : paidAmount || 0
 
 
   }));

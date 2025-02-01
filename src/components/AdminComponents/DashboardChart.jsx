@@ -1,14 +1,52 @@
-import { Select } from "antd";
+/* eslint-disable react/no-unescaped-entities */
+import { DatePicker, Select } from "antd";
 import { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../redux/fetures/auth/authSlice";
+import ownerApi from "../../redux/fetures/owner/ownerApi";
 const DashboardChart = ({ overviewData }) => {
+
+  // const currentUser = useSelector(selectCurrentUser);
+  // const currentDate = new Date()
+
+  // const [selectedDate, setSelectedDate] = useState(currentDate)
+
+  // const { data } = ownerApi.useGetPaymentDataOverviewByOwnerQuery(currentUser?.userId, selectedDate)
+  // console.log(data);
+
+
+
+  // const handleChange = (value) => {
+  //   if (value) {
+  //     const selectedMonth = value.month() + 1;
+  //     const selectedYear = value.year();
+
+  //     setSelectedDate(selectedMonth, selectedYear)
+  //   }
+  // };
+
   const currentUser = useSelector(selectCurrentUser);
-  console.log(currentUser);
+  const currentDate = new Date();
+  const [selectedDate, setSelectedDate] = useState(`${currentDate.getFullYear()}-${currentDate.getMonth() + 1}`);
+
+  const { data } = ownerApi.useGetPaymentDataOverviewByOwnerQuery({
+    ownerId: currentUser?.userId,
+    selectedDate
+  });
+
+  const totalDueRentAmount = data?.data?.totalDueRentAmount || 0
+  const totalPaidRentAmount = data?.data?.totalPaidRentAmount || 0
+
   const handleChange = (value) => {
-    console.log(`selected ${value}`);
+    if (value) {
+      const selectedMonth = value.month() + 1;
+      const selectedYear = value.year();
+      setSelectedDate(`${selectedYear}-${selectedMonth}`); 
+    }
   };
+
+
   const chartOptions = {
     chart: {
       type: "area",
@@ -84,8 +122,9 @@ const DashboardChart = ({ overviewData }) => {
       categories: overviewData?.data?.monthlyTenants?.map((item) => item.date),
     },
   };
+
   const donutChartOptions = {
-    series: [90, 15],
+    series: [totalPaidRentAmount , totalDueRentAmount],
     chart: {
       type: "donut",
     },
@@ -135,6 +174,7 @@ const DashboardChart = ({ overviewData }) => {
       },
     ],
   };
+
   useEffect(() => {
     setTimeout(() => {
       window.dispatchEvent(new Event("resize"));
@@ -143,14 +183,12 @@ const DashboardChart = ({ overviewData }) => {
 
   return (
     <div
-      className={`grid grid-cols-1 ${
-        currentUser?.role === "owner" ? "lg:grid-cols-3" : "lg:grid-cols-2"
-      } lg:gap-10 mt-4`}
+      className={`grid grid-cols-1 ${currentUser?.role === "owner" ? "lg:grid-cols-3" : "lg:grid-cols-2"
+        } lg:gap-10 mt-4`}
     >
       <div
-        className={`bg-white p-5 rounded-md relative overflow-hidden ${
-          currentUser.role === "owner" ? "col-span-2" : "col-span-1"
-        }`}
+        className={`bg-white p-5 rounded-md relative overflow-hidden ${currentUser.role === "owner" ? "col-span-2" : "col-span-1"
+          }`}
       >
         <div className="flex justify-between">
           <h2>Property Overview</h2>
@@ -178,6 +216,7 @@ const DashboardChart = ({ overviewData }) => {
               },
             ]}
           />
+
         </div>
 
         <div>
@@ -233,37 +272,25 @@ const DashboardChart = ({ overviewData }) => {
           <div>
             <div className="flex justify-between">
               <h2>Rent Overview</h2>
-              <Select
-                defaultValue="lucy"
-                style={{
-                  width: 150,
-                }}
+              <DatePicker
                 onChange={handleChange}
-                options={[
-                  {
-                    label: <span>manager</span>,
-                    title: "manager",
-                    options: [
-                      {
-                        label: <span>Jack</span>,
-                        value: "Jack",
-                      },
-                      {
-                        label: <span>Lucy</span>,
-                        value: "Lucy",
-                      },
-                    ],
-                  },
-                ]}
+                picker="month"
+                format="MMM YYYY"
               />
             </div>
             <div className="mt-5">
+
+              {
+                totalDueRentAmount === 0 && totalPaidRentAmount === 0 ? <div className="flex justify-center items-center" > <h2 className="text-center text-2xl mt-10" > Looks like there's nothing here yet! </h2> </div> : 
+
               <ReactApexChart
-                options={donutChartOptions}
-                series={donutChartOptions.series}
-                type="donut"
-                height={350}
+              options={donutChartOptions}
+              series={donutChartOptions.series}
+              type="donut"
+              height={350}
               />
+            }
+
             </div>
           </div>
         )}

@@ -52,11 +52,12 @@ const OwnerDashboard = () => {
       updatedAt,
       propertyName: propertyId?.propertyName || "N/A",
       unit: unitId?.unitNumber || "N/A",
+      rent: unitId?.rent || "N/A",
       tenantName: userId?.name || "N/A",
       paidAmount : paidAmount || unitId?.rent,
       status,
       PaymentPlacedDate : PaymentPlaced,
-      lateFee : lateFee !== 0 ? unitId?.lateFee : "None"
+      lateFee : lateFee !== 0 ? unitId?.lateFee : 0
     })
   );
 
@@ -102,6 +103,10 @@ const OwnerDashboard = () => {
     {
       title: "Tenant Name",
       dataIndex: "tenantName",
+    },
+    {
+      title: "Rent",
+      dataIndex: "rent",
     },
     {
       title: "lateFee",
@@ -176,6 +181,7 @@ const OwnerDashboard = () => {
       <div>
         <DashboardChart overviewData={overviewData} />
       </div>
+
       <div className="bg-white p-5 mt-10 rounded-2xl">
         <div className="flex justify-between items-center">
           <div>
