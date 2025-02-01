@@ -11,7 +11,6 @@ import authApi from '../../redux/fetures/auth/authApi';
 import { Elements } from '@stripe/react-stripe-js';
 import StripeTenantForm from './StripeTenantForm';
 import { loadStripe } from '@stripe/stripe-js';
-import { message } from 'antd';
 
 const stripePromise = loadStripe(
   "pk_test_51NFvq6ArRmO7hNaVcPS5MwczdEtM4yEMOclovA0k5LtJTxhtzKZ2SKim3p8qmvssQ7j7bREjoRRmHB9Gvz8n8Dfm00UOo9bZYg"
@@ -50,7 +49,7 @@ function TenantDashboard() {
 
 
   const getDynamicDate = (year = new Date().getFullYear(), month = new Date().getMonth() + 1) => {
-    return new Date(year, month -1 , 5).toLocaleDateString();
+    return new Date(year, month - 2, 5).toLocaleDateString();
   };
 
   // Calculate if payment is late and determine total amount
@@ -60,25 +59,48 @@ function TenantDashboard() {
     return today > dueDate;
   };
 
+  // const calculateTotalAmount = (rent, lateFee, lastDate) => {
+  //   return isPaymentLate(lastDate) ? rent + lateFee : rent;
+  // };
+
   const calculateTotalAmount = (rent, lateFee, lastDate) => {
-    return isPaymentLate(lastDate) ? rent + lateFee : rent;
+    if (isPaymentLate(lastDate)) {
+      return {
+        lateFee: lateFee,
+        total: rent + lateFee
+      };
+    }
+    return {
+      lateFee: 0,
+      total: rent
+    };
   };
 
   const totalAmount = calculateTotalAmount(paymentData?.rent, paymentData?.lateFee, paymentData?.lastDate);
 
-  const tableData = data?.data?.map(({ _id, invoice, propertyId, unitId, ownerId, userId, status, createdAt }) => ({
+  console.log(totalAmount);
+  console.log(totalAmount?.lateFee);
+  console.log(totalAmount?.total);
+  
+
+  const tableData = data?.data?.map(({ _id, invoice, propertyId, unitId, ownerId, userId, status, createdAt, PaymentPlaced, lateFee, paidAmount }) => ({
     key: _id,
     invoice,
     propertyId: propertyId._id,
     propertyName: propertyId?.propertyName,
     rent: unitId?.rent,
-    lateFee: unitId?.lateFee,
+    // lateFee: unitId?.lateFee,
+    lateFee : lateFee !== 0 ? unitId?.lateFee : 0,
     securityDeposit: unitId?.securityDeposit,
     ownerId,
     userId: userId._id,
     lastDate: getDynamicDate(),
     status,
-    createdAt
+    createdAt,
+    PaymentPlacedDate: PaymentPlaced,
+    paidAmount
+
+
   }));
 
   const handleModalFun = (data) => {
@@ -92,7 +114,7 @@ function TenantDashboard() {
 
   const columns = [
     {
-      title: 'Invoice', 
+      title: 'Invoice',
       dataIndex: 'invoice',
       render: (text, record) => (
         <div>
@@ -122,14 +144,18 @@ function TenantDashboard() {
     },
     { title: 'Rent', dataIndex: 'rent' },
     { title: 'Late Fee', dataIndex: 'lateFee' },
+    { title: 'Paid Amount', dataIndex: 'paidAmount' },
     { title: 'Last Date', dataIndex: "lastDate" },
     {
-      title: 'Created Payment', dataIndex: "createdAt",
-      render: (createdAt) => (
+      title: "Payment Placed",
+      dataIndex: "PaymentPlacedDate",
+      render: (PaymentPlacedDate) => (
         <div>
-          {moment(createdAt).format("M/D/YYYY")}
+          {PaymentPlacedDate
+            ? moment(PaymentPlacedDate).format("DD MMMM YYYY, h:mm A")
+            : "N/F"}
         </div>
-      ),
+      )
     },
     {
       title: 'Status',
@@ -214,7 +240,7 @@ function TenantDashboard() {
       <div className="bg-white p-6 rounded-lg shadow-sm">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold">Recent Payments</h2>
-          
+
         </div>
 
         <div className="overflow-x-auto">
@@ -274,15 +300,15 @@ function TenantDashboard() {
                 <span className="text-lg font-semibold">${paymentData?.rent}</span>
               </div>
 
-           
-                <div className="flex justify-between items-center p-2 bg-white rounded-md shadow-sm">
-                  <span className="text-gray-600">Late Fee (Applied)</span>
-                  <span className="text-lg font-semibold text-red-600">${paymentData?.lateFee}</span>
-                </div>
+
+              <div className="flex justify-between items-center p-2 bg-white rounded-md shadow-sm">
+                <span className="text-gray-600">Late Fee (Applied)</span>
+                <span className="text-lg font-semibold text-red-600">${paymentData?.lateFee}</span>
+              </div>
 
               <div className="flex justify-between items-center p-2 bg-white rounded-md shadow-sm">
                 <span className="text-gray-600">Total Amount Due</span>
-                <span className="text-lg font-bold">${totalAmount}</span>
+                <span className="text-lg font-bold">${totalAmount.total}</span>
               </div>
 
               <div className="flex justify-between items-center p-2 bg-white rounded-md shadow-sm">
@@ -309,7 +335,7 @@ function TenantDashboard() {
 
           <div className='w-full rounded-lg shadow-sm'>
             <Elements stripe={stripePromise}>
-              <StripeTenantForm paymentData={paymentData} totalAmount={totalAmount} setOpen={setOpen} setSuccessPaymentData={setSuccessPaymentData} />
+              <StripeTenantForm paymentData={paymentData} totalAmount={totalAmount?.total} lateFee={totalAmount.lateFee} setOpen={setOpen} setSuccessPaymentData={setSuccessPaymentData} />
             </Elements>
           </div>
         </div>

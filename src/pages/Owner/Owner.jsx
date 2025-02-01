@@ -43,6 +43,7 @@ const OwnerDashboard = () => {
       paidAmount,
       status,
       PaymentPlaced,
+      lateFee,
       _id,
     }) => ({
       key: _id,
@@ -52,10 +53,10 @@ const OwnerDashboard = () => {
       propertyName: propertyId?.propertyName || "N/A",
       unit: unitId?.unitNumber || "N/A",
       tenantName: userId?.name || "N/A",
-      paidAmount : paidAmount || "N/A",
+      paidAmount : paidAmount || unitId?.rent,
       status,
-      PaymentPlacedDate : PaymentPlaced
-
+      PaymentPlacedDate : PaymentPlaced,
+      lateFee : lateFee !== 0 ? unitId?.lateFee : "None"
     })
   );
 
@@ -101,6 +102,10 @@ const OwnerDashboard = () => {
     {
       title: "Tenant Name",
       dataIndex: "tenantName",
+    },
+    {
+      title: "lateFee",
+      dataIndex: "lateFee",
     },
     {
       title: "Amount",
