@@ -11,6 +11,7 @@ import authApi from '../../redux/fetures/auth/authApi';
 import { Elements } from '@stripe/react-stripe-js';
 import StripeTenantForm from './StripeTenantForm';
 import { loadStripe } from '@stripe/stripe-js';
+import { message } from 'antd';
 
 const stripePromise = loadStripe(
   "pk_test_51NFvq6ArRmO7hNaVcPS5MwczdEtM4yEMOclovA0k5LtJTxhtzKZ2SKim3p8qmvssQ7j7bREjoRRmHB9Gvz8n8Dfm00UOo9bZYg"
@@ -49,7 +50,7 @@ function TenantDashboard() {
 
 
   const getDynamicDate = (year = new Date().getFullYear(), month = new Date().getMonth() + 1) => {
-    return new Date(year, month -2 , 31).toLocaleDateString();
+    return new Date(year, month -1 , 5).toLocaleDateString();
   };
 
   // Calculate if payment is late and determine total amount
@@ -85,19 +86,19 @@ function TenantDashboard() {
     setPaymentData(data)
   }
 
-  const downloadInvoice = (url) => {
-    window.open(url, "_blank", "noopener,noreferrer");
+  const openInvoice = (url) => {
+    window.open(url, '_blank', 'noopener,noreferrer');
   };
-
 
   const columns = [
     {
-      title: 'Invoice', dataIndex: 'invoice',
+      title: 'Invoice', 
+      dataIndex: 'invoice',
       render: (text, record) => (
         <div>
           {record.invoice && record.invoice.startsWith("http") ? (
             <button
-              onClick={() => downloadInvoice(record.invoice)}
+              onClick={() => openInvoice(record.invoice)}
               style={{
                 background: "none",
                 border: "none",
@@ -107,15 +108,13 @@ function TenantDashboard() {
                 cursor: "pointer",
               }}
             >
-              📄 Download
+              📄 View Receipt
             </button>
           ) : (
             "Upcoming"
           )}
         </div>
       )
-
-
     },
     {
       title: 'Property Name',

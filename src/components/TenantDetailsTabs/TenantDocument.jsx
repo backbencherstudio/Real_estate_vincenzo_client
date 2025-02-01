@@ -33,34 +33,42 @@ const TenantDocument = () => {
         <div>
             <div className="rounded-lg">
                 <h2 className="text-xl font-semibold mb-4">Tenant Documents</h2>
-                <div className="space-y-6 bg-white p-8 rounded-md">
-                    {documents.map((doc, index) => {
-                        const docType = getDocumentType(doc.image);
-                        return (
-                            <div key={index} className="flex items-center cursor-pointer group">
-                                <a
-                                    href={`${url}${doc.image}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-blue-600 group-hover:text-green-500 font-semibold flex items-center"
-                                    download
-                                >
-                                    <div className="flex items-center duration-300">
-                                        <img
-                                            src={docType === "pdf" ? pdf : image}
-                                            alt={`${docType} icon`}
-                                            className="w-4 h-4 mr-3"
-                                        />
-                                        <span className="text-sm font-medium group-hover:text-green-500">
-                                            Download {docType.toUpperCase()}
-                                        </span>
-                                        <Download size={16} className="ml-2" />
+                {
+                    documents.length > 0 ? (
+                        <div className="space-y-6 bg-white p-8 rounded-md">
+                            {documents.map((doc, index) => {
+                                const docType = getDocumentType(doc.image);
+                                return (
+                                    <div key={index} className="flex items-center cursor-pointer group">
+                                        <a
+                                            href={`${url}${doc.image}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-blue-600 group-hover:text-green-500 font-semibold flex items-center"
+                                            download
+                                        >
+                                            <div className="flex items-center duration-300">
+                                                <img
+                                                    src={docType === "pdf" ? pdf : image}
+                                                    alt={`${docType} icon`}
+                                                    className="w-4 h-4 mr-3"
+                                                />
+                                                <span className="text-sm font-medium group-hover:text-green-500">
+                                                    Download {docType.toUpperCase()}
+                                                </span>
+                                                <Download size={16} className="ml-2" />
+                                            </div>
+                                        </a>
                                     </div>
-                                </a>
-                            </div>
-                        );
-                    })}
-                </div>
+                                );
+                            })}
+                        </div>
+                    ) : (
+                        <div>
+                            <h2 className="text-sm font-semibold mb-4">No documents found</h2>
+                        </div>
+                    )
+                }
             </div>
 
             {/* <div className="mt-5">
