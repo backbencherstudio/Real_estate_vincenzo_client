@@ -42,6 +42,7 @@ const OwnerDashboard = () => {
       userId,
       paidAmount,
       status,
+      PaymentPlaced,
       _id,
     }) => ({
       key: _id,
@@ -52,7 +53,8 @@ const OwnerDashboard = () => {
       unit: unitId?.unitNumber || "N/A",
       tenantName: userId?.name || "N/A",
       paidAmount : paidAmount || "N/A",
-      status
+      status,
+      PaymentPlacedDate : PaymentPlaced
 
     })
   );
@@ -106,13 +108,15 @@ const OwnerDashboard = () => {
     },
     {
       title: "Payment Placed",
-      dataIndex: "updatedAt",
-      render: (createdAt) => (
+      dataIndex: "PaymentPlacedDate",
+      render: (PaymentPlacedDate) => (
         <div>
-          {moment(createdAt).format("DD MMMM YYYY, h:mm A")}
+          {PaymentPlacedDate 
+            ? moment(PaymentPlacedDate).format("DD MMMM YYYY, h:mm A") 
+            : "N/F"}
         </div>
       )
-    },
+    },    
     {
       title: "Status",
       dataIndex: "status",
@@ -141,6 +145,7 @@ const OwnerDashboard = () => {
   const onSearch = (value) => {
     setStatus(value)
   };
+
   return (
     <div>
       <div>
