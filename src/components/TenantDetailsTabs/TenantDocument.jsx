@@ -37,11 +37,11 @@ const TenantDocument = () => {
                     documents.length > 0 ? (
                         <div className="space-y-6 bg-white p-8 rounded-md">
                             {documents.map((doc, index) => {
-                                const docType = getDocumentType(doc.image);
+                                const docType = getDocumentType(doc?.image);
                                 return (
                                     <div key={index} className="flex items-center cursor-pointer group">
                                         <a
-                                            href={`${url}${doc.image}`}
+                                            href={`${url}${doc?.image}`}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="text-blue-600 group-hover:text-green-500 font-semibold flex items-center"
