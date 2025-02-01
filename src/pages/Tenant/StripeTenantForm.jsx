@@ -93,7 +93,7 @@ const StripeTenantForm = ({ paymentData, totalAmount, setOpen, setSuccessPayment
     return (
         <form
             onSubmit={handleSubmit}
-            className="bg-white shadow-md rounded-lg px-3 max-w-lg mx-auto"
+            className="bg-white shadow border-t py-6 border-zinc-100 rounded-lg px-3 max-w-lg mx-auto"
         >
             <h2 className="text-2xl font-bold text-center mb-2">Secure Payment</h2>
 
@@ -145,18 +145,18 @@ const StripeTenantForm = ({ paymentData, totalAmount, setOpen, setSuccessPayment
             <button
                 type="submit"
                 disabled={!stripe || loading}
-                className={`w-full my-6 py-3 text-white font-bold rounded-lg ${loading
+                className={`w-full my-2 py-3 text-white font-bold rounded-lg ${loading
                         ? "bg-gray-400 cursor-not-allowed"
-                        : "bg-orange-600 hover:opacity-90"
+                        : "bg-blue-600 hover:opacity-90"
                     }`}
             >
                 {loading
                     ? "Processing..."
-                    : `Pay Now : ${totalAmount} $`}
+                    : `Pay Now : $${totalAmount}`}
             </button>
 
             {error && (
-                <div className="mt-4 text-red-500 font-medium text-center">{error}</div>
+                <div className="pb-2 text-red-500 font-medium text-center">{error}</div>
             )}
             
         </form>
