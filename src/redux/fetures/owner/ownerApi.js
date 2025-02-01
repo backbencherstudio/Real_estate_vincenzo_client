@@ -89,7 +89,6 @@ const ownerApi = baseApi.injectEndpoints({
       invalidatesTags: ["maintenance"],
     }),
 
-
     // =======================================================>>>>> Document API
     getSingleOwnerAllTenantsDocuments: builder.query({
       query: (ownerId) => {
@@ -111,6 +110,17 @@ const ownerApi = baseApi.injectEndpoints({
         };
       },
       providesTags: ["overview"]
+    }),
+
+    // =======================================================>>>>> resent payment API
+    getResentPaymentDataByOwner: builder.query({
+      query: ({ownerId, status}) => {            
+        return {
+          url: `/owner/getResentPaymentDataByOwner/${ownerId}?status=${status}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["paymentOverview"]
     }),
 
 

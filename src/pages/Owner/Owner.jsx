@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../redux/fetures/auth/authSlice";
 import ownerApi from "../../redux/fetures/owner/ownerApi";
 import OverviewData from "../Admin/overviewData/OverviewData";
+import moment from "moment";
 
 const OwnerDashboard = () => {
   const [pageSize, setPageSize] = useState(10);
@@ -16,60 +17,101 @@ const OwnerDashboard = () => {
   const currentUser = useSelector(selectCurrentUser);
 
   // =============================>>>>>>>>  this API not for this page this is for this route http://localhost:5173/owner/properties
-  const { data } = ownerApi.useGetSingleOwnerAllPropertiesQuery(
-    currentUser?.userId
-  );
+  // const { data } = ownerApi.useGetSingleOwnerAllPropertiesQuery(
+  //   currentUser?.userId
+  // );
+
   const { data: overviewData, isLoading } =
     ownerApi.useGetAllDataOverviewByOwnerQuery(currentUser?.userId);
 
-  console.log(overviewData?.data);
+  const [status, setStatus] = useState("Paid");
 
-  const tableData = data?.data?.map(
+  const { data: resentPaymentData, isLoading: resentPaymentIsLoading } =
+    ownerApi.useGetResentPaymentDataByOwnerQuery({
+      ownerId: currentUser?.userId,
+      status : status
+    });
+
+  const tableData = resentPaymentData?.data?.map(
     ({
-      Description,
-      amenities,
-      availableParking,
+      invoice,
       createdAt,
-      houseNumber,
-      maintainerName,
-      numberOfUnits,
-      ownerId,
-      propertyImages,
-      propertyLocation,
-      propertyName,
-      totalRent,
       updatedAt,
+      propertyId,
+      unitId,
+      userId,
+      paidAmount,
+      status,
       _id,
     }) => ({
       key: _id,
-      Description,
-      amenities,
-      availableParking,
+      invoice,
       createdAt,
-      houseNumber,
-      maintainerName,
-      numberOfUnits,
-      ownerId,
-      propertyImages,
-      propertyLocation,
-      propertyName,
-      totalRent,
       updatedAt,
+      propertyName: propertyId?.propertyName || "N/A",
+      unit: unitId?.unitNumber || "N/A",
+      tenantName: userId?.name || "N/A",
+      paidAmount : paidAmount || "N/A",
+      status
+
     })
   );
 
+  const downloadInvoice = (url) => {
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
+
+
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
+      title: "Invoice",
+      dataIndex: "invoice",
+      render: (text, record) => (
+        <div>
+          {record.invoice && record.invoice.startsWith("http") ? (
+            <button
+              onClick={() => downloadInvoice(record.invoice)}
+              style={{
+                background: "none",
+                border: "none",
+                color: "#2575fc",
+                textDecoration: "none",
+                fontWeight: "bold",
+                cursor: "pointer",
+              }}
+            >
+              📄 Show
+            </button>
+          ) : (
+            "Upcoming"
+          )}
+        </div>
+      )
     },
     {
-      title: "Age",
-      dataIndex: "age",
+      title: "Property Name",
+      dataIndex: "propertyName",
     },
     {
-      title: "Address",
-      dataIndex: "address",
+      title: "Unit",
+      dataIndex: "unit",
+    },
+    {
+      title: "Tenant Name",
+      dataIndex: "tenantName",
+    },
+    {
+      title: "Amount",
+      dataIndex: "paidAmount",
+    },
+    {
+      title: "Payment Placed",
+      dataIndex: "updatedAt",
+      render: (createdAt) => (
+        <div>
+          {moment(createdAt).format("DD MMMM YYYY, h:mm A")}
+        </div>
+      )
     },
     {
       title: "Status",
@@ -77,11 +119,11 @@ const OwnerDashboard = () => {
       render: (status) => (
         <Tag
           color={
-            status === "pending"
+            status === "Pending"
               ? "orange"
-              : status === "complete"
-              ? "green"
-              : "red"
+              : status === "Paid"
+                ? "green"
+                : "red"
           }
           style={{ textTransform: "capitalize" }}
         >
@@ -90,36 +132,14 @@ const OwnerDashboard = () => {
       ),
     },
   ];
-  const data2 = [
-    {
-      key: 1,
-      name: `Edward King `,
-      age: 32,
-      address: `London, Park Lane no. `,
-      status: "pending",
-    },
-    {
-      key: 1,
-      name: `Edward King `,
-      age: 32,
-      address: `London, Park Lane no. `,
-      status: "cancel",
-    },
-    {
-      key: 1,
-      name: `Edward King `,
-      age: 32,
-      address: `London, Park Lane no. `,
-      status: "complete",
-    },
-  ];
+
 
   const onChange = (value) => {
-    console.log(`selected ${value}`);
+    setStatus(value)
   };
-
+  
   const onSearch = (value) => {
-    console.log("search:", value);
+    setStatus(value)
   };
   return (
     <div>
@@ -149,7 +169,7 @@ const OwnerDashboard = () => {
       <div className="bg-white p-5 mt-10 rounded-2xl">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="clamp-text font-semibold my-5"> Recent Payments </h1>
+            <h1 className="clamp-text font-semibold my-5">  { status === "Paid" ? "Recent" : "Pending" } Payments </h1>
           </div>{" "}
           <div>
             <Select
@@ -160,17 +180,13 @@ const OwnerDashboard = () => {
               onSearch={onSearch}
               options={[
                 {
-                  value: "pending",
+                  value: "Paid",
+                  label: "Paid",
+                },
+                {
+                  value: "Pending",
                   label: "Pending",
-                },
-                {
-                  value: "cancel",
-                  label: "Cancel",
-                },
-                {
-                  value: "completed",
-                  label: "Completed",
-                },
+                }
               ]}
             />
           </div>
@@ -178,7 +194,8 @@ const OwnerDashboard = () => {
 
         <Table
           columns={columns}
-          dataSource={data2}
+          dataSource={tableData}
+          loading={resentPaymentIsLoading}
           scroll={{ x: 800 }}
           pagination={{
             pageSize: pageSize,
