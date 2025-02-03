@@ -1,5 +1,4 @@
 import { MapPin } from 'lucide-react';
-import React from 'react';
 import { url } from '../../globalConst/const';
 
 const HomeDetails = ({ homeDetails }) => {
@@ -55,7 +54,7 @@ const HomeDetails = ({ homeDetails }) => {
           <DetailRow label="Number Of Booked Units" value={numberOfBookedUnits || 0} />
           <DetailRow label="Available Parking" value={availableParking ? "Yes" : "No"} />
           <DetailRow label="Rent" value={totalRent || 0} />
-          <DetailRow label="Security Deposit" value={totalBookedRent || 0} />
+          {/* <DetailRow label="Security Deposit" value={totalBookedRent || 0} /> */}
         </div>
       </div>
     </div>
