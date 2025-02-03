@@ -76,8 +76,12 @@ const Owner = () => {
       dataIndex: "totalRentAmount",
     },
     {
-      title: "Current Paid Amount",
+      title: "Current Balance",
       dataIndex: "paidAmount",
+      render : (paidAmount) =>(
+        <div> <h2 className='font-bold text-green-700 text-[16px]' >{ paidAmount } $ </h2> </div>
+      )
+
     },
     {
       title: "Contact No",

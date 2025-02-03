@@ -5,6 +5,7 @@ import ReactApexChart from "react-apexcharts";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../redux/fetures/auth/authSlice";
 import ownerApi from "../../redux/fetures/owner/ownerApi";
+import { skipToken } from "@reduxjs/toolkit/query";
 const DashboardChart = ({ overviewData }) => {
 
   // const currentUser = useSelector(selectCurrentUser);
@@ -29,11 +30,13 @@ const DashboardChart = ({ overviewData }) => {
   const currentUser = useSelector(selectCurrentUser);
   const currentDate = new Date();
   const [selectedDate, setSelectedDate] = useState(`${currentDate.getFullYear()}-${currentDate.getMonth() + 1}`);
+  
 
-  const { data } = ownerApi.useGetPaymentDataOverviewByOwnerQuery({
-    ownerId: currentUser?.userId,
-    selectedDate
-  });
+  const { data } = ownerApi.useGetPaymentDataOverviewByOwnerQuery(
+    currentUser.role === "owner"
+    ? { ownerId: currentUser?.userId, selectedDate }
+    : skipToken
+);
 
   const totalDueRentAmount = data?.data?.totalDueRentAmount || 0
   const totalPaidRentAmount = data?.data?.totalPaidRentAmount || 0
@@ -45,6 +48,7 @@ const DashboardChart = ({ overviewData }) => {
       setSelectedDate(`${selectedYear}-${selectedMonth}`); 
     }
   };
+  
 
 
   const chartOptions = {
