@@ -1,46 +1,123 @@
 import  { useState } from 'react';
 import { dummyData } from '../../testJson/testJson';
 import { Select, Table, Tag } from 'antd';
+import { useParams } from 'react-router-dom';
+import tenantApi from '../../redux/fetures/tenant/tenantApi';
+import ownerApi from '../../redux/fetures/owner/ownerApi';
+import moment from 'moment';
+import { getDynamicDate } from '../../utils/getDynamicDate';
 
-const PaymentHistory = () => {
+const PaymentHistory = ({userId}) => {    
+    const { data } = tenantApi.useGetSingleUserAllPaymentDataQuery(userId, {
+        pollingInterval: 15000,
+      });
+
+      console.log(data?.data);      
+
     const [pageSize, setPageSize] = useState(10);
 
     const handlePageSizeChange = (current, size) => {
         setPageSize(size);
     };
 
+    const tableData = data?.data?.map(({ _id, invoice, propertyId, unitId, ownerId,  status, createdAt, PaymentPlaced, lateFee, paidAmount }) => ({
+        key: _id,
+        invoice,
+        propertyId: propertyId._id,
+        propertyName: propertyId?.propertyName,
+        rent: unitId?.rent,
+        // lateFee: unitId?.lateFee,
+        lastDate: getDynamicDate(),
+        lateFee : lateFee !== 0 ? unitId?.lateFee : 0,
+        securityDeposit: unitId?.securityDeposit,
+        ownerId,
+        status,
+        createdAt,
+        PaymentPlacedDate: PaymentPlaced,
+        paidAmount : paidAmount || 0
+    
+    
+      }));
+    
+      const openInvoice = (url) => {
+        window.open(url, '_blank', 'noopener,noreferrer');
+      };
+    
     const columns = [
         {
-            title: "Name",
-            dataIndex: "name",
-        },
-        {
-            title: "Age",
-            dataIndex: "age",
-        },
-        {
-            title: "Address",
-            dataIndex: "address",
-        },
-        {
-            title: "Status",
-            dataIndex: "status",
-            render: (status) => (
-                <Tag
-                    color={
-                        status === "pending"
-                            ? "orange"
-                            : status === "complete"
-                                ? "green"
-                                : "red"
-                    }
-                    style={{ textTransform: "capitalize" }}
+          title: 'Invoice',
+          dataIndex: 'invoice',
+          render: (text, record) => (
+            <div>
+              {record.invoice && record.invoice.startsWith("http") ? (
+                <button
+                  onClick={() => openInvoice(record.invoice)}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: "#2575fc",
+                    textDecoration: "none",
+                    fontWeight: "bold",
+                    cursor: "pointer",
+                  }}
                 >
-                    {status}
-                </Tag>
-            ),
+                  📄 View Receipt
+                </button>
+              ) : (
+                "Upcoming"
+              )}
+            </div>
+          )
         },
-    ];
+        {
+          title: 'Property Name',
+          dataIndex: 'propertyName',
+        },
+        { title: 'Rent', dataIndex: 'rent' },
+        { title: 'Late Fee', dataIndex: 'lateFee' },
+        { title: 'Paid Amount', dataIndex: 'paidAmount' },
+        { title: 'Last Date', dataIndex: "lastDate" },
+        {
+          title: "Payment Placed",
+          dataIndex: "PaymentPlacedDate",
+          render: (PaymentPlacedDate) => (
+            <div>
+              {PaymentPlacedDate
+                ? moment(PaymentPlacedDate).format("DD MMMM YYYY, h:mm A")
+                : "N/F"}
+            </div>
+          )
+        },
+        {
+          title: 'Status',
+          dataIndex: 'status',
+          render: (status) => {
+            let color;
+            switch (status) {
+              case 'Paid':
+                color = 'green';
+                break;
+              case 'Pending':
+                color = 'orange';
+                break;
+              case 'Overdue':
+                color = 'red';
+                break;
+              default:
+                color = 'gray';
+            }
+            return (
+              <Tag color={color} className="px-3 py-1 rounded-md bg-opacity-20">
+                {status}
+              </Tag>
+            );
+          },
+        },      
+    
+      ];
+    
+
+
     const onChange = (value) => {
         console.log(`selected ${value}`);
       };
@@ -83,7 +160,7 @@ const PaymentHistory = () => {
 
                 <Table
                     columns={columns}
-                    dataSource={dummyData}
+                    dataSource={tableData}
                     scroll={{ x: 800 }}
                     pagination={{
                         pageSize: pageSize,

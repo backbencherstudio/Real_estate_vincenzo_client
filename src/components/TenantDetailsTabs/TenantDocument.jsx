@@ -8,9 +8,7 @@ import { url } from '../../globalConst/const';
 
 const TenantDocument = () => {
     const { id } = useParams();
-
-    console.log(id);
-
+    
     const { data, isLoading } = documentApi.useFindSingleTenentDocumentByOwnerQuery(id);
 
     console.log("Download Document...", data?.data);

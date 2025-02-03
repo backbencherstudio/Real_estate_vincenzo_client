@@ -132,6 +132,16 @@ const ownerApi = baseApi.injectEndpoints({
         };
       },
     }),
+
+    // =======================================================>>>>> get Single Tenant All Payment Data 
+    getSingleTenantAllPaymentDataByOwner: builder.query({
+      query: (userId) => {    
+        return {
+          url: `/owner/getSingleTenantAllPaymentDataByOwner/${userId}`, 
+          method: "GET"
+        };
+      },
+    }),
     
 
 

@@ -22,6 +22,8 @@ const authApi = baseApi.injectEndpoints({
         }
       },
       providesTags: ["user", "properties"]
+      // providesTags: ["singleUserInfo"]
+      // providesTags: (result, error, email) => [{ type: "singleUserInfo", id: email }]
     }),
 
     verifyOTP: builder.mutation({

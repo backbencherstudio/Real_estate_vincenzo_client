@@ -31,7 +31,8 @@ const tenantApi = baseApi.injectEndpoints({
           body : data
         }
       },
-      providesTags:["payment"]
+      // invalidatesTags:["singleUserInfo"]
+      // invalidatesTags: (result, error, { email }) => [{ type: "singleUserInfo", id: email }],
     }),
 
     

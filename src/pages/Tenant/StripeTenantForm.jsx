@@ -13,7 +13,8 @@ import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../redux/fetures/auth/authSlice";
 import { toast } from "sonner";
 import tenantApi from "../../redux/fetures/tenant/tenantApi";
-const StripeTenantForm = ({ paymentData, totalAmount, lateFee, setOpen, setSuccessPaymentData }) => {
+
+const StripeTenantForm = ({ paymentData, totalAmount, lateFee, setOpen, setSuccessPaymentData, securityDeposit }) => {
     const [paymentPlacedApi] = tenantApi.usePaymentPlacedApiMutation()
     const currentUser = useSelector(selectCurrentUser)
     const stripe = useStripe();
@@ -45,7 +46,7 @@ const StripeTenantForm = ({ paymentData, totalAmount, lateFee, setOpen, setSucce
         try {
             const data = await paymentPlacedApi({
                 paymentMethodId: paymentMethod.id,
-                amount: parseInt(totalAmount),
+                amount: parseInt(totalAmount ) + parseInt(securityDeposit),
                 lateFee: parseInt(lateFee),
                 monthlyPaymentId: paymentData?.key,
                 ownerId : paymentData?.ownerId
@@ -151,7 +152,7 @@ const StripeTenantForm = ({ paymentData, totalAmount, lateFee, setOpen, setSucce
             >
                 {loading
                     ? "Processing..."
-                    : `Pay Now : $${totalAmount}`}
+                    : `Pay Now : $${totalAmount + parseInt(securityDeposit)}`}
             </button>
 
             {error && (

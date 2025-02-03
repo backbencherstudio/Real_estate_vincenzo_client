@@ -13,6 +13,10 @@ const TenantDetails = () => {
     const {id} = useParams()
     
     const {data} = sharedApi.useGetSingleTenantDetailseQuery(id)
+
+    console.log(data?.data);
+    
+
     
 
     const tabs = [
@@ -94,7 +98,7 @@ const TenantDetails = () => {
                 <HomeDetails homeDetails= {data?.data?.propertyId} />
             )}
             {activeTab === 'payment' && (
-                <PaymentHistory />
+                <PaymentHistory userId={data?.data?.userId?._id} />
             )}
             {activeTab === 'document' && (
                 <TenantDocument />

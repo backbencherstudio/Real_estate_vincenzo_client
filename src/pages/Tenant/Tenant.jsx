@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Button, Modal, Table, Tag } from 'antd';
 import 'antd/dist/reset.css';
 import { RiSettingsFill } from 'react-icons/ri';
@@ -11,6 +12,7 @@ import authApi from '../../redux/fetures/auth/authApi';
 import { Elements } from '@stripe/react-stripe-js';
 import StripeTenantForm from './StripeTenantForm';
 import { loadStripe } from '@stripe/stripe-js';
+import { getDynamicDate } from '../../utils/getDynamicDate';
 
 const stripePromise = loadStripe(
   "pk_test_51NFvq6ArRmO7hNaVcPS5MwczdEtM4yEMOclovA0k5LtJTxhtzKZ2SKim3p8qmvssQ7j7bREjoRRmHB9Gvz8n8Dfm00UOo9bZYg"
@@ -28,8 +30,9 @@ function TenantDashboard() {
   const [pageSize, setPageSize] = useState(10);
   const [successPaymentData, setSuccessPaymentData] = useState({});
 
-  console.log(successPaymentData);
-  console.log(data?.data)
+  // console.log(currentUser.userId);
+  // console.log(userData);
+  // console.log(data?.data)
 
   const handlePageSizeChange = (current, size) => {
     setPageSize(size);
@@ -48,10 +51,7 @@ function TenantDashboard() {
   });
 
 
-  const getDynamicDate = (year = new Date().getFullYear(), month = new Date().getMonth() + 1) => {
-    return new Date(year, month - 1, 5).toLocaleDateString();
-  };
-
+  
   // Calculate if payment is late and determine total amount
   const isPaymentLate = (lastDate) => {
     const dueDate = new Date(lastDate);
@@ -77,6 +77,9 @@ function TenantDashboard() {
   };
 
   const totalAmount = calculateTotalAmount(paymentData?.rent, paymentData?.lateFee, paymentData?.lastDate);
+
+  const securityDeposit = !userData?.data?.isSecurityDepositPay && paymentData?.securityDeposit || 0
+  
 
   // console.log(totalAmount);
   // console.log(totalAmount?.lateFee);
@@ -284,11 +287,13 @@ function TenantDashboard() {
               !userData?.data?.isSecurityDepositPay && (
                 <div className="px-4 py-2 bg-yellow-50 border border-yellow-200 rounded-lg">
                   <h2 className="text-lg font-medium text-yellow-800">
-                    Security Deposit Required:
+                    Security Deposit Required  :
                     <span className=" ml-2 font-bold text-green-600">
                       ${paymentData?.securityDeposit || 0}
                     </span>
+                    <h2 className='text-[11px] font-bold -mt-1 ' >( For The First Time )</h2>
                   </h2>
+                  
                   {/* <p className="mt-1 text-sm text-yellow-600">This is a one-time payment required for new tenants</p> */}
                 </div>
               )
@@ -335,7 +340,7 @@ function TenantDashboard() {
 
           <div className='w-full rounded-lg shadow-sm'>
             <Elements stripe={stripePromise}>
-              <StripeTenantForm paymentData={paymentData} totalAmount={totalAmount?.total} lateFee={totalAmount.lateFee} setOpen={setOpen} setSuccessPaymentData={setSuccessPaymentData} />
+              <StripeTenantForm paymentData={paymentData} totalAmount={totalAmount?.total} lateFee={totalAmount.lateFee} setOpen={setOpen} setSuccessPaymentData={setSuccessPaymentData} securityDeposit={securityDeposit} />
             </Elements>
           </div>
         </div>
