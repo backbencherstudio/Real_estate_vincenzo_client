@@ -35,6 +35,18 @@ const tenantApi = baseApi.injectEndpoints({
       // invalidatesTags: (result, error, { email }) => [{ type: "singleUserInfo", id: email }],
     }),
 
+    getAllTenantsForMessageForEachPropertyTenant : builder.query({
+      query: (userId)=>{
+
+        console.log("API 41 ==", userId);
+        
+        return {
+          url: `/tenant/message/${userId}`,
+          method: "GET",
+        }
+      },
+    }),
+
     
 
 
