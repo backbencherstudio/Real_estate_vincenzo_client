@@ -8,53 +8,51 @@ import { selectCurrentUser } from "../../redux/fetures/auth/authSlice";
 import { useSelector } from "react-redux";
 import OverviewData from "./overviewData/OverviewData";
 
-
 const AdminDashboard = () => {
   const [pageSize, setPageSize] = useState(10);
   const { data: propertyData } = adminApi.useGetAllPropertiesQuery();
-  const { data: overviewAllData, isLoading } = adminApi.useGetAllDataOverviewByAdminQuery();
+  const { data: overviewAllData, isLoading } =
+    adminApi.useGetAllDataOverviewByAdminQuery();
   const navigate = useNavigate();
-  const currentUser = useSelector(selectCurrentUser);   
+  const currentUser = useSelector(selectCurrentUser);
 
   const handleNavigate = (id) => {
     navigate(`/${currentUser?.role}/properties/${id}`);
   };
 
-  // console.log(overviewAllData); 
-  
-  
-
-  const tableData = propertyData?.data?.map(({
-    Description,
-    amenities,
-    availableParking,
-    createdAt,
-    houseNumber,
-    maintainerName,
-    numberOfUnits,
-    ownerId,
-    propertyImages,
-    propertyLocation,
-    propertyName,
-    totalRent,
-    updatedAt,
-    _id,
-  }) => ({
-    key: _id,
-    Description,
-    amenities,
-    availableParking,
-    createdAt,
-    houseNumber,
-    maintainerName,
-    numberOfUnits,
-    ownerId,
-    propertyImages,
-    propertyLocation,
-    propertyName,
-    totalRent,
-    updatedAt,
-  }));
+  const tableData = propertyData?.data?.map(
+    ({
+      Description,
+      amenities,
+      availableParking,
+      createdAt,
+      houseNumber,
+      maintainerName,
+      numberOfUnits,
+      ownerId,
+      propertyImages,
+      propertyLocation,
+      propertyName,
+      totalRent,
+      updatedAt,
+      _id,
+    }) => ({
+      key: _id,
+      Description,
+      amenities,
+      availableParking,
+      createdAt,
+      houseNumber,
+      maintainerName,
+      numberOfUnits,
+      ownerId,
+      propertyImages,
+      propertyLocation,
+      propertyName,
+      totalRent,
+      updatedAt,
+    })
+  );
 
   const columns = [
     {
@@ -110,7 +108,6 @@ const AdminDashboard = () => {
     console.log("search:", value);
   };
 
-
   return (
     <div>
       <div>
@@ -125,20 +122,25 @@ const AdminDashboard = () => {
         </span>
       </div>
 
-      {
-        isLoading ? <div className="flex justify-center items-center h-[150px] " ><Spin size="large" /></div> :
-      <OverviewData  overviewAllData={overviewAllData}  />
-      }
+      {isLoading ? (
+        <div className="flex justify-center items-center h-[150px] ">
+          <Spin size="large" />
+        </div>
+      ) : (
+        <OverviewData overviewAllData={overviewAllData} />
+      )}
 
       <div>
-        <DashboardChart />
+        <DashboardChart overviewData={overviewAllData} />
       </div>
-
 
       <div className="bg-white p-5 mt-10 rounded-2xl">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="clamp-text font-semibold my-5"> Recently Added Properties </h1>
+            <h1 className="clamp-text font-semibold my-5">
+              {" "}
+              Recently Added Properties{" "}
+            </h1>
           </div>{" "}
           <div>
             <Select
@@ -179,10 +181,6 @@ const AdminDashboard = () => {
           }}
         />
       </div>
-
-
-
-
     </div>
   );
 };

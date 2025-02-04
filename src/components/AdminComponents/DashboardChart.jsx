@@ -8,7 +8,6 @@ import { selectCurrentUser } from "../../redux/fetures/auth/authSlice";
 import ownerApi from "../../redux/fetures/owner/ownerApi";
 import { skipToken } from "@reduxjs/toolkit/query";
 const DashboardChart = ({ overviewData }) => {
-
   // const currentUser = useSelector(selectCurrentUser);
   // const currentDate = new Date()
 
@@ -16,7 +15,6 @@ const DashboardChart = ({ overviewData }) => {
 
   // const { data } = ownerApi.useGetPaymentDataOverviewByOwnerQuery(currentUser?.userId, selectedDate)
   // console.log(data);
-
 
   // const handleChange = (value) => {
   //   if (value) {
@@ -28,30 +26,28 @@ const DashboardChart = ({ overviewData }) => {
   // };
 
   const currentUser = useSelector(selectCurrentUser);
-  
-  
+
   const currentDate = new Date();
-  const [selectedDate, setSelectedDate] = useState(`${currentDate.getFullYear()}-${currentDate.getMonth() + 1}`);
-  
+  const [selectedDate, setSelectedDate] = useState(
+    `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}`
+  );
 
   const { data } = ownerApi.useGetPaymentDataOverviewByOwnerQuery(
     currentUser.role === "owner"
-    ? { ownerId: currentUser?.userId, selectedDate }
-    : skipToken
-);
+      ? { ownerId: currentUser?.userId, selectedDate }
+      : skipToken
+  );
 
-  const totalDueRentAmount = data?.data?.totalDueRentAmount || 0
-  const totalPaidRentAmount = data?.data?.totalPaidRentAmount || 0
+  const totalDueRentAmount = data?.data?.totalDueRentAmount || 0;
+  const totalPaidRentAmount = data?.data?.totalPaidRentAmount || 0;
 
   const handleChange = (value) => {
     if (value) {
       const selectedMonth = value.month() + 1;
       const selectedYear = value.year();
-      setSelectedDate(`${selectedYear}-${selectedMonth}`); 
+      setSelectedDate(`${selectedYear}-${selectedMonth}`);
     }
   };
-  
-
 
   const chartOptions = {
     chart: {
@@ -92,6 +88,7 @@ const DashboardChart = ({ overviewData }) => {
       },
     },
   };
+  console.log(overviewData);
 
   const propertyChartOptions = {
     ...chartOptions,
@@ -130,7 +127,7 @@ const DashboardChart = ({ overviewData }) => {
   };
 
   const donutChartOptions = {
-    series: [totalPaidRentAmount , totalDueRentAmount],
+    series: [totalPaidRentAmount, totalDueRentAmount],
     chart: {
       type: "donut",
     },
@@ -189,12 +186,14 @@ const DashboardChart = ({ overviewData }) => {
 
   return (
     <div
-      className={`grid grid-cols-1 ${currentUser?.role === "owner" ? "lg:grid-cols-3" : "lg:grid-cols-2"
-        } lg:gap-10 mt-4`}
+      className={`grid grid-cols-1 ${
+        currentUser?.role === "owner" ? "lg:grid-cols-3" : "lg:grid-cols-2"
+      } lg:gap-10 mt-4`}
     >
       <div
-        className={`bg-white p-5 rounded-md relative overflow-hidden ${currentUser.role === "owner" ? "col-span-2" : "col-span-1"
-          }`}
+        className={`bg-white p-5 rounded-md relative overflow-hidden ${
+          currentUser.role === "owner" ? "col-span-2" : "col-span-1"
+        }`}
       >
         <div className="flex justify-between">
           <h2>Property Overview</h2>
@@ -222,7 +221,6 @@ const DashboardChart = ({ overviewData }) => {
               },
             ]}
           />
-
         </div>
 
         <div>
@@ -285,18 +283,22 @@ const DashboardChart = ({ overviewData }) => {
               />
             </div>
             <div className="mt-5">
-
-              {
-                totalDueRentAmount === 0 && totalPaidRentAmount === 0 ? <div className="flex justify-center items-center" > <h2 className="text-center text-2xl mt-10" > Looks like there's nothing here yet! </h2> </div> : 
-
-              <ReactApexChart
-              options={donutChartOptions}
-              series={donutChartOptions.series}
-              type="donut"
-              height={350}
-              />
-            }
-
+              {totalDueRentAmount === 0 && totalPaidRentAmount === 0 ? (
+                <div className="flex justify-center items-center">
+                  {" "}
+                  <h2 className="text-center text-2xl mt-10">
+                    {" "}
+                    Looks like there's nothing here yet!{" "}
+                  </h2>{" "}
+                </div>
+              ) : (
+                <ReactApexChart
+                  options={donutChartOptions}
+                  series={donutChartOptions.series}
+                  type="donut"
+                  height={350}
+                />
+              )}
             </div>
           </div>
         )}
