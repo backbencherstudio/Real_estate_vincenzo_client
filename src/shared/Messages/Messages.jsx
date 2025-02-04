@@ -297,6 +297,14 @@ const Messages = () => {
                       isOnline: onlineUsers[user.email] || false,
                       unreadCount: unreadMessages[user.email] || 0,
                     }))
+                  : currentUser?.role === "tenant"
+                  ? eachTenantSameProperAllTenant?.data?.map((user) => ({
+                      ...user,
+                      hasUnread: Boolean(unreadMessages[user.email]),
+                      lastMessage: lastMessages[user.email],
+                      isOnline: onlineUsers[user.email] || false,
+                      unreadCount: unreadMessages[user.email] || 0,
+                    }))
                   : userData?.data?.map((user) => ({
                       ...user,
                       hasUnread: Boolean(unreadMessages[user.email]),
@@ -464,6 +472,14 @@ const Messages = () => {
             userData={
               currentUser?.role === "owner"
                 ? tenantDataByOwner?.data?.map((user) => ({
+                    ...user,
+                    hasUnread: Boolean(unreadMessages[user.email]),
+                    lastMessage: lastMessages[user.email],
+                    isOnline: onlineUsers[user.email] || false,
+                    unreadCount: unreadMessages[user.email] || 0,
+                  }))
+                : currentUser?.role === "tenant"
+                ? eachTenantSameProperAllTenant?.data?.map((user) => ({
                     ...user,
                     hasUnread: Boolean(unreadMessages[user.email]),
                     lastMessage: lastMessages[user.email],

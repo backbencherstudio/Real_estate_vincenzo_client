@@ -2,6 +2,7 @@ import { useState } from "react";
 
 export const MessageList = ({ onChatSelect, userData, currentUser }) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedRole, setSelectedRole] = useState("all");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -11,7 +12,8 @@ export const MessageList = ({ onChatSelect, userData, currentUser }) => {
         user.email !== currentUser &&
         (user?.name || "")
           .toLowerCase()
-          .includes((searchTerm || "").toLowerCase())
+          .includes((searchTerm || "").toLowerCase()) &&
+        (selectedRole === "all" || user.role === selectedRole)
     )
     .sort((a, b) => {
       // Debug logs
@@ -60,13 +62,24 @@ export const MessageList = ({ onChatSelect, userData, currentUser }) => {
   return (
     <div className="h-[600px]">
       <div className="p-4 border-b">
-        <input
-          type="text"
-          placeholder="Search messages..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full p-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
-        />
+        <div className="flex gap-2">
+          <input
+            type="text"
+            placeholder="Search messages..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="flex-1 p-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          />
+          <select
+            value={selectedRole}
+            onChange={(e) => setSelectedRole(e.target.value)}
+            className="p-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          >
+            <option value="all">All</option>
+            <option value="tenant">Tenant</option>
+            <option value="owner">Owner</option>
+          </select>
+        </div>
       </div>
 
       <div className="overflow-y-auto">
@@ -108,7 +121,8 @@ export const MessageList = ({ onChatSelect, userData, currentUser }) => {
                         : "font-semibold"
                     }`}
                   >
-                    {user.name || "Unknown User"}
+                    {user.name || "Unknown User"}{" "}
+                    <span className="text-[#1677ff] text-xs font-thin">{`(${user.role})`}</span>
                   </h3>
                   {user.lastMessage?.timestamp && (
                     <span className="text-xs text-gray-400">
