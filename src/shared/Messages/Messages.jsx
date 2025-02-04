@@ -5,6 +5,8 @@ import io from "socket.io-client";
 import adminApi from "../../redux/fetures/admin/adminApi";
 import { selectCurrentUser } from "../../redux/fetures/auth/authSlice";
 import { useSelector } from "react-redux";
+import ownerApi from "../../redux/fetures/owner/ownerApi";
+import { skipToken } from "@reduxjs/toolkit/query";
 const socket = io("http://localhost:5000");
 
 const Messages = () => {
@@ -15,7 +17,18 @@ const Messages = () => {
   const [user, setUser] = useState("");
   const currentUser = useSelector(selectCurrentUser);
   const [recipient, setRecipient] = useState(currentUser?.email);
+
   const { data: userData } = adminApi.useGetALlUserQuery("");
+  // const {data : tenantDataByOwner} = ownerApi.useGetAllTenantsForMessageQuery(currentUser?.userId);
+
+  const {data : tenantDataByOwner} = ownerApi.useGetAllTenantsForMessageQuery( 
+    currentUser.role === "owner"
+      ?  currentUser?.userId 
+      : skipToken );
+
+  console.log(23, tenantDataByOwner?.data);
+  
+
   const [unreadMessages, setUnreadMessages] = useState(() => {
     const saved = localStorage.getItem("unreadMessages");
     return saved ? JSON.parse(saved) : {};
@@ -30,6 +43,7 @@ const Messages = () => {
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+  
 
   useEffect(() => {
     scrollToBottom();
@@ -67,7 +81,7 @@ const Messages = () => {
     socket.emit("join", currentUser?.email);
 
     socket.on("connect", () => {
-      console.log("Connected to socket server");
+      // console.log("Connected to socket server");
       socket.emit("user_online", currentUser?.email);
     });
 
@@ -147,7 +161,7 @@ const Messages = () => {
         );
         const unreadCounts = await response.json();
 
-        console.log("Initial unread counts:", unreadCounts); // Debug log
+        // console.log("Initial unread counts:", unreadCounts); // Debug log
 
         // Update unread messages state and localStorage
         setUnreadMessages(unreadCounts);

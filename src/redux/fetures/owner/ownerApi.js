@@ -142,6 +142,17 @@ const ownerApi = baseApi.injectEndpoints({
         };
       },
     }),
+
+
+    // =======================================================>>>>> get get All Tenants For Message Data 
+    getAllTenantsForMessage: builder.query({
+      query: (userId) => {    
+        return {
+          url: `/owner/getAllTenantsForMessage/${userId}`, 
+          method: "GET"
+        };
+      },
+    }),
     
 
 

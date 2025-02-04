@@ -1,18 +1,14 @@
+/* eslint-disable react/prop-types */
 import  { useState } from 'react';
-import { dummyData } from '../../testJson/testJson';
 import { Select, Table, Tag } from 'antd';
-import { useParams } from 'react-router-dom';
 import tenantApi from '../../redux/fetures/tenant/tenantApi';
-import ownerApi from '../../redux/fetures/owner/ownerApi';
 import moment from 'moment';
 import { getDynamicDate } from '../../utils/getDynamicDate';
 
 const PaymentHistory = ({userId}) => {    
     const { data } = tenantApi.useGetSingleUserAllPaymentDataQuery(userId, {
         pollingInterval: 15000,
-      });
-
-      console.log(data?.data);      
+      });     
 
     const [pageSize, setPageSize] = useState(10);
 
@@ -34,9 +30,7 @@ const PaymentHistory = ({userId}) => {
         status,
         createdAt,
         PaymentPlacedDate: PaymentPlaced,
-        paidAmount : paidAmount || 0
-    
-    
+        paidAmount : paidAmount || 0 
       }));
     
       const openInvoice = (url) => {

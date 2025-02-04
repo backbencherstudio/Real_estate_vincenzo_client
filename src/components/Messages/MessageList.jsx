@@ -15,24 +15,24 @@ export const MessageList = ({ onChatSelect, userData, currentUser }) => {
     )
     .sort((a, b) => {
       // Debug logs
-      console.log(
-        "User A:",
-        a.name,
-        "Last message time:",
-        a.lastMessage?.timestamp || a.lastMessageTime
-      );
-      console.log(
-        "User B:",
-        b.name,
-        "Last message time:",
-        b.lastMessage?.timestamp || b.lastMessageTime
-      );
+      // console.log(
+      //   "User A:",
+      //   a.name,
+      //   "Last message time:",
+      //   a.lastMessage?.timestamp || a.lastMessageTime
+      // );
+      // console.log(
+      //   "User B:",
+      //   b.name,
+      //   "Last message time:",
+      //   b.lastMessage?.timestamp || b.lastMessageTime
+      // );
 
       const timeA = a.lastMessage?.timestamp || a.lastMessageTime || 0;
       const timeB = b.lastMessage?.timestamp || b.lastMessageTime || 0;
 
       // Debug the actual values being compared
-      console.log("Comparing:", new Date(timeB), "-", new Date(timeA));
+      // console.log("Comparing:", new Date(timeB), "-", new Date(timeA));
 
       return new Date(timeB) - new Date(timeA); // Most recent first
     });

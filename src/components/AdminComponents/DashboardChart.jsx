@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/no-unescaped-entities */
 import { DatePicker, Select } from "antd";
 import { useState, useEffect } from "react";
