@@ -7,6 +7,7 @@ import { selectCurrentUser } from "../../redux/fetures/auth/authSlice";
 import { useSelector } from "react-redux";
 import ownerApi from "../../redux/fetures/owner/ownerApi";
 import { skipToken } from "@reduxjs/toolkit/query";
+import tenantApi from "../../redux/fetures/tenant/tenantApi";
 const socket = io("http://localhost:5000");
 
 const Messages = () => {
@@ -23,6 +24,14 @@ const Messages = () => {
   const { data: tenantDataByOwner } = ownerApi.useGetAllTenantsForMessageQuery(
     currentUser.role === "owner" ? currentUser?.userId : skipToken
   );
+
+  const { data: eachTenantSameProperAllTenant } =
+    tenantApi.useGetAllTenantsForMessageForEachPropertyTenantQuery(
+      currentUser?.userId
+    );
+  console.log(31, eachTenantSameProperAllTenant);
+
+  console.log(23, tenantDataByOwner?.data);
 
   const [unreadMessages, setUnreadMessages] = useState(() => {
     const saved = localStorage.getItem("unreadMessages");
