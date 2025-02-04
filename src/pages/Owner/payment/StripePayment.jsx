@@ -7,6 +7,9 @@ import { GrRadialSelected } from "react-icons/gr";
 const stripePromise = loadStripe('pk_test_51NFvq6ArRmO7hNaVcPS5MwczdEtM4yEMOclovA0k5LtJTxhtzKZ2SKim3p8qmvssQ7j7bREjoRRmHB9Gvz8n8Dfm00UOo9bZYg');
 
 const StripePayment = () => {
+
+    
+
     const plans = [
         { name: 'Starter', range: [1, 4], description: "Manage 1-4 users at $20 per unit/month.", price: 20 },
         { name: 'Growth', range: [5, 12], description: "Manage 5-12 users at $18 per unit/month.", price: 18 },

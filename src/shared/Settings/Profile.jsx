@@ -9,9 +9,14 @@ import { FaRegUser } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { toast } from "sonner";
 import tenantApi from "../../redux/fetures/tenant/tenantApi";
+import adminApi from "../../redux/fetures/admin/adminApi";
+import { Button } from "antd";
+import { useForm } from "react-hook-form";
 
 const UserProfile = () => {
     const currentUser = useSelector(selectCurrentUser);
+    const { register, handleSubmit, setValue, formState: { errors } } = useForm();
+
     const { data, isLoading, error } = authApi.useGetSingleUserInfoQuery(
         currentUser?.email,
         {
@@ -26,7 +31,7 @@ const UserProfile = () => {
         tenantWithOwnerData = tenantDatas?.data?.ownerId
     }
 
-    console.log(tenantWithOwnerData);
+    const [planData] = adminApi.useCreatePlanMutation()
 
 
     if (isLoading) return <p>Loading...</p>;
@@ -67,9 +72,88 @@ const UserProfile = () => {
     }
 
 
+
+    const onSubmit = (data) => {
+        console.log("Form Data:", data);
+    };
+
+
     return (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             <div className="col-span-4">
+                {
+                    currentUser.role === "admin" &&
+                    <div className="max-w-md mx-auto p-6 bg-white rounded-xl shadow-lg border">
+                        <h2 className="text-xl font-semibold text-center mb-4">Subscription Plans</h2>
+                        <form onSubmit={handleSubmit(onSubmit)} noValidate>
+                            {/* Starter Plan Field */}
+                            <div className="mb-4">
+                                <label htmlFor="starter" className="block text-sm font-medium text-gray-700">
+                                    Starter
+                                </label>
+                                <input
+                                    {...register("starter", {
+                                        required: "Starter plan is required",
+                                        valueAsNumber: true
+                                    })}
+                                    type="number"
+                                    id="starter"
+                                    placeholder="Enter Starter Plan"
+                                    className="mt-1 p-2 border border-gray-300 rounded w-full"
+                                />
+                                {errors.starter && (
+                                    <p className="text-red-500 text-sm">{errors.starter?.message}</p>
+                                )}
+                            </div>
+
+                            {/* Growth Plan Field */}
+                            <div className="mb-4">
+                                <label htmlFor="growth" className="block text-sm font-medium text-gray-700">
+                                    Growth
+                                </label>
+                                <input
+                                    {...register("growth", {
+                                        required: "Growth plan is required",
+                                        valueAsNumber: true
+                                    })}
+                                    type="number"
+                                    id="growth"
+                                    placeholder="Enter Growth Plan"
+                                    className="mt-1 p-2 border border-gray-300 rounded w-full"
+                                />
+                                {errors.growth && (
+                                    <p className="text-red-500 text-sm">{errors.growth?.message}</p>
+                                )}
+                            </div>
+
+                            {/* Professional Plan Field */}
+                            <div className="mb-4">
+                                <label htmlFor="professional" className="block text-sm font-medium text-gray-700">
+                                    Professional
+                                </label>
+                                <input
+                                    {...register("professional", {
+                                        required: "Professional plan is required",
+                                        valueAsNumber: true
+                                    })}
+                                    type="number"
+                                    id="professional"
+                                    placeholder="Enter Professional Plan"
+                                    className="mt-1 p-2 border border-gray-300 rounded w-full"
+                                />
+                                {errors.professional && (
+                                    <p className="text-red-500 text-sm">{errors.professional?.message}</p>
+                                )}
+                            </div>
+
+                            <Button type="primary" htmlType="submit" block>
+                                Submit
+                            </Button>
+                        </form>
+                    </div>
+
+
+                }
                 {
                     currentUser.role === "tenant" &&
                     <div className=" bg-white rounded-lg shadow-md h-full">
