@@ -19,15 +19,10 @@ const Messages = () => {
   const [recipient, setRecipient] = useState(currentUser?.email);
 
   const { data: userData } = adminApi.useGetALlUserQuery("");
-  // const {data : tenantDataByOwner} = ownerApi.useGetAllTenantsForMessageQuery(currentUser?.userId);
 
-  const {data : tenantDataByOwner} = ownerApi.useGetAllTenantsForMessageQuery( 
-    currentUser.role === "owner"
-      ?  currentUser?.userId 
-      : skipToken );
-
-  console.log(23, tenantDataByOwner?.data);
-  
+  const { data: tenantDataByOwner } = ownerApi.useGetAllTenantsForMessageQuery(
+    currentUser.role === "owner" ? currentUser?.userId : skipToken
+  );
 
   const [unreadMessages, setUnreadMessages] = useState(() => {
     const saved = localStorage.getItem("unreadMessages");
@@ -43,7 +38,6 @@ const Messages = () => {
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-  
 
   useEffect(() => {
     scrollToBottom();
@@ -285,13 +279,23 @@ const Messages = () => {
           <div className="overflow-y-auto h-full">
             <MessageList
               onChatSelect={handleChatSelect}
-              userData={userData?.data?.map((user) => ({
-                ...user,
-                hasUnread: Boolean(unreadMessages[user.email]),
-                lastMessage: lastMessages[user.email],
-                isOnline: onlineUsers[user.email] || false,
-                unreadCount: unreadMessages[user.email] || 0,
-              }))}
+              userData={
+                currentUser?.role === "owner"
+                  ? tenantDataByOwner?.data?.map((user) => ({
+                      ...user,
+                      hasUnread: Boolean(unreadMessages[user.email]),
+                      lastMessage: lastMessages[user.email],
+                      isOnline: onlineUsers[user.email] || false,
+                      unreadCount: unreadMessages[user.email] || 0,
+                    }))
+                  : userData?.data?.map((user) => ({
+                      ...user,
+                      hasUnread: Boolean(unreadMessages[user.email]),
+                      lastMessage: lastMessages[user.email],
+                      isOnline: onlineUsers[user.email] || false,
+                      unreadCount: unreadMessages[user.email] || 0,
+                    }))
+              }
               currentUser={currentUser?.email}
             />
           </div>
@@ -448,13 +452,23 @@ const Messages = () => {
         <div className="overflow-y-auto h-[calc(100%-137px)]">
           <MessageList
             onChatSelect={handleChatSelect}
-            userData={userData?.data?.map((user) => ({
-              ...user,
-              hasUnread: Boolean(unreadMessages[user.email]),
-              lastMessage: lastMessages[user.email],
-              isOnline: onlineUsers[user.email] || false,
-              unreadCount: unreadMessages[user.email] || 0,
-            }))}
+            userData={
+              currentUser?.role === "owner"
+                ? tenantDataByOwner?.data?.map((user) => ({
+                    ...user,
+                    hasUnread: Boolean(unreadMessages[user.email]),
+                    lastMessage: lastMessages[user.email],
+                    isOnline: onlineUsers[user.email] || false,
+                    unreadCount: unreadMessages[user.email] || 0,
+                  }))
+                : userData?.data?.map((user) => ({
+                    ...user,
+                    hasUnread: Boolean(unreadMessages[user.email]),
+                    lastMessage: lastMessages[user.email],
+                    isOnline: onlineUsers[user.email] || false,
+                    unreadCount: unreadMessages[user.email] || 0,
+                  }))
+            }
             currentUser={currentUser?.email}
           />
         </div>

@@ -80,10 +80,10 @@ export const MessageList = ({ onChatSelect, userData, currentUser }) => {
           >
             <div className="flex items-center gap-3">
               <div className="relative">
-                {user?.avatar ? (
+                {user?.profileImage ? (
                   <img
-                    src={user.avatar || "https://via.placeholder.com/40"}
-                    alt={user.name || "User"}
+                    src={user.profileImage || "https://via.placeholder.com/40"}
+                    alt={user.name?.slice(0, 2).toUpperCase()}
                     className="w-10 h-10 rounded-full"
                   />
                 ) : (
