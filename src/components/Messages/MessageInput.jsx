@@ -17,32 +17,6 @@ export const MessageInput = ({ sendMessage, message, setMessage }) => {
     setShowEmojiPicker(false);
   };
 
-  // const handleTyping = (e) => {
-  //   setMessage(e.target.value);
-
-  //   if (!isTyping && currentChat) {
-  //     setIsTyping(true);
-  //     socket.emit("typing", {
-  //       chatId: currentChat.id,
-  //       userId: "current-user-id", // Replace with actual user ID
-  //     });
-  //   }
-
-  // Stop typing indicator after 2 seconds
-  //   const lastTypingTime = new Date().getTime();
-  //   setTimeout(() => {
-  //     const timeNow = new Date().getTime();
-  //     const timeDiff = timeNow - lastTypingTime;
-  //     if (timeDiff >= 2000 && isTyping && currentChat) {
-  //       socket.emit("stop_typing", {
-  //         chatId: currentChat.id,
-  //         userId: "current-user-id", // Replace with actual user ID
-  //       });
-  //       setIsTyping(false);
-  //     }
-  //   }, 2000);
-  // };
-
   return (
     <div>
       <div className="md:p-4 py-4 border-t border-gray-100 absolute bg-white bottom-0 w-[90%] md:w-full">
