@@ -5,15 +5,20 @@ import maintenanceApi from "../../redux/fetures/maintenance/maintenanceApi";
 import { toast } from "sonner";
 
 const MaintenanceForm = ({ tenantData, close }) => {
-  const { register, handleSubmit, reset, formState: { errors } } = useForm();
-  const [createMaintenance] = maintenanceApi.useCreateMaintenanceMutation()
-  
-  const propertyName = tenantData?.propertyId?.propertyName || "Default Property Name";
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+  const [createMaintenance] = maintenanceApi.useCreateMaintenanceMutation();
+
+  const propertyName =
+    tenantData?.propertyId?.propertyName || "Default Property Name";
   const unitNumber = tenantData?.unitId?.unitNumber || "Default Unit Number";
   const userId = tenantData?.userId;
   const ownerId = tenantData?.ownerId;
   const propertyId = tenantData?.propertyId._id;
-
 
   const onSubmit = async (data) => {
     const maintenanceData = {
@@ -22,39 +27,44 @@ const MaintenanceForm = ({ tenantData, close }) => {
       ownerId,
       propertyId,
     };
-  
-  
+
     const formData = new FormData();
-  
+
     for (const key in maintenanceData) {
       formData.append(key, maintenanceData[key]);
     }
     if (data.image && data.image[0]) {
-      formData.append('image', data.image[0]); 
-    }  
+      formData.append("image", data.image[0]);
+    }
     try {
       const response = await createMaintenance(formData);
-      if(response?.data?.success){
+      if (response?.data?.success) {
         reset();
-        close(false)
-        toast.success(response?.data?.message)
+        close(false);
+        toast.success(response?.data?.message);
       }
     } catch (error) {
       console.error("Error submitting form data:", error);
     }
   };
-  
 
-  
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 px-4">
       {/* Form Container */}
       <div className="bg-white rounded-lg shadow-lg p-10 w-full max-w-3xl">
-        <button onClick={close} className="float-end hover:text-red-500 duration-300">
+        <button
+          onClick={close}
+          className="float-end hover:text-red-500 duration-300"
+        >
           <CircleX />
         </button>
-        <h2 className="text-2xl font-bold text-gray-900 mb-8">Add Maintenance Request</h2>
-        <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <h2 className="text-2xl font-bold text-gray-900 mb-8">
+          Add Maintenance Request
+        </h2>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+        >
           {/* Property Name */}
           <div className="relative col-span-2">
             <input
@@ -94,7 +104,11 @@ const MaintenanceForm = ({ tenantData, close }) => {
             <label className="absolute left-4 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
               Issue Type*
             </label>
-            {errors.issueType && <span className="text-red-500 text-sm">{errors.issueType.message}</span>}
+            {errors.issueType && (
+              <span className="text-red-500 text-sm">
+                {errors.issueType.message}
+              </span>
+            )}
           </div>
 
           {/* Image Attach */}
@@ -107,7 +121,11 @@ const MaintenanceForm = ({ tenantData, close }) => {
             <label className="absolute left-4 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
               Image Attach*
             </label>
-            {errors.image && <span className="text-red-500 text-sm">{errors.image.message}</span>}
+            {errors.image && (
+              <span className="text-red-500 text-sm">
+                {errors.image.message}
+              </span>
+            )}
           </div>
 
           {/* Description */}
@@ -116,12 +134,18 @@ const MaintenanceForm = ({ tenantData, close }) => {
               placeholder="Description*"
               className="peer w-full px-4 py-5 border border-gray-300 rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500 resize-none"
               rows="4"
-              {...register("description", { required: "Description is required" })}
+              {...register("description", {
+                required: "Description is required",
+              })}
             ></textarea>
             <label className="absolute left-4 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-4 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
               Description*
             </label>
-            {errors.description && <span className="text-red-500 text-sm">{errors.description.message}</span>}
+            {errors.description && (
+              <span className="text-red-500 text-sm">
+                {errors.description.message}
+              </span>
+            )}
           </div>
 
           {/* Submit Button */}
