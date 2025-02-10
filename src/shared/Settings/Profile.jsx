@@ -16,7 +16,7 @@ import { skipToken } from "@reduxjs/toolkit/query";
 
 const UserProfile = () => {
     const currentUser = useSelector(selectCurrentUser);
-    const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm();
+    const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
     const { data, isLoading, error } = authApi.useGetSingleUserInfoQuery(
         currentUser?.email,
@@ -70,8 +70,6 @@ const UserProfile = () => {
             }
         });
     }
-
-
 
     const onSubmit = async (formData) => {
         const updatedData = {
@@ -160,8 +158,6 @@ const UserProfile = () => {
                             </Button>
                         </form>
                     </div>
-
-
                 }
                 {
                     currentUser.role === "tenant" &&
@@ -231,19 +227,18 @@ const UserProfile = () => {
                 </div>
 
 
-
-
                 {
                     currentUser.role === "owner" &&
 
                     <div>
+
                         <div className="mb-6">
-                            <h2 className="text-2xl font-semibold text-gray-800">
-                                💰 Your Current Paid Amount <span className="text-[10px] uppercase font-bold text-green-600 " >( rent )</span> :
-                                <span className="text-blue-600 font-bold"> ${data?.data?.paidAmount ?? "0.00"} </span>
+                            <h2 className="text-2xl font-semibold text-gray-800 flex items-center">
+                                💰 Your Current Paid Amount <span className="text-[10px] uppercase font-bold text-green-600 mx-2 " >( rent )</span> :                                
+                                <span className="text-blue-600 font-bold flex ml-2 "> ${data?.data?.paidAmount ?? "0.00"} <Link to="/owner/Withdraw" className="ml-4 text-[14px] text-green-500 border rounded-lg px-2 " >Withdrow Request</Link>  </span>
                             </h2>
                         </div>
-
+                        
 
                         <div className="p-4 bg-gray-50 rounded-md shadow-md mb-8">
                             <h2 className="text-lg font-semibold text-gray-800 mb-2">
@@ -270,6 +265,10 @@ const UserProfile = () => {
                                 </button>
                             </div>
                         </div>
+
+
+
+
                     </div>
                 }
 

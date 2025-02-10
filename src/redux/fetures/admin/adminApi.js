@@ -81,6 +81,21 @@ const adminApi = baseApi.injectEndpoints({
 
 
 
+    // ================================================  Payout Api
+    payoutDataGetByAdmin: builder.query({
+      query: () => {
+        return {
+          url: `/payment/payoutDataGetByAdmin`,
+          method: "GET",
+        };
+      },
+      providesTags: ["payout"],
+    }),
+
+
+
+
+
 
 
   }),

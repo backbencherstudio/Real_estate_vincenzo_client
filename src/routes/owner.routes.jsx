@@ -18,6 +18,7 @@ import UserProfile from "../shared/Settings/Profile";
 import Profile from "../shared/Profile";
 import Messages from "../shared/Messages/Messages";
 import StripePayment from "../pages/Owner/payment/StripePayment";
+import WithdrawForm from "../pages/Owner/WithdrawForm/WithdrawForm";
 
 export const ownerPaths = [
   {
@@ -106,5 +107,9 @@ export const ownerPaths = [
     name : "Update plan",
     path : "payment",
     element : <StripePayment/>
+  },
+  {
+    path : "Withdraw",
+    element : <WithdrawForm/>
   }
 ];
