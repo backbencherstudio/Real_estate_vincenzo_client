@@ -9,9 +9,15 @@ import { FaRegUser } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { toast } from "sonner";
 import tenantApi from "../../redux/fetures/tenant/tenantApi";
+import adminApi from "../../redux/fetures/admin/adminApi";
+import { Button } from "antd";
+import { useForm } from "react-hook-form";
+import { skipToken } from "@reduxjs/toolkit/query";
 
 const UserProfile = () => {
     const currentUser = useSelector(selectCurrentUser);
+    const { register, handleSubmit, reset, formState: { errors } } = useForm();
+
     const { data, isLoading, error } = authApi.useGetSingleUserInfoQuery(
         currentUser?.email,
         {
@@ -25,9 +31,8 @@ const UserProfile = () => {
         const { data: tenantDatas } = tenantApi.useGetTenantDetailseQuery(currentUser?.userId);
         tenantWithOwnerData = tenantDatas?.data?.ownerId
     }
-
-    console.log(tenantWithOwnerData);
-
+    const { data: getPlanData } = adminApi.useGetPlanQuery(currentUser.role !== "admin" && skipToken)
+    const [planData] = adminApi.useCreatePlanMutation()
 
     if (isLoading) return <p>Loading...</p>;
     if (error) return <p>Error fetching user information</p>;
@@ -66,10 +71,94 @@ const UserProfile = () => {
         });
     }
 
+    const onSubmit = async (formData) => {
+        const updatedData = {
+            starter: formData.starter ?? getPlanData?.data?.[0]?.starter ?? 0,
+            growth: formData.growth ?? getPlanData?.data?.[0]?.growth ?? 0,
+            professional: formData.professional ?? getPlanData?.data?.[0]?.professional ?? 0,
+        };
+
+        const res = await planData(updatedData);
+        if (res.data.success) {
+            toast.success(res.data.message);
+            reset()
+        }
+    };
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            <div className="col-span-4">
+            <div className="col-span-3">
+                {
+                    currentUser.role === "admin" &&
+                    <div className=" mx-auto p-6 bg-white rounded-xl shadow-lg border">
+                        <h2 className="text-xl font-semibold text-center mb-4">Subscription Plans</h2>
+                        <form onSubmit={handleSubmit(onSubmit)} noValidate>
+
+                            <div className="mb-4">
+                                <label htmlFor="starter" className="block text-sm font-medium text-gray-700">
+                                    Starter
+                                </label>
+                                <input
+                                    {...register("starter", {
+                                        valueAsNumber: true,
+                                        required: "Starter plan price is required",
+                                    })}
+                                    type="number"
+                                    id="starter"
+                                    placeholder={`Enter Starter Plan Price . Resent Price ${getPlanData?.data?.[0]?.starter ?? 0} `}
+                                    className="mt-1 p-2 border border-gray-300 rounded w-full"
+                                />
+                                {errors.starter && (
+                                    <p className="text-red-500 text-sm">{errors.starter?.message}</p>
+                                )}
+                            </div>
+
+                            {/* Growth Plan Field */}
+                            <div className="mb-4">
+                                <label htmlFor="growth" className="block text-sm font-medium text-gray-700">
+                                    Growth
+                                </label>
+                                <input
+                                    {...register("growth", {
+                                        valueAsNumber: true,
+                                        required: "Growth plan price is required",
+                                    })}
+                                    type="number"
+                                    id="growth"
+                                    placeholder={`Enter Growth Plan Price . Resent Price ${getPlanData?.data?.[0]?.growth ?? 0} `}
+                                    className="mt-1 p-2 border border-gray-300 rounded w-full"
+                                />
+                                {errors.growth && (
+                                    <p className="text-red-500 text-sm">{errors.growth?.message}</p>
+                                )}
+                            </div>
+
+                            {/* Professional Plan Field */}
+                            <div className="mb-4">
+                                <label htmlFor="professional" className="block text-sm font-medium text-gray-700">
+                                    Professional
+                                </label>
+                                <input
+                                    {...register("professional", {
+                                        valueAsNumber: true,
+                                        required: "Professional plan price is required",
+                                    })}
+                                    type="number"
+                                    id="professional"
+                                    placeholder={`Enter Professional Plan Price . Resent Price ${getPlanData?.data?.[0]?.professional ?? 0} `}
+                                    className="mt-1 p-2 border border-gray-300 rounded w-full"
+                                />
+                                {errors.professional && (
+                                    <p className="text-red-500 text-sm">{errors.professional?.message}</p>
+                                )}
+                            </div>
+
+                            <Button type="primary" htmlType="submit" block>
+                                Submit
+                            </Button>
+                        </form>
+                    </div>
+                }
                 {
                     currentUser.role === "tenant" &&
                     <div className=" bg-white rounded-lg shadow-md h-full">
@@ -138,19 +227,18 @@ const UserProfile = () => {
                 </div>
 
 
-
-
                 {
                     currentUser.role === "owner" &&
 
                     <div>
+
                         <div className="mb-6">
-                            <h2 className="text-2xl font-semibold text-gray-800">
-                                💰 Your Current Paid Amount <span className="text-[10px] uppercase font-bold text-green-600 " >( rent )</span> :
-                                <span className="text-blue-600 font-bold"> ${data?.data?.paidAmount ?? "0.00"} </span>
+                            <h2 className="text-2xl font-semibold text-gray-800 flex items-center">
+                                💰 Your Current Paid Amount <span className="text-[10px] uppercase font-bold text-green-600 mx-2 " >( rent )</span> :                                
+                                <span className="text-blue-600 font-bold flex ml-2 "> ${data?.data?.paidAmount ?? "0.00"} <Link to="/owner/Withdraw" className="ml-4 text-[14px] text-green-500 border rounded-lg px-2 " >Withdrow Request</Link>  </span>
                             </h2>
                         </div>
-
+                        
 
                         <div className="p-4 bg-gray-50 rounded-md shadow-md mb-8">
                             <h2 className="text-lg font-semibold text-gray-800 mb-2">
@@ -177,6 +265,10 @@ const UserProfile = () => {
                                 </button>
                             </div>
                         </div>
+
+
+
+
                     </div>
                 }
 

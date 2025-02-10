@@ -18,6 +18,7 @@ import UserProfile from "../shared/Settings/Profile";
 import Profile from "../shared/Profile";
 import Messages from "../shared/Messages/Messages";
 import { MdOutlineMessage } from "react-icons/md";
+import PayOutData from "../pages/Admin/PayOutData/PayOutData";
 
 export const adminPaths = [
   {
@@ -55,6 +56,12 @@ export const adminPaths = [
         name: "Tenant",
         path: "tenants",
         element: <AllTenant />,
+      },
+      {
+        icon: <FaBuildingUser size={18} />,
+        name: "PayOut",
+        path: "payOut",
+        element: <PayOutData />,
       },
       {
         path: "tenant/:id",

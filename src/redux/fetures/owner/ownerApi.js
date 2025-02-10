@@ -154,6 +154,20 @@ const ownerApi = baseApi.injectEndpoints({
       },
     }),
     
+    // =======================================================>>>>> Withdrow placed API
+    payout: builder.mutation({
+      query: (data) => {    
+        return {
+          url: `/payment/payout`, 
+          method: "POST",
+          body : data
+        };
+      },
+    }),
+
+
+
+
 
 
   }),

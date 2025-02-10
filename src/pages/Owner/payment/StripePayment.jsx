@@ -3,14 +3,18 @@ import { loadStripe } from "@stripe/stripe-js";
 import SubscriptionForm from "./SubscriptionForm";
 import { useState } from "react";
 import { GrRadialSelected } from "react-icons/gr";
+import adminApi from "../../../redux/fetures/admin/adminApi";
 
 const stripePromise = loadStripe('pk_test_51NFvq6ArRmO7hNaVcPS5MwczdEtM4yEMOclovA0k5LtJTxhtzKZ2SKim3p8qmvssQ7j7bREjoRRmHB9Gvz8n8Dfm00UOo9bZYg');
 
 const StripePayment = () => {
+
+    const {data : getPlanData } = adminApi.useGetPlanQuery(undefined, { pollingInterval : 86400000 })    
+
     const plans = [
-        { name: 'Starter', range: [1, 4], description: "Manage 1-4 users at $20 per unit/month.", price: 20 },
-        { name: 'Growth', range: [5, 12], description: "Manage 5-12 users at $18 per unit/month.", price: 18 },
-        { name: 'Professional', range: [13, 40], description: "Manage 13-40 users at $15 per unit/month.", price: 15 },
+        { name: 'Starter', range: [1, 4], description: "Manage 1-4 users at $20 per unit/month.", price: getPlanData?.data?.[0]?.starter || 0 },
+        { name: 'Growth', range: [5, 12], description: "Manage 5-12 users at $18 per unit/month.", price: getPlanData?.data?.[0]?.growth || 0 },
+        { name: 'Professional', range: [13, 40], description: "Manage 13-40 users at $15 per unit/month.", price: getPlanData?.data?.[0]?.professional || 0 },
     ];
 
     const [selectedPlan, setSelectedPlan] = useState(plans[0]);

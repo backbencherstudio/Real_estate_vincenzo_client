@@ -57,6 +57,43 @@ const adminApi = baseApi.injectEndpoints({
       providesTags: ["overview"],
     }),
 
+    // =================================================>>>>  Create Plan
+    getPlan: builder.query({
+      query: () => {
+        return {
+          url: `/admin/getPlan`,
+          method: "GET",
+        };
+      },
+      providesTags: ["plan"],
+    }),
+
+    createPlan: builder.mutation({
+      query: (planData) => {
+        return {
+          url: `/admin/createPlan`,
+          method: "POST",
+          body : planData
+        };
+      },
+      invalidatesTags: ["plan"],
+    }),
+
+
+
+    // ================================================  Payout Api
+    payoutDataGetByAdmin: builder.query({
+      query: () => {
+        return {
+          url: `/payment/payoutDataGetByAdmin`,
+          method: "GET",
+        };
+      },
+      providesTags: ["payout"],
+    }),
+
+
+
 
 
 
