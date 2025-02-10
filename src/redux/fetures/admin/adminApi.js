@@ -57,7 +57,17 @@ const adminApi = baseApi.injectEndpoints({
       providesTags: ["overview"],
     }),
 
-    // =================================================>>>>  All data overview
+    // =================================================>>>>  Create Plan
+    getPlan: builder.query({
+      query: () => {
+        return {
+          url: `/admin/getPlan`,
+          method: "GET",
+        };
+      },
+      providesTags: ["plan"],
+    }),
+
     createPlan: builder.mutation({
       query: (planData) => {
         return {
@@ -66,7 +76,7 @@ const adminApi = baseApi.injectEndpoints({
           body : planData
         };
       },
-      providesTags: ["plan"],
+      invalidatesTags: ["plan"],
     }),
 
 
