@@ -15,7 +15,6 @@ const SubscriptionForm = ({selectedPlan, totalPrice, getTotalUnit }) => {
     const stripe = useStripe();
     const elements = useElements();
     const [email, setEmail] = useState("");
-    const [amount, setAmount] = useState(totalPrice);
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
     const [invoiceUrl, setInvoiceUrl] = useState(null);
@@ -37,6 +36,8 @@ const SubscriptionForm = ({selectedPlan, totalPrice, getTotalUnit }) => {
         setEmail(email); 
     }, [currentUser, dispatch, navigate]);
 
+    
+
     const handleSubscribe = async (e) => {
         e.preventDefault();
 
@@ -45,9 +46,10 @@ const SubscriptionForm = ({selectedPlan, totalPrice, getTotalUnit }) => {
               `You have already added ${data?.data.numberOfTotalUnits} units. You cannot purchase only ${getTotalUnit} units. To add more, please update your plan to exceed your currently booked units.`
             );
           }
+          console.log(email, totalPrice);
           
 
-        if (!email || !amount || isNaN(amount) || parseFloat(amount) <= 0) {
+        if (!email || !totalPrice || isNaN(totalPrice) || parseFloat(totalPrice) <= 0) {
             setMessage("Please provide a valid email and subscription amount.");
             return;
         }
@@ -122,7 +124,7 @@ const SubscriptionForm = ({selectedPlan, totalPrice, getTotalUnit }) => {
                         id="amount"
                         placeholder="Enter amount"
                         value={totalPrice}
-                        onChange={(e) => setAmount(e.target.value)}
+                        // onChange={(e) => setAmount(e.target.value)}
                         required
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                     />
