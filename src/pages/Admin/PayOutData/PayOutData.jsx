@@ -1,17 +1,23 @@
 import { Select, Table } from "antd";
 import adminApi from "../../../redux/fetures/admin/adminApi";
 import moment from "moment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { statusOptions } from "../../../constent/constent";
+import { toast } from "sonner";
 
 
 const PayOutData = () => {
 
-    const { data } = adminApi.usePayoutDataGetByAdminQuery()
+    const { data, refetch, isLoading } = adminApi.usePayoutDataGetByAdminQuery();
+    const [sendPayoutRequestByAdmin] = adminApi.useSendPayoutRequestByAdminMutation();
     const [pageSize, setPageSize] = useState(10);
     const handlePageSizeChange = (current, size) => {
         setPageSize(size);
     };
+
+    useEffect(() => {
+        refetch();
+    }, []);
 
     const tableData = data?.data?.map(({ _id, Receipt, accountId, amount, createdAt, ownerId, email, status }) => ({
         key: _id,
@@ -28,26 +34,49 @@ const PayOutData = () => {
         window.open(url, '_blank', 'noopener,noreferrer');
     };
 
-    
 
-    const projectsInfoHandler = async (keyName, selectedStatus, id) => {
+
+    // const projectsInfoHandler = async (selectedStatus, record) => {
+    //     const updatedData = {
+    //         record,
+    //         selectedStatus
+    //     }
+
+    //     const res = await sendPayoutRequestByAdmin(updatedData)
+    //     console.log(res);
+
+    //     if (res?.data?.success) {
+    //         toast.success(res?.data?.message)
+    //     }
+    // };
+
+    const payoutHandler = async (selectedStatus, record) => {
         const updatedData = {
-            id,
-            data: {
-                keyName,
-                selectedStatus
+            record,
+            selectedStatus
+        };
+    
+        const res = await sendPayoutRequestByAdmin(updatedData);
+        console.log(res);
+    
+        if (res?.data?.success) {
+            toast.success(res?.data?.message);
+        } else {
+            if (res?.data?.onboardingUrl) {
+                window.location.href = res.data.onboardingUrl;
+            } else {
+                toast.error(res?.data?.message || '❌ Something went wrong!');
             }
         }
-        console.log(updatedData);       
-        
-        // const res = await updateProjectsInFo(updatedData)
-        // if (res?.data?.success) {
-        //     toast.success(res?.data?.message)
-        // }
-
     };
 
+    
     const columns = [
+        {
+            title: "SL",
+            dataIndex: "sl",
+            render: (text, record, index) => index + 1,
+        },
         {
             title: 'Receipt',
             dataIndex: 'Receipt',
@@ -92,38 +121,18 @@ const PayOutData = () => {
             title: 'Status',
             dataIndex: 'status',
             render: (status, record) => {
-                let color;
-                switch (status) {
-                    case 'Paid':
-                        color = 'green';
-                        break;
-                    case 'Pending':
-                        color = 'orange';
-                        break;
-                    case 'Failed':
-                        color = 'red';
-                        break;
-                    default:
-                        color = 'gray';
-                }
                 return (
-                    //   <Tag color={color} className="px-3 py-1 rounded-md bg-opacity-20">
-                    //     {status}
-                    //   </Tag>
-
                     <div className="">
                         <Select
-                            color={color}
                             placeholder={status}
                             style={{ width: '180px', textAlign: 'center' }}
                             options={statusOptions}
-                            onChange={(value) => projectsInfoHandler("status", value, record.key)}
+                            onChange={(value) => payoutHandler(value, record)}
                         />
                     </div>
                 );
             },
         },
-
     ];
 
 
@@ -135,6 +144,7 @@ const PayOutData = () => {
             <Table
                 columns={columns}
                 dataSource={tableData}
+                isLoading={isLoading}
                 scroll={{ x: 800 }}
                 pagination={{
                     pageSize: pageSize,

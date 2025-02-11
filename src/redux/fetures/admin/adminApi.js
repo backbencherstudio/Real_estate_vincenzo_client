@@ -89,14 +89,19 @@ const adminApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
-      providesTags: ["payout"],
+      providesTags: ["payout"], 
     }),
 
-
-
-
-
-
+    sendPayoutRequestByAdmin: builder.mutation({
+      query: (data) => {
+        return {
+          url: `/payment/sendPayoutRequestByAdmin`,
+          method: "POST",
+          body : data
+        };
+      },
+      invalidatesTags: ["payout"], 
+    }),
 
   }),
 });

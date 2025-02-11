@@ -9,7 +9,7 @@ import { Table, Tag } from 'antd';
 import moment from 'moment';
 
 const WithdrawForm = () => {
-    const currentUser = useSelector(selectCurrentUser)    
+    const currentUser = useSelector(selectCurrentUser)
     const {
         register,
         handleSubmit,
@@ -22,13 +22,12 @@ const WithdrawForm = () => {
         currentUser?.email
     );
 
-    const [payout, {isLoading : isPayoutIsloadin}] = ownerApi.usePayoutMutation()
-    const { data: payoutData, isLoading : payoutDataIsloading } = ownerApi.useGetPayoutDataBySingleOwnerQuery(currentUser.userId)
+    const [payout, { isLoading: isPayoutIsloadin }] = ownerApi.usePayoutMutation()
+    const { data: payoutData, isLoading: payoutDataIsloading } = ownerApi.useGetPayoutDataBySingleOwnerQuery(currentUser.userId)
     const [pageSize, setPageSize] = useState(10);
     const handlePageSizeChange = (current, size) => {
         setPageSize(size);
     };
-
 
     const tableData = payoutData?.data?.map(({ _id, Receipt, accountId, amount, createdAt, ownerId, email, status }) => ({
         key: _id,
@@ -45,6 +44,11 @@ const WithdrawForm = () => {
     };
 
     const columns = [
+        {
+            title: "SL",
+            dataIndex: "sl",
+            render: (text, record, index) => index + 1,
+        },
         {
             title: 'Receipt',
             dataIndex: 'Receipt',
@@ -78,7 +82,7 @@ const WithdrawForm = () => {
         { title: 'Email', dataIndex: "email" },
         {
             title: "Payment Placed",
-            dataIndex: "PaymentPlacedDate",
+            dataIndex: "createdAt",
             render: (createdAt) => (
                 <div>
                     {moment(createdAt).format("DD MMMM YYYY, h:mm A")}
@@ -98,6 +102,9 @@ const WithdrawForm = () => {
                         color = 'orange';
                         break;
                     case 'Failed':
+                        color = 'red';
+                        break;
+                    case 'Rejected':
                         color = 'red';
                         break;
                     default:

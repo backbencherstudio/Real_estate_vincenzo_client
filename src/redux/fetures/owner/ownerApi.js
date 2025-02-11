@@ -158,7 +158,7 @@ const ownerApi = baseApi.injectEndpoints({
     getPayoutDataBySingleOwner: builder.query({
       query: (ownerId) => {
         return {
-          url: `/owner/getPayoutDataBySingleOwner/${ownerId}`,
+          url: `/payment/getPayoutDataBySingleOwner/${ownerId}`,
           method: "GET",
         };
       },
@@ -168,7 +168,7 @@ const ownerApi = baseApi.injectEndpoints({
     payout: builder.mutation({
       query: (data) => {
         return {
-          url: `/payment/payout`,
+          url: `/payment/placedPayoutData`,
           method: "POST",
           body: data
         };
