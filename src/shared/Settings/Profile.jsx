@@ -32,6 +32,10 @@ const UserProfile = () => {
         tenantWithOwnerData = tenantDatas?.data?.ownerId
     }
     const { data: getPlanData } = adminApi.useGetPlanQuery(currentUser.role !== "admin" && skipToken)
+
+    console.log(getPlanData);
+    
+
     const [planData] = adminApi.useCreatePlanMutation()
 
     if (isLoading) return <p>Loading...</p>;

@@ -114,7 +114,7 @@ const ownerApi = baseApi.injectEndpoints({
 
     // =======================================================>>>>> resent payment API
     getResentPaymentDataByOwner: builder.query({
-      query: ({ownerId, status}) => {            
+      query: ({ ownerId, status }) => {
         return {
           url: `/owner/getResentPaymentDataByOwner/${ownerId}?status=${status}`,
           method: "GET",
@@ -125,9 +125,9 @@ const ownerApi = baseApi.injectEndpoints({
 
     // =======================================================>>>>> overview payment API ( monthly )
     getPaymentDataOverviewByOwner: builder.query({
-      query: ({ ownerId, selectedDate }) => {    
+      query: ({ ownerId, selectedDate }) => {
         return {
-          url: `/owner/getPaymentDataOverviewByOwner/${ownerId}?selectedDate=${selectedDate}`, 
+          url: `/owner/getPaymentDataOverviewByOwner/${ownerId}?selectedDate=${selectedDate}`,
           method: "GET"
         };
       },
@@ -135,9 +135,9 @@ const ownerApi = baseApi.injectEndpoints({
 
     // =======================================================>>>>> get Single Tenant All Payment Data 
     getSingleTenantAllPaymentDataByOwner: builder.query({
-      query: (userId) => {    
+      query: (userId) => {
         return {
-          url: `/owner/getSingleTenantAllPaymentDataByOwner/${userId}`, 
+          url: `/owner/getSingleTenantAllPaymentDataByOwner/${userId}`,
           method: "GET"
         };
       },
@@ -146,24 +146,37 @@ const ownerApi = baseApi.injectEndpoints({
 
     // =======================================================>>>>> get get All Tenants For Message Data 
     getAllTenantsForMessage: builder.query({
-      query: (userId) => {    
+      query: (userId) => {
         return {
-          url: `/owner/getAllTenantsForMessage/${userId}`, 
+          url: `/owner/getAllTenantsForMessage/${userId}`,
           method: "GET"
         };
       },
     }),
-    
+
     // =======================================================>>>>> Withdrow placed API
-    payout: builder.mutation({
-      query: (data) => {    
+    getPayoutDataBySingleOwner: builder.query({
+      query: (ownerId) => {
         return {
-          url: `/payment/payout`, 
-          method: "POST",
-          body : data
+          url: `/owner/getPayoutDataBySingleOwner/${ownerId}`,
+          method: "GET",
         };
       },
+      providesTags: ['payout']
     }),
+
+    payout: builder.mutation({
+      query: (data) => {
+        return {
+          url: `/payment/payout`,
+          method: "POST",
+          body: data
+        };
+      },
+      invalidatesTags: ['payout']
+    }),
+
+
 
 
 
