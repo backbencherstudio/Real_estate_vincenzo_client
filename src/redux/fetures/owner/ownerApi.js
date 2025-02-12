@@ -176,6 +176,18 @@ const ownerApi = baseApi.injectEndpoints({
       invalidatesTags: ['payout']
     }),
 
+    
+    sendPayoutRequestByOwner: builder.mutation({
+      query: (data) => {
+        return {
+          url: `/payment/sendPayoutRequestByOwnerToStripe`,
+          method: "POST",
+          body : data
+        };
+      },
+      invalidatesTags: ["payout"], 
+    }),
+
 
 
 

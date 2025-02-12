@@ -13,8 +13,12 @@ import adminApi from "../../redux/fetures/admin/adminApi";
 import { Button } from "antd";
 import { useForm } from "react-hook-form";
 import { skipToken } from "@reduxjs/toolkit/query";
+import ownerApi from "../../redux/fetures/owner/ownerApi";
 
 const UserProfile = () => {
+    const [cancelsubscription] = authApi.useCancelsubscriptionMutation();
+    const [sendPayoutRequestByOwner, { isLoading: payoutIsLoading }] = ownerApi.useSendPayoutRequestByOwnerMutation();
+
     const currentUser = useSelector(selectCurrentUser);
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
@@ -24,7 +28,9 @@ const UserProfile = () => {
             pollingInterval: 20000
         }
     );
-    const [cancelsubscription] = authApi.useCancelsubscriptionMutation();
+
+    console.log(data?.data?.accountConnect);
+    
 
     let tenantWithOwnerData
     if (currentUser?.role === "tenant") {
@@ -34,7 +40,7 @@ const UserProfile = () => {
     const { data: getPlanData } = adminApi.useGetPlanQuery(currentUser.role !== "admin" && skipToken)
 
     console.log(getPlanData);
-    
+
 
     const [planData] = adminApi.useCreatePlanMutation()
 
@@ -88,6 +94,27 @@ const UserProfile = () => {
             reset()
         }
     };
+
+    const openPayout = (url) => {
+        window.open(url, '_blank', 'noopener,noreferrer');
+    };
+
+
+    const AddPayoutAccoutnByOwner = async (email) => {
+        const updatedData = { email };
+        const res = await sendPayoutRequestByOwner(updatedData);
+        if (res?.data?.success) {
+            toast.success(res?.data?.message);
+            await openPayout(res?.data?.data?.onboardingUrl);
+        } else {
+            if (res?.data?.success) {
+                await openPayout(res?.data?.data?.onboardingUrl);
+            } else {
+                toast.error(res?.data?.message || '❌ Something went wrong!');
+            }
+        }
+    };
+
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -230,7 +257,6 @@ const UserProfile = () => {
                     </Link>
                 </div>
 
-
                 {
                     currentUser.role === "owner" &&
 
@@ -238,11 +264,20 @@ const UserProfile = () => {
 
                         <div className="mb-6">
                             <h2 className="text-2xl font-semibold text-gray-800 flex items-center">
-                                💰 Your Current Paid Amount <span className="text-[10px] uppercase font-bold text-green-600 mx-2 " >( rent )</span> :                                
-                                <span className="text-blue-600 font-bold flex ml-2 "> ${data?.data?.paidAmount ?? "0.00"} <Link to="/owner/Withdraw" className="ml-4 text-[14px] text-green-500 border rounded-lg px-2 " >Withdrow Request</Link>  </span>
+                                💰 Your Current Paid Amount <span className="text-[10px] uppercase font-bold text-green-600 mx-2 " >( rent )</span>
+                                :
+
+                                {
+                                    data?.data?.accountConnect !== true  ?
+
+                                        <span className="text-blue-600 font-bold flex ml-2 ">  <button onClick={() => AddPayoutAccoutnByOwner(currentUser?.email)} className="ml-4 text-[14px] text-green-500 border rounded-lg px-2 " > Add account {data?.data?.accountConnect} </button>  </span>
+                                        :
+                                        <span className="text-blue-600 font-bold flex ml-2 "> ${data?.data?.paidAmount ?? "0.00"} <Link to="/owner/Withdraw" className="ml-4 text-[14px] text-green-500 border rounded-lg px-2 " >Withdrow Request</Link>  </span>
+
+                                }
                             </h2>
                         </div>
-                        
+
 
                         <div className="p-4 bg-gray-50 rounded-md shadow-md mb-8">
                             <h2 className="text-lg font-semibold text-gray-800 mb-2">

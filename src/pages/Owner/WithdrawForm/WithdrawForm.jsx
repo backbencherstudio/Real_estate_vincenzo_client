@@ -22,6 +22,8 @@ const WithdrawForm = () => {
         currentUser?.email
     );
 
+    
+
     const [payout, { isLoading: isPayoutIsloadin }] = ownerApi.usePayoutMutation()
     const { data: payoutData, isLoading: payoutDataIsloading } = ownerApi.useGetPayoutDataBySingleOwnerQuery(currentUser.userId)
     const [pageSize, setPageSize] = useState(10);
@@ -29,7 +31,7 @@ const WithdrawForm = () => {
         setPageSize(size);
     };
 
-    const tableData = payoutData?.data?.map(({ _id, Receipt, accountId, amount, createdAt, ownerId, email, status }) => ({
+    const tableData = payoutData?.data?.map(({ _id, Receipt, accountId, amount, createdAt, ownerId, email, status, payoutId }) => ({
         key: _id,
         Receipt,
         accountId,
@@ -38,6 +40,7 @@ const WithdrawForm = () => {
         email,
         status,
         createdAt,
+        payoutId
     }));
     const openInvoice = (url) => {
         window.open(url, '_blank', 'noopener,noreferrer');
@@ -77,6 +80,21 @@ const WithdrawForm = () => {
         {
             title: 'Account Id',
             dataIndex: 'accountId',
+        },
+        {
+            title: 'Payout Id',
+            dataIndex: 'payoutId',
+            render : (text, record)=>(
+                <div> 
+                    {
+                        record.payoutId ? (
+                            <div>
+                                <h2>{ record.payoutId }</h2>
+                            </div>
+                        ) : ( "N/F" )
+                    }
+                     </div>
+            )
         },
         { title: 'Paid Amount', dataIndex: 'amount' },
         { title: 'Email', dataIndex: "email" },
@@ -131,7 +149,7 @@ const WithdrawForm = () => {
             ownerId: currentUser?.userId,
             amount: parseInt(data?.amount),
             email: currentUser?.email,
-            accountId: data?.accountId
+            accountId: userData?.data?.stripeAccountId
         }
         const res = await payout(withdrowData)
         if (res?.data?.success) {
@@ -167,7 +185,9 @@ const WithdrawForm = () => {
                         Stripe Account ID:
                         <input
                             type="text"
-                            {...register('accountId', { required: 'Account ID is required' })}
+                            placeholder={`${userData?.data?.stripeAccountId}`}
+                            readOnly
+                            {...register('accountId')}
                             className="w-full p-2 border rounded-md"
                         />
                         {errors.accountId && <span className="text-red-500">{errors.accountId.message}</span>}
