@@ -9,7 +9,7 @@ import { toast } from "sonner";
 const PayOutData = () => {
 
     const { data, refetch, isLoading } = adminApi.usePayoutDataGetByAdminQuery();
-    const [sendPayoutRequestByAdmin] = adminApi.useSendPayoutRequestByAdminMutation();
+    const [sendPayoutRequestByAdmin, { isLoading: payoutIsLoading }] = adminApi.useSendPayoutRequestByAdminMutation();
     const [pageSize, setPageSize] = useState(10);
     const handlePageSizeChange = (current, size) => {
         setPageSize(size);
@@ -19,7 +19,7 @@ const PayOutData = () => {
         refetch();
     }, []);
 
-    const tableData = data?.data?.map(({ _id, Receipt, accountId, amount, createdAt, ownerId, email, status }) => ({
+    const tableData = data?.data?.map(({ _id, Receipt, accountId, amount, createdAt, ownerId, email, status, payoutId }) => ({
         key: _id,
         Receipt,
         accountId,
@@ -28,6 +28,7 @@ const PayOutData = () => {
         email,
         status,
         createdAt,
+        payoutId
     }));
 
     const openInvoice = (url) => {
@@ -35,42 +36,22 @@ const PayOutData = () => {
     };
 
 
-
-    // const projectsInfoHandler = async (selectedStatus, record) => {
-    //     const updatedData = {
-    //         record,
-    //         selectedStatus
-    //     }
-
-    //     const res = await sendPayoutRequestByAdmin(updatedData)
-    //     console.log(res);
-
-    //     if (res?.data?.success) {
-    //         toast.success(res?.data?.message)
-    //     }
-    // };
-
     const payoutHandler = async (selectedStatus, record) => {
         const updatedData = {
             record,
             selectedStatus
         };
-    
         const res = await sendPayoutRequestByAdmin(updatedData);
+
         console.log(res);
-    
+
+
         if (res?.data?.success) {
             toast.success(res?.data?.message);
-        } else {
-            if (res?.data?.onboardingUrl) {
-                window.location.href = res.data.onboardingUrl;
-            } else {
-                toast.error(res?.data?.message || '❌ Something went wrong!');
-            }
         }
     };
 
-    
+
     const columns = [
         {
             title: "SL",
@@ -106,6 +87,22 @@ const PayOutData = () => {
             title: 'Account Id',
             dataIndex: 'accountId',
         },
+        {
+            title: 'Payout Id',
+            dataIndex: 'payoutId',
+            render: (text, record) => (
+                <div>
+                    {
+                        record.payoutId ? (
+                            <div>
+                                <h2>{record.payoutId}</h2>
+                            </div>
+                        ) : ("N/F")
+                    }
+                </div>
+            )
+        },
+
         { title: 'Paid Amount', dataIndex: 'amount' },
         { title: 'Email', dataIndex: "email" },
         {
@@ -125,6 +122,8 @@ const PayOutData = () => {
                     <div className="">
                         <Select
                             placeholder={status}
+                            // disabled={status !== "Pending"}
+                            disabled={!(status === "Pending" || status === "Rejected")}
                             style={{ width: '180px', textAlign: 'center' }}
                             options={statusOptions}
                             onChange={(value) => payoutHandler(value, record)}
@@ -139,12 +138,10 @@ const PayOutData = () => {
     return (
         <div>
 
-
-
             <Table
                 columns={columns}
                 dataSource={tableData}
-                isLoading={isLoading}
+                isLoading={isLoading || payoutIsLoading}
                 scroll={{ x: 800 }}
                 pagination={{
                     pageSize: pageSize,
