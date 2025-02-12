@@ -9,7 +9,7 @@ import { toast } from "sonner";
 const PayOutData = () => {
 
     const { data, refetch, isLoading } = adminApi.usePayoutDataGetByAdminQuery();
-    const [sendPayoutRequestByAdmin, {isLoading : payoutIsLoading}] = adminApi.useSendPayoutRequestByAdminMutation();
+    const [sendPayoutRequestByAdmin, { isLoading: payoutIsLoading }] = adminApi.useSendPayoutRequestByAdminMutation();
     const [pageSize, setPageSize] = useState(10);
     const handlePageSizeChange = (current, size) => {
         setPageSize(size);
@@ -40,15 +40,15 @@ const PayOutData = () => {
         const updatedData = {
             record,
             selectedStatus
-        };        
+        };
         const res = await sendPayoutRequestByAdmin(updatedData);
 
         console.log(res);
-        
+
 
         if (res?.data?.success) {
             toast.success(res?.data?.message);
-        } 
+        }
     };
 
 
@@ -90,19 +90,19 @@ const PayOutData = () => {
         {
             title: 'Payout Id',
             dataIndex: 'payoutId',
-            render : (text, record)=>(
-                <div> 
+            render: (text, record) => (
+                <div>
                     {
                         record.payoutId ? (
                             <div>
-                                <h2>{ record.payoutId }</h2>
+                                <h2>{record.payoutId}</h2>
                             </div>
-                        ) : ( "N/F" )
+                        ) : ("N/F")
                     }
-                     </div>
+                </div>
             )
         },
-        
+
         { title: 'Paid Amount', dataIndex: 'amount' },
         { title: 'Email', dataIndex: "email" },
         {
@@ -122,7 +122,8 @@ const PayOutData = () => {
                     <div className="">
                         <Select
                             placeholder={status}
-                            disabled={status === "On Progress"}
+                            // disabled={status !== "Pending"}
+                            disabled={!(status === "Pending" || status === "Rejected")}
                             style={{ width: '180px', textAlign: 'center' }}
                             options={statusOptions}
                             onChange={(value) => payoutHandler(value, record)}

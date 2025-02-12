@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../../redux/fetures/auth/authSlice';
@@ -21,11 +21,16 @@ const WithdrawForm = () => {
     const { data: userData, isLoading } = authApi.useGetSingleUserInfoQuery(
         currentUser?.email
     );
+    
+    const [payout, { isLoading: isPayoutIsloadin }] = ownerApi.usePayoutMutation()
+    const { data: payoutData, isLoading: payoutDataIsloading, refetch } = ownerApi.useGetPayoutDataBySingleOwnerQuery(currentUser.userId)
+
+    useEffect(()=>{
+        refetch()
+    },[])
 
     
 
-    const [payout, { isLoading: isPayoutIsloadin }] = ownerApi.usePayoutMutation()
-    const { data: payoutData, isLoading: payoutDataIsloading } = ownerApi.useGetPayoutDataBySingleOwnerQuery(currentUser.userId)
     const [pageSize, setPageSize] = useState(10);
     const handlePageSizeChange = (current, size) => {
         setPageSize(size);
@@ -145,6 +150,7 @@ const WithdrawForm = () => {
         if (userData?.data?.paidAmount < parseInt(data?.amount)) {
             return toast.warning("Insufficient balance. You cannot withdraw more than your available funds.");
         }
+       
         const withdrowData = {
             ownerId: currentUser?.userId,
             amount: parseInt(data?.amount),
