@@ -4,11 +4,15 @@ import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../../redux/fetures/auth/authSlice";
 import { FaAngleRight } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+import { MdDeleteForever } from "react-icons/md";
+import { toast } from "sonner";
+import Swal from "sweetalert2";
 
 const Tenants = () => {
 
   const currentUser = useSelector(selectCurrentUser)
-  const { data: tenantData, isLoading } = ownerApi.useGetSingleOwnerAllTenantsQuery(currentUser?.userId)
+  const { data: tenantData, isLoading } = ownerApi.useGetSingleOwnerAllTenantsQuery(currentUser?.userId);
+  const [deleteTenant] = ownerApi.useDeleteTenantMutation()
   const navigate = useNavigate()
 
   const tableData = tenantData?.data?.map(({
@@ -28,6 +32,27 @@ const Tenants = () => {
 
   const handleNavigate = (id) => {
     navigate(`/${currentUser?.role}/tenant/${id}`);
+  };
+
+  const tenantRemoveHandler = async (id) => {
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't to remove this user!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then( async (result) => {
+      if (result.isConfirmed) {
+        const res = await deleteTenant(id)
+        if (res?.data?.success) {
+          toast.success(res?.data?.message);
+        }
+      }
+    });
+
   };
 
 
@@ -73,6 +98,20 @@ const Tenants = () => {
             className="text-[#4A90E2] flex items-center cursor-pointer"
           >
             Details {record?.userId} <FaAngleRight className="text-[18px] ml-1" />
+          </span>
+        </div>
+      ),
+    },
+    {
+      title: "Action",
+      dataIndex: "action",
+      render: (text, record) => (
+        <div>
+          <span
+            onClick={() => tenantRemoveHandler(record?.key)}
+            className="text-[#4A90E2] flex items-center cursor-pointer"
+          >
+            {record?.userId} <MdDeleteForever className="text-[24px] ml-1" />
           </span>
         </div>
       ),

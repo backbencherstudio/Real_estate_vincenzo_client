@@ -1,17 +1,17 @@
-import { Select, Table } from "antd";
+import { Table } from "antd";
 
 const CustomTable = ({ title, columns, data, loading }) => {
-  const handleRowClick = (record) => {
-    console.log("Row clicked:", record);
-    alert(`Row clicked! Name: ${record.name}, Age: ${record.age}`);
-  };
-  const onChange = (value) => {
-    console.log(`selected ${value}`);
-  };
+  // const handleRowClick = (record) => {
+  //   console.log("Row clicked:", record);
+  //   alert(`Row clicked! Name: ${record.name}, Age: ${record.age}`);
+  // };
+  // const onChange = (value) => {
+  //   console.log(`selected ${value}`);
+  // };
 
-  const onSearch = (value) => {
-    console.log("search:", value);
-  };
+  // const onSearch = (value) => {
+  //   console.log("search:", value);
+  // };
 
   return (
     <div className="bg-white p-5 mt-10 rounded-2xl">
@@ -19,7 +19,7 @@ const CustomTable = ({ title, columns, data, loading }) => {
         <div>
           <h1 className="clamp-text font-semibold my-5">{title}</h1>
         </div>{" "}
-        <div>
+        {/* <div>
           <Select
             showSearch
             placeholder="Select a Status"
@@ -41,7 +41,7 @@ const CustomTable = ({ title, columns, data, loading }) => {
               },
             ]}
           />
-        </div>
+        </div> */}
       </div>
       <Table columns={columns} loading={loading} dataSource={data} scroll={{ x: 800 }} />
     </div>

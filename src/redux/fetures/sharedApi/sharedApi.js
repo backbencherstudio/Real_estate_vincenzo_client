@@ -10,7 +10,7 @@ const sharedApi = baseApi.injectEndpoints({
             method: "GET",
         };
     },
-    providesTags: ["properties"],
+    providesTags: ["properties", "units"],
     }),
     
     getSingleTenantDetailse : builder.query({

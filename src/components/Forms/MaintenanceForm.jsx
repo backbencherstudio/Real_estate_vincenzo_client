@@ -23,11 +23,15 @@ const MaintenanceForm = ({ tenantData, close }) => {
   const onSubmit = async (data) => {
     const maintenanceData = {
       ...data,
-      userId,
-      ownerId,
+      userId ,
+      ownerId : ownerId._id ,
       propertyId,
     };
 
+    console.log(maintenanceData);
+    
+  
+  
     const formData = new FormData();
 
     for (const key in maintenanceData) {

@@ -45,6 +45,16 @@ const ownerApi = baseApi.injectEndpoints({
       invalidatesTags: ["properties", "user", "overview"],
     }),
 
+    deleteUnit: builder.mutation({
+      query: (unitId) => {
+        return {
+          url: `/owner/delete-unit/${unitId}`,
+          method: "DELETE",
+        };
+      },
+      invalidatesTags: ["properties", "user", "overview", "units"],
+    }),
+
     createTenant: builder.mutation({
       query: (tenantData) => {
         return {
@@ -54,6 +64,16 @@ const ownerApi = baseApi.injectEndpoints({
         };
       },
       invalidatesTags: ["properties", "user", "overview"],
+    }),
+
+    deleteTenant: builder.mutation({
+      query: (tenantId) => {
+        return {
+          url: `/owner/delete-tenant/${tenantId}`,
+          method: "DELETE",
+        };
+      },
+      invalidatesTags: ["properties", "user", "overview", "tenants"],
     }),
 
     // =======================================================>>>>> Maintatenance API
