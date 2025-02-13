@@ -13,6 +13,12 @@ const ProtectedRoute = ({ children, role }) => {
     user = verifyToken(token);
   }
 
+  console.log(user);
+  
+  if(!user){
+    return <Navigate to="/signin" replace={true}></Navigate>;
+  }
+
   if (role !== undefined && role !== user?.role) {
     dispatch(logOut());
     return <Navigate to="/signin" replace={true}></Navigate>;

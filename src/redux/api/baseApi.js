@@ -18,11 +18,18 @@ const baseQueryWithRefreshToken = async (args, api, extraOptions) => {
   console.log(result);
 
   if (result?.error?.data.success === false) {
-    toast.error(result?.error?.data.message);
+    toast.error(result?.error?.data.message );
   }
+
+  if (result?.error?.data?.message === "User is not found, not decoded") {
+    console.log("hit");    
+    api.dispatch(logOut());
+  }
+
   if (result?.error?.status === 404) {
     // toast.error(`${result?.error?.data.message}`);
   }
+
   if (result?.error?.status === 401) {
     const res = await fetch("http://localhost:5000/api/v1/auth/refresh-token", {
       method: "POST",

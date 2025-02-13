@@ -4,11 +4,14 @@ import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../../redux/fetures/auth/authSlice";
 import { FaAngleRight } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+import { MdDeleteForever } from "react-icons/md";
+import { toast } from "sonner";
 
 const Tenants = () => {
 
   const currentUser = useSelector(selectCurrentUser)
-  const { data: tenantData, isLoading } = ownerApi.useGetSingleOwnerAllTenantsQuery(currentUser?.userId)
+  const { data: tenantData, isLoading } = ownerApi.useGetSingleOwnerAllTenantsQuery(currentUser?.userId);
+  const [deleteTenant] = ownerApi.useDeleteTenantMutation()
   const navigate = useNavigate()
 
   const tableData = tenantData?.data?.map(({
@@ -28,6 +31,16 @@ const Tenants = () => {
 
   const handleNavigate = (id) => {
     navigate(`/${currentUser?.role}/tenant/${id}`);
+  };
+
+  const tenantRemoveHandler = async (id) => {
+    const res = await deleteTenant(id)
+    if (res?.data?.success) {
+      toast.success(res?.data?.message);
+    }
+
+    // navigate(`/${currentUser?.role}/tenant/${id}`);
+
   };
 
 
@@ -73,6 +86,20 @@ const Tenants = () => {
             className="text-[#4A90E2] flex items-center cursor-pointer"
           >
             Details {record?.userId} <FaAngleRight className="text-[18px] ml-1" />
+          </span>
+        </div>
+      ),
+    },
+    {
+      title: "Action",
+      dataIndex: "action",
+      render: (text, record) => (
+        <div>
+          <span
+            onClick={() => tenantRemoveHandler(record?.key)}
+            className="text-[#4A90E2] flex items-center cursor-pointer"
+          >
+            {record?.userId} <MdDeleteForever className="text-[24px] ml-1" />
           </span>
         </div>
       ),
