@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { Button, Modal, Spin, Table } from "antd";
 import { useParams } from "react-router-dom";
@@ -11,23 +12,23 @@ import { url } from "../globalConst/const";
 import authApi from "../redux/fetures/auth/authApi";
 import { MdDeleteForever } from "react-icons/md";
 import Swal from "sweetalert2";
+import { CiEdit } from "react-icons/ci";
 
 const PropertyDetails = () => {
   const [pageSize, setPageSize] = useState(10);
-
-
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   reset,
-  //   formState: { errors }
-  // } = useForm({});
 
   const {
     register: registerUnit,
     handleSubmit: handleSubmitUnit,
     reset: resetUnit,
     formState: { errors: errorsUnit }
+  } = useForm();
+
+  const {
+    register: registerUpdateUnit,
+    handleSubmit: handleSubmitUpdateUnit,
+    reset: resetUdateUnit,
+    formState: { errors: errorsUpdateUnit }
   } = useForm();
 
   const {
@@ -46,8 +47,9 @@ const PropertyDetails = () => {
   const currentUser = useSelector(selectCurrentUser);
   const { data: ownerData, isLoading: userLoading, error } = authApi.useGetSingleUserInfoQuery(currentUser?.email);
   const [deleteUnit] = ownerApi.useDeleteUnitMutation()
-
   const { data } = sharedApi.useGetPropertieUnitsQuery(id);
+  const [updateUnit, {isLoading : updateUnitIsLoading}] = ownerApi.useUpdateUnitMutation()
+
   const property = data?.data?.property;
   const allUnits = data?.data?.allUnits;
   const propertyImages = data?.data?.property?.propertyImages;
@@ -211,6 +213,16 @@ const PropertyDetails = () => {
               >
                 <MdDeleteForever className="text-[24px]" />
               </button>
+
+              <button
+                onClick={() =>
+                  updateUnitHandler(record.key)
+                }
+                className={`font-semibold ml-2 text-green-500 "
+                  }`}
+              >
+                <CiEdit className="text-[24px]" />
+              </button>
             </div>
           ),
         },
@@ -223,21 +235,7 @@ const PropertyDetails = () => {
   const handlePageSizeChange = (current, size) => {
     setPageSize(size);
   };
-
   const [modal2Open, setModal2Open] = useState(false);
-
-  console.log(ownerData?.data);
-
-
-
-
-  // const addUnitModalShowFun = () =>{
-  //   if(ownerData?.data?.getTotalUnit === ownerData?.data?.numberOfTotalUnits){
-  //     return toast.error("You are not able to add no more unit fill up your subscribed unit, if you want to add more unit then update your plan ")
-  //   }else{
-  //     setModal2Open(true)
-  //   }
-  // }
 
   const addUnitModalShowFun = () => {
     const totalUnits = ownerData?.data?.getTotalUnit || 0;
@@ -248,11 +246,8 @@ const PropertyDetails = () => {
         "You have reached the maximum number of units allowed by your subscription plan. To add more units, please update your plan."
       );
     }
-
     setModal2Open(true);
   };
-
-
 
   const onSubmit = async (data) => {
     const unitData = {
@@ -265,6 +260,37 @@ const PropertyDetails = () => {
       toast.success(res.data.message);
       resetUnit();
       setModal2Open(false)
+    }
+  };
+
+  const [updateModalOpen, setUpdateModalpen] = useState(false);
+  const [unitId, setUnitId] = useState("")
+
+  const updateUnitHandler = async (unitId) => {
+    setUpdateModalpen(true)
+    setUnitId(unitId);
+  }
+
+  const onSubmitForUpdateUnit = async (data) => {
+    const numberFields = ["lateFee", "numberOfBedroom", "numberOfBathroom", "numberOfKitchen", "rent", "securityDeposit"];
+    const filteredData = Object.fromEntries(
+      Object.entries(data)
+        .filter(([_, value]) => value !== "")
+        .map(([key, value]) => [
+          key,
+          numberFields.includes(key) ? parseInt(value, 10) : value
+        ])
+    );
+    const unitData = {
+      ...filteredData,
+      unitId,
+    }
+    const res = await updateUnit(unitData);
+
+    if (res.data.success) {
+      toast.success(res.data.message);
+      resetUdateUnit();
+      setUpdateModalpen(false)
     }
 
   };
@@ -566,6 +592,171 @@ const PropertyDetails = () => {
                 )}
               </div> */}
 
+            </div>
+
+
+            <div className="flex justify-end mt-4" >
+              <button type="submit" className="text-[16px] px-9 py-2 rounded-md bg-gradient-to-t from-[#468ddf] to-[#1969c3] text-white font-medium 
+          hover:bg-gradient-to-t hover:from-blue-600 hover:to-blue-700
+           hover:shadow" >
+                {
+                  isLoading ? <Spin size="large" /> : "Add"
+                }
+              </button>
+            </div>
+
+          </form>
+        </div>
+
+      </Modal>
+
+
+      <Modal
+        centered
+        open={updateModalOpen}
+        footer={null}
+        onCancel={() => setUpdateModalpen(false)}
+        width={1000}
+      >
+        <div className="p-5" >
+          <h2 className="text-2xl" >Unit Update Information</h2>
+          <form onSubmit={handleSubmitUpdateUnit(onSubmitForUpdateUnit)} className="mt-5">
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6" >
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Unit Number
+                </label>
+                <input
+                  {...registerUpdateUnit("unitNumber")}
+                  type="text"
+                  className={`w-full p-2 border rounded-lg bg-white text-gray-600 
+              ${errorsUpdateUnit.unitNumber ? 'border-red-500' : 'border-gray-300'}`}
+                />
+                {errorsUpdateUnit.unitNumber && (
+                  <p className="text-red-500 text-sm mt-1">{errorsUpdateUnit.unitNumber.message}</p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Number of Bedroom
+                </label>
+                <input
+                  {...registerUpdateUnit("numberOfBedroom", {
+                    min: { value: 1, message: "Must be at least 1" }
+                  })}
+                  type="number"
+                  className={`w-full p-2 border rounded-lg bg-white text-gray-600
+              ${errorsUpdateUnit.numberOfBedroom ? 'border-red-500' : 'border-gray-300'}`}
+                />
+                {errorsUpdateUnit.numberOfBedroom && (
+                  <p className="text-red-500 text-sm mt-1">{errorsUpdateUnit.numberOfBedroom.message}</p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Number of Bathroom
+                </label>
+                <input
+                  {...registerUpdateUnit("numberOfBathroom", {
+                    min: { value: 1, message: "Must be at least 1" }
+                  })}
+                  type="number"
+                  className={`w-full p-2 border rounded-lg bg-white text-gray-600
+              ${errorsUpdateUnit.numberOfBathroom ? 'border-red-500' : 'border-gray-300'}`}
+                />
+                {errorsUpdateUnit.numberOfBathroom && (
+                  <p className="text-red-500 text-sm mt-1">{errorsUpdateUnit.numberOfBathroom.message}</p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Number of Kitchen
+                </label>
+                <input
+                  {...registerUpdateUnit("numberOfKitchen", {
+                    min: { value: 1, message: "Must be at least 1" }
+                  })}
+                  type="number"
+                  className={`w-full p-2 border rounded-lg bg-white text-gray-600
+              ${errorsUpdateUnit.numberOfKitchen ? 'border-red-500' : 'border-gray-300'}`}
+                />
+                {errorsUpdateUnit.numberOfKitchen && (
+                  <p className="text-red-500 text-sm mt-1">{errorsUpdateUnit.numberOfKitchen.message}</p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Rent Amount
+                </label>
+                <input
+                  {...registerUpdateUnit("rent", {
+                    min: { value: 0, message: "Must be a positive number" }
+                  })}
+                  type="number"
+                  className={`w-full p-2 border rounded-lg bg-white text-gray-600
+              ${errorsUpdateUnit.rent ? 'border-red-500' : 'border-gray-300'}`}
+                />
+                {errorsUpdateUnit.rent && (
+                  <p className="text-red-500 text-sm mt-1">{errorsUpdateUnit.rent.message}</p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Security Deposit
+                </label>
+                <input
+                  {...registerUpdateUnit("securityDeposit", {
+                    min: { value: 0, message: "Must be a positive number" }
+                  })}
+                  type="number"
+                  className={`w-full p-2 border rounded-lg bg-white text-gray-600
+              ${errorsUpdateUnit.securityDeposit ? 'border-red-500' : 'border-gray-300'}`}
+                />
+                {errorsUpdateUnit.securityDeposit && (
+                  <p className="text-red-500 text-sm mt-1">{errorsUpdateUnit.securityDeposit.message}</p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Rent Type
+                </label>
+                <select
+                  {...registerUpdateUnit("rentType")}
+                  className={`w-full p-2 border rounded-lg bg-white text-gray-600
+              ${errorsUpdateUnit.rentType ? 'border-red-500' : 'border-gray-300'}`}
+                >
+                  {/* <option value="Weekly">Weekly</option> */}
+                  <option value="Monthly">Monthly</option>
+                  {/* <option value="Yearly">Yearly</option> */}
+                </select>
+                {errorsUpdateUnit.rentType && (
+                  <p className="text-red-500 text-sm mt-1">{errorsUpdateUnit.rentType.message}</p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Late Fee
+                </label>
+                <input
+                  {...registerUpdateUnit("lateFee", {
+                    min: { value: 0, message: "Must be a positive number" }
+                  })}
+                  type="number"
+                  className={`w-full p-2 border rounded-lg bg-white text-gray-600
+              ${errorsUpdateUnit.lateFee ? 'border-red-500' : 'border-gray-300'}`}
+                />
+                {errorsUpdateUnit.lateFee && (
+                  <p className="text-red-500 text-sm mt-1">{errorsUpdateUnit.lateFee.message}</p>
+                )}
+              </div>
             </div>
 
 
