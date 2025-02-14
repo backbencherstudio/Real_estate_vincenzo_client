@@ -1,4 +1,4 @@
-import { Select, Spin, Table } from "antd";
+import { Spin, Table } from "antd";
 import DashboardChart from "../../components/AdminComponents/DashboardChart";
 import { useState } from "react";
 import adminApi from "../../redux/fetures/admin/adminApi";
@@ -101,12 +101,12 @@ const AdminDashboard = () => {
   const handlePageSizeChange = (current, size) => {
     setPageSize(size);
   };
-  const onChange = (value) => {
-    console.log(`selected ${value}`);
-  };
-  const onSearch = (value) => {
-    console.log("search:", value);
-  };
+  // const onChange = (value) => {
+  //   console.log(`selected ${value}`);
+  // };
+  // const onSearch = (value) => {
+  //   console.log("search:", value);
+  // };
 
   return (
     <div>
@@ -143,7 +143,7 @@ const AdminDashboard = () => {
             </h1>
           </div>{" "}
           <div>
-            <Select
+            {/* <Select
               showSearch
               placeholder="Select a Status"
               optionFilterProp="label"
@@ -163,7 +163,7 @@ const AdminDashboard = () => {
                   label: "Completed",
                 },
               ]}
-            />
+            /> */}
           </div>
         </div>
 

@@ -45,6 +45,16 @@ const ownerApi = baseApi.injectEndpoints({
       invalidatesTags: ["properties", "user", "overview"],
     }),
 
+    deleteUnit: builder.mutation({
+      query: (unitId) => {
+        return {
+          url: `/owner/delete-unit/${unitId}`,
+          method: "DELETE",
+        };
+      },
+      invalidatesTags: ["properties", "user", "overview", "units"],
+    }),
+
     createTenant: builder.mutation({
       query: (tenantData) => {
         return {

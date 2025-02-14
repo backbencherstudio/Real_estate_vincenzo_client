@@ -6,6 +6,7 @@ import { FaAngleRight } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { MdDeleteForever } from "react-icons/md";
 import { toast } from "sonner";
+import Swal from "sweetalert2";
 
 const Tenants = () => {
 
@@ -34,12 +35,23 @@ const Tenants = () => {
   };
 
   const tenantRemoveHandler = async (id) => {
-    const res = await deleteTenant(id)
-    if (res?.data?.success) {
-      toast.success(res?.data?.message);
-    }
 
-    // navigate(`/${currentUser?.role}/tenant/${id}`);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't to remove this user!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then( async (result) => {
+      if (result.isConfirmed) {
+        const res = await deleteTenant(id)
+        if (res?.data?.success) {
+          toast.success(res?.data?.message);
+        }
+      }
+    });
 
   };
 

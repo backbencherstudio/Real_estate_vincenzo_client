@@ -45,7 +45,7 @@ const PropertyDetails = () => {
 
   const currentUser = useSelector(selectCurrentUser);
   const { data: ownerData, isLoading: userLoading, error } = authApi.useGetSingleUserInfoQuery(currentUser?.email);
-  const [deleteUnit] = ownerApi.useDeleteUnitMutation(id)
+  const [deleteUnit] = ownerApi.useDeleteUnitMutation()
 
   const { data } = sharedApi.useGetPropertieUnitsQuery(id);
   const property = data?.data?.property;
