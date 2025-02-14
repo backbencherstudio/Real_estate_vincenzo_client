@@ -36,12 +36,18 @@ const tenantApi = baseApi.injectEndpoints({
     }),
 
     getAllTenantsForMessageForEachPropertyTenant : builder.query({
-      query: (userId)=>{
-
-        console.log("API 41 ==", userId);
-        
+      query: (userId)=>{        
         return {
           url: `/tenant/message/${userId}`,
+          method: "GET",
+        }
+      },
+    }),
+
+    isOwnerActiveOrNot : builder.query({
+      query: (userId)=>{        
+        return {
+          url: `/tenant/isOwnerActiveOrNot/${userId}`,
           method: "GET",
         }
       },

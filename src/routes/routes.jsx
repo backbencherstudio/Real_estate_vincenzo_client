@@ -12,6 +12,7 @@ import ResetPassword from "../pages/Auth/ResetPassword/ResetPassword";
 import ProtectedRoute from "../layout/ProtectedRoute";
 import SubscriptionPlan from "../pages/Auth/subscriptionPlan/SubscriptionPlan";
 import OwnerProtectedRoute from "../layout/OwnerProtectedRoute";
+import TenantProtectedRoute from "../layout/TenantProtectedRoute";
 const routes = createBrowserRouter([
   {
     path: "/",
@@ -41,9 +42,9 @@ const routes = createBrowserRouter([
     path: "/tenant",
     element: <App></App>,
     element: (
-      <ProtectedRoute role="tenant">
+      <TenantProtectedRoute role="tenant">
         <App></App>
-      </ProtectedRoute>
+      </TenantProtectedRoute>
     ),
     children: routeGenerator(tenantPaths),
   },

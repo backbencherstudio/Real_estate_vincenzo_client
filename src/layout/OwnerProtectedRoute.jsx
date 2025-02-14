@@ -20,6 +20,7 @@ const OwnerProtectedRoute = ({ children, role }) => {
   }
 
   if (!user?.subscriptionStatus || user?.subscriptionStatus !== "active") {
+    dispatch(logOut());
     return <Navigate to="/subscription-plan" replace />;
   }
 

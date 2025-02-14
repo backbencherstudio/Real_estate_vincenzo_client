@@ -6,6 +6,9 @@ import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../../redux/fetures/auth/authSlice";
 import ownerApi from "../../../redux/fetures/owner/ownerApi";
 import CustomButton from "../../../shared/CustomButton";
+import { MdDeleteForever } from "react-icons/md";
+import { toast } from "sonner";
+import Swal from "sweetalert2";
 
 const AllProperties = () => {
   const [pageSize, setPageSize] = useState(10);
@@ -14,12 +17,35 @@ const AllProperties = () => {
 
 
   const { data: propertyData, isLoading } = ownerApi.useGetSingleOwnerAllPropertiesQuery(currentUser?.userId);
+  const [deleteProperties, { isLoading: deletePropertyMutationLoadin }] = ownerApi.useDeletePropertiesMutation()
   const handlePageSizeChange = (current, size) => {
     setPageSize(size);
   };
 
   const handleNavigate = (id) => {
     navigate(`/${currentUser?.role}/properties/${id}`);
+  };
+
+  const deletePropertyHandler = async (propertyData) => {
+    if(propertyData?.numberOfUnits > 0  ){
+     return toast.warning("This property cannot be deleted at the moment. Please delete all associated units first before proceeding.")
+    }    
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await deleteProperties(propertyData?.key);
+        if (res?.data?.success) {
+          toast.success(res?.data?.message);
+        }
+      }
+    });
   };
 
   const addPropertiesNavigation = () => {
@@ -103,6 +129,20 @@ const AllProperties = () => {
         </div>
       ),
     },
+    {
+      title: "Action",
+      dataIndex: "action",
+      render: (text, record) => (
+        <div>
+          <span
+            onClick={() => deletePropertyHandler(record)}
+            className="text-[#4A90E2] flex items-center cursor-pointer"
+          >
+            <MdDeleteForever className="text-[24px] ml-1" />
+          </span>
+        </div>
+      ),
+    },
   ];
 
   const onChange = (value) => {
@@ -130,7 +170,7 @@ const AllProperties = () => {
         </div>
 
         <CustomButton content="Add Properties" handleClick={addPropertiesNavigation} ></CustomButton>
-        
+
       </div>
 
       <div className="bg-white p-5 mt-10 rounded-2xl">
