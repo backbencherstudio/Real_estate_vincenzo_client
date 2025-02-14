@@ -9,10 +9,12 @@ import ownerApi from "../redux/fetures/owner/ownerApi";
 import { toast } from "sonner";
 import { url } from "../globalConst/const";
 import authApi from "../redux/fetures/auth/authApi";
+import { MdDeleteForever } from "react-icons/md";
+import Swal from "sweetalert2";
 
 const PropertyDetails = () => {
   const [pageSize, setPageSize] = useState(10);
-  
+
 
   // const {
   //   register,
@@ -42,8 +44,9 @@ const PropertyDetails = () => {
   const { id } = useParams();
 
   const currentUser = useSelector(selectCurrentUser);
-    const { data : ownerData, isLoading : userLoading , error } = authApi.useGetSingleUserInfoQuery(currentUser?.email);
-  
+  const { data: ownerData, isLoading: userLoading, error } = authApi.useGetSingleUserInfoQuery(currentUser?.email);
+  const [deleteUnit] = ownerApi.useDeleteUnitMutation(id)
+
   const { data } = sharedApi.useGetPropertieUnitsQuery(id);
   const property = data?.data?.property;
   const allUnits = data?.data?.allUnits;
@@ -63,6 +66,25 @@ const PropertyDetails = () => {
     }
     setTenantModal2Open(true)
     setIds(allIds);
+  }
+
+  const deleteUnitHandler = async (unitId) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't to remove this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, remove it!"
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await deleteUnit(unitId);
+        if (res?.data?.success) {
+          toast.success(res?.data?.message);
+        }
+      }
+    });
   }
 
   const onSubmitForTenant = async (data) => {
@@ -155,30 +177,47 @@ const PropertyDetails = () => {
 
     ...(currentUser.role === "owner"
       ? [
-          {
-            title: "Add Tenant",
-            dataIndex: "addTenant",
-            render: (text, record) => (
-              <div>
-                <button
-                  onClick={() =>
-                    addTenantFun(record.key, record.ownerId, record.propertyId)
-                  }
-                  disabled={record.booked}
-                  className={`font-semibold text-green-500 ${
-                    record.booked && "text-yellow-700 cursor-not-allowed"
+        {
+          title: "Add Tenant",
+          dataIndex: "addTenant",
+          render: (text, record) => (
+            <div>
+              <button
+                onClick={() =>
+                  addTenantFun(record.key, record.ownerId, record.propertyId)
+                }
+                disabled={record.booked}
+                className={`font-semibold text-green-500 ${record.booked && "text-yellow-700 cursor-not-allowed"
                   }`}
-                >
-                  Add
-                </button>
-              </div>
-            ),
-          },
-        ]
-      : []), 
-    
+              >
+                Add
+              </button>
+            </div>
+          ),
+        },
+
+        {
+          title: "Action",
+          dataIndex: "action",
+          render: (text, record) => (
+            <div>
+              <button
+                onClick={() =>
+                  deleteUnitHandler(record.key)
+                }
+                disabled={record.booked}
+                className={`font-semibold text-green-500 ${record.booked && "text-yellow-700 cursor-not-allowed"
+                  }`}
+              >
+                <MdDeleteForever className="text-[24px]" />
+              </button>
+            </div>
+          ),
+        },
 
 
+      ]
+      : []),
   ];
 
   const handlePageSizeChange = (current, size) => {
@@ -190,7 +229,7 @@ const PropertyDetails = () => {
   console.log(ownerData?.data);
 
 
-  
+
 
   // const addUnitModalShowFun = () =>{
   //   if(ownerData?.data?.getTotalUnit === ownerData?.data?.numberOfTotalUnits){
@@ -203,17 +242,17 @@ const PropertyDetails = () => {
   const addUnitModalShowFun = () => {
     const totalUnits = ownerData?.data?.getTotalUnit || 0;
     const bookedUnits = ownerData?.data?.numberOfTotalUnits || 0;
-  
+
     if (totalUnits === bookedUnits) {
       return toast.error(
         "You have reached the maximum number of units allowed by your subscription plan. To add more units, please update your plan."
       );
     }
-  
+
     setModal2Open(true);
   };
 
-  
+
 
   const onSubmit = async (data) => {
     const unitData = {
@@ -229,7 +268,7 @@ const PropertyDetails = () => {
     }
 
   };
-  
+
 
   return (
     <div>
@@ -254,7 +293,7 @@ const PropertyDetails = () => {
                 key={index}
                 src={`${url}${image}`}
                 onClick={() => {
-                  setSelectedImage(image); 
+                  setSelectedImage(image);
                 }}
                 className={`h-[120px] w-full rounded-lg object-cover cursor-pointer duration-300 ${image === selectedImage
                   ? "border-2 border-red-500"
@@ -268,7 +307,7 @@ const PropertyDetails = () => {
           <div className="col-span-3 w-[100%] h-[504px]">
             <img
               className="h-full w-full rounded-xl object-cover"
-              src={`${url}${selectedImage? selectedImage : images[0]}`}
+              src={`${url}${selectedImage ? selectedImage : images[0]}`}
               alt="Large Display"
             />
           </div>
