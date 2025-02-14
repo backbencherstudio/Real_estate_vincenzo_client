@@ -45,6 +45,17 @@ const ownerApi = baseApi.injectEndpoints({
       invalidatesTags: ["properties", "user", "overview"],
     }),
 
+    updateUnit: builder.mutation({
+      query: (unitData) => {        
+        return {
+          url: `/owner/update-unit/${unitData?.unitId}`,
+          method: "PATCH",
+          body: unitData
+        };
+      },
+      invalidatesTags: ["properties", "user", "overview"],
+    }),
+
     deleteUnit: builder.mutation({
       query: (unitId) => {
         return {
