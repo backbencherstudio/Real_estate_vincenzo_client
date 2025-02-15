@@ -19,6 +19,7 @@ import Profile from "../shared/Profile";
 import Messages from "../shared/Messages/Messages";
 import { MdOutlineMessage } from "react-icons/md";
 import PayOutData from "../pages/Admin/PayOutData/PayOutData";
+import { TbReportMoney } from "react-icons/tb";
 
 export const adminPaths = [
   {
@@ -58,8 +59,8 @@ export const adminPaths = [
         element: <AllTenant />,
       },
       {
-        icon: <FaBuildingUser size={18} />,
-        name: "PayOut",
+        icon: <TbReportMoney size={18} />,
+        name: "Pay Out",
         path: "payOut",
         element: <PayOutData />,
       },

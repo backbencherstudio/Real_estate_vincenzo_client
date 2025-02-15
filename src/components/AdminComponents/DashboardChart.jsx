@@ -88,6 +88,7 @@ const DashboardChart = ({ overviewData }) => {
       },
     },
   };
+  
   console.log(overviewData);
 
   const propertyChartOptions = {
@@ -198,7 +199,7 @@ const DashboardChart = ({ overviewData }) => {
         <div className="flex justify-between">
           <h2>Property Overview</h2>
 
-          <Select
+          {/* <Select
             defaultValue="lucy"
             style={{
               width: 150,
@@ -220,7 +221,7 @@ const DashboardChart = ({ overviewData }) => {
                 ],
               },
             ]}
-          />
+          /> */}
         </div>
 
         <div>
