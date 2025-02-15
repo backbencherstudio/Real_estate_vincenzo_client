@@ -15,6 +15,9 @@ const Owner = () => {
   const { data: userData } = adminApi.useGetALlUserQuery(query , {
     pollingInterval : 20000
   } );
+
+  console.log(userData);
+  
   const currentUser = useSelector(selectCurrentUser)
 
   const navigate = useNavigate()
