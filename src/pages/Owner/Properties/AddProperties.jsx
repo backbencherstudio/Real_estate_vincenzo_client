@@ -77,7 +77,7 @@ const AddProperties = () => {
         address: data?.address,
         zipCode: data?.zipCode,
       })
-    );  
+    );
     images.forEach((file) => formData.append('propertyImages', file));
     const response = await createProperty(formData);
 

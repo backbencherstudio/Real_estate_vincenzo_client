@@ -33,12 +33,24 @@ const ownerApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["properties", "user", "overview"],
     }),
+
+    updateProperty: builder.mutation({
+      query: (propertyData) => {
+        console.log(propertyData);        
+        return {
+          url: `/owner/update-properties`,
+          method: "PATCH",
+          body: propertyData
+        };
+      },
+      invalidatesTags: ["properties", "user", "overview"],
+    }),
     
     deleteProperties: builder.mutation({
       query: (propertyId) => {
         return {
           url: `/owner/deleteProperties/${propertyId}`,
-          method: "Delete",
+          method: "DELETE",
         };
       },
       invalidatesTags: ["properties", "user", "overview"],

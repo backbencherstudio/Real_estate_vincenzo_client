@@ -9,6 +9,7 @@ import CustomButton from "../../../shared/CustomButton";
 import { MdDeleteForever } from "react-icons/md";
 import { toast } from "sonner";
 import Swal from "sweetalert2";
+import { FaRegEdit } from "react-icons/fa";
 
 const AllProperties = () => {
   const [pageSize, setPageSize] = useState(10);
@@ -24,6 +25,10 @@ const AllProperties = () => {
 
   const handleNavigate = (id) => {
     navigate(`/${currentUser?.role}/properties/${id}`);
+  };
+
+  const handleNavigateForUpdateProperties = (id) => {
+    navigate(`/${currentUser?.role}/updateProperties/${id}`);
   };
 
   const deletePropertyHandler = async (propertyData) => {
@@ -133,13 +138,23 @@ const AllProperties = () => {
       title: "Action",
       dataIndex: "action",
       render: (text, record) => (
-        <div>
+        <div className="flex items-center" >
+
           <span
             onClick={() => deletePropertyHandler(record)}
-            className="text-[#4A90E2] flex items-center cursor-pointer"
+            className="text-red-500 flex items-center cursor-pointer"
           >
             <MdDeleteForever className="text-[24px] ml-1" />
           </span>
+
+          <span
+            onClick={() => handleNavigateForUpdateProperties(record?.key)}
+            className="text-[#4A90E2] flex items-center cursor-pointer"
+          >
+            <FaRegEdit className="text-[22px] ml-1" />
+          </span>
+
+
         </div>
       ),
     },
