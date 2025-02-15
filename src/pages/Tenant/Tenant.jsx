@@ -51,7 +51,7 @@ function TenantDashboard() {
   });
 
 
-  
+
   // Calculate if payment is late and determine total amount
   const isPaymentLate = (lastDate) => {
     const dueDate = new Date(lastDate);
@@ -79,12 +79,12 @@ function TenantDashboard() {
   const totalAmount = calculateTotalAmount(paymentData?.rent, paymentData?.lateFee, paymentData?.lastDate);
 
   const securityDeposit = !userData?.data?.isSecurityDepositPay && paymentData?.securityDeposit || 0
-  
+
 
   // console.log(totalAmount);
   // console.log(totalAmount?.lateFee);
   // console.log(totalAmount?.total);
-  
+
 
   const tableData = data?.data?.map(({ _id, invoice, propertyId, unitId, ownerId, userId, status, createdAt, PaymentPlaced, lateFee, paidAmount }) => ({
     key: _id,
@@ -93,7 +93,7 @@ function TenantDashboard() {
     propertyName: propertyId?.propertyName,
     rent: unitId?.rent,
     // lateFee: unitId?.lateFee,
-    lateFee : lateFee !== 0 ? unitId?.lateFee : 0,
+    lateFee: lateFee !== 0 ? unitId?.lateFee : 0,
     securityDeposit: unitId?.securityDeposit,
     ownerId,
     userId: userId._id,
@@ -101,7 +101,7 @@ function TenantDashboard() {
     status,
     createdAt,
     PaymentPlacedDate: PaymentPlaced,
-    paidAmount : paidAmount || 0
+    paidAmount: paidAmount || 0
 
 
   }));
@@ -116,6 +116,11 @@ function TenantDashboard() {
   };
 
   const columns = [
+    {
+      title: "SL",
+      dataIndex: "sl",
+      render: (text, record, index) => index + 1,
+    },
     {
       title: 'Invoice',
       dataIndex: 'invoice',
@@ -293,7 +298,7 @@ function TenantDashboard() {
                     </span>
                     <h2 className='text-[11px] font-bold -mt-1 ' >( For The First Time )</h2>
                   </h2>
-                  
+
                   {/* <p className="mt-1 text-sm text-yellow-600">This is a one-time payment required for new tenants</p> */}
                 </div>
               )

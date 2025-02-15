@@ -19,6 +19,7 @@ import Profile from "../shared/Profile";
 import Messages from "../shared/Messages/Messages";
 import StripePayment from "../pages/Owner/payment/StripePayment";
 import WithdrawForm from "../pages/Owner/WithdrawForm/WithdrawForm";
+import UpdateProperties from "../pages/Owner/Properties/UpdateProperties";
 
 export const ownerPaths = [
   {
@@ -40,6 +41,10 @@ export const ownerPaths = [
       {
         path: "properties/addProperties",
         element: <AddProperties />,
+      },
+      {
+        path: "updateProperties/:id",
+        element: <UpdateProperties />,
       },
       {
         path: "properties/:id",

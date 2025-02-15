@@ -116,6 +116,8 @@ const PropertyDetails = () => {
     createdAt,
     updatedAt,
     ownerId,
+    lateFee,
+    securityDeposit
 
   }) => ({
     key: _id,
@@ -129,7 +131,9 @@ const PropertyDetails = () => {
     booked,
     createdAt,
     updatedAt,
-    ownerId
+    ownerId,
+    lateFee,
+    securityDeposit
   }));
 
   const columns = [
@@ -163,6 +167,14 @@ const PropertyDetails = () => {
           <h2>${text}</h2>
         </div>
       )
+    },
+    {
+      title: "Late Fee",
+      dataIndex: "lateFee"
+    },
+    {
+      title: "Security Deposit",
+      dataIndex: "securityDeposit"
     },
     {
       title: "Bedroom",

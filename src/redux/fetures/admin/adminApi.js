@@ -103,6 +103,17 @@ const adminApi = baseApi.injectEndpoints({
       invalidatesTags: ["payout"], 
     }),
 
+    // =======================================>>>>> tenant payment create by admin
+    tenantPayment: builder.query({
+      query: () => {
+        return {
+          url: `/payment/tenantPayment`,
+          method: "GET",
+        };
+      },
+      invalidatesTags: ["payment"], 
+    }),
+
   }),
 });
 
