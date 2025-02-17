@@ -48,9 +48,9 @@ const adminApi = baseApi.injectEndpoints({
 
     // =================================================>>>>  All data overview
     getAllDataOverviewByAdmin: builder.query({
-      query: () => {
+      query: (selectedDateForFilter) => {
         return {
-          url: `/admin/getAllDataOverviewByAdmin`,
+          url: `/admin/getAllDataOverviewByAdmin?selectedDate=${selectedDateForFilter}`,
           method: "GET",
         };
       },

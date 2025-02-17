@@ -241,7 +241,7 @@ const DashboardChart = ({ overviewData }) => {
           <div>
             <div className="flex justify-between">
               <h2>Tenant Overview</h2>
-              <Select
+              {/* <Select
                 defaultValue="lucy"
                 style={{
                   width: 150,
@@ -263,7 +263,7 @@ const DashboardChart = ({ overviewData }) => {
                     ],
                   },
                 ]}
-              />
+              /> */}
             </div>
             <div className="mt-5">
               <ReactApexChart

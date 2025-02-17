@@ -1,4 +1,4 @@
-import { Spin, Table } from "antd";
+import { DatePicker, Select, Spin, Table } from "antd";
 import DashboardChart from "../../components/AdminComponents/DashboardChart";
 import { useState } from "react";
 import adminApi from "../../redux/fetures/admin/adminApi";
@@ -10,9 +10,22 @@ import OverviewData from "./overviewData/OverviewData";
 
 const AdminDashboard = () => {
   const [pageSize, setPageSize] = useState(10);
+  const currentDate = new Date();
+
+  const [selectedDateForFilter, setSelectedDateForFilter] = useState(
+  `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}`
+);
+
   const { data: propertyData } = adminApi.useGetAllPropertiesQuery();
   const { data: overviewAllData, isLoading } =
-    adminApi.useGetAllDataOverviewByAdminQuery();
+    adminApi.useGetAllDataOverviewByAdminQuery(selectedDateForFilter);
+
+
+  console.log(overviewAllData);
+
+  // console.log(selectedDateForFilter);
+
+
   const navigate = useNavigate();
   const currentUser = useSelector(selectCurrentUser);
 
@@ -101,13 +114,15 @@ const AdminDashboard = () => {
   const handlePageSizeChange = (current, size) => {
     setPageSize(size);
   };
-  
-  // const onChange = (value) => {
-  //   console.log(`selected ${value}`);
-  // };
-  // const onSearch = (value) => {
-  //   console.log("search:", value);
-  // };
+
+  const handleOverviewDataByAdmin = (value) => {
+    if (value) {
+          const selectedMonth = value.month() + 1;
+          const selectedYear = value.year();
+          setSelectedDateForFilter(`${selectedYear}-${selectedMonth}`);
+        }
+  };
+
 
   return (
     <div>
@@ -132,6 +147,13 @@ const AdminDashboard = () => {
       )}
 
       <div>
+        <div className="mt-5" >
+        <DatePicker
+                onChange={handleOverviewDataByAdmin}
+                picker="month"
+                format="MMM YYYY"
+              />
+        </div>
         <DashboardChart overviewData={overviewAllData} />
       </div>
 
