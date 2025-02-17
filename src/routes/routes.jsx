@@ -6,7 +6,7 @@ import { adminPaths } from "./admin.routes";
 import { ownerPaths } from "./owner.routes";
 import { tenantPaths } from "./tenant.routes";
 import Auth from "../pages/Auth/Auth";
-import SignIn from "../pages/Auth/signIn/SignIn";
+import SignIn from "../pages/Auth/SignIn/SignIn";
 import SignUp from "../pages/Auth/SignUp/SignUp";
 import ResetPassword from "../pages/Auth/ResetPassword/ResetPassword";
 import ProtectedRoute from "../layout/ProtectedRoute";
