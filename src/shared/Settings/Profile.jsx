@@ -14,10 +14,13 @@ import { Button } from "antd";
 import { useForm } from "react-hook-form";
 import { skipToken } from "@reduxjs/toolkit/query";
 import ownerApi from "../../redux/fetures/owner/ownerApi";
+import { useState } from "react";
 
 const UserProfile = () => {
     const [cancelsubscription] = authApi.useCancelsubscriptionMutation();
     const [sendPayoutRequestByOwner, { isLoading: payoutIsLoading }] = ownerApi.useSendPayoutRequestByOwnerMutation();
+    const [isCancel, setCancel] = useState(false)
+
 
     const currentUser = useSelector(selectCurrentUser);
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
@@ -39,6 +42,7 @@ const UserProfile = () => {
 
     if (isLoading) return <p>Loading...</p>;
     if (error) return <p>Error fetching user information</p>;
+  
 
 
     const userInfo = data?.data || {};
@@ -66,9 +70,11 @@ const UserProfile = () => {
             confirmButtonText: "Yes, cancel it!"
         }).then(async (result) => {
             if (result.isConfirmed) {
+                setCancel(true)
                 const res = await cancelsubscription(currentUser?.customerId)
                 if (res.data?.subscriptionId) {
                     toast.success(res.data.message)
+                    setCancel(false)
                 }
             }
         });
@@ -292,10 +298,14 @@ const UserProfile = () => {
                                     If you'd like to cancel your current plan, you can do so by clicking the button below.
                                 </p>
                                 <button
-                                    className="mt-2 bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition font-semibold"
+                                    className={`mt-2  text-white px-4 py-2 rounded-md hover:bg-red-700 transition font-semibold ${data?.data?.cancelRequest === true ? "bg-gray-600 hover:bg-gray-600 cursor-not-allowed" : "bg-red-600"} `}
                                     onClick={cancelsubscriptionFun}
+                                    disabled={data?.data?.cancelRequest === true}
                                 >
-                                    Cancel Subscription
+                                    {
+                                        isCancel ? "Wait A Moment..." : "Cancel Subscription"
+                                    }
+                                    
                                 </button>
                             </div>
                         </div>
