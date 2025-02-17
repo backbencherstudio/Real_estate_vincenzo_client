@@ -8,16 +8,21 @@ import { selectCurrentUser } from '../../../redux/fetures/auth/authSlice';
 
 const Owner = () => {
   const [pageSize, setPageSize] = useState(10);
+  const [searchTerm, setSearchTerm] = useState("")
+  const [activeOwner, setSetActiveOwner] = useState("active")
+
   const query = {
     role: "owner",
-    subscriptionStatus: "active"
+    subscriptionStatus: activeOwner,
+    searchTerm
   }
-  const { data: userData } = adminApi.useGetALlUserQuery(query , {
-    pollingInterval : 20000
-  } );
+
+  const { data: userData } = adminApi.useGetALlUserQuery(query, {
+    pollingInterval: 20000
+  });
 
   console.log(userData);
-  
+
   const currentUser = useSelector(selectCurrentUser)
 
   const navigate = useNavigate()
@@ -31,6 +36,7 @@ const Owner = () => {
     personalInfo,
     paidAmount,
     _id,
+    email
   }) => ({
     key: _id,
     name,
@@ -38,8 +44,9 @@ const Owner = () => {
     numberOfTotalUnits: numberOfTotalUnits | 0,
     bookedUnitNumber: bookedUnitNumber | 0,
     totalRentAmount: totalRentAmount | 0,
-    paidAmount : paidAmount | 0,
+    paidAmount: paidAmount | 0,
     contactNumber: personalInfo?.contactNumber | "N/F",
+    email
   }));
 
   const handlePageSizeChange = (current, size) => {
@@ -63,6 +70,10 @@ const Owner = () => {
       dataIndex: "name",
     },
     {
+      title: "Email",
+      dataIndex: "email",
+    },
+    {
       title: "Number of Property",
       dataIndex: "numberOfProperty",
     },
@@ -81,8 +92,8 @@ const Owner = () => {
     {
       title: "Current Balance",
       dataIndex: "paidAmount",
-      render : (paidAmount) =>(
-        <div> <h2 className='font-bold text-green-700 text-[16px]' >{ paidAmount } $ </h2> </div>
+      render: (paidAmount) => (
+        <div> <h2 className='font-bold text-green-700 text-[16px]' >{paidAmount} $ </h2> </div>
       )
 
     },
@@ -106,13 +117,14 @@ const Owner = () => {
     },
   ];
 
-  const onChange = (value) => {
-    console.log(`selected ${value}`);
+  const searchHandlear = (value) => {
+    setSearchTerm(value)
   };
 
-  const onSearch = (value) => {
-    console.log("search:", value);
+  const handleRoleChange = (value) => {
+    setSetActiveOwner(value)
   };
+
 
   return (
     <div>
@@ -128,27 +140,32 @@ const Owner = () => {
             <h1 className="text-xl font-semibold my-5">Owner List</h1>
           </div>
           <div>
-            <Select
-              showSearch
-              placeholder="Select a Status"
-              optionFilterProp="label"
-              onChange={onChange}
-              onSearch={onSearch}
-              options={[
-                {
-                  value: "pending",
-                  label: "Pending",
-                },
-                {
-                  value: "cancel",
-                  label: "Cancel",
-                },
-                {
-                  value: "completed",
-                  label: "Completed",
-                },
-              ]}
-            />
+
+          <Select
+                defaultValue="Active"
+                style={{
+                  width: 150,
+                }}
+                onChange={handleRoleChange}
+                options={[
+                  {
+                    label: <span>Status</span>,
+                    title: "Status",
+                    options: [
+                      {
+                        label: <span>Active</span>,
+                        value: "active",
+                      },
+                      {
+                        label: <span>Deactive</span>,
+                        value: "canceled",
+                      },
+                    ],
+                  },
+                ]}
+              />
+
+            <input onChange={(e)=>searchHandlear(e.target.value)} type="text" placeholder='search by name/email' className='border p-2 rounded-lg ml-2' />
           </div>
         </div>
 

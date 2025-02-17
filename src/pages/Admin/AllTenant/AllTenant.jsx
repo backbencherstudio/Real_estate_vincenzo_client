@@ -12,6 +12,9 @@ const AllTenant = () => {
     const navigate = useNavigate();
     const currentUser = useSelector(selectCurrentUser);
 
+    console.log(data?.data);
+    
+
     const tableData = data?.data?.map(({
         createdAt,
         ownerId,
@@ -24,7 +27,7 @@ const AllTenant = () => {
         key: _id,
         createdAt,
         updatedAt,
-        ownerId,
+        ownerName : ownerId.name,
         propertyName: propertyId?.propertyName || "N/A",
         totalRent: propertyId?.totalRent || "N/A",
         unitNumber: unitId?.unitNumber || "N/A",
@@ -50,9 +53,14 @@ const AllTenant = () => {
             render: (text, record, index) => index + 1
         },
         {
-            title: "Name",
+            title: "Owner Name",
+            dataIndex: "ownerName",
+        },
+        {
+            title: "Tenant Name",
             dataIndex: "tenantName",
         },
+        
         {
             title: "Email",
             dataIndex: "tenantEmail",
@@ -112,7 +120,7 @@ const AllTenant = () => {
                         <h1 className="text-xl font-semibold my-5"> Tenents List </h1>
                     </div>{" "}
                     <div>
-                        <Select
+                        {/* <Select
                             showSearch
                             placeholder="Select a Status"
                             optionFilterProp="label"
@@ -132,7 +140,7 @@ const AllTenant = () => {
                                     label: "Completed",
                                 },
                             ]}
-                        />
+                        /> */}
                     </div>
                 </div>
 

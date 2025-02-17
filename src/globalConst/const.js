@@ -1,1 +1,1 @@
-export const url = "http://backend.rentpadhomes.com"
+export const url = "http://localhost:5000"

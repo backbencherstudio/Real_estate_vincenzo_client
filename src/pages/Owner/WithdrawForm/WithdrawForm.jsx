@@ -147,7 +147,11 @@ const WithdrawForm = () => {
 
     const onSubmit = async (data) => {
         setMessage('');
-        if (userData?.data?.paidAmount < parseInt(data?.amount)) {
+
+        if (!userData?.data?.paidAmount) {
+            return toast.warning("Your Not abale to send withdraw request");                        
+        }
+        if (userData?.data?.paidAmount < parseInt(data?.amount)) {            
             return toast.warning("Insufficient balance. You cannot withdraw more than your available funds.");
         }
        
@@ -213,8 +217,8 @@ const WithdrawForm = () => {
 
                     <button
                         type="submit"
-                        className="w-full bg-blue-500 text-white py-2 rounded-md mt-4"
-                        disabled={isPayoutIsloadin}
+                        className={`w-full  text-white py-2 rounded-md mt-4 ${!userData?.data?.paidAmount || parseInt(userData?.data?.paidAmount) === 0 ? "bg-gray-500 cursor-not-allowed" : "bg-blue-500"} `}
+                        disabled={isPayoutIsloadin || !userData?.data?.paidAmount || parseInt(userData?.data?.paidAmount) === 0 }
                     >
                         {isPayoutIsloadin ? 'Processing...' : 'Withdraw'}
                     </button>
