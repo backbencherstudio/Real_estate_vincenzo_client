@@ -8,7 +8,7 @@ export const SocketProvider = ({ children }) => {
   const [onlineUsers, setOnlineUsers] = useState({});
 
   useEffect(() => {
-    const newSocket = io("http://localhost:5000");
+    const newSocket = io("http://backend.rentpadhomes.com"); // Replace with your backend URL
     setSocket(newSocket);
 
     newSocket.on("users_online", (users) => {
