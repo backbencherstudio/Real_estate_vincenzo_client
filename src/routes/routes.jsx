@@ -20,7 +20,6 @@ const routes = createBrowserRouter([
   },
   {
     path: "/admin",
-    element: <App></App>,
     element: (
       <ProtectedRoute role="admin">
         <App></App>
@@ -30,7 +29,6 @@ const routes = createBrowserRouter([
   },
   {
     path: "/owner",
-    element: <App></App>,
     element: (
       <OwnerProtectedRoute role="owner">
         <App></App>
@@ -40,7 +38,6 @@ const routes = createBrowserRouter([
   },
   {
     path: "/tenant",
-    element: <App></App>,
     element: (
       <TenantProtectedRoute role="tenant">
         <App></App>
