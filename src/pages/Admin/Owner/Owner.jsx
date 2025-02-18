@@ -80,8 +80,6 @@ const Owner = () => {
     });
   };
 
-
-
   const columns = [
     {
       title: "SL",
