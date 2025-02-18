@@ -30,7 +30,7 @@ const OwnerProtectedRoute = ({ children, role }) => {
     return <Navigate to="/signin" replace />;
   }
 
-  if (!user?.subscriptionStatus || user?.subscriptionStatus !== "active" || data?.data?.subscriptionStatus !== "active" ) {
+  if (!user?.subscriptionStatus  || data?.data?.subscriptionStatus !== "active" ) {
     dispatch(logOut());
     return <Navigate to="/subscription-plan" replace />;
   }
