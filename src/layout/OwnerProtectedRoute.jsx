@@ -10,27 +10,28 @@ const OwnerProtectedRoute = ({ children, role }) => {
   const dispatch = useDispatch();
   let user;
 
-  
+
   if (token) {
     user = verifyToken(token);
   }
-  
-  const { data, isLoading } = ownerApi.useIsOwnerActiveQuery(user?.email, {
-    skip: !user?.email, 
-  });  
 
-  if(isLoading){
+  const { data, isLoading } = ownerApi.useIsOwnerActiveQuery(user?.email, {
+    skip: !user?.email,
+  });
+
+  if (isLoading) {
     return <div className="w-ful h-screen flex items-center justify-center" >
-        <p className="text-xl text-center font-semibold" >Loading...</p>
+      <p className="text-xl text-center font-semibold" >Loading...</p>
     </div>
-}
+  }
 
   if (user?.customerId && !user?.customerId) {
     dispatch(logOut());
     return <Navigate to="/signin" replace />;
   }
 
-  if (!user?.subscriptionStatus  || data?.data?.subscriptionStatus !== "active" ) {
+  // if (!user?.subscriptionStatus || user?.subscriptionStatus !== "active"  ) {
+  if (!user?.subscriptionStatus || data?.data?.subscriptionStatus !== "active") {
     dispatch(logOut());
     return <Navigate to="/subscription-plan" replace />;
   }
