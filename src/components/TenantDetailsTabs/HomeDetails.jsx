@@ -2,7 +2,6 @@ import { MapPin } from 'lucide-react';
 import { url } from '../../globalConst/const';
 
 const HomeDetails = ({ homeDetails }) => {
-  console.log("home", homeDetails);
   const {
     maintainerName,
     propertyImages,
@@ -18,7 +17,6 @@ const HomeDetails = ({ homeDetails }) => {
   
   } = homeDetails;
   const images = Array.isArray(propertyImages) ? propertyImages : [];
-  console.log("dadadhas",images);
   return (
     <div className="lg:flex gap-8 space-y-4 lg:space-y-0">
       {/* Left side - Image */}

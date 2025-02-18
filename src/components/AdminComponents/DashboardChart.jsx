@@ -103,7 +103,6 @@ const DashboardChart = ({ overviewData }) => {
     },
   };
   
-  console.log(overviewData);
 
   const propertyChartOptions = {
     ...chartOptions,

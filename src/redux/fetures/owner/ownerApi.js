@@ -241,6 +241,16 @@ const ownerApi = baseApi.injectEndpoints({
       invalidatesTags: ["payout"], 
     }),
 
+    // ================================================ owner active or not
+    isOwnerActive: builder.query({
+      query: (email) => {        
+        return {
+          url: `/owner/isOwnerActive?email=${email}`,
+          method: "GET",
+        };
+      },
+    }),
+
 
 
 

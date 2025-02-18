@@ -28,7 +28,6 @@ const MaintenanceForm = ({ tenantData, close }) => {
       propertyId,
     };
 
-    console.log(maintenanceData);
     
   
   

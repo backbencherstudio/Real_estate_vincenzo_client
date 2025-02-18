@@ -11,8 +11,6 @@ const TenantDocument = () => {
     
     const { data, isLoading } = documentApi.useFindSingleTenentDocumentByOwnerQuery(id);
 
-    console.log("Download Document...", data?.data);
-
     const documents = data?.data || [];
 
     const agreement = { name: "Agreement.PDF", type: "pdf", url: "path/to/agreement.pdf" };
