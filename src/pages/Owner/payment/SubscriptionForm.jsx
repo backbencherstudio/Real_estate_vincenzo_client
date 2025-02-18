@@ -36,8 +36,6 @@ const SubscriptionForm = ({selectedPlan, totalPrice, getTotalUnit }) => {
         setEmail(email); 
     }, [currentUser, dispatch, navigate]);
 
-    
-
     const handleSubscribe = async (e) => {
         e.preventDefault();
 
@@ -46,7 +44,6 @@ const SubscriptionForm = ({selectedPlan, totalPrice, getTotalUnit }) => {
               `You have already added ${data?.data.numberOfTotalUnits} units. You cannot purchase only ${getTotalUnit} units. To add more, please update your plan to exceed your currently booked units.`
             );
           }
-          console.log(email, totalPrice);
           
 
         if (!email || !totalPrice || isNaN(totalPrice) || parseFloat(totalPrice) <= 0) {
@@ -79,7 +76,7 @@ const SubscriptionForm = ({selectedPlan, totalPrice, getTotalUnit }) => {
                 return;
             }
 
-            const response = await axios.post('http://backend.rentpadhomes.com/api/v1/payment/stripe', {
+            const response = await axios.post('http://localhost:5000/api/v1/payment/stripe', {
                 email,
                 getTotalUnit,
                 amount: totalPrice.toString(),

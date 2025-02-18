@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import ownerApi from "../../redux/fetures/owner/ownerApi";
 import { skipToken } from "@reduxjs/toolkit/query";
 import tenantApi from "../../redux/fetures/tenant/tenantApi";
-const socket = io("http://backend.rentpadhomes.com");
+const socket = io("http://localhost:5000");
 
 const Messages = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -55,7 +55,7 @@ const Messages = () => {
   // Fetch message history when component mounts or recipient changes
   useEffect(() => {
     if (recipient) {
-      fetch(`http://backend.rentpadhomes.com/chats?email=${currentUser?.email}`)
+      fetch(`http://localhost:5000/chats?email=${currentUser?.email}`)
         .then((response) => response.json())
         .then((data) => {
           setMessages(data);
@@ -160,7 +160,7 @@ const Messages = () => {
       try {
         // Get unread messages count directly from the server
         const response = await fetch(
-          `http://backend.rentpadhomes.com/messages/unread/${currentUser?.email}`
+          `http://localhost:5000/messages/unread/${currentUser?.email}`
         );
         const unreadCounts = await response.json();
 
@@ -216,7 +216,7 @@ const Messages = () => {
 
     try {
       // Mark messages as read in the backend
-      const response = await fetch("http://backend.rentpadhomes.com/messages/mark-read", {
+      const response = await fetch("http://localhost:5000/messages/mark-read", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
