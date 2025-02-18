@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-unescaped-entities */
-import { DatePicker, Select } from "antd";
+import { DatePicker } from "antd";
 import { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
 import { useSelector } from "react-redux";
@@ -8,14 +8,12 @@ import { selectCurrentUser } from "../../redux/fetures/auth/authSlice";
 import ownerApi from "../../redux/fetures/owner/ownerApi";
 import { skipToken } from "@reduxjs/toolkit/query";
 const DashboardChart = ({ overviewData }) => {
+
   // const currentUser = useSelector(selectCurrentUser);
   // const currentDate = new Date()
-
   // const [selectedDate, setSelectedDate] = useState(currentDate)
-
   // const { data } = ownerApi.useGetPaymentDataOverviewByOwnerQuery(currentUser?.userId, selectedDate)
   // console.log(data);
-
   // const handleChange = (value) => {
   //   if (value) {
   //     const selectedMonth = value.month() + 1;

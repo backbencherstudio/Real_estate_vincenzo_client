@@ -1,4 +1,5 @@
-import { Select, Table } from "antd";
+/* eslint-disable no-unused-vars */
+import { Table } from "antd";
 import { useState } from "react";
 import { FaAngleRight } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
@@ -18,7 +19,7 @@ const AllProperties = () => {
 
 
   const { data: propertyData, isLoading } = ownerApi.useGetSingleOwnerAllPropertiesQuery(currentUser?.userId);
-  const [deleteProperties, { isLoading: deletePropertyMutationLoadin }] = ownerApi.useDeletePropertiesMutation()
+  const [deleteProperties, { isLoading: deletePropertyMutationLoading }] = ownerApi.useDeletePropertiesMutation()
   const handlePageSizeChange = (current, size) => {
     setPageSize(size);
   };
@@ -160,13 +161,6 @@ const AllProperties = () => {
     },
   ];
 
-  const onChange = (value) => {
-    console.log(`selected ${value}`);
-  };
-
-  const onSearch = (value) => {
-    console.log("search:", value);
-  };
 
   return (
     <div>
@@ -193,65 +187,7 @@ const AllProperties = () => {
           <div>
             <h1 className="clamp-text font-semibold my-5"> Property List </h1>
           </div>{" "}
-          <div>
-            <Select
-              showSearch
-              placeholder="This Month"
-              optionFilterProp="label"
-              onChange={onChange}
-              onSearch={onSearch}
-              options={[
-                {
-                  value: "january",
-                  label: "January",
-                },
-                {
-                  value: "february",
-                  label: "February",
-                },
-                {
-                  value: "march",
-                  label: "March",
-                },
-                {
-                  value: "april",
-                  label: "April",
-                },
-                {
-                  value: "may",
-                  label: "May",
-                },
-                {
-                  value: "june",
-                  label: "June",
-                },
-                {
-                  value: "july",
-                  label: "July",
-                },
-                {
-                  value: "august",
-                  label: "August",
-                },
-                {
-                  value: "september",
-                  label: "September",
-                },
-                {
-                  value: "october",
-                  label: "October",
-                },
-                {
-                  value: "november",
-                  label: "November",
-                },
-                {
-                  value: "december",
-                  label: "December",
-                },
-              ]}
-            />
-          </div>
+          <div> </div>
         </div>
 
         <Table

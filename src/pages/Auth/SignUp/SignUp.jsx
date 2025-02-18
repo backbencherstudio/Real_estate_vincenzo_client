@@ -178,7 +178,7 @@ function SignUp() {
                     type="submit"
                     className="rounded-[12px] bg-gradient-to-r from-[#4A90E2] to-[#1565C0] p-4 md:p-5 w-full text-white font-medium text-lg"
                   >
-                    Sign Un
+                    Sign Up
                   </button>
 
               }

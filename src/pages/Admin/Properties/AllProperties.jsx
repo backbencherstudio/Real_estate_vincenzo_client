@@ -1,4 +1,4 @@
-import { Select, Table } from "antd";
+import { DatePicker, Table } from "antd";
 import { useState } from "react";
 import adminApi from "../../../redux/fetures/admin/adminApi";
 import { FaAngleRight } from "react-icons/fa6";
@@ -8,15 +8,18 @@ import { selectCurrentUser } from "../../../redux/fetures/auth/authSlice";
 
 const AllProperties = () => {
     const [pageSize, setPageSize] = useState(10);
-    const { data: propertyData } = adminApi.useGetAllPropertiesQuery();
+  const [selectedDate, setSelectedDate] = useState(""); 
+
+    const { data: propertyData } = adminApi.useGetAllPropertiesQuery( selectedDate );
+
     const handlePageSizeChange = (current, size) => {
         setPageSize(size);
     };
     const navigate = useNavigate();
-    const currentUser = useSelector(selectCurrentUser); 
-  
+    const currentUser = useSelector(selectCurrentUser);
+
     const handleNavigate = (id) => {
-      navigate(`/${currentUser?.role}/properties/${id}`);
+        navigate(`/${currentUser?.role}/properties/${id}`);
     };
 
 
@@ -86,24 +89,25 @@ const AllProperties = () => {
             dataIndex: "status",
             render: (text, record) => (
                 <div>
-                  <span
-                    onClick={() => handleNavigate(record?.key)}
-                    className="text-[#4A90E2] flex items-center cursor-pointer"
-                  >
-                    Details <FaAngleRight className="text-[18px] ml-1" />
-                  </span>
+                    <span
+                        onClick={() => handleNavigate(record?.key)}
+                        className="text-[#4A90E2] flex items-center cursor-pointer"
+                    >
+                        Details <FaAngleRight className="text-[18px] ml-1" />
+                    </span>
                 </div>
-              ),
+            ),
         },
     ];
 
-    const onChange = (value) => {
-        console.log(`selected ${value}`);
-    };
-
-    const onSearch = (value) => {
-        console.log("search:", value);
-    };
+    
+    const handleChange = (value) => {
+        if (value) {
+          const selectedMonth = value.month() + 1;
+          const selectedYear = value.year();
+          setSelectedDate(`${selectedYear}-${selectedMonth}`);
+        }
+      };
 
     return (
         <div>
@@ -126,62 +130,10 @@ const AllProperties = () => {
                         <h1 className="clamp-text font-semibold my-5"> Property List </h1>
                     </div>{" "}
                     <div>
-                        <Select
-                            showSearch
-                            placeholder="This Month"
-                            optionFilterProp="label"
-                            onChange={onChange}
-                            onSearch={onSearch}
-                            options={[
-                                {
-                                    value: "january",
-                                    label: "January",
-                                },
-                                {
-                                    value: "february",
-                                    label: "February",
-                                },
-                                {
-                                    value: "march",
-                                    label: "March",
-                                },
-                                {
-                                    value: "april",
-                                    label: "April",
-                                },
-                                {
-                                    value: "may",
-                                    label: "May",
-                                },
-                                {
-                                    value: "june",
-                                    label: "June",
-                                },
-                                {
-                                    value: "july",
-                                    label: "July",
-                                },
-                                {
-                                    value: "august",
-                                    label: "August",
-                                },
-                                {
-                                    value: "september",
-                                    label: "September",
-                                },
-                                {
-                                    value: "october",
-                                    label: "October",
-                                },
-                                {
-                                    value: "november",
-                                    label: "November",
-                                },
-                                {
-                                    value: "december",
-                                    label: "December",
-                                },
-                            ]}
+                        <DatePicker
+                            onChange={handleChange}
+                            picker="month"
+                            format="MMM YYYY"
                         />
                     </div>
                 </div>

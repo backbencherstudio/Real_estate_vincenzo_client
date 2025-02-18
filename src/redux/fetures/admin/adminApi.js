@@ -4,25 +4,38 @@ const adminApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
 
     getALlUser: builder.query({
-      query: (query) => {      
-        const queryString = new URLSearchParams(query).toString();  
+      query: (query) => {
+        const queryString = new URLSearchParams(query).toString();
         return {
           url: `/auth/allUsers?${queryString}`,
           method: "GET",
-        };  
+        };
       },
       providesTags: ["user"],
     }),
 
     getAllProperties: builder.query({
-      query: () => {
+      query: (selectedDate) => {
         return {
-          url: `/admin/getAllProterties`,
+          url: selectedDate
+            ? `/admin/getAllProterties?selectedDate=${selectedDate}`
+            : `/admin/getAllProterties`,
           method: "GET",
-        }
+        };
       },
       providesTags: ["properties"],
     }),
+
+
+    // getAllProperties: builder.query({
+    //   query: (selectedDate) => {
+    //     return {
+    //       url: `/admin/getAllProterties?selectedDate=${selectedDate}`,
+    //       method: "GET",
+    //     }
+    //   },
+    //   providesTags: ["properties"],
+    // }),
 
     getAllTenants: builder.query({
       query: () => {
@@ -73,7 +86,7 @@ const adminApi = baseApi.injectEndpoints({
         return {
           url: `/admin/createPlan`,
           method: "POST",
-          body : planData
+          body: planData
         };
       },
       invalidatesTags: ["plan"],
@@ -89,7 +102,7 @@ const adminApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
-      providesTags: ["payout"], 
+      providesTags: ["payout"],
     }),
 
     sendPayoutRequestByAdmin: builder.mutation({
@@ -97,10 +110,10 @@ const adminApi = baseApi.injectEndpoints({
         return {
           url: `/payment/sendPayoutRequestByAdmin`,
           method: "POST",
-          body : data
+          body: data
         };
       },
-      invalidatesTags: ["payout"], 
+      invalidatesTags: ["payout"],
     }),
 
     // =======================================>>>>> tenant payment create by admin
@@ -111,7 +124,18 @@ const adminApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
-      invalidatesTags: ["payment"], 
+      invalidatesTags: ["payment"],
+    }),
+
+    // =======================================>>>>> delete non-subscriber owner 
+    deleteNoSubscriberOwner: builder.mutation({
+      query: (ownerId) => {
+        return {
+          url: `/admin/deleteNoSubscriberOwner/${ownerId}`,
+          method: "DELETE",
+        };
+      },
+      invalidatesTags: ["user"],
     }),
 
   }),

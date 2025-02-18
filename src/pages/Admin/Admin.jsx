@@ -1,6 +1,6 @@
-import { DatePicker, Select, Spin, Table } from "antd";
+import { DatePicker, Spin, Table } from "antd";
 import DashboardChart from "../../components/AdminComponents/DashboardChart";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import adminApi from "../../redux/fetures/admin/adminApi";
 import { FaAngleRight } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
@@ -17,14 +17,12 @@ const AdminDashboard = () => {
 );
 
   const { data: propertyData } = adminApi.useGetAllPropertiesQuery();
-  const { data: overviewAllData, isLoading } =
+  const { data: overviewAllData, isLoading, refetch } =
     adminApi.useGetAllDataOverviewByAdminQuery(selectedDateForFilter);
 
-
-  console.log(overviewAllData);
-
-  // console.log(selectedDateForFilter);
-
+    useEffect(()=>{
+      refetch()
+    },[])
 
   const navigate = useNavigate();
   const currentUser = useSelector(selectCurrentUser);

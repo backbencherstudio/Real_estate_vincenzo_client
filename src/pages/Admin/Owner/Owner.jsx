@@ -5,6 +5,9 @@ import { FaAngleRight } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../../redux/fetures/auth/authSlice';
+import { RiDeleteBin5Fill } from 'react-icons/ri';
+import { toast } from 'sonner';
+import Swal from 'sweetalert2';
 
 const Owner = () => {
   const [pageSize, setPageSize] = useState(10);
@@ -21,7 +24,7 @@ const Owner = () => {
     pollingInterval: 20000
   });
 
-  console.log(userData);
+  const [deleteNoSubscriberOwner] = adminApi.useDeleteNoSubscriberOwnerMutation()
 
   const currentUser = useSelector(selectCurrentUser)
 
@@ -57,6 +60,26 @@ const Owner = () => {
   const handleNavigate = (id) => {
     navigate(`/${currentUser?.role}/owner/${id}`);
   };
+
+  const nonSubscriberUserDeleteFun = async (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await deleteNoSubscriberOwner(id);
+        if (res?.data?.success) {
+          toast.success(res?.data?.message);
+        }
+      }
+    });
+  };
+
 
 
   const columns = [
@@ -114,8 +137,25 @@ const Owner = () => {
           </span>
         </div>
       ),
-    },
+    }
   ];
+
+  if (activeOwner === "nonSubscriber") {
+    columns.push({
+      title: "Action",
+      dataIndex: "action",
+      render: (text, record) => (
+        <div>
+          <span
+            onClick={() => nonSubscriberUserDeleteFun(record?.key)}
+            className="text-[#4A90E2] flex items-center cursor-pointer"
+          >
+            <RiDeleteBin5Fill className="text-[20px] ml-1 text-red-600 " />
+          </span>
+        </div>
+      ),
+    });
+  }
 
   const searchHandlear = (value) => {
     setSearchTerm(value)
@@ -141,31 +181,41 @@ const Owner = () => {
           </div>
           <div>
 
-          <Select
-                defaultValue="Active"
-                style={{
-                  width: 150,
-                }}
-                onChange={handleRoleChange}
-                options={[
-                  {
-                    label: <span>Status</span>,
-                    title: "Status",
-                    options: [
-                      {
-                        label: <span>Active</span>,
-                        value: "active",
-                      },
-                      {
-                        label: <span>Deactive</span>,
-                        value: "canceled",
-                      },
-                    ],
-                  },
-                ]}
-              />
+            {
+              activeOwner !== "nonSubscriber" &&
+              <input onChange={(e) => searchHandlear(e.target.value)} type="text" placeholder='search by name/email' className='border p-2 rounded-lg mr-2' />
+            }
 
-            <input onChange={(e)=>searchHandlear(e.target.value)} type="text" placeholder='search by name/email' className='border p-2 rounded-lg ml-2' />
+
+            <Select
+              defaultValue="Active"
+              style={{
+                width: 150,
+              }}
+              onChange={handleRoleChange}
+              options={[
+                {
+                  label: <span>Status</span>,
+                  title: "Status",
+                  options: [
+                    {
+                      label: <span>Active</span>,
+                      value: "active",
+                    },
+                    {
+                      label: <span>Deactive</span>,
+                      value: "canceled",
+                    },
+                    {
+                      label: <span>Non-subscriber</span>,
+                      value: "nonSubscriber",
+                    },
+                  ],
+                },
+              ]}
+            />
+
+
           </div>
         </div>
 
