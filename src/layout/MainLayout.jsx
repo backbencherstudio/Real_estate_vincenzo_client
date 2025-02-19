@@ -25,25 +25,25 @@ const MainLayout = () => {
   // console.log(data?.data);
 
   const items = [
-    {
-      label: (
-        <a target="_blank" rel="noopener noreferrer">
-          1st menu
-        </a>
-      ),
-      key: "0",
-    },
-    {
-      label: (
-        <a target="_blank" rel="noopener noreferrer">
-          2nd menu
-        </a>
-      ),
-      key: "1",
-    },
-    {
-      type: "divider",
-    },
+    // {
+    //   label: (
+    //     <a target="_blank" rel="noopener noreferrer">
+    //       1st menu
+    //     </a>
+    //   ),
+    //   key: "0",
+    // },
+    // {
+    //   label: (
+    //     <a target="_blank" rel="noopener noreferrer">
+    //       2nd menu
+    //     </a>
+    //   ),
+    //   key: "1",
+    // },
+    // {
+    //   type: "divider",
+    // },
     {
       label: (
         <Button onClick={handleLOgout} className="w-full">

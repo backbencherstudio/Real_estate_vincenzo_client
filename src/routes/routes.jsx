@@ -13,10 +13,33 @@ import ProtectedRoute from "../layout/ProtectedRoute";
 import SubscriptionPlan from "../pages/Auth/subscriptionPlan/SubscriptionPlan";
 import OwnerProtectedRoute from "../layout/OwnerProtectedRoute";
 import TenantProtectedRoute from "../layout/TenantProtectedRoute";
+import LandingPageLayout from "../layout/LandingPageLayout";
+import Home from "../pages/HomePage/Home";
+import AboutUs from "../pages/AboutUs/AboutUs";
+import ContactUs from "../pages/ContactUs/ContactUs";
+import Pricing from "../pages/Pricing/Pricing";
 const routes = createBrowserRouter([
   {
     path: "/",
-    element: <App></App>,
+    element: <LandingPageLayout/>,
+    children : [
+      {
+        path : "",
+        element : <Home/>
+      },
+      {
+        path : "about-us",
+        element : <AboutUs/>
+      },
+      {
+        path : "contact-us",
+        element : <ContactUs/>
+      },
+      {
+        path : "pricing",
+        element : <Pricing/>
+      },
+    ]
   },
   {
     path: "/admin",
@@ -27,7 +50,7 @@ const routes = createBrowserRouter([
     ),
     children: routeGenerator(adminPaths),
   },
-  {
+  { 
     path: "/owner",
     element: (
       <OwnerProtectedRoute role="owner">
