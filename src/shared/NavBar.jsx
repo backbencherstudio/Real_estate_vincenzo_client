@@ -44,7 +44,7 @@ const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <div className="bg-[#FFFFFF]" >
+        <div className="bg-[#FFFFFF]">
 
             <nav className="  text-[#64636A] px-6 py-4 flex items-center justify-between  max-w-[1400px] mx-auto ">
                 <div className="text-2xl font-bold">LOGO</div>
@@ -80,6 +80,10 @@ const Navbar = () => {
                     <Link to="/signIn" className="bg-blue-500 px-4 py-2 rounded">Login</Link>
                 </motion.div>
             </nav>
+
+            
+
+
         </div>
     );
 };
