@@ -46,7 +46,6 @@ const Home = () => {
                 <p className="text-center mt-4">logo marque</p>
             </div>
 
-
             <div className="max-w-[1400px] mx-auto" >
                 <PropertyManagementCosts />
             </div>
@@ -54,15 +53,6 @@ const Home = () => {
             <div className="max-w-[1400px] mx-auto" >
                 <HomePageSubscriptionPlans/>
             </div>
-
-
-
-
-
-
-
-
-
 
 
         </div>

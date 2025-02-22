@@ -78,6 +78,14 @@ const authApi = baseApi.injectEndpoints({
       }),
     }),
 
+    contactUs: builder.mutation({
+      query: (data) => ({
+        url: `/auth/contactUs`,
+        method: "POST",
+        body: data
+      }),
+    }),
+
 
 
   }),
