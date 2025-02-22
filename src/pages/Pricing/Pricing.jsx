@@ -4,6 +4,7 @@ import HeaderContent from "../../components/Header/Header";
 import landing from "../../assets/landing.svg"
 import line from "../../assets/line.svg"
 import { IoMdCheckmarkCircle } from "react-icons/io";
+import PricingDetails from '../../components/PricingDetails/PricingDetails';
 
 const Pricing = () => {
     const [billingCycle, setBillingCycle] = useState('monthly');
@@ -155,6 +156,8 @@ const Pricing = () => {
                     </div>
                 </div>
             </div>
+
+            <PricingDetails />
         </div>
     );
 };
