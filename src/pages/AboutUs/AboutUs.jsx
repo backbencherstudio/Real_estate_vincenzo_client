@@ -1,5 +1,7 @@
 import landing from "../../assets/landing.svg"
 import HeaderContent from "../../components/Header/Header";
+import authApi from "../../redux/fetures/auth/authApi";
+
 const AboutUs = () => {
     const Contents = {
         title: "Effective Tenant Management for Superior Property Performance",
@@ -7,6 +9,10 @@ const AboutUs = () => {
         buttonText: "About Us",
         images: [landing, landing],
     };
+    const {data, isLoading} = authApi.useGetAdvisersDataQuery();
+    
+    console.log(data?.data);
+    
     return (
         <div>
             <HeaderContent content={Contents} />

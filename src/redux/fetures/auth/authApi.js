@@ -78,11 +78,19 @@ const authApi = baseApi.injectEndpoints({
       }),
     }),
 
+    //======================================================= Landing pages API call here
     contactUs: builder.mutation({
       query: (data) => ({
         url: `/auth/contactUs`,
         method: "POST",
         body: data
+      }),
+    }),
+    
+    getAdvisersData: builder.query({
+      query: () => ({
+        url: `/auth/getAdvisersData`,
+        method: "GET",
       }),
     }),
 
