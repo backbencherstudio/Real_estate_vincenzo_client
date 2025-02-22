@@ -8,6 +8,7 @@ import { Button, Dropdown, Avatar } from "antd";
 import { useAppDispatch } from "../redux/hooks";
 import authApi from "../redux/fetures/auth/authApi";
 import { url } from "../globalConst/const";
+import logo from "../assets/logo.png"
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -40,9 +41,11 @@ const Navbar = () => {
     ];
 
     return (
-        <div className="bg-[#FFFFFF]">
-            <nav className="text-[#64636A] px-6 py-4 flex items-center justify-between max-w-[1400px] mx-auto">
-                <div className="text-2xl font-bold">LOGO</div>
+        <div className="">
+            <nav className="text-[#64636A] py-4 px-4 lg:px-0 lg:py-10 flex items-center justify-between max-w-7xl mx-auto ">
+                <div className="text-2xl font-bold">
+                    <img src={logo} alt="logo" className="" />
+                </div>
                 <div className="hidden md:flex space-x-12">
                     <NavLink to="/" className={({ isActive }) => (isActive ? "text-black font-semibold" : "hover:text-black font-semibold")}>Home</NavLink>
                     <NavLink to="/about-us" className={({ isActive }) => (isActive ? "text-black font-semibold" : "hover:text-black font-semibold")}>About</NavLink>
