@@ -60,7 +60,6 @@ const StripePayment = () => {
                     ? professionalUserCount * selectedPlan.price
                     : 0
         : 0;
-    console.log(totalPrice)
     const getUserCount = () => {
         if (selectedPlan.name === 'Starter') return starterUserCount;
         if (selectedPlan.name === 'Growth') return growthUserCount;

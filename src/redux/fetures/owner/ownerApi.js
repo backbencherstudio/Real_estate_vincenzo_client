@@ -34,11 +34,44 @@ const ownerApi = baseApi.injectEndpoints({
       invalidatesTags: ["properties", "user", "overview"],
     }),
 
+    updateProperty: builder.mutation({
+      query: (propertyData) => {
+        console.log(propertyData);        
+        return {
+          url: `/owner/update-properties`,
+          method: "PATCH",
+          body: propertyData
+        };
+      },
+      invalidatesTags: ["properties", "user", "overview"],
+    }),
+    
+    deleteProperties: builder.mutation({
+      query: (propertyId) => {
+        return {
+          url: `/owner/deleteProperties/${propertyId}`,
+          method: "DELETE",
+        };
+      },
+      invalidatesTags: ["properties", "user", "overview"],
+    }),
+
     createUnit: builder.mutation({
       query: (unitData) => {
         return {
           url: "/owner/create-unit",
           method: "POST",
+          body: unitData
+        };
+      },
+      invalidatesTags: ["properties", "user", "overview"],
+    }),
+
+    updateUnit: builder.mutation({
+      query: (unitData) => {        
+        return {
+          url: `/owner/update-unit/${unitData?.unitId}`,
+          method: "PATCH",
           body: unitData
         };
       },
@@ -206,6 +239,16 @@ const ownerApi = baseApi.injectEndpoints({
         };
       },
       invalidatesTags: ["payout"], 
+    }),
+
+    // ================================================ owner active or not
+    isOwnerActive: builder.query({
+      query: (email) => {        
+        return {
+          url: `/owner/isOwnerActive?email=${email}`,
+          method: "GET",
+        };
+      },
     }),
 
 

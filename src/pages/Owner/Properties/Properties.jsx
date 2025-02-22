@@ -1,4 +1,5 @@
-import { Select, Table } from "antd";
+/* eslint-disable no-unused-vars */
+import { Table } from "antd";
 import { useState } from "react";
 import { FaAngleRight } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
@@ -6,6 +7,10 @@ import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../../redux/fetures/auth/authSlice";
 import ownerApi from "../../../redux/fetures/owner/ownerApi";
 import CustomButton from "../../../shared/CustomButton";
+import { MdDeleteForever } from "react-icons/md";
+import { toast } from "sonner";
+import Swal from "sweetalert2";
+import { FaRegEdit } from "react-icons/fa";
 
 const AllProperties = () => {
   const [pageSize, setPageSize] = useState(10);
@@ -14,12 +19,39 @@ const AllProperties = () => {
 
 
   const { data: propertyData, isLoading } = ownerApi.useGetSingleOwnerAllPropertiesQuery(currentUser?.userId);
+  const [deleteProperties, { isLoading: deletePropertyMutationLoading }] = ownerApi.useDeletePropertiesMutation()
   const handlePageSizeChange = (current, size) => {
     setPageSize(size);
   };
 
   const handleNavigate = (id) => {
     navigate(`/${currentUser?.role}/properties/${id}`);
+  };
+
+  const handleNavigateForUpdateProperties = (id) => {
+    navigate(`/${currentUser?.role}/updateProperties/${id}`);
+  };
+
+  const deletePropertyHandler = async (propertyData) => {
+    if(propertyData?.numberOfUnits > 0  ){
+     return toast.warning("This property cannot be deleted at the moment. Please delete all associated units first before proceeding.")
+    }    
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await deleteProperties(propertyData?.key);
+        if (res?.data?.success) {
+          toast.success(res?.data?.message);
+        }
+      }
+    });
   };
 
   const addPropertiesNavigation = () => {
@@ -103,15 +135,32 @@ const AllProperties = () => {
         </div>
       ),
     },
+    {
+      title: "Action",
+      dataIndex: "action",
+      render: (text, record) => (
+        <div className="flex items-center" >
+
+          <span
+            onClick={() => deletePropertyHandler(record)}
+            className="text-red-500 flex items-center cursor-pointer"
+          >
+            <MdDeleteForever className="text-[24px] ml-1" />
+          </span>
+
+          <span
+            onClick={() => handleNavigateForUpdateProperties(record?.key)}
+            className="text-[#4A90E2] flex items-center cursor-pointer"
+          >
+            <FaRegEdit className="text-[22px] ml-1" />
+          </span>
+
+
+        </div>
+      ),
+    },
   ];
 
-  const onChange = (value) => {
-    console.log(`selected ${value}`);
-  };
-
-  const onSearch = (value) => {
-    console.log("search:", value);
-  };
 
   return (
     <div>
@@ -130,7 +179,7 @@ const AllProperties = () => {
         </div>
 
         <CustomButton content="Add Properties" handleClick={addPropertiesNavigation} ></CustomButton>
-        
+
       </div>
 
       <div className="bg-white p-5 mt-10 rounded-2xl">
@@ -138,65 +187,7 @@ const AllProperties = () => {
           <div>
             <h1 className="clamp-text font-semibold my-5"> Property List </h1>
           </div>{" "}
-          <div>
-            <Select
-              showSearch
-              placeholder="This Month"
-              optionFilterProp="label"
-              onChange={onChange}
-              onSearch={onSearch}
-              options={[
-                {
-                  value: "january",
-                  label: "January",
-                },
-                {
-                  value: "february",
-                  label: "February",
-                },
-                {
-                  value: "march",
-                  label: "March",
-                },
-                {
-                  value: "april",
-                  label: "April",
-                },
-                {
-                  value: "may",
-                  label: "May",
-                },
-                {
-                  value: "june",
-                  label: "June",
-                },
-                {
-                  value: "july",
-                  label: "July",
-                },
-                {
-                  value: "august",
-                  label: "August",
-                },
-                {
-                  value: "september",
-                  label: "September",
-                },
-                {
-                  value: "october",
-                  label: "October",
-                },
-                {
-                  value: "november",
-                  label: "November",
-                },
-                {
-                  value: "december",
-                  label: "December",
-                },
-              ]}
-            />
-          </div>
+          <div> </div>
         </div>
 
         <Table

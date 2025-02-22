@@ -43,12 +43,12 @@ function SignIn() {
         {/* Left Section */}
         <div className="w-full lg:w-[50%]">
           {/* Logo Section */}
-          <div className="flex items-center pb-6 justify-center lg:justify-start">
+          <Link to="/" className="flex items-center pb-6 justify-center lg:justify-start">
             <img className="mr-2 w-8 h-8" src={iconimage} alt="icon" />
             <h2 className="font-inter text-[22px] font-medium leading-[22px] tracking-[-0.88px] bg-gradient-to-r from-[#070127] to-[#A9A9A9] bg-clip-text text-transparent">
               Real estate
             </h2>
-          </div>
+          </Link>
 
           {/* Header Section */}
           <div>

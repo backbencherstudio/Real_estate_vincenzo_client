@@ -17,12 +17,15 @@ const baseQueryWithRefreshToken = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
   console.log(result);
 
+  // if (result.error.data.message === "Invalid ID") {
+  //   api.dispatch(logOut());
+  // }
+
   if (result?.error?.data.success === false) {
     toast.error(result?.error?.data.message );
   }
 
   if (result?.error?.data?.message === "User is not found, not decoded") {
-    console.log("hit");    
     api.dispatch(logOut());
   }
 

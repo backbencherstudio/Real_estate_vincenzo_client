@@ -35,10 +35,6 @@ const sharedApi = baseApi.injectEndpoints({
 
     
 
-
-
-
-
   }),
 });
 

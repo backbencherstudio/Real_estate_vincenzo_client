@@ -14,10 +14,13 @@ import { Button } from "antd";
 import { useForm } from "react-hook-form";
 import { skipToken } from "@reduxjs/toolkit/query";
 import ownerApi from "../../redux/fetures/owner/ownerApi";
+import { useState } from "react";
 
 const UserProfile = () => {
     const [cancelsubscription] = authApi.useCancelsubscriptionMutation();
     const [sendPayoutRequestByOwner, { isLoading: payoutIsLoading }] = ownerApi.useSendPayoutRequestByOwnerMutation();
+    const [isCancel, setCancel] = useState(false)
+
 
     const currentUser = useSelector(selectCurrentUser);
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
@@ -29,23 +32,17 @@ const UserProfile = () => {
         }
     );
 
-    console.log(data?.data?.accountConnect);
-    
-
     let tenantWithOwnerData
     if (currentUser?.role === "tenant") {
         const { data: tenantDatas } = tenantApi.useGetTenantDetailseQuery(currentUser?.userId);
         tenantWithOwnerData = tenantDatas?.data?.ownerId
     }
     const { data: getPlanData } = adminApi.useGetPlanQuery(currentUser.role !== "admin" && skipToken)
-
-    console.log(getPlanData);
-
-
     const [planData] = adminApi.useCreatePlanMutation()
 
     if (isLoading) return <p>Loading...</p>;
     if (error) return <p>Error fetching user information</p>;
+  
 
 
     const userInfo = data?.data || {};
@@ -73,9 +70,11 @@ const UserProfile = () => {
             confirmButtonText: "Yes, cancel it!"
         }).then(async (result) => {
             if (result.isConfirmed) {
+                setCancel(true)
                 const res = await cancelsubscription(currentUser?.customerId)
                 if (res.data?.subscriptionId) {
                     toast.success(res.data.message)
+                    setCancel(false)
                 }
             }
         });
@@ -121,73 +120,75 @@ const UserProfile = () => {
             <div className="col-span-3">
                 {
                     currentUser.role === "admin" &&
-                    <div className=" mx-auto p-6 bg-white rounded-xl shadow-lg border">
-                        <h2 className="text-xl font-semibold text-center mb-4">Subscription Plans</h2>
-                        <form onSubmit={handleSubmit(onSubmit)} noValidate>
+                    <div>
+                        <div className=" mx-auto p-6 bg-white rounded-xl shadow-lg border">
+                            <h2 className="text-xl font-semibold text-center mb-4">Subscription Plans</h2>
+                            <form onSubmit={handleSubmit(onSubmit)} noValidate>
 
-                            <div className="mb-4">
-                                <label htmlFor="starter" className="block text-sm font-medium text-gray-700">
-                                    Starter
-                                </label>
-                                <input
-                                    {...register("starter", {
-                                        valueAsNumber: true,
-                                        required: "Starter plan price is required",
-                                    })}
-                                    type="number"
-                                    id="starter"
-                                    placeholder={`Enter Starter Plan Price . Resent Price ${getPlanData?.data?.[0]?.starter ?? 0} `}
-                                    className="mt-1 p-2 border border-gray-300 rounded w-full"
-                                />
-                                {errors.starter && (
-                                    <p className="text-red-500 text-sm">{errors.starter?.message}</p>
-                                )}
-                            </div>
+                                <div className="mb-4">
+                                    <label htmlFor="starter" className="block text-sm font-medium text-gray-700">
+                                        Starter
+                                    </label>
+                                    <input
+                                        {...register("starter", {
+                                            valueAsNumber: true,
+                                            required: "Starter plan price is required",
+                                        })}
+                                        type="number"
+                                        id="starter"
+                                        placeholder={`Enter Starter Plan Price . Resent Price ${getPlanData?.data?.[0]?.starter ?? 0} `}
+                                        className="mt-1 p-2 border border-gray-300 rounded w-full"
+                                    />
+                                    {errors.starter && (
+                                        <p className="text-red-500 text-sm">{errors.starter?.message}</p>
+                                    )}
+                                </div>
 
-                            {/* Growth Plan Field */}
-                            <div className="mb-4">
-                                <label htmlFor="growth" className="block text-sm font-medium text-gray-700">
-                                    Growth
-                                </label>
-                                <input
-                                    {...register("growth", {
-                                        valueAsNumber: true,
-                                        required: "Growth plan price is required",
-                                    })}
-                                    type="number"
-                                    id="growth"
-                                    placeholder={`Enter Growth Plan Price . Resent Price ${getPlanData?.data?.[0]?.growth ?? 0} `}
-                                    className="mt-1 p-2 border border-gray-300 rounded w-full"
-                                />
-                                {errors.growth && (
-                                    <p className="text-red-500 text-sm">{errors.growth?.message}</p>
-                                )}
-                            </div>
+                                {/* Growth Plan Field */}
+                                <div className="mb-4">
+                                    <label htmlFor="growth" className="block text-sm font-medium text-gray-700">
+                                        Growth
+                                    </label>
+                                    <input
+                                        {...register("growth", {
+                                            valueAsNumber: true,
+                                            required: "Growth plan price is required",
+                                        })}
+                                        type="number"
+                                        id="growth"
+                                        placeholder={`Enter Growth Plan Price . Resent Price ${getPlanData?.data?.[0]?.growth ?? 0} `}
+                                        className="mt-1 p-2 border border-gray-300 rounded w-full"
+                                    />
+                                    {errors.growth && (
+                                        <p className="text-red-500 text-sm">{errors.growth?.message}</p>
+                                    )}
+                                </div>
 
-                            {/* Professional Plan Field */}
-                            <div className="mb-4">
-                                <label htmlFor="professional" className="block text-sm font-medium text-gray-700">
-                                    Professional
-                                </label>
-                                <input
-                                    {...register("professional", {
-                                        valueAsNumber: true,
-                                        required: "Professional plan price is required",
-                                    })}
-                                    type="number"
-                                    id="professional"
-                                    placeholder={`Enter Professional Plan Price . Resent Price ${getPlanData?.data?.[0]?.professional ?? 0} `}
-                                    className="mt-1 p-2 border border-gray-300 rounded w-full"
-                                />
-                                {errors.professional && (
-                                    <p className="text-red-500 text-sm">{errors.professional?.message}</p>
-                                )}
-                            </div>
+                                {/* Professional Plan Field */}
+                                <div className="mb-4">
+                                    <label htmlFor="professional" className="block text-sm font-medium text-gray-700">
+                                        Professional
+                                    </label>
+                                    <input
+                                        {...register("professional", {
+                                            valueAsNumber: true,
+                                            required: "Professional plan price is required",
+                                        })}
+                                        type="number"
+                                        id="professional"
+                                        placeholder={`Enter Professional Plan Price . Resent Price ${getPlanData?.data?.[0]?.professional ?? 0} `}
+                                        className="mt-1 p-2 border border-gray-300 rounded w-full"
+                                    />
+                                    {errors.professional && (
+                                        <p className="text-red-500 text-sm">{errors.professional?.message}</p>
+                                    )}
+                                </div>
 
-                            <Button type="primary" htmlType="submit" block>
-                                Submit
-                            </Button>
-                        </form>
+                                <Button type="primary" htmlType="submit" block>
+                                    Submit
+                                </Button>
+                            </form>
+                        </div>
                     </div>
                 }
                 {
@@ -268,7 +269,7 @@ const UserProfile = () => {
                                 :
 
                                 {
-                                    data?.data?.accountConnect !== true  ?
+                                    data?.data?.accountConnect !== true ?
 
                                         <span className="text-blue-600 font-bold flex ml-2 ">  <button onClick={() => AddPayoutAccoutnByOwner(currentUser?.email)} className="ml-4 text-[14px] text-green-500 border rounded-lg px-2 " > Add account {data?.data?.accountConnect} </button>  </span>
                                         :
@@ -297,10 +298,14 @@ const UserProfile = () => {
                                     If you'd like to cancel your current plan, you can do so by clicking the button below.
                                 </p>
                                 <button
-                                    className="mt-2 bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition font-semibold"
+                                    className={`mt-2  text-white px-4 py-2 rounded-md hover:bg-red-700 transition font-semibold ${data?.data?.cancelRequest === true ? "bg-gray-600 hover:bg-gray-600 cursor-not-allowed" : "bg-red-600"} `}
                                     onClick={cancelsubscriptionFun}
+                                    disabled={data?.data?.cancelRequest === true}
                                 >
-                                    Cancel Subscription
+                                    {
+                                        isCancel ? "Wait A Moment..." : "Cancel Subscription"
+                                    }
+                                    
                                 </button>
                             </div>
                         </div>

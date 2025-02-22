@@ -57,7 +57,6 @@ export const MessageList = ({ onChatSelect, userData, currentUser }) => {
   if (error) {
     return <div className="p-4 text-center text-red-500">{error}</div>;
   }
-  console.log(filteredUsers);
 
   return (
     <div className="h-[600px]">

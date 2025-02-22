@@ -6,20 +6,43 @@ import { adminPaths } from "./admin.routes";
 import { ownerPaths } from "./owner.routes";
 import { tenantPaths } from "./tenant.routes";
 import Auth from "../pages/Auth/Auth";
-import SignIn from "../pages/Auth/signIn/SignIn";
+import SignIn from "../pages/Auth/SignIn/SignIn";
 import SignUp from "../pages/Auth/SignUp/SignUp";
 import ResetPassword from "../pages/Auth/ResetPassword/ResetPassword";
 import ProtectedRoute from "../layout/ProtectedRoute";
 import SubscriptionPlan from "../pages/Auth/subscriptionPlan/SubscriptionPlan";
 import OwnerProtectedRoute from "../layout/OwnerProtectedRoute";
+import TenantProtectedRoute from "../layout/TenantProtectedRoute";
+import LandingPageLayout from "../layout/LandingPageLayout";
+import Home from "../pages/HomePage/Home";
+import AboutUs from "../pages/AboutUs/AboutUs";
+import ContactUs from "../pages/ContactUs/ContactUs";
+import Pricing from "../pages/Pricing/Pricing";
 const routes = createBrowserRouter([
   {
     path: "/",
-    element: <App></App>,
+    element: <LandingPageLayout/>,
+    children : [
+      {
+        path : "",
+        element : <Home/>
+      },
+      {
+        path : "about-us",
+        element : <AboutUs/>
+      },
+      {
+        path : "contact-us",
+        element : <ContactUs/>
+      },
+      {
+        path : "pricing",
+        element : <Pricing/>
+      },
+    ]
   },
   {
     path: "/admin",
-    element: <App></App>,
     element: (
       <ProtectedRoute role="admin">
         <App></App>
@@ -27,9 +50,8 @@ const routes = createBrowserRouter([
     ),
     children: routeGenerator(adminPaths),
   },
-  {
+  { 
     path: "/owner",
-    element: <App></App>,
     element: (
       <OwnerProtectedRoute role="owner">
         <App></App>
@@ -39,11 +61,10 @@ const routes = createBrowserRouter([
   },
   {
     path: "/tenant",
-    element: <App></App>,
     element: (
-      <ProtectedRoute role="tenant">
+      <TenantProtectedRoute role="tenant">
         <App></App>
-      </ProtectedRoute>
+      </TenantProtectedRoute>
     ),
     children: routeGenerator(tenantPaths),
   },

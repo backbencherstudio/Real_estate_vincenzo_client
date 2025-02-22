@@ -29,9 +29,7 @@ const Messages = () => {
     tenantApi.useGetAllTenantsForMessageForEachPropertyTenantQuery(
       currentUser?.userId
     );
-  console.log(31, eachTenantSameProperAllTenant);
 
-  console.log(23, tenantDataByOwner?.data);
 
   const [unreadMessages, setUnreadMessages] = useState(() => {
     const saved = localStorage.getItem("unreadMessages");

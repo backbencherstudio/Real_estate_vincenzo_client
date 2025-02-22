@@ -61,12 +61,12 @@ function SignUp() {
         className="max-w-[1300px] mx-auto flex flex-col lg:flex-row items-center gap-8 lg:gap-16 px-4 md:px-8 lg:px-0 pt-8 md:pt-12 lg:pt-16"
       >
         <div className="w-full lg:w-[50%]">
-          <div className="flex items-center pb-6 justify-center lg:justify-start">
+          <Link to="/" className="flex items-center pb-6 justify-center lg:justify-start">
             <img className="mr-2 w-8 h-8" src={iconimage} alt="icon" />
             <h2 className="font-inter text-[22px] font-medium leading-[22px] tracking-[-0.88px] bg-gradient-to-r from-[#070127] to-[#A9A9A9] bg-clip-text text-transparent">
               Real estate
             </h2>
-          </div>
+          </Link>
 
           <div>
             <h3 className="text-[#232323] font-inter text-[28px] md:text-[34px] font-semibold leading-[34px] tracking-[-0.68px] pb-4 text-center lg:text-left">
@@ -178,7 +178,7 @@ function SignUp() {
                     type="submit"
                     className="rounded-[12px] bg-gradient-to-r from-[#4A90E2] to-[#1565C0] p-4 md:p-5 w-full text-white font-medium text-lg"
                   >
-                    Sign Un
+                    Sign Up
                   </button>
 
               }

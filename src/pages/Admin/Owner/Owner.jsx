@@ -5,16 +5,27 @@ import { FaAngleRight } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../../redux/fetures/auth/authSlice';
+import { RiDeleteBin5Fill } from 'react-icons/ri';
+import { toast } from 'sonner';
+import Swal from 'sweetalert2';
 
 const Owner = () => {
   const [pageSize, setPageSize] = useState(10);
+  const [searchTerm, setSearchTerm] = useState("")
+  const [activeOwner, setSetActiveOwner] = useState("active")
+
   const query = {
     role: "owner",
-    subscriptionStatus: "active"
+    subscriptionStatus: activeOwner,
+    searchTerm
   }
-  const { data: userData } = adminApi.useGetALlUserQuery(query , {
-    pollingInterval : 20000
-  } );
+
+  const { data: userData } = adminApi.useGetALlUserQuery(query, {
+    pollingInterval: 20000
+  });
+
+  const [deleteNoSubscriberOwner] = adminApi.useDeleteNoSubscriberOwnerMutation()
+
   const currentUser = useSelector(selectCurrentUser)
 
   const navigate = useNavigate()
@@ -28,6 +39,7 @@ const Owner = () => {
     personalInfo,
     paidAmount,
     _id,
+    email
   }) => ({
     key: _id,
     name,
@@ -35,8 +47,9 @@ const Owner = () => {
     numberOfTotalUnits: numberOfTotalUnits | 0,
     bookedUnitNumber: bookedUnitNumber | 0,
     totalRentAmount: totalRentAmount | 0,
-    paidAmount : paidAmount | 0,
+    paidAmount: paidAmount | 0,
     contactNumber: personalInfo?.contactNumber | "N/F",
+    email
   }));
 
   const handlePageSizeChange = (current, size) => {
@@ -48,6 +61,24 @@ const Owner = () => {
     navigate(`/${currentUser?.role}/owner/${id}`);
   };
 
+  const nonSubscriberUserDeleteFun = async (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await deleteNoSubscriberOwner(id);
+        if (res?.data?.success) {
+          toast.success(res?.data?.message);
+        }
+      }
+    });
+  };
 
   const columns = [
     {
@@ -58,6 +89,10 @@ const Owner = () => {
     {
       title: "Owner Name",
       dataIndex: "name",
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
     },
     {
       title: "Number of Property",
@@ -78,8 +113,8 @@ const Owner = () => {
     {
       title: "Current Balance",
       dataIndex: "paidAmount",
-      render : (paidAmount) =>(
-        <div> <h2 className='font-bold text-green-700 text-[16px]' >{ paidAmount } $ </h2> </div>
+      render: (paidAmount) => (
+        <div> <h2 className='font-bold text-green-700 text-[16px]' >{paidAmount} $ </h2> </div>
       )
 
     },
@@ -100,16 +135,34 @@ const Owner = () => {
           </span>
         </div>
       ),
-    },
+    }
   ];
 
-  const onChange = (value) => {
-    console.log(`selected ${value}`);
+  if (activeOwner === "nonSubscriber") {
+    columns.push({
+      title: "Action",
+      dataIndex: "action",
+      render: (text, record) => (
+        <div>
+          <span
+            onClick={() => nonSubscriberUserDeleteFun(record?.key)}
+            className="text-[#4A90E2] flex items-center cursor-pointer"
+          >
+            <RiDeleteBin5Fill className="text-[20px] ml-1 text-red-600 " />
+          </span>
+        </div>
+      ),
+    });
+  }
+
+  const searchHandlear = (value) => {
+    setSearchTerm(value)
   };
 
-  const onSearch = (value) => {
-    console.log("search:", value);
+  const handleRoleChange = (value) => {
+    setSetActiveOwner(value)
   };
+
 
   return (
     <div>
@@ -125,27 +178,42 @@ const Owner = () => {
             <h1 className="text-xl font-semibold my-5">Owner List</h1>
           </div>
           <div>
+
+            {
+              activeOwner !== "nonSubscriber" &&
+              <input onChange={(e) => searchHandlear(e.target.value)} type="text" placeholder='search by name/email' className='border p-2 rounded-lg mr-2' />
+            }
+
+
             <Select
-              showSearch
-              placeholder="Select a Status"
-              optionFilterProp="label"
-              onChange={onChange}
-              onSearch={onSearch}
+              defaultValue="Active"
+              style={{
+                width: 150,
+              }}
+              onChange={handleRoleChange}
               options={[
                 {
-                  value: "pending",
-                  label: "Pending",
-                },
-                {
-                  value: "cancel",
-                  label: "Cancel",
-                },
-                {
-                  value: "completed",
-                  label: "Completed",
+                  label: <span>Status</span>,
+                  title: "Status",
+                  options: [
+                    {
+                      label: <span>Active</span>,
+                      value: "active",
+                    },
+                    {
+                      label: <span>Deactive</span>,
+                      value: "canceled",
+                    },
+                    {
+                      label: <span>Non-subscriber</span>,
+                      value: "nonSubscriber",
+                    },
+                  ],
                 },
               ]}
             />
+
+
           </div>
         </div>
 

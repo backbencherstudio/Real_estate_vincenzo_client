@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-unescaped-entities */
-import { DatePicker, Select } from "antd";
+import { DatePicker } from "antd";
 import { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
 import { useSelector } from "react-redux";
@@ -8,14 +8,12 @@ import { selectCurrentUser } from "../../redux/fetures/auth/authSlice";
 import ownerApi from "../../redux/fetures/owner/ownerApi";
 import { skipToken } from "@reduxjs/toolkit/query";
 const DashboardChart = ({ overviewData }) => {
+
   // const currentUser = useSelector(selectCurrentUser);
   // const currentDate = new Date()
-
   // const [selectedDate, setSelectedDate] = useState(currentDate)
-
   // const { data } = ownerApi.useGetPaymentDataOverviewByOwnerQuery(currentUser?.userId, selectedDate)
   // console.log(data);
-
   // const handleChange = (value) => {
   //   if (value) {
   //     const selectedMonth = value.month() + 1;
@@ -32,11 +30,18 @@ const DashboardChart = ({ overviewData }) => {
     `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}`
   );
 
+  //=============================================================================== dont remove it 
+  // const [selectedDateFroProperty, setSelectedDateForProperty] = useState(
+  //   `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}`
+  // );
+
   const { data } = ownerApi.useGetPaymentDataOverviewByOwnerQuery(
     currentUser.role === "owner"
-      ? { ownerId: currentUser?.userId, selectedDate }
+      ? { ownerId: currentUser?.userId, selectedDate}
       : skipToken
   );
+
+  
 
   const totalDueRentAmount = data?.data?.totalDueRentAmount || 0;
   const totalPaidRentAmount = data?.data?.totalPaidRentAmount || 0;
@@ -48,6 +53,15 @@ const DashboardChart = ({ overviewData }) => {
       setSelectedDate(`${selectedYear}-${selectedMonth}`);
     }
   };
+
+  //================================================================ dont remove this function in future it will work i think
+  // const handleChangeForPropertyByOwner = (value) => {
+  //   if (value) {
+  //     const selectedMonth = value.month() + 1;
+  //     const selectedYear = value.year();
+  //     setSelectedDateForProperty(`${selectedYear}-${selectedMonth}`);
+  //   }
+  // };
 
   const chartOptions = {
     chart: {
@@ -88,7 +102,7 @@ const DashboardChart = ({ overviewData }) => {
       },
     },
   };
-  console.log(overviewData);
+  
 
   const propertyChartOptions = {
     ...chartOptions,
@@ -198,29 +212,13 @@ const DashboardChart = ({ overviewData }) => {
         <div className="flex justify-between">
           <h2>Property Overview</h2>
 
-          <Select
-            defaultValue="lucy"
-            style={{
-              width: 150,
-            }}
-            onChange={handleChange}
-            options={[
-              {
-                label: <span>manager</span>,
-                title: "manager",
-                options: [
-                  {
-                    label: <span>Jack</span>,
-                    value: "Jack",
-                  },
-                  {
-                    label: <span>Lucy</span>,
-                    value: "Lucy",
-                  },
-                ],
-              },
-            ]}
-          />
+{/* ========================== don't remove it =============================== */}
+          {/* <DatePicker
+                onChange={handleChangeForPropertyByOwner}
+                picker="month"
+                format="MMM YYYY"
+              /> */}
+
         </div>
 
         <div>
@@ -233,13 +231,14 @@ const DashboardChart = ({ overviewData }) => {
             />
           </div>
         </div>
+        
       </div>
       <div className="bg-white mt-5 lg:mt-0 p-5 rounded-md relative overflow-hidden col-span-1">
         {currentUser?.role === "admin" ? (
           <div>
             <div className="flex justify-between">
               <h2>Tenant Overview</h2>
-              <Select
+              {/* <Select
                 defaultValue="lucy"
                 style={{
                   width: 150,
@@ -261,7 +260,7 @@ const DashboardChart = ({ overviewData }) => {
                     ],
                   },
                 ]}
-              />
+              /> */}
             </div>
             <div className="mt-5">
               <ReactApexChart
