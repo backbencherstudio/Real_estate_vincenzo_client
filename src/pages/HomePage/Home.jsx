@@ -5,9 +5,6 @@ import PropertyManagementCosts from "./PropertyManagementCosts";
 const Home = () => {
     return (
         <div className="px-4" >
-
-
-
             <div className="w-full  max-w-[1400px] mx-auto">
                 <div className=" mx-auto flex flex-col items-center mt-20 ">
                     <div className="w-full md:w-[80%] lg:w-[60%] text-center">
@@ -27,7 +24,6 @@ const Home = () => {
                         </div>
                     </div>
                 </div>
-
                 <div className=" mx-auto mt-14 ">
                     <div className="w-full h-auto flex justify-center">
                         <img
@@ -38,14 +34,12 @@ const Home = () => {
                     </div>
                 </div>
             </div>
-
             <div className=" mx-auto my-24 ">
                 <p className="font-inter font-medium text-2xl sm:text-3xl md:text-4xl lg:text-[48px] leading-tight text-center">
                     Join our community of 10,000+ Real Estates
                 </p>
                 <p className="text-center mt-4">logo marque</p>
             </div>
-
             <div className="max-w-[1400px] mx-auto" >
                 <PropertyManagementCosts />
             </div>

@@ -5,7 +5,7 @@ import Footer from "../shared/Footer";
 
 const LandingPageLayout = () => {
     return (
-        <div className="bg-[#f7f7f8]">
+        <div className="bg-white">
             <div className="fixed top-0 left-0 w-full z-50 bg-white shadow">
                 <NavBar />
             </div>
