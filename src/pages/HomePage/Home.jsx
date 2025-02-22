@@ -39,6 +39,8 @@ const Home = () => {
             <div className="max-w-[1400px] mx-auto" >
                 <HomePageSubscriptionPlans/>
             </div>
+
+
         </div>
     );
 };
