@@ -4,6 +4,7 @@ import { Navigate } from "react-router-dom";
 import { logOut, useCurrentToken } from "../redux/fetures/auth/authSlice";
 import { verifyToken } from "../utils/varifyToken";
 import tenantApi from "../redux/fetures/tenant/tenantApi";
+import { toast } from "sonner";
 
 const TenantProtectedRoute = ({ children, role }) => {
     const token = useSelector(useCurrentToken);
@@ -12,8 +13,10 @@ const TenantProtectedRoute = ({ children, role }) => {
     let user;
     if (token) {
         user = verifyToken(token);
-    }
-    const { data, isLoading } = tenantApi.useIsOwnerActiveOrNotQuery(user?.userId)
+    }    
+    const { data, isLoading } = tenantApi.useIsOwnerActiveOrNotQuery(user?.userId, {
+        skip: !user?.userId,  
+    });
 
     if(isLoading){
         return <div className="w-ful h-screen flex items-center justify-center" >
@@ -25,6 +28,7 @@ const TenantProtectedRoute = ({ children, role }) => {
         return <Navigate to="/signin" replace={true}></Navigate>;
     }
     if (data?.data?.subscriptionStatus !== "active") {
+        toast.warning("Your account owner currently does not have an active subscription.")
         dispatch(logOut());
         return <Navigate to="/signin" replace={true}></Navigate>;
     }

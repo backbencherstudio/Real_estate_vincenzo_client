@@ -46,6 +46,8 @@ const tenantApi = baseApi.injectEndpoints({
 
     isOwnerActiveOrNot : builder.query({
       query: (userId)=>{        
+        console.log(userId);
+        
         return {
           url: `/tenant/isOwnerActiveOrNot/${userId}`,
           method: "GET",

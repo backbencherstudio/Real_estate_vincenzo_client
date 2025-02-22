@@ -6,7 +6,7 @@ import { sidebarItemGenerator } from "../utils/sidebarItemGenerator";
 import { useAppSelector } from "../redux/hooks";
 import { useCurrentToken } from "../redux/fetures/auth/authSlice";
 import { jwtDecode } from "jwt-decode";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from './../assets/logo.svg'
 
 const { Sider } = Layout;
@@ -60,7 +60,7 @@ const SideBar = () => {
       breakpoint="lg"
       collapsedWidth="0"
     >
-      <div
+      <Link to="/"
         style={{
           height: "60px",
           display: "flex",
@@ -72,7 +72,7 @@ const SideBar = () => {
         <h2 className="flex items-center gap-2 text-xl" style={{ color: "white" }}>
           <img src={logo} alt="" className="h-7 w-7" />
            Real Estate </h2>
-      </div>
+      </Link>
       <Menu
         theme="dark"
         mode="inline"
