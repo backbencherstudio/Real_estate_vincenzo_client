@@ -20,8 +20,7 @@ const Pricing = () => {
     return (
         <div>
             <HeaderContent content={Contents} />
-
-            <div className="max-w-7xl mx-auto px-4 ">
+            <div className="max-w-7xl mx-auto px-4 2xl:px-0 py-16 lg:py-20 ">
                 {/* Billing Toggle */}
                 <div className="flex justify-center gap-4 mb-4">
                    <button className='primary-btn cursor-auto'>Monthly</button>
@@ -156,7 +155,6 @@ const Pricing = () => {
                     </div>
                 </div>
             </div>
-
             <PricingDetails />
         </div>
     );

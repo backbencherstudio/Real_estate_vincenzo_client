@@ -99,38 +99,41 @@ const pricingData = {
 
 const PricingDetails = () => {
     return (
-        <div className="max-w-7xl mx-auto px-4 py-16 sm:px-6 lg:px-8 overflow-x-auto">
-            <h1 className="text-4xl font-bold text-center mb-12">See Pricing details</h1>
-            
-            {/* Header Row */}
-            <div className="grid grid-cols-4 gap-4 mb-8 min-w-[768px]">
-                <div className="font-medium">Pricing</div>
-                {pricingData.plans.map((plan, index) => (
-                    <div key={index} className="">
-                        {plan.badge ? (
-                            <div className="bg-blue-500 text-white rounded-full px-4 py-1 w-fit mx-auto mb-2">
-                                {plan.name}
+        <div className=' px-4 py-16 lg:py-20 sm:px-6 2xl:px-0'>
+            <h1 className="text-2xl md:text-5xl lg:text-6xl font-medium text-[#0F1320] mb-6 md:mb-12 text-center">See Pricing details</h1>
+            <div className="max-w-7xl mx-auto  overflow-x-auto">
+                {/* Header Row */}
+                <div className="grid grid-cols-4 gap-4 mb-8 min-w-[768px]">
+                    <div className="text-2xl font-medium text-[#070127]">Pricing</div>
+                    {pricingData.plans.map((plan, index) => (
+                        <div key={index} className="">
+                            {plan.badge ? (
+                                <div className="w-fit bg-gradient-to-r from-[#4A90E2] to-[#1565C0] text-white rounded-full px-4 py-2 mb-2">
+                                    {plan.name}
+                                </div>
+                            ) : (
+                                <div className="mb-2 text-zinc-600 bg-[#F1F7FE] rounded-full px-4 py-2 w-fit">{plan.name}</div>
+                            )}
+                            <div className='flex items-center'>
+                                <h1 className="text-xl font-normal text-zinc-600">${plan.price} /</h1>
+                                <p className="text-sm font-normal text-gray-600 mt-2">per unit/month</p>
                             </div>
-                        ) : (
-                            <div className="mb-2">{plan.name}</div>
-                        )}
-                        <div className="text-2xl font-bold text-blue-600">${plan.price}</div>
-                        <div className="text-sm text-gray-600">/per unit/month</div>
-                        <div className="text-sm text-gray-600 mt-2">{plan.description}</div>
-                    </div>
-                ))}
-            </div>
+                            <div className="text-sm text-gray-600 mt-2">{plan.description}</div>
+                        </div>
+                    ))}
+                </div>
 
-            {/* Features Grid */}
-            <div className="space-y-4">
-                {pricingData.features.map((feature, index) => (
-                    <div key={index} className="grid grid-cols-4 gap-4 py-4 border-b min-w-[768px]">
-                        <div className="font-medium">{feature.name}</div>
-                        <div className="">{feature.starter}</div>
-                        <div className="">{feature.growth}</div>
-                        <div className="">{feature.professional}</div>
-                    </div>
-                ))}
+                {/* Features Grid */}
+                <div className="space-y-4 lg:border lg:border-zinc-200 lg:rounded-lg lg:p-4">
+                    {pricingData.features.map((feature, index) => (
+                        <div key={index} className="grid grid-cols-4 gap-4 py-4 border-b min-w-[768px] text-[#070127]">
+                            <div className="font-medium">{feature.name}</div>
+                            <div className="">{feature.starter}</div>
+                            <div className="">{feature.growth}</div>
+                            <div className="">{feature.professional}</div>
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );
