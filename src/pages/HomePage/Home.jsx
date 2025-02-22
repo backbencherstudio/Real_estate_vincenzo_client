@@ -1,28 +1,20 @@
 import dashboardImage from "../../../public/Dashboard.png"
 import HomePageSubscriptionPlans from "./HomePageSubscriptionPlans";
 import PropertyManagementCosts from "./PropertyManagementCosts";
-
+import HeaderContent from "../../components/Header/Header";
+import landing from "../../assets/landing.svg"
 const Home = () => {
+    const Contents = {
+        title: "The Best Property Management Solution",
+        description: "This software boosts revenue, keeps you organized, and grows your business with advanced tech and top support.",
+        buttonText: "Unlock your financial potential",
+        images: [landing, landing],
+    };  
     return (
-        <div className="px-4" >
-            <div className="w-full  max-w-[1400px] mx-auto">
-                <div className=" mx-auto flex flex-col items-center mt-20 ">
-                    <div className="w-full md:w-[80%] lg:w-[60%] text-center">
-                        <p className="font-inter text-[#070127] text-3xl sm:text-4xl md:text-5xl lg:text-[72px] leading-tight font-medium mb-4">
-                            The Best Property Management Solution
-                        </p>
-                        <p className="font-inter text-[#64636A] text-base sm:text-lg md:text-xl leading-[22.4px] tracking-[-1%] my-6">
-                            This software boosts revenue, keeps you organized, and grows your business with advanced tech and top support.
-                        </p>
-
-                        <div className="w-full">
-                            <input
-                                type="text"
-                                placeholder="Enter Your Email"
-                                className="w-full p-3 sm:p-4 rounded-xl border border-gray-300"
-                            />
-                        </div>
-                    </div>
+        <div className="px-4 lg:px-0" >
+            <div className="w-full  max-w-7xl mx-auto">
+                <div className=" mx-auto flex flex-col items-center ">
+                    <HeaderContent content={Contents} />
                 </div>
                 <div className=" mx-auto mt-14 ">
                     <div className="w-full h-auto flex justify-center">

@@ -19,3 +19,7 @@
     background-color: #868686a4;
     border-radius: 1px;
   }
+
+  .primary-btn{
+    @apply  rounded-[12px] bg-gradient-to-r from-[#4A90E2] to-[#1565C0] p-4 text-white  active:scale-95 transition-all duration-300
+  }

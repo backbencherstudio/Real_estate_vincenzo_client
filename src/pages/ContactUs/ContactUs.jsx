@@ -13,7 +13,7 @@ const ContactUs = () => {
     return (
         <div>
             <HeaderContent content={Contents} />
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto py-10 lg:py-20">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-7xl mx-auto px-4 lg:px-0 py-10 lg:py-20">
                 {/* Phone Number Card */}
                 <div className="bg-[#F5F6F9] p-6 rounded-lg">
                     <div className="w-16 h-16 flex items-center justify-center text-blue-500 bg-white rounded-full p-2 mb-5">
