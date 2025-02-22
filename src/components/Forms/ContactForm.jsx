@@ -1,10 +1,20 @@
-import React from 'react';
 import { useForm } from 'react-hook-form';
+import authApi from '../../redux/fetures/auth/authApi';
+import { toast } from 'sonner';
 
 const ContactForm = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
-    const onSubmit = (data) => {
-        console.log(data);
+
+
+    const { register, handleSubmit, formState: { errors }, reset } = useForm();
+    const [contactUs, {isLoading}] = authApi.useContactUsMutation()
+
+
+    const onSubmit = async (data) => {
+        const res = await contactUs(data)
+        if(res?.data?.success){
+            toast.success(res?.data?.message)
+            reset()
+        }
     }
 
     return (
@@ -52,7 +62,7 @@ const ContactForm = () => {
                     {...register("message", { required: true })}
                 />
                 {errors.message && <span className="md:col-span-3 text-red-500 text-sm">This field is required</span>}
-                <button type="submit" className="w-32 rounded-[12px] bg-gradient-to-r from-[#4A90E2] to-[#1565C0] p-4 text-white  active:scale-95 transition-all duration-300">Submit</button>
+                <button type="submit" className="w-32 rounded-[12px] bg-gradient-to-r from-[#4A90E2] to-[#1565C0] p-4 text-white  active:scale-95 transition-all duration-300"> { isLoading ? "Loading..." : "Submit" }</button>
             </form>
         </div>
     );
