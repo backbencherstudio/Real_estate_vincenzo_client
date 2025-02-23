@@ -2,7 +2,6 @@ import { useState } from 'react';
 import adminApi from "../../redux/fetures/admin/adminApi";
 import HeaderContent from "../../components/Header/Header";
 import landing from "../../assets/landing.svg"
-import { IoMdCheckmarkCircle } from "react-icons/io";
 import PricingDetails from '../../components/PricingDetails/PricingDetails';
 import Plans from '../../components/Plans/Plans';
 import FAQ from '../../components/FAQ/FAQ';

@@ -50,7 +50,7 @@ const FAQ = () => {
             <div className="pt-16">
                 <HeaderContent content={Contents} />
             </div>
-            <div className="max-w-6xl mx-auto">
+            <div className="max-w-6xl mx-auto px-4 xl:px-0">
                 <div className="space-y-6">
                     {faqData.map((item, index) => (
                         <div
@@ -59,7 +59,7 @@ const FAQ = () => {
                         >
                             <button
                                 onClick={() => toggleAccordion(index)}
-                                className="w-full flex justify-between items-center text-left px-6 py-8 text-black font-medium text-2xl hover:text-blue-600 transition-all duration-300"
+                                className="w-full flex justify-between items-center text-left px-6 py-8 text-black font-medium text-xl lg:text-2xl hover:text-blue-600 transition-all duration-300"
                             >
                                 <span>{item.question}</span>
                                 <span
