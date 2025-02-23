@@ -18,7 +18,7 @@ const Pricing = () => {
 
     return (
         <div>
-            <div className='py-10 lg:pb-20 lg:pt-32'>
+            <div className='py-10 lg:pb-6 lg:pt-32'>
                 <HeaderContent content={Contents} />
             </div>
             <Plans />

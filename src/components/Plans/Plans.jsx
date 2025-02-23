@@ -3,7 +3,7 @@ import { IoMdCheckmarkCircle } from "react-icons/io";
 
 const Plans = () => {
     return (
-        <div className="max-w-7xl mx-auto px-4 2xl:px-0 py-16 lg:py-20 ">
+        <div className="max-w-7xl mx-auto px-4 2xl:px-0 pb-16 lg:pb-20  ">
                 {/* Billing Toggle */}
                 <div className="flex justify-center gap-4 mb-4">
                    <button className='primary-btn cursor-auto'>Monthly</button>
