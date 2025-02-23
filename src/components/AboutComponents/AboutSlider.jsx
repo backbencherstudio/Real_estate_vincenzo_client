@@ -113,7 +113,7 @@ const AboutSlider = () => {
                         <img
                             src={item?.image}
                             alt={`Slide ${index + 1}`}
-                            className="w-full h-[200px] sm:h-[300px] md:h-[255px] lg:h-[355px] xl:h-[455px] rounded-xl shadow-lg object-cover"
+                            className="w-full h-[200px] sm:h-[300px] md:h-[255px] lg:h-[355px] xl:h-[455px] rounded-3xl shadow-lg object-cover"
                         />
                     </div>
                 ))}
