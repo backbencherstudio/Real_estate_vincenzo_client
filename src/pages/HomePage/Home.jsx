@@ -9,12 +9,14 @@ const Home = () => {
         description: "This software boosts revenue, keeps you organized, and grows your business with advanced tech and top support.",
         buttonText: "Unlock your financial potential",
         images: [landing, landing],
-    };  
+    };
     return (
         <div className="px-4 lg:px-0" >
             <div className="w-full  max-w-7xl mx-auto">
                 <div className=" mx-auto flex flex-col items-center ">
-                    <HeaderContent content={Contents} />
+                    <div className='py-10 lg:pb-20 lg:pt-32'>
+                        <HeaderContent content={Contents} />
+                    </div>
                 </div>
                 <div className=" mx-auto mt-14 ">
                     <div className="w-full h-auto flex justify-center">
@@ -37,7 +39,7 @@ const Home = () => {
             </div>
 
             <div className="max-w-[1400px] mx-auto" >
-                <HomePageSubscriptionPlans/>
+                <HomePageSubscriptionPlans />
             </div>
 
 

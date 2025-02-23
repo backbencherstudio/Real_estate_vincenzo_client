@@ -15,7 +15,9 @@ const AboutUs = () => {
     
     return (
         <div>
-            <HeaderContent content={Contents} />
+            <div className='py-10 lg:pb-20 lg:pt-32'>
+                        <HeaderContent content={Contents} />
+                    </div>
         </div>
     );
 };

@@ -18,7 +18,7 @@ const ContactForm = () => {
     }
 
     return (
-        <div className='max-w-7xl mx-auto my-20'>
+        <div className='max-w-7xl mx-auto my-20 px-4 xl:px-0'>
             <form onSubmit={handleSubmit(onSubmit)} className='grid grid-cols-1 md:grid-cols-3 gap-6 px-4 lg:px-0'>
                 <div className="relative">
                     <input
