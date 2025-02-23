@@ -134,7 +134,7 @@ const TeamMember = () => {
                                             }
                                         `}
                                     >
-                                        <Icon className="text-lg" />
+                                        <Icon className="text-xs" />
                                     </a>
                                 ))}
                             </div>

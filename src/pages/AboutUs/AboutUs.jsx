@@ -4,7 +4,7 @@ import InvestmentStory from "../../components/AboutComponents/InvestmentStory";
 import HeaderContent from "../../components/Header/Header";
 import TeamMember from "../../components/AboutComponents/TeamMember";
 import authApi from "../../redux/fetures/auth/authApi";
-
+import CoreValue from "../../components/AboutComponents/CoreValue";
 const AboutUs = () => {
     const Contents = {
         title: "Effective Tenant Management for Superior Property Performance",
@@ -34,6 +34,7 @@ const AboutUs = () => {
             </div>
             <InvestmentStory />
             <TeamMember />
+            <CoreValue />
         </div>
     );
 };
