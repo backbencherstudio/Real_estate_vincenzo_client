@@ -22,13 +22,13 @@ const InvestmentStory = () => {
             <div className="grid md:grid-cols-2 gap-8 mb-16">
                 <div className="bg-[#F5F6F9] p-8 rounded-3xl">
                     <h2 className="text-3xl font-bold mb-6">Our Vision</h2>
-                    <p className="text-gray-600 w-[50ch]">
+                    <p className="text-gray-600 xl:w-[50ch]">
                         Our vision is to redefine real estate management by providing innovative solutions that enhance property value and create long-term relationships with tenants and investors. We aim to be the leading force in the industry, focusing on sustainable growth, transparency, and exceptional service. By leveraging market insights and technology.
                     </p>
                 </div>
                 <div className="bg-[#F5F6F9] p-8 rounded-3xl">
                     <h2 className="text-3xl font-bold mb-6">Our Mission</h2>
-                    <p className="text-gray-600 w-[50ch]">
+                    <p className="text-gray-600 xl:w-[50ch]">
                         Our mission is to provide exceptional real estate management services that ensure the highest level of satisfaction for both property owners and tenants. We are committed to maximizing the value of every property we manage through proactive maintenance, transparent communication, and tailored solution. By fostering strong relationships and maintaining a customer.
                     </p>
                 </div>
