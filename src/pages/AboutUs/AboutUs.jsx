@@ -1,5 +1,6 @@
 import landing from "../../assets/landing.svg"
 import AboutSlider from "../../components/AboutComponents/AboutSlider";
+import InvestmentStory from "../../components/AboutComponents/InvestmentStory";
 import HeaderContent from "../../components/Header/Header";
 import authApi from "../../redux/fetures/auth/authApi";
 
@@ -30,6 +31,7 @@ const AboutUs = () => {
             <div>
                 <AboutSlider />
             </div>
+            <InvestmentStory />
         </div>
     );
 };

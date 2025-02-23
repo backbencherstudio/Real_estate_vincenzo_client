@@ -30,25 +30,3 @@
     @apply  rounded-[12px] bg-gradient-to-r border border-[#1565C0] px-8 py-4 text-blue-500  active:scale-95 transition-all duration-300
   }
 
-  about-slider .slick-prev,
-.about-slider .slick-next {
-    z-index: 10;
-    width: 40px;
-    height: 40px;
-}
-
-.about-slider .slick-prev {
-    left: 20px;
-}
-
-.about-slider .slick-next {
-    right: 20px;
-}
-
-.about-slider .slick-dots {
-    bottom: 20px;
-}
-
-.about-slider .slick-dots li button:before {
-    color: white;
-}
