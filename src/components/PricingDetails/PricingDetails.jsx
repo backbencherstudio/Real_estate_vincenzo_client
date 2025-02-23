@@ -134,12 +134,12 @@ const PricingDetails = () => {
                         </div>
                     ))}
                 </div>
-                <div className='grid grid-cols-4 gap-4 justify-center mt-4'>
-                    <div className='hidden lg:block'></div>
-                    <button className='border border-zinc-200 rounded-lg px-4 py-2 w-full'>Get Started</button>
-                    <button className='primary-btn w-full'>Choose Plan </button>
-                    <button className='border border-zinc-200 rounded-lg px-4 py-2 w-full'>Upgrade to Premium</button>
-                </div>
+            </div>
+            <div className='max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4 justify-center mt-4'>
+                <div className='hidden lg:block'></div>
+                <button className='border border-zinc-200 rounded-lg px-4 py-2 w-full'>Get Started</button>
+                <button className='primary-btn w-full'>Choose Plan </button>
+                {/* <button className='border border-zinc-200 rounded-lg px-4 py-2 w-full'>Upgrade to Premium</button> */}
             </div>
         </div>
     );
