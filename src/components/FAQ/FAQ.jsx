@@ -35,11 +35,11 @@ const Contents = {
     title: "Frequently Asked Questions",
     buttonText: "FAQ",
     images: [landing, landing],
-  };
+};
 
 
 const FAQ = () => {
-    const [openIndex, setOpenIndex] = useState(null);
+    const [openIndex, setOpenIndex] = useState(0);
 
     const toggleAccordion = (index) => {
         setOpenIndex(openIndex === index ? null : index);
@@ -47,13 +47,15 @@ const FAQ = () => {
 
     return (
         <section className="max-w-7xl mx-auto">
-            <HeaderContent content={Contents} />
+            <div className="pt-16">
+                <HeaderContent content={Contents} />
+            </div>
             <div className="max-w-6xl mx-auto">
                 <div className="space-y-6">
                     {faqData.map((item, index) => (
                         <div
                             key={index}
-                            className={`border  rounded-3xl overflow-hidden bg-white transition transform ${openIndex === index ? "border-blue-500 " : "border-transparent"}`}
+                            className={`border rounded-3xl overflow-hidden bg-white transition transform ${openIndex === index ? "border-blue-500 " : "border-transparent"}`}
                         >
                             <button
                                 onClick={() => toggleAccordion(index)}

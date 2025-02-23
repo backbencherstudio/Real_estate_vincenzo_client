@@ -5,7 +5,7 @@ const HeaderContent = ({ content }) => {
     const { title, description, buttonText, images } = useHeader(content);
 
     return (
-        <div className="py-10 md:py-32">
+        <div className="">
             <div className="flex flex-col items-center justify-center px-4  text-center">
                 <div className="flex items-center justify-center gap-4 mb-4">
                     <img src={images[0]} alt="landing" className='scale-x-[-1] w-32 lg:w-96' />
