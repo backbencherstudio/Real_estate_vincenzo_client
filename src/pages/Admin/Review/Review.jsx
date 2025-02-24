@@ -72,6 +72,10 @@ const Review = () => {
             title: 'Name',
             dataIndex: 'name',
         },
+        {
+            title: 'Designation',
+            dataIndex: 'designation',
+        },
         { title: 'Email', dataIndex: 'email' },
         {
             title: 'Review', dataIndex: 'message',
@@ -97,7 +101,7 @@ const Review = () => {
                 <div className="flex items-center" >
 
                     <span
-                        onClick={() => deleteReviewHandler(record?._id)}
+                        onClick={() => deleteReviewHandler(record?.key)}
                         className="text-red-500 flex items-center cursor-pointer"
                     >
                         <MdDeleteForever className="text-[30px] ml-1" />
