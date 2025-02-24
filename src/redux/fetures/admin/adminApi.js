@@ -138,6 +138,28 @@ const adminApi = baseApi.injectEndpoints({
       invalidatesTags: ["user"],
     }),
 
+
+    // =======================================>>>>> Rwview API
+    getAllReview: builder.query({
+      query: () => {
+        return {
+          url: `/admin/getAllReview`,
+          method: "GET",
+        };
+      },
+      providesTags: ["review"],
+    }),
+
+    deleteReviewByAdmin: builder.mutation({
+      query: (id) => {
+        return {
+          url: `/admin/deleteReviewByAdmin/${id}`,
+          method: "DELETE",
+        };
+      },
+      invalidatesTags: ["review"],
+    }),
+
   }),
 });
 
