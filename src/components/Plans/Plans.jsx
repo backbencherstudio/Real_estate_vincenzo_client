@@ -2,7 +2,7 @@ import line from "../../assets/line.svg"
 import { IoMdCheckmarkCircle } from "react-icons/io";
 import landing from "../../assets/landing.svg"
 import HeaderContent from "../Header/Header";
-const Plans = () => {
+const Plans = ({planData}) => {
     const Contents = {
         title: "Choose the Right Plan",
         description: "Unlock streamlined processes with solutions for startups and enterprises alike",
@@ -25,7 +25,7 @@ const Plans = () => {
                     <div className="rounded-2xl p-8 bg-white shadow-lg">
                         <h3 className="text-xl font-medium">Starter Plan</h3>
                         <div className="mt-6">
-                            <span className="text-5xl font-medium">$20</span>
+                            <span className="text-5xl font-medium">${planData?.starter}</span>
                             <span className="text-gray-600"> per unit/month</span>
                         </div>
                         <p className="mt-4 text-gray-600">Ideal for small property portfolios and new real estate investors.</p>
@@ -67,7 +67,7 @@ const Plans = () => {
                     <div className="rounded-2xl p-8 bg-[#000C2D] text-white shadow-lg">
                         <h3 className="text-xl font-medium">Growth Plan</h3>
                         <div className="mt-6">
-                            <span className="text-5xl font-medium">$18</span>
+                            <span className="text-5xl font-medium">${planData?.growth}</span>
                             <span className="text-gray-300"> per unit/month</span>
                         </div>
                         <p className="mt-4 text-gray-300">Ideal for growing businesses needing advanced features.</p>
@@ -109,7 +109,7 @@ const Plans = () => {
                     <div className="rounded-2xl p-8 bg-white shadow-lg">
                         <h3 className="text-xl font-medium">Professional Plan</h3>
                         <div className="mt-6">
-                            <span className="text-5xl font-medium">$15</span>
+                            <span className="text-5xl font-medium">${planData?.professional}</span>
                             <span className="text-gray-600"> per unit/month</span>
                         </div>
                         <p className="mt-4 text-gray-600">Tailored for large property portfolios, the Enterprise Plan.</p>

@@ -17,9 +17,10 @@ import { FaBuildingUser } from "react-icons/fa6";
 import UserProfile from "../shared/Settings/Profile";
 import Profile from "../shared/Profile";
 import Messages from "../shared/Messages/Messages";
-import { MdOutlineMessage } from "react-icons/md";
+import { MdOutlineMessage, MdOutlineRateReview } from "react-icons/md";
 import PayOutData from "../pages/Admin/PayOutData/PayOutData";
 import { TbReportMoney } from "react-icons/tb";
+import Review from "../pages/Admin/Review/Review";
 
 export const adminPaths = [
   {
@@ -83,6 +84,12 @@ export const adminPaths = [
       {
         path: "profile/edit",
         element: <Profile />,
+      },
+      {
+        icon: <MdOutlineRateReview size={18} />,
+        name: "Review",
+        path: "review",
+        element: <Review />,
       },
     ],
   },

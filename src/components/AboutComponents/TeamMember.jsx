@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import React, { useState } from 'react';
 import Slider from 'react-slick';
 import { FaInstagram, FaTwitter, FaFacebookF, FaGlobe } from 'react-icons/fa';
@@ -5,9 +6,16 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import HeaderContent from '../Header/Header';
 import landing from "../../assets/landing.svg"
+import authApi from "../../redux/fetures/auth/authApi";
+
 
 const TeamMember = () => {
+    
     const [activeSlide, setActiveSlide] = useState(0);
+    const { data, isLoading } = authApi.useGetAdvisersDataQuery();
+
+    console.log(data?.data);
+
     const Contents = {
         title: "Your Trusted Real Estate Advisors",
         description: "Finding your dream property or the right investment can be overwhelming. As your trusted advisors, we’re here to guide you every step of the way, making the process seamless and stress-free.",
