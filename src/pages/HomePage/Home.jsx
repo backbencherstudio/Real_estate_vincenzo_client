@@ -6,6 +6,7 @@ import dashboardImage from "../../assets/dashboard.png"
 import { useEffect } from "react";
 import JoinOurCommunity from "../../components/AboutComponents/JoinOurCommunity";
 import Plans from "../../components/Plans/Plans";
+import WhyChoooseUs from "../../components/HomeComponents/WhyChoooseUs";
 const Home = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -56,6 +57,8 @@ const Home = () => {
             <div className="max-w-[1400px] mx-auto" >
                 <PropertyManagementCosts />
             </div>
+
+            <WhyChoooseUs/>
 
             <div className="max-w-[1400px] mx-auto" >
                 <Plans/>
