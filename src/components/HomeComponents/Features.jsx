@@ -99,8 +99,44 @@ const FeatureSection = ({ title, description, image, features }) => (
 );
 
 const Features = () => {
+    const [scrollProgress, setScrollProgress] = React.useState(0);
+    const [isVisible, setIsVisible] = React.useState(false);
+
+    React.useEffect(() => {
+        const handleScroll = () => {
+            const element = document.getElementById('features-container');
+            if (!element) return;
+            const rect = element.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            if (rect.top < windowHeight && rect.bottom > 0) {
+                setIsVisible(true);
+                const progress = Math.max(0, Math.min(1, 
+                    (windowHeight - rect.top) / (rect.height + windowHeight/2)
+                ));
+                setScrollProgress(progress * 100);
+            } else {
+                setIsVisible(false);
+            }
+        };
+        window.addEventListener('scroll', handleScroll);
+        handleScroll(); 
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
     return (
-        <div>
+        <div id="features-container" className="relative">
+            {/* Animated Line */}
+            {isVisible && (
+                <div className="absolute left-2 xl:left-12 top-0 h-full w-[1px] ">
+                    <div className="h-full w-full bg-gray-200 relative">
+                        <div 
+                            className="absolute top-0 left-0 w-full bg-gradient-to-b to-blue-500 from-transparent transition-all duration-500"
+                            style={{ height: `${scrollProgress}%` }}
+                        />
+                    </div>
+                </div>
+            )}
+
             {featureSections.map((section, index) => (
                 <FeatureSection 
                     key={index}
