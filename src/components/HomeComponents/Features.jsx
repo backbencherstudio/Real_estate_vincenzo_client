@@ -3,6 +3,8 @@ import image1 from "../../assets/Frame1.png";
 import image2 from "../../assets/Frame2.png";
 import image3 from "../../assets/Frame3.png";
 import { FaCircleCheck } from "react-icons/fa6";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const featureSections = [
     {
@@ -77,8 +79,8 @@ const FeatureItem = ({ title, description }) => (
 
 const FeatureSection = ({ title, description, image, features }) => (
     <div className="max-w-7xl mx-auto px-4 mb-8">
-        <div className="flex items-center justify-between gap-12">
-            <div className="lg:w-1/2 space-y-6">
+        <div  className="flex items-center justify-between gap-12">
+            <div data-aos="fade-up" data-aos-duration="2000" className="lg:w-1/2 space-y-6">
                 <h2 className="text-3xl font-bold w-[20ch]">{title}</h2>
                 <p className="text-gray-600 md:w-[50ch] text-base">{description}</p>
                 <div className="text-[#070127]">
@@ -91,7 +93,7 @@ const FeatureSection = ({ title, description, image, features }) => (
                     ))}
                 </div>
             </div>
-            <div className="w-1/2">
+            <div data-aos="zoom-in" data-aos-duration="2000" className="w-1/2">
                 <img src={image} alt={title} className="w-full rounded-lg" />
             </div>
         </div>
@@ -103,6 +105,7 @@ const Features = () => {
     const [isVisible, setIsVisible] = React.useState(false);
 
     React.useEffect(() => {
+        AOS.init();
         const handleScroll = () => {
             const element = document.getElementById('features-container');
             if (!element) return;
