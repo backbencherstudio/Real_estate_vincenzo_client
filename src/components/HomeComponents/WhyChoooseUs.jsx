@@ -16,7 +16,7 @@ const WhyChoooseUs = () => {
             <div>
                 <HeaderContent content={Contents} />
             </div>
-            <div className="max-w-7xl mx-auto px-4 py-16">
+            <div className="max-w-7xl mx-auto px-4 xl:px-0 py-16">
                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3">
                     <div className="pb-10 md:pb-0 md:pr-10 bg-white">
                         <div className="flex justify-center items-center w-24 h-24 mb-6 p-4 border border-blue-300 rounded-full">
