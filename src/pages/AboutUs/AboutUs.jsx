@@ -3,7 +3,6 @@ import AboutSlider from "../../components/AboutComponents/AboutSlider";
 import InvestmentStory from "../../components/AboutComponents/InvestmentStory";
 import HeaderContent from "../../components/Header/Header";
 import TeamMember from "../../components/AboutComponents/TeamMember";
-import authApi from "../../redux/fetures/auth/authApi";
 import CoreValue from "../../components/AboutComponents/CoreValue";
 import JoinOurCommunity from "../../components/AboutComponents/JoinOurCommunity";
 import { useEffect } from "react";
@@ -17,9 +16,7 @@ const AboutUs = () => {
         buttonText: "About Us",
         images: [landing, landing],
     };
-    const { data, isLoading } = authApi.useGetAdvisersDataQuery();
-
-    console.log(data?.data);
+    
 
     return (
         <div>

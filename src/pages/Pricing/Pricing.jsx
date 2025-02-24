@@ -9,13 +9,14 @@ const Pricing = () => {
     }, []);
     const [billingCycle, setBillingCycle] = useState('monthly');
     const { data: getPlanData } = adminApi.useGetPlanQuery(undefined, { pollingInterval: 86400000 })
-    console.log(getPlanData?.data[0]);
+
+    const planData = getPlanData?.data[0]
     
 
     return (
         <div>
-            <Plans />
-            <PricingDetails />
+            <Plans planData={planData} />
+            <PricingDetails planData={planData} />
             <FAQ />
         </div>
     );
