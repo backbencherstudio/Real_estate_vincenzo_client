@@ -12,7 +12,7 @@ import Properties from "../pages/Owner/Properties/Properties";
 import PropertyDetails from "../shared/PropertyDetails";
 import Tenants from "../pages/Owner/Properties/Tenants";
 import TenantDetails from "../shared/TenantDetails";
-import { MdOutlineDashboard, MdOutlineMessage } from "react-icons/md";
+import { MdOutlineDashboard, MdOutlineMessage, MdOutlineRateReview } from "react-icons/md";
 import { Bolt, UserPen } from "lucide-react";
 import UserProfile from "../shared/Settings/Profile";
 import Profile from "../shared/Profile";
@@ -20,6 +20,7 @@ import Messages from "../shared/Messages/Messages";
 import StripePayment from "../pages/Owner/payment/StripePayment";
 import WithdrawForm from "../pages/Owner/WithdrawForm/WithdrawForm";
 import UpdateProperties from "../pages/Owner/Properties/UpdateProperties";
+import ReviewForm from "../pages/Owner/ReviewForm/ReviewForm";
 
 export const ownerPaths = [
   {
@@ -105,6 +106,12 @@ export const ownerPaths = [
       {
         path: "profile/edit",
         element: <Profile />,
+      },
+      {
+        icon: <MdOutlineRateReview size={18} />,
+        name: "Review",
+        path: "review",
+        element: <ReviewForm />,
       },
     ],
   },

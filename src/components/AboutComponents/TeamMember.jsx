@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import React, { useState } from 'react';
 import Slider from 'react-slick';
 import { FaInstagram, FaTwitter, FaFacebookF, FaGlobe } from 'react-icons/fa';

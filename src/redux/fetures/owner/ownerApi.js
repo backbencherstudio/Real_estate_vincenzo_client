@@ -240,7 +240,7 @@ const ownerApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["payout"], 
     }),
-
+    
     // ================================================ owner active or not
     isOwnerActive: builder.query({
       query: (email) => {        
@@ -250,9 +250,20 @@ const ownerApi = baseApi.injectEndpoints({
         };
       },
     }),
-
-
-
+    
+    // ================================================ send review from owner  
+    createReviewFromOwner: builder.mutation({
+      query: (data) => {
+        return {
+          url: `/owner/createReviewFromOwner`,
+          method: "POST",
+          body : data
+        };
+      },
+      invalidatesTags: ["review"], 
+    }),
+    
+    
 
 
 
