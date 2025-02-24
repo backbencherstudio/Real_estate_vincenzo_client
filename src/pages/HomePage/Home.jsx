@@ -7,6 +7,8 @@ import { useEffect } from "react";
 import JoinOurCommunity from "../../components/AboutComponents/JoinOurCommunity";
 import Plans from "../../components/Plans/Plans";
 import WhyChoooseUs from "../../components/HomeComponents/WhyChoooseUs";
+import Testimonials from "../../components/HomeComponents/Testimonials";
+import Features from "../../components/HomeComponents/Features";
 const Home = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -56,6 +58,7 @@ const Home = () => {
             </div>
             <div className="max-w-[1400px] mx-auto" >
                 <PropertyManagementCosts />
+                <Features/>
             </div>
 
             <WhyChoooseUs/>
@@ -63,6 +66,7 @@ const Home = () => {
             <div className="max-w-[1400px] mx-auto" >
                 <Plans/>
             </div>
+            <Testimonials/>
         </div>
     );
 };
