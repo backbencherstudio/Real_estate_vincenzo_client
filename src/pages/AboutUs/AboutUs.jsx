@@ -6,7 +6,11 @@ import TeamMember from "../../components/AboutComponents/TeamMember";
 import authApi from "../../redux/fetures/auth/authApi";
 import CoreValue from "../../components/AboutComponents/CoreValue";
 import JoinOurCommunity from "../../components/AboutComponents/JoinOurCommunity";
+import { useEffect } from "react";
 const AboutUs = () => {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
     const Contents = {
         title: "Effective Tenant Management for Superior Property Performance",
         description: "Effective tenant management boosts property performance and ensures steady income. Strong relationships and timely support lead to smoother operations.",

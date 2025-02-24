@@ -1,9 +1,19 @@
 import line from "../../assets/line.svg"
 import { IoMdCheckmarkCircle } from "react-icons/io";
-
+import landing from "../../assets/landing.svg"
+import HeaderContent from "../Header/Header";
 const Plans = () => {
+    const Contents = {
+        title: "Choose the Right Plan",
+        description: "Unlock streamlined processes with solutions for startups and enterprises alike",
+        buttonText: "Pricing",
+        images: [landing, landing],
+    };
     return (
         <div className="max-w-7xl mx-auto px-4 2xl:px-0 pb-16 lg:pb-20  ">
+             <div className='py-10 lg:pb-6 lg:pt-32'>
+                <HeaderContent content={Contents} />
+            </div>
                 {/* Billing Toggle */}
                 <div className="flex justify-center gap-4 mb-4">
                    <button className='primary-btn cursor-auto'>Monthly</button>

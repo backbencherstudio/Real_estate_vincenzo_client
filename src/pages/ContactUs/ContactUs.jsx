@@ -1,8 +1,12 @@
+import { useEffect } from "react";
 import landing from "../../assets/landing.svg"
 import ContactForm from "../../components/Forms/ContactForm";
 import HeaderContent from "../../components/Header/Header";
 import { LuPhone, LuMail, LuMessageCircle, LuMapPin } from "react-icons/lu";
-const ContactUs = () => {
+    const ContactUs = () => {
+        useEffect(() => {
+            window.scrollTo(0, 0);
+        }, []);
     const Contents = {
         title: "Let's Start Your Real Estate Journey Together",
         description:

@@ -30,3 +30,6 @@
     @apply  rounded-[12px] bg-gradient-to-r border border-[#1565C0] px-8 py-4 text-blue-500  active:scale-95 transition-all duration-300
   }
 
+  .gradient-bg{
+    background: linear-gradient(180deg, #ffffff80 0deg, #dee8fa80 90deg, #ffffff80 180.54433822631836deg, #dee8fa80 270.5781555175781deg, #ffffff80 360deg);
+  }
