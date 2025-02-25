@@ -52,7 +52,7 @@ const AddAdvisor = () => {
 
             if (result.isConfirmed) {
                 await realEstateAdvisordelete(advisorId);
-                await refetch(); 
+                await refetch();
                 await Swal.fire(
                     'Deleted!',
                     'Advisor has been deleted.',
@@ -165,49 +165,55 @@ const AddAdvisor = () => {
                 </button>
             </form>
 
-            <div className="mt-8">
-                <h2 className="text-2xl font-bold mb-4">Current Advisors</h2>
-                <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-6">
-                    {isLoading ? (
-                        <p>Loading advisors...</p>
-                    ) : (
-                        data?.data?.map((advisor) => (
-                            <div key={advisor._id} className="bg-white rounded-lg shadow-md p-4">
-                                <img 
-                                    src={`${url}${advisor?.image}`}
-                                    alt={advisor.name} 
-                                    className="w-full h-64 object-cover rounded-lg mb-4"
-                                />
-                                <h3 className="text-xl font-semibold">{advisor.name}</h3>
-                                <p className="text-gray-600 mb-4">{advisor.designation}</p>
-                                <div className="flex justify-between items-center">
-                                    <div className="flex gap-2">
-                                        <a href={advisor.facebook} target="_blank" rel="noopener noreferrer" className="border p-2 rounded-full">
-                                            <FaFacebook />
-                                        </a>
-                                        <a href={advisor.instagram} target="_blank" rel="noopener noreferrer" className="border p-2 rounded-full">
-                                            <FaInstagram />
-                                        </a>
-                                        <a href={advisor.linkedin} target="_blank" rel="noopener noreferrer" className="border p-2 rounded-full">
-                                            <FaLinkedin />
-                                        </a>
-                                        <a href={advisor.twitter} target="_blank" rel="noopener noreferrer" className="border p-2 rounded-full">
-                                            <FaTwitter />
-                                        </a>
+            {
+                data?.data?.length > 0 ? (
+                    <div className="mt-8">
+                        <h2 className="text-2xl font-bold mb-4">Current Advisors</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                            {isLoading ? (
+                                <p>Loading advisors...</p>
+                            ) : (
+                                data?.data?.map((advisor) => (
+                                    <div key={advisor._id} className="bg-white rounded-lg shadow-md p-4">
+                                        <img
+                                            src={`${url}${advisor?.image}`}
+                                            alt={advisor.name}
+                                            className="w-full h-64 object-cover rounded-lg mb-4"
+                                        />
+                                        <h3 className="text-xl font-semibold">{advisor.name}</h3>
+                                        <p className="text-gray-600 mb-4">{advisor.designation}</p>
+                                        <div className="flex justify-between items-center">
+                                            <div className="flex gap-2">
+                                                <a href={advisor.facebook} target="_blank" rel="noopener noreferrer" className="border p-2 rounded-full">
+                                                    <FaFacebook />
+                                                </a>
+                                                <a href={advisor.instagram} target="_blank" rel="noopener noreferrer" className="border p-2 rounded-full">
+                                                    <FaInstagram />
+                                                </a>
+                                                <a href={advisor.linkedin} target="_blank" rel="noopener noreferrer" className="border p-2 rounded-full">
+                                                    <FaLinkedin />
+                                                </a>
+                                                <a href={advisor.twitter} target="_blank" rel="noopener noreferrer" className="border p-2 rounded-full">
+                                                    <FaTwitter />
+                                                </a>
+                                            </div>
+                                            <button
+                                                onClick={() => handleDelete(advisor._id)}
+                                                disabled={deleteIsLoading}
+                                                className="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 transition duration-300 disabled:bg-red-300"
+                                            >
+                                                Delete
+                                            </button>
+                                        </div>
                                     </div>
-                                    <button
-                                        onClick={() => handleDelete(advisor._id)}
-                                        disabled={deleteIsLoading}
-                                        className="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 transition duration-300 disabled:bg-red-300"
-                                    >
-                                        Delete
-                                    </button>
-                                </div>
-                            </div>
-                        ))
-                    )}
-                </div>
-            </div>
+                                ))
+                            )}
+                        </div>
+                    </div>
+                ) : (
+                    <p className="text-center text-gray-500 mt-10">No advisors found</p>
+                )
+            }
         </div>
     );
 };
