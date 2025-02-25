@@ -16,7 +16,7 @@ const PropertyManagementCosts = () => {
                         <p className="font-inter font-normal text-base leading-[22.4px] tracking-[-1%]  text-[#64636A] mb-6">
                             Optimize your spending by adjusting property management expenses to fit your current portfolio, operational requirements.
                         </p>
-                        <button className="primary-btn" >Explore More</button>
+                        {/* <button className="primary-btn" >Explore More</button> */}
                     </div>
                 </div>
             </div>
