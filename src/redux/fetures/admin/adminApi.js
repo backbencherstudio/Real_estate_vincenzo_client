@@ -202,7 +202,7 @@ const adminApi = baseApi.injectEndpoints({
 
     deleteEmailCollectionData: builder.mutation({
       query: (id) => ({
-        url: `/admin/emailCollection/${id}`,
+        url: `/admin/deleteEmailCollectionData/${id}`,
         method: "DELETE",
       }),
       invalidatesTags:["email"]
