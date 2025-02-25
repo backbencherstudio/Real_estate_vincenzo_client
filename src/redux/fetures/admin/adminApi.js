@@ -160,6 +160,37 @@ const adminApi = baseApi.injectEndpoints({
       invalidatesTags: ["review"],
     }),
 
+    // =======================================>>>>>  advisore API
+    getAdvisersData: builder.query({
+      query: () => {
+        return {
+          url: "/auth/getAdvisersData",
+          method: "GET"
+        }
+      }
+    }),
+
+    realEstateAdvisor: builder.mutation({
+      query: (data) => {
+        return {
+          url: "/admin/realEstateAdvisor",
+          method: "POST",
+          body: data
+        }
+      }
+    }),
+
+    realEstateAdvisordelete: builder.mutation({
+      query: (id) => {
+        return {
+          url: `/admin/realEstateAdvisordelete/${id}`,
+          method: "DELETE",
+        }
+      }
+    }),
+
+
+
   }),
 });
 

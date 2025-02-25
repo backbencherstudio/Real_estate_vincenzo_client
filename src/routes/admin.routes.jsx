@@ -21,6 +21,7 @@ import { MdOutlineMessage, MdOutlineRateReview } from "react-icons/md";
 import PayOutData from "../pages/Admin/PayOutData/PayOutData";
 import { TbReportMoney } from "react-icons/tb";
 import Review from "../pages/Admin/Review/Review";
+import AddAdvisor from "../pages/Admin/AddAdvisor/AddAdvisor";
 
 export const adminPaths = [
   {
@@ -64,6 +65,12 @@ export const adminPaths = [
         name: "Pay Out",
         path: "payOut",
         element: <PayOutData />,
+      },
+      {
+        icon: <TbReportMoney size={18} />,
+        name: "Add Advisor",
+        path: "addAdvisor",
+        element: <AddAdvisor />,
       },
       {
         path: "tenant/:id",
