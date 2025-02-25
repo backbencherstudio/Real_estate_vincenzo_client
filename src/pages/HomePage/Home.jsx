@@ -108,7 +108,6 @@ const Home = () => {
 
             <div className="max-w-[1400px] mx-auto" >
                 <Plans planData={planData}/>
-                <Plans />
             </div>
             <Testimonials />
         </div>
