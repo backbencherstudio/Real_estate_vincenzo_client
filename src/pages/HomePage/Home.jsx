@@ -9,10 +9,14 @@ import Plans from "../../components/Plans/Plans";
 import WhyChoooseUs from "../../components/HomeComponents/WhyChoooseUs";
 import Testimonials from "../../components/HomeComponents/Testimonials";
 import Features from "../../components/HomeComponents/Features";
+import adminApi from "../../redux/fetures/admin/adminApi";
 const Home = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
+    const { data: getPlanData } = adminApi.useGetPlanQuery(undefined, { pollingInterval: 86400000 })
+
+    const planData = getPlanData?.data[0]
     const Contents = {
         title: "The Best Property Management Solution",
         description: "This software boosts revenue, keeps you organized, and grows your business with advanced tech and top support.",
@@ -64,7 +68,7 @@ const Home = () => {
             <WhyChoooseUs/>
 
             <div className="max-w-[1400px] mx-auto" >
-                <Plans/>
+                <Plans planData={planData}/>
             </div>
             <Testimonials/>
         </div>
