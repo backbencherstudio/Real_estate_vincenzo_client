@@ -2,13 +2,26 @@ import line from "../../assets/line.svg"
 import { IoMdCheckmarkCircle } from "react-icons/io";
 import landing from "../../assets/landing.svg"
 import HeaderContent from "../Header/Header";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../redux/fetures/auth/authSlice";
 const Plans = ({planData}) => {
+    const currentUser = useSelector(selectCurrentUser);
     const Contents = {
         title: "Choose the Right Plan",
         description: "Unlock streamlined processes with solutions for startups and enterprises alike",
         buttonText: "Pricing",
         images: [landing, landing],
     };
+    const navigate = useNavigate();    
+    const selectPlanFun = () =>{
+        if (!currentUser) {
+         return navigate("/signIn")            
+        }
+        navigate(`/${currentUser?.role}/payment`)
+    }
+
+
     return (
         <div className="max-w-7xl mx-auto px-4 2xl:px-0 pb-16 lg:pb-20  ">
              <div className='py-10 lg:pb-6 lg:pt-32'>
@@ -29,8 +42,8 @@ const Plans = ({planData}) => {
                             <span className="text-gray-600"> per unit/month</span>
                         </div>
                         <p className="mt-4 text-gray-600">Ideal for small property portfolios and new real estate investors.</p>
-                        <button className="primary-btn w-full mt-6">
-                            Book a Demo
+                        <button onClick={selectPlanFun} className="primary-btn w-full mt-6">
+                            Select Your Plan
                         </button>
                         <div className="mt-8">
                             <div className="flex items-center gap-2 mb-6">
@@ -71,8 +84,8 @@ const Plans = ({planData}) => {
                             <span className="text-gray-300"> per unit/month</span>
                         </div>
                         <p className="mt-4 text-gray-300">Ideal for growing businesses needing advanced features.</p>
-                        <button className="w-full primary-btn mt-6">
-                            Book a Demo
+                        <button onClick={selectPlanFun} className="primary-btn w-full mt-6">
+                            Select Your Plan
                         </button>
                         <div className="mt-8">
                             <div className="flex items-center gap-2 mb-6">
@@ -113,8 +126,8 @@ const Plans = ({planData}) => {
                             <span className="text-gray-600"> per unit/month</span>
                         </div>
                         <p className="mt-4 text-gray-600">Tailored for large property portfolios, the Enterprise Plan.</p>
-                        <button className="w-full primary-btn mt-6">
-                            Book a Demo
+                        <button onClick={selectPlanFun} className="primary-btn w-full mt-6">
+                            Select Your Plan
                         </button>
                         <div className="mt-8">
                             <div className="flex items-center gap-2 mb-6">

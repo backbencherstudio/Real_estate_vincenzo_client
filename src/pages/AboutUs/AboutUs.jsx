@@ -6,6 +6,7 @@ import TeamMember from "../../components/AboutComponents/TeamMember";
 import CoreValue from "../../components/AboutComponents/CoreValue";
 import JoinOurCommunity from "../../components/AboutComponents/JoinOurCommunity";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 const AboutUs = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -16,6 +17,7 @@ const AboutUs = () => {
         buttonText: "About Us",
         images: [landing, landing],
     };
+
     
 
     return (
@@ -23,12 +25,12 @@ const AboutUs = () => {
             <div className='py-10 lg:pb-20 lg:pt-32'>
                 <HeaderContent content={Contents} />
                 <div className="flex gap-4 justify-center">
-                    <button className="primary-btn2">
+                    <Link to="/signIn" className="primary-btn2">
                         Get Started
-                    </button>
-                    <button className="secondary-btn">
+                    </Link>
+                    <Link to="/contact-us" className="secondary-btn">
                         Contact Us
-                    </button>
+                    </Link>
                 </div>
             </div> 
             <div>
