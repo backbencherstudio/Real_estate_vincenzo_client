@@ -94,6 +94,15 @@ const authApi = baseApi.injectEndpoints({
       }),
     }),
 
+    // ==================================== Email collection 
+    emailCollection: builder.mutation({
+      query: (data) => ({
+        url: `/auth/emailCollection`,
+        method: "POST",
+        body: data
+      }),
+    }),
+
 
 
   }),

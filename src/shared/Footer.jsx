@@ -1,6 +1,26 @@
 import logo from "../assets/logo-white.png"
 import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin } from 'react-icons/fa';
+import authApi from "../redux/fetures/auth/authApi";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 const Footer = () => {
+    const [emailCollection] = authApi.useEmailCollectionMutation();
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset
+    } = useForm();
+
+    const onSubmit = async (data) => {
+        const res = await emailCollection({ email: data.email });
+        if (res?.data?.success) {
+            toast.success(res?.data?.message)
+            reset()
+        }
+    };
+
     return (
         <footer className="bg-[#010e27] text-gray-400 py-16 mt-20">
             <h1 className="text-white text-3xl 2xl:text-7xl font-bold text-center mb-14">Let’s Simplify Property Management</h1>
@@ -15,27 +35,43 @@ const Footer = () => {
                         <p className="text-2xl font-semibold text-white mb-4">
                             Starting at just $20 per unit/month
                         </p>
-                        <div className="flex gap-3 ] border border-[#64636A] rounded-2xl p-1 max-w-md">
-                            <input
-                                type="email"
-                                placeholder="Enter you email address.."
-                                className="bg-transparent flex-1 outline-none px-3"
-                            />
-                            <button className="primary-btn">
-                                Book a Demo
+                        <form
+                            onSubmit={handleSubmit(onSubmit)}
+                            className="flex justify-center gap-3  rounded-2xl p-1 w-full max-w-2xl border bg-white"
+                            // style={{ boxShadow: "0px 26px 62px 0px rgba(227, 229, 234, 0.5)" }}
+                        >
+                            <div className="flex-1">
+                                <input
+                                    type="email"
+                                    placeholder="Enter your email address.."
+                                    {...register("email", {
+                                        required: "Email is required",
+                                        pattern: {
+                                            value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                                            message: "Invalid email address"
+                                        }
+                                    })}
+                                    className="bg-transparent w-full h-[100%] outline-none px-3 "
+                                />
+                                {errors.email && (
+                                    <p className="text-red-500 text-sm px-3">{errors.email.message}</p>
+                                )}
+                            </div>
+                            <button type="submit" className="primary-btn w-[120px]">
+                                Send
                             </button>
-                        </div>
+                        </form>
                     </div>
 
                     {/* Company Links */}
                     <div className="xl:col-span-3">
                         <h3 className="text-white text-lg font-semibold mb-4">Company</h3>
                         <ul className="space-y-6">
-                            {['Property platform', 'Full-service property management', 'Tenant communication', 
-                              'Maintenance coordination', 'Owner and tenant support', 'Market insights and reporting']
+                            {['Property platform', 'Full-service property management', 'Tenant communication',
+                                'Maintenance coordination', 'Owner and tenant support', 'Market insights and reporting']
                                 .map((item, index) => (
                                     <li key={index}><a href="#" className="hover:text-white transition">{item}</a></li>
-                            ))}
+                                ))}
                         </ul>
                     </div>
 
@@ -44,10 +80,10 @@ const Footer = () => {
                         <h3 className="text-white text-lg font-semibold mb-4">Features</h3>
                         <ul className="space-y-6">
                             {['Payment Processing', 'Rent tracking', 'Lease management', 'Document storage',
-                              'Property listings', 'Maintenance tracking']
+                                'Property listings', 'Maintenance tracking']
                                 .map((item, index) => (
                                     <li key={index}><a href="#" className="hover:text-white transition">{item}</a></li>
-                            ))}
+                                ))}
                         </ul>
                     </div>
 
@@ -56,10 +92,10 @@ const Footer = () => {
                         <h3 className="text-white text-lg font-semibold mb-4">Solutions</h3>
                         <ul className="space-y-6">
                             {['Residential management', 'Property management', 'Real estate automation',
-                              'Investment tracking', 'Online payment solutions']
+                                'Investment tracking', 'Online payment solutions']
                                 .map((item, index) => (
                                     <li key={index}><a href="#" className="hover:text-white transition">{item}</a></li>
-                            ))}
+                                ))}
                         </ul>
                     </div>
                 </div>
@@ -78,10 +114,10 @@ const Footer = () => {
                     <div className="flex gap-4">
                         {[
                             { icon: FaFacebook, platform: 'facebook' },
-                            { icon: FaInstagram, platform: 'instagram' }, 
+                            { icon: FaInstagram, platform: 'instagram' },
                             { icon: FaTwitter, platform: 'twitter' },
                             { icon: FaLinkedin, platform: 'linkedin' }
-                        ].map(({icon: Icon, platform}, index) => (
+                        ].map(({ icon: Icon, platform }, index) => (
                             <a
                                 key={index}
                                 href="#"
