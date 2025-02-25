@@ -58,7 +58,7 @@ function SignUp() {
     <>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="max-w-[1300px] mx-auto flex flex-col lg:flex-row items-center gap-8 lg:gap-16 px-4 md:px-8 lg:px-0 pt-8 md:pt-12 lg:pt-16"
+        className="max-w-[1200px] mx-auto flex flex-col lg:flex-row items-center gap-8 lg:gap-16 px-4 md:px-8 lg:px-4 pt-8 md:pt-12 lg:pt-16"
       >
         <div className="w-full lg:w-[50%]">
           <Link to="/" className="flex items-center pb-6 justify-center lg:justify-start">
@@ -202,7 +202,7 @@ function SignUp() {
           <img
             src={imagelogin}
             alt="login illustration"
-            className="w-full sm:max-w-[400px] md:max-w-[500px] lg:max-w-[663px] lg:h-auto object-contain"
+            className="hidden lg:block w-full sm:max-w-[400px] md:max-w-[500px] lg:max-w-[663px] lg:h-auto object-contain"
           />
         </div>
       </form>

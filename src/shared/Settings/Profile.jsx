@@ -42,7 +42,7 @@ const UserProfile = () => {
 
     if (isLoading) return <p>Loading...</p>;
     if (error) return <p>Error fetching user information</p>;
-  
+
 
 
     const userInfo = data?.data || {};
@@ -251,9 +251,12 @@ const UserProfile = () => {
                         <h2 className="text-xl font-semibold">{name || "No Name"}</h2>
                         <p className="text-gray-500">{email || "No Email Provided"}</p>
                     </div>
-                    <Link to='edit'>
-                        <button>
-                            <UserPen className="h-5 w-5 text-yellow-500" />
+                    <Link to='edit' className="relative">
+                        <div className="bg-blue-500 h-6 w-6 rounded-full animate-ping">
+
+                        </div>
+                        <button className=" absolute -top-1.5 -right-1.5 p-2 bg-white rounded-full shadow-lg text-black hover:text-blue-600 active:scale-95 duration-300">
+                            <UserPen className="h-5 w-5 " />
                         </button>
                     </Link>
                 </div>
@@ -305,7 +308,7 @@ const UserProfile = () => {
                                     {
                                         isCancel ? "Wait A Moment..." : "Cancel Subscription"
                                     }
-                                    
+
                                 </button>
                             </div>
                         </div>
