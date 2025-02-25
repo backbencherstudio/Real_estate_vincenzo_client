@@ -195,7 +195,8 @@ const adminApi = baseApi.injectEndpoints({
           url: `/admin/getAllEmailCollectionData`,
           method: "GET",
         }
-      }
+      },
+      providesTags:["email"]
     }),
 
   }),
