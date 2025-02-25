@@ -178,8 +178,8 @@ const adminApi = baseApi.injectEndpoints({
           body: data
         }
       }
-    }),
-
+    }),   
+    
     realEstateAdvisordelete: builder.mutation({
       query: (id) => {
         return {
@@ -189,7 +189,14 @@ const adminApi = baseApi.injectEndpoints({
       }
     }),
 
-
+    getAllEmailCollectionData: builder.query({
+      query: () => {
+        return {
+          url: `/admin/getAllEmailCollectionData`,
+          method: "GET",
+        }
+      }
+    }),
 
   }),
 });

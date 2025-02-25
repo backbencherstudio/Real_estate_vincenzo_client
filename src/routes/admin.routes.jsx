@@ -17,12 +17,13 @@ import { FaBuildingUser } from "react-icons/fa6";
 import UserProfile from "../shared/Settings/Profile";
 import Profile from "../shared/Profile";
 import Messages from "../shared/Messages/Messages";
-import { MdOutlineMessage, MdOutlineRateReview } from "react-icons/md";
+import { MdMarkEmailRead, MdOutlineMessage, MdOutlineRateReview } from "react-icons/md";
 import PayOutData from "../pages/Admin/PayOutData/PayOutData";
 import { TbReportMoney } from "react-icons/tb";
 import Review from "../pages/Admin/Review/Review";
 import AddAdvisor from "../pages/Admin/AddAdvisor/AddAdvisor";
 import { IoMdPersonAdd } from "react-icons/io";
+import EmailCollection from "../pages/Admin/EmailCollection/EmailCollection";
 
 export const adminPaths = [
   {
@@ -72,6 +73,12 @@ export const adminPaths = [
         name: "Add Advisor",
         path: "addAdvisor",
         element: <AddAdvisor />,
+      },
+      {
+        icon: <MdMarkEmailRead size={18} />,
+        name: "Email Collection",
+        path: "emailCollection",
+        element: <EmailCollection />,
       },
       {
         path: "tenant/:id",
