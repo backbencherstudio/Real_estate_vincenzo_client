@@ -118,7 +118,7 @@ const Review = () => {
     return (
         <div>
 
-            <h2>all review </h2>
+            <h2 className="text-xl" >All review </h2>
 
             <Table
                 columns={columns}
