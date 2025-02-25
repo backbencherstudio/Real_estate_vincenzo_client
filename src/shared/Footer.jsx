@@ -3,8 +3,11 @@ import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin } from 'react-icons/fa';
 import authApi from "../redux/fetures/auth/authApi";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import adminApi from "../redux/fetures/admin/adminApi";
 const Footer = () => {
     const [emailCollection] = authApi.useEmailCollectionMutation();
+    const { data: getPlanData } = adminApi.useGetPlanQuery(undefined, { pollingInterval: 86400000 })
+    const planData = getPlanData?.data[0]
 
     const {
         register,
@@ -33,7 +36,7 @@ const Footer = () => {
                             <img src={logo} alt="Real Estate Logo" className="" />
                         </div>
                         <p className="text-2xl font-semibold text-white mb-4">
-                            Starting at just $20 per unit/month
+                            Starting at just ${planData?.starter} per unit/month
                         </p>
                         <form
                             onSubmit={handleSubmit(onSubmit)}

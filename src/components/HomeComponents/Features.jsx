@@ -5,66 +5,8 @@ import image3 from "../../assets/Frame3.png";
 import { FaCircleCheck } from "react-icons/fa6";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import adminApi from '../../redux/fetures/admin/adminApi';
 
-const featureSections = [
-    {
-        title: "Subscription Plans for Every Investor",
-        description: "Manage your properties effortlessly with plans tailored to your portfolio size:",
-        image: image2,
-        features: [
-            {
-                title: "Starter Plan",
-                description: "Perfect for small portfolios, manage 1-4 units at $20 per unit/month."
-            },
-            {
-                title: "Growth Plan",
-                description: "Scale up to 5-12 units at $18 per unit/month."
-            },
-            {
-                title: "Professional Plan",
-                description: "Manage 13-40 units at $15 per unit/month, ideal for larger investments."
-            }
-        ]
-    },
-    {
-        title: "Empowering Tenants with Essential Tools",
-        description: "Give tenants control with an intuitive and functional portal:",
-        image: image1,
-        features: [
-            {
-                title: "Pay Rent",
-                description: "Flexible payment methods like bank transfer, credit card."
-            },
-            {
-                title: "Request Maintenance",
-                description: "Easily submit and track service requests for repairs."
-            },
-            {
-                title: "Store Documents",
-                description: "Upload and manage important files like rental agreements."
-            }
-        ]
-    },
-    {
-        title: "Comprehensive Tools for Property Owners",
-        description: "Streamline property management with advanced features for investors:",
-        image: image3,
-        features: [
-            {
-                title: "Manage Payments",
-                description: "Create payment listings, track rent, and receive payments."
-            },
-            {
-                title: "Handle Maintenance Requests",
-                description: "View and resolve tenant service requests efficiently."
-            },
-            {
-                title: "Organize Tenants",
-                description: "Group tenants and assign them based on your subscription plan."
-            }
-        ]
-    }
-];
 
 const FeatureItem = ({ title, description }) => (
     <div className="flex items-start gap-3">
@@ -103,7 +45,68 @@ const FeatureSection = ({ title, description, image, features }) => (
 const Features = () => {
     const [scrollProgress, setScrollProgress] = React.useState(0);
     const [isVisible, setIsVisible] = React.useState(false);
-
+    const { data: getPlanData } = adminApi.useGetPlanQuery(undefined, { pollingInterval: 86400000 })
+    const planData = getPlanData?.data[0]
+    const featureSections = [
+        {
+            title: "Subscription Plans for Every Investor",
+            description: "Manage your properties effortlessly with plans tailored to your portfolio size:",
+            image: image2,
+            features: [
+                {
+                    title: "Starter Plan",
+                    description: `Perfect for small portfolios, manage 1-4 units at ${planData?.starter} per unit/month.`
+                },
+                {
+                    title: "Growth Plan",
+                    description: `Scale up to 5-12 units at ${planData?.growth} per unit/month.`
+                },
+                {
+                    title: "Professional Plan",
+                    description: `Manage 13-40 units at ${planData?.professional} per unit/month, ideal for larger investments.`
+                }
+            ]
+        },
+        {
+            title: "Empowering Tenants with Essential Tools",
+            description: "Give tenants control with an intuitive and functional portal:",
+            image: image1,
+            features: [
+                {
+                    title: "Pay Rent",
+                    description: "Flexible payment methods like bank transfer, credit card."
+                },
+                {
+                    title: "Request Maintenance",
+                    description: "Easily submit and track service requests for repairs."
+                },
+                {
+                    title: "Store Documents",
+                    description: "Upload and manage important files like rental agreements."
+                }
+            ]
+        },
+        {
+            title: "Comprehensive Tools for Property Owners",
+            description: "Streamline property management with advanced features for investors:",
+            image: image3,
+            features: [
+                {
+                    title: "Manage Payments",
+                    description: "Create payment listings, track rent, and receive payments."
+                },
+                {
+                    title: "Handle Maintenance Requests",
+                    description: "View and resolve tenant service requests efficiently."
+                },
+                {
+                    title: "Organize Tenants",
+                    description: "Group tenants and assign them based on your subscription plan."
+                }
+            ]
+        }
+    ];
+    
     React.useEffect(() => {
         AOS.init();
         const handleScroll = () => {
