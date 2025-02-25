@@ -44,7 +44,9 @@ const Navbar = () => {
         <div className="">
             <nav className="text-[#64636A] py-4 px-4 xl:px-0 lg:py-10 flex items-center justify-between max-w-7xl mx-auto ">
                 <div className="text-2xl font-bold">
-                    <img src={logo} alt="logo" className="" />
+                    <NavLink to="/" >
+                        <img src={logo} alt="logo" className="" />
+                    </NavLink>
                 </div>
                 <div className="hidden md:flex space-x-12">
                     <NavLink to="/" className={({ isActive }) => (isActive ? "text-black font-semibold" : "hover:text-black font-semibold")}>Home</NavLink>
