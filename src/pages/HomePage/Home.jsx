@@ -12,6 +12,7 @@ import Features from "../../components/HomeComponents/Features";
 import authApi from "../../redux/fetures/auth/authApi";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import adminApi from "../../redux/fetures/admin/adminApi";
 const Home = () => {
     const [emailCollection] = authApi.useEmailCollectionMutation();
 
