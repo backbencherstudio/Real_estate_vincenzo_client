@@ -3,6 +3,7 @@ import { url } from "../../../globalConst/const";
 import adminApi from "../../../redux/fetures/admin/adminApi";
 import { useForm } from "react-hook-form";
 import Swal from 'sweetalert2';
+import { toast } from "sonner";
 
 const AddAdvisor = () => {
     const [realEstateAdvisor, { isLoading: addIsLoading }] = adminApi.useRealEstateAdvisorMutation();
@@ -29,12 +30,12 @@ const AddAdvisor = () => {
 
             const response = await realEstateAdvisor(formDataToSend);
             if (response.data?.success) {
-                alert('Advisor added successfully!');
+                toast.success('Advisor added successfully!');
                 await refetch();
                 reset();
             }
         } catch (error) {
-            alert('Something went wrong!');
+            toast.error('Something went wrong!');
         }
     };
 
@@ -71,6 +72,11 @@ const AddAdvisor = () => {
     return (
         <div className="px-4">
             <h2 className="text-3xl font-bold ">Add Real Estate Advisor</h2>
+            <div className=" mb-6">
+                <div className="text-sm text-gray-500">
+                    User Management / Add Real Estate Advisor
+                </div>
+            </div>
             <form onSubmit={handleSubmit(onSubmit)} className="  bg-white p-6 rounded-lg shadow">
                 <div className="grid grid-cols-2 gap-4">
                     {/* Name Field */}
@@ -174,14 +180,16 @@ const AddAdvisor = () => {
                                 <p>Loading advisors...</p>
                             ) : (
                                 data?.data?.map((advisor) => (
-                                    <div key={advisor._id} className="bg-white rounded-lg shadow-md p-4">
-                                        <img
-                                            src={`${url}${advisor?.image}`}
-                                            alt={advisor.name}
-                                            className="w-full h-64 object-cover rounded-lg mb-4"
-                                        />
-                                        <h3 className="text-xl font-semibold">{advisor.name}</h3>
-                                        <p className="text-gray-600 mb-4">{advisor.designation}</p>
+                                    <div key={advisor._id} className="flex flex-col justify-between bg-white rounded-lg shadow-md p-4">
+                                        <div>
+                                            <img
+                                                src={`${url}${advisor?.image}`}
+                                                alt={advisor.name}
+                                                className="w-full h-64 object-cover rounded-lg mb-4"
+                                            />
+                                            <h3 className="text-xl font-semibold">{advisor.name}</h3>
+                                            <p className="text-gray-600 mb-4">{advisor.designation}</p>
+                                        </div>
                                         <div className="flex justify-between items-center">
                                             <div className="flex gap-2">
                                                 <a href={advisor.facebook} target="_blank" rel="noopener noreferrer" className="border p-2 rounded-full">
