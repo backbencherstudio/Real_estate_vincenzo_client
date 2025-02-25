@@ -189,6 +189,7 @@ const adminApi = baseApi.injectEndpoints({
       }
     }),
 
+    // =============================================== Email collection
     getAllEmailCollectionData: builder.query({
       query: () => {
         return {
@@ -197,6 +198,14 @@ const adminApi = baseApi.injectEndpoints({
         }
       },
       providesTags:["email"]
+    }),
+
+    deleteEmailCollectionData: builder.mutation({
+      query: (id) => ({
+        url: `/admin/emailCollection/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags:["email"]
     }),
 
   }),
