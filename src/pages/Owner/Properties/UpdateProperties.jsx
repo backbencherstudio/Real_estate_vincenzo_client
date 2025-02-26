@@ -246,17 +246,19 @@ const UpdateProperties = () => {
                         <Col xs={24} sm={24} md={8}>
                             <Form.Item >
                                 <Controller
+                                    
                                     name="propertyName"
                                     control={control}
                                     render={({ field }) => (
                                         <div className="relative">
                                             <input
+                                            id="propertyName"
                                                 {...field}
                                                 type="text"
                                                 placeholder="Property Name"
                                                 className="peer w-full px-3 py-3 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
                                             />
-                                            <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
+                                            <label  htmlFor="propertyName"  className="absolute left-3 -top-2.5 bg-white px-1 text-sm cursor-text text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
                                             property Name :: {propertyMainData?.propertyName}
                                             </label>
                                         </div>
@@ -277,11 +279,12 @@ const UpdateProperties = () => {
                                     render={({ field }) => (
                                         <div className="relative">
                                             <input
+                                                id="maintainerName"
                                                 {...field}
                                                 placeholder="Write Maintainer Name...."
                                                 className="peer w-full px-3 py-3 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
                                             />
-                                            <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
+                                            <label  htmlFor="maintainerName" className="absolute left-3 -top-2.5 bg-white px-1 text-sm cursor-text text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
                                             Maintainer Name ::  {propertyMainData?.maintainerName}
                                             </label>
                                         </div>
@@ -302,12 +305,14 @@ const UpdateProperties = () => {
                                     render={({ field }) => (
                                         <div className="relative">
                                             <input
+                                                id="houseNo"
+                                                defaultValue={propertyMainData?.houseNumber}
                                                 {...field}
                                                 placeholder="Write House No...."
                                                 className="peer w-full px-3 py-3 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
                                             />
-                                            <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
-                                            House Number :: {propertyMainData?.houseNumber}
+                                            <label  htmlFor="houseNo" className="absolute left-3 -top-2.5 bg-white px-1 text-sm cursor-text text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
+                                            House Number 
                                             </label>
                                         </div>
                                     )}
@@ -328,12 +333,14 @@ const UpdateProperties = () => {
                                     render={({ field }) => (
                                         <div className="relative">
                                             <textarea
+                                                id="description"
+                                                defaultValue={propertyMainData?.Description}
                                                 {...field}
                                                 placeholder="Write Description here...."
-                                                className="peer w-full px-3 py-3 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
+                                                className="peer w-full h-44 px-3 py-3 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
                                             />
-                                            <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
-                                            Description :: {propertyMainData?.Description}
+                                            <label  htmlFor="description" className="absolute left-3 -top-2.5 bg-white px-1 text-sm cursor-text text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
+                                            Description :
                                             </label>
                                         </div>
                                     )}
@@ -355,11 +362,12 @@ const UpdateProperties = () => {
                                     render={({ field }) => (
                                         <div className="relative">
                                             <input
+                                                id="amenities"
                                                 {...field}
                                                 placeholder="Type here...."
                                                 className="peer w-full px-3 py-3 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
                                             />
-                                            <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
+                                            <label  htmlFor="amenities" className="absolute left-3 -top-2.5 bg-white px-1 text-sm cursor-text text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
                                             Amenities :: {propertyMainData?.amenities}
                                             </label>
                                         </div>
@@ -459,11 +467,12 @@ const UpdateProperties = () => {
                                     render={({ field }) => (
                                         <div className="relative">
                                             <input
+                                                id="state"
                                                 {...field}
                                                 placeholder="Write State Name"
                                                 className="peer w-full px-3 py-3 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
                                             />
-                                            <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
+                                            <label  htmlFor="state" className="absolute left-3 -top-2.5 bg-white px-1 text-sm cursor-text text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
                                             State :: {propertyLocationMainData?.state}
                                             </label>
                                         </div>
@@ -484,11 +493,12 @@ const UpdateProperties = () => {
                                     render={({ field }) => (
                                         <div className="relative">
                                             <input
+                                                id="city"
                                                 {...field}
                                                 placeholder="Write City Name"
                                                 className="peer w-full px-3 py-3 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
                                             />
-                                            <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
+                                            <label  htmlFor="city" className="absolute left-3 -top-2.5 bg-white px-1 text-sm cursor-text text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
                                               City :: {propertyLocationMainData?.city}
                                             </label>
                                         </div>
@@ -509,11 +519,12 @@ const UpdateProperties = () => {
                                     render={({ field }) => (
                                         <div className="relative">
                                             <input
+                                                id="address"
                                                 {...field}
                                                 placeholder="Write Address"
                                                 className="peer w-full px-3 py-3 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
                                             />
-                                            <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
+                                            <label  htmlFor="address" className="absolute left-3 -top-2.5 bg-white px-1 text-sm cursor-text text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
                                                Address :: {propertyLocationMainData?.address}
                                             </label>
                                         </div>
@@ -533,12 +544,13 @@ const UpdateProperties = () => {
                                     render={({ field }) => (
                                         <div className="relative">
                                             <input
+                                                id="zipCode"
                                                 {...field}
                                                 type="number"
                                                 placeholder="Write Zip Code"
                                                 className="peer w-full px-3 py-3 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
                                             />
-                                            <label className="absolute left-3 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
+                                            <label  htmlFor="zipCode" className="absolute left-3 -top-2.5 bg-white px-1 text-sm cursor-text text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
                                                Zip Code :: {propertyLocationMainData?.zipCode}
                                             </label>
                                         </div>
