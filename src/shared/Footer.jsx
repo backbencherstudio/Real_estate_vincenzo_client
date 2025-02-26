@@ -40,8 +40,7 @@ const Footer = () => {
                         </p>
                         <form
                             onSubmit={handleSubmit(onSubmit)}
-                            className="flex justify-center gap-3  rounded-2xl p-1 w-full max-w-2xl border bg-white"
-                            // style={{ boxShadow: "0px 26px 62px 0px rgba(227, 229, 234, 0.5)" }}
+                            className="flex justify-center gap-3  rounded-2xl p-1 w-full max-w-2xl border border-gray-600"
                         >
                             <div className="flex-1">
                                 <input
