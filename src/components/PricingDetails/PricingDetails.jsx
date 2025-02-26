@@ -80,7 +80,7 @@ const pricingData = {
     ]
 };
 
-const PricingDetails = ({planData}) => {
+const PricingDetails = ({ planData }) => {
     const plans = [
         {
             name: "Starter",
@@ -103,12 +103,17 @@ const PricingDetails = ({planData}) => {
     ]
 
     const currentUser = useSelector(selectCurrentUser);
-    const navigate = useNavigate();    
-    const selectPlanFun = () =>{
+    const navigate = useNavigate();
+    const selectPlanFun = () => {
         if (!currentUser) {
-         return navigate("/signIn")            
+            return navigate("/signIn")
         }
-        navigate(`/${currentUser?.role}/payment`)
+        if (currentUser?.role === "admin") {
+            navigate(`/subscription-plan`)
+        }
+        if (currentUser.role === "owner") {
+            navigate(`/${currentUser?.role}/payment`)
+        }
     }
 
 
@@ -149,11 +154,8 @@ const PricingDetails = ({planData}) => {
                     ))}
                 </div>
             </div>
-            <div className='max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4 justify-center mt-4'>
-                <div className='hidden lg:block'></div>
-                <button onClick={selectPlanFun} className='border border-zinc-200 rounded-lg px-4 py-2 w-full'>Get Started</button>
-                <button onClick={selectPlanFun} className='primary-btn w-full'>Choose Plan </button>
-                {/* <button className='border border-zinc-200 rounded-lg px-4 py-2 w-full'>Upgrade to Premium</button> */}
+            <div className='max-w-7xl mx-auto flex  justify-center mt-4'>
+                <button onClick={selectPlanFun} className='primary-btn w-[100%] md:w-[50%] xl:w-[25%]'>Choose Plan </button>
             </div>
         </div>
     );

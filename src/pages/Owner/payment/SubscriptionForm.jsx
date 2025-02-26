@@ -76,7 +76,7 @@ const SubscriptionForm = ({selectedPlan, totalPrice, getTotalUnit }) => {
                 return;
             }
 
-            const response = await axios.post('http://localhost:5000/api/v1/payment/stripe', {
+            const response = await axios.post('http://backend.rentpadhomes.com/api/v1/payment/stripe', {
                 email,
                 getTotalUnit,
                 amount: totalPrice.toString(),
