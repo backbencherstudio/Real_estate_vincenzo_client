@@ -14,11 +14,16 @@ const Plans = ({planData}) => {
         images: [landing, landing],
     };
     const navigate = useNavigate();    
-    const selectPlanFun = () =>{
+    const selectPlanFun = () => {
         if (!currentUser) {
-         return navigate("/signIn")            
+            return navigate("/signIn")
         }
-        navigate(`/${currentUser?.role}/payment`)
+        if (currentUser?.role === "admin") {
+            navigate(`/subscription-plan`)
+        }
+        if (currentUser.role === "owner") {
+            navigate(`/${currentUser?.role}/payment`)
+        }
     }
 
 
