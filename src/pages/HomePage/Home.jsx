@@ -73,6 +73,7 @@ const Home = () => {
                                                 }
                                             })}
                                             className="bg-transparent w-full h-[100%] outline-none px-3 "
+                                            autoComplete="off"
                                         />
                                         {errors.email && (
                                             <p className="text-red-500 text-sm px-3">{errors.email.message}</p>

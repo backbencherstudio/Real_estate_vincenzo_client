@@ -53,7 +53,8 @@ const Footer = () => {
                                             message: "Invalid email address"
                                         }
                                     })}
-                                    className="bg-transparent w-full h-[100%] outline-none px-3 "
+                                    className="bg-transparent w-full h-[100%] outline-none px-3 rounded-l-xl"
+                                    autoComplete="off"
                                 />
                                 {errors.email && (
                                     <p className="text-red-500 text-sm px-3">{errors.email.message}</p>
