@@ -21,7 +21,7 @@ const MainLayout = () => {
   const currentUser = useSelector(selectCurrentUser);
   const { data } = authApi.useGetSingleUserInfoQuery(currentUser?.email);
 
-  // console.log(`http://backend.rentpadhomes.com${data?.data?.profileImage}`);
+  // console.log(`https://backend.rentpadhomes.com${data?.data?.profileImage}`);
   // console.log(data?.data);
 
   const items = [

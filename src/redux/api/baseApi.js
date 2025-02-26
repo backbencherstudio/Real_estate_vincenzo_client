@@ -3,7 +3,7 @@ import { logOut, setUser } from "../fetures/auth/authSlice";
 import { toast } from "sonner";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://backend.rentpadhomes.com/api/v1",
+  baseUrl: "https://backend.rentpadhomes.com/api/v1",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = getState().auth.token;
@@ -34,7 +34,7 @@ const baseQueryWithRefreshToken = async (args, api, extraOptions) => {
   }
 
   if (result?.error?.status === 401) {
-    const res = await fetch("http://backend.rentpadhomes.com/api/v1/auth/refresh-token", {
+    const res = await fetch("https://backend.rentpadhomes.com/api/v1/auth/refresh-token", {
       method: "POST",
       credentials: "include",
     });
