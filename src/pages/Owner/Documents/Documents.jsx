@@ -142,7 +142,7 @@ const Documents = () => {
             </h1>
           </div>{" "}
           <div>
-            <Select
+            {/* <Select
               showSearch
               placeholder="Select a Status"
               optionFilterProp="label"
@@ -162,7 +162,7 @@ const Documents = () => {
                   label: "Completed",
                 },
               ]}
-            />
+            /> */}
           </div>
         </div>
 
