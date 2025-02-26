@@ -20,7 +20,7 @@ const Owner = () => {
     searchTerm
   }
 
-  const { data: userData } = adminApi.useGetALlUserQuery(query, {
+  const { data: userData, isLoading } = adminApi.useGetALlUserQuery(query, {
     pollingInterval: 20000
   });
 
@@ -220,6 +220,7 @@ const Owner = () => {
         <Table
           columns={columns}
           dataSource={tableData}
+          loading={isLoading}
           scroll={{ x: 800 }}
           pagination={{
             pageSize: pageSize,

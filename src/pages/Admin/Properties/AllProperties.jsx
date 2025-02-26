@@ -10,7 +10,7 @@ const AllProperties = () => {
     const [pageSize, setPageSize] = useState(10);
   const [selectedDate, setSelectedDate] = useState(""); 
 
-    const { data: propertyData } = adminApi.useGetAllPropertiesQuery( selectedDate );
+    const { data: propertyData , isLoading } = adminApi.useGetAllPropertiesQuery( selectedDate );
 
     const handlePageSizeChange = (current, size) => {
         setPageSize(size);
@@ -141,6 +141,7 @@ const AllProperties = () => {
                 <Table
                     columns={columns}
                     dataSource={tableData}
+                    loading={isLoading}
                     scroll={{ x: 800 }}
                     pagination={{
                         pageSize: pageSize,

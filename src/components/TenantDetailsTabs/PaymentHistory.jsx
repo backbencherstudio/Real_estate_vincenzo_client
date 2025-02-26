@@ -6,7 +6,7 @@ import moment from 'moment';
 import { getDynamicDate } from '../../utils/getDynamicDate';
 
 const PaymentHistory = ({userId}) => {    
-    const { data } = tenantApi.useGetSingleUserAllPaymentDataQuery(userId, {
+    const { data, isLoading } = tenantApi.useGetSingleUserAllPaymentDataQuery(userId, {
         pollingInterval: 15000,
       });     
 
@@ -155,6 +155,7 @@ const PaymentHistory = ({userId}) => {
                 <Table
                     columns={columns}
                     dataSource={tableData}
+                    loading={isLoading}
                     scroll={{ x: 800 }}
                     pagination={{
                         pageSize: pageSize,

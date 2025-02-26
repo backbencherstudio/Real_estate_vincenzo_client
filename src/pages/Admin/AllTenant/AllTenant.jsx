@@ -7,13 +7,12 @@ import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../../redux/fetures/auth/authSlice';
 const AllTenant = () => {
     const [pageSize, setPageSize] = useState(10);
-    const { data } = adminApi.useGetAllTenantsQuery();
+    const { data, isLoading } = adminApi.useGetAllTenantsQuery();
+    
+    console.log(isLoading);
     
     const navigate = useNavigate();
-    const currentUser = useSelector(selectCurrentUser);
-
-    console.log(data?.data);
-    
+    const currentUser = useSelector(selectCurrentUser);    
 
     const tableData = data?.data?.map(({
         createdAt,
@@ -147,6 +146,7 @@ const AllTenant = () => {
                 <Table
                     columns={columns}
                     dataSource={tableData}
+                    loading={isLoading}
                     scroll={{ x: 800 }}
                     pagination={{
                         pageSize: pageSize,

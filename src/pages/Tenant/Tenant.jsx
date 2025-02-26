@@ -24,7 +24,7 @@ function TenantDashboard() {
   const { data } = tenantApi.useGetSingleUserAllPaymentDataQuery(currentUser?.userId, {
     pollingInterval: 15000,
   });
-  const { data: userData } = authApi.useGetSingleUserInfoQuery(currentUser?.email);
+  const { data: userData , isLoading} = authApi.useGetSingleUserInfoQuery(currentUser?.email);
   const [open, setOpen] = useState(false);
   const [paymentData, setPaymentData] = useState({})
   const [pageSize, setPageSize] = useState(10);
@@ -255,6 +255,7 @@ function TenantDashboard() {
           <Table
             columns={columns}
             dataSource={tableData}
+            loading={isLoading}
             scroll={{ x: 800 }}
             pagination={{
               pageSize: pageSize,

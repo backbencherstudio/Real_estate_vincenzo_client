@@ -16,7 +16,7 @@ const AdminDashboard = () => {
   `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}`
 );
 
-  const { data: propertyData } = adminApi.useGetAllPropertiesQuery();
+  const { data: propertyData, isLoading : propertyDataIsLoading } = adminApi.useGetAllPropertiesQuery();
   const { data: overviewAllData, isLoading, refetch } =
     adminApi.useGetAllDataOverviewByAdminQuery(selectedDateForFilter);
 
@@ -191,6 +191,7 @@ const AdminDashboard = () => {
         <Table
           columns={columns}
           dataSource={tableData}
+          loading={propertyDataIsLoading}
           scroll={{ x: 800 }}
           pagination={{
             pageSize: pageSize,

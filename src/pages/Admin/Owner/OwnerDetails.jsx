@@ -12,7 +12,7 @@ const OwnerDetails = () => {
     const [pageSize, setPageSize] = useState(10);
     const [showMenu, setShowMenu] = useState(false);
     const { id } = useParams();
-    const { data } = adminApi.useGetSingleOwnerAllPropertiesWithOwnerInfoQuery(id)
+    const { data , isLoading} = adminApi.useGetSingleOwnerAllPropertiesWithOwnerInfoQuery(id)
     const navigate = useNavigate();
     const currentUser = useSelector(selectCurrentUser);
 
@@ -175,6 +175,7 @@ const OwnerDetails = () => {
                 <Table
                     columns={columns}
                     dataSource={tableData}
+                    loading={isLoading}
                     scroll={{ x: 800 }}
                     pagination={{
                         pageSize: pageSize,

@@ -1,7 +1,7 @@
 import { Table, Tag } from 'antd';
 import 'antd/dist/reset.css';
 import { Plus } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MaintenanceForm from '../../components/Forms/MaintenanceForm';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../redux/fetures/auth/authSlice';
@@ -16,7 +16,11 @@ function MaintenanceRequests() {
   const currentUser = useSelector(selectCurrentUser)
   const navigate = useNavigate();
   const { data } = tenantApi.useGetTenantDetailseQuery(currentUser?.userId);
-  const { data: maintenanceData } = maintenanceApi.useGetSingleUserMaintenanceDataQuery(currentUser?.userId)
+  const { data: maintenanceData, isLoading, refetch } = maintenanceApi.useGetSingleUserMaintenanceDataQuery(currentUser?.userId)
+
+  useEffect(()=>{
+    refetch()
+  },[])
 
   const open = () => {
     setIsOpen(true)
@@ -152,6 +156,7 @@ function MaintenanceRequests() {
             className="rounded-md shadow-lg bg-white"
             columns={columns}
             dataSource={tableDatas}
+            loading={isLoading}
             pagination={{
               responsive: true,
               showSizeChanger: true,

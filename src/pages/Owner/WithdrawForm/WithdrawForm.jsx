@@ -231,7 +231,7 @@ const WithdrawForm = () => {
                     columns={columns}
                     dataSource={tableData}
                     scroll={{ x: 800 }}
-                    isLoading={payoutDataIsloading || isLoading}
+                    loading={payoutDataIsloading || isLoading}
                     pagination={{
                         pageSize: pageSize,
                         pageSizeOptions: ["5", "10", "15", "20", "25"],

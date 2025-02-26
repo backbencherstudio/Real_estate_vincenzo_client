@@ -12,7 +12,7 @@ const DocumentForm = ({ close }) => {
     const [selectedFile, setSelectedFile] = React.useState(null);
     const currentUser = useSelector(selectCurrentUser);
 
-    const [createDocument, {isLoading}] = documentApi.useCreateDocumentMutation()
+    const [createDocument, { isLoading }] = documentApi.useCreateDocumentMutation()
 
     const onDrop = (acceptedFiles) => {
         if (acceptedFiles && acceptedFiles.length > 0) {
@@ -22,8 +22,15 @@ const DocumentForm = ({ close }) => {
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         onDrop,
         multiple: false,
+        // accept: {
+        //     'application/file': ['.jpg, .jpeg, .png .doc, .pdf'],
+        // }
         accept: {
-            'application/file': ['.jpg, .jpeg, .png .doc, .pdf'],
+            'image/png': ['.png'],
+            'image/jpeg': ['.jpg', '.jpeg'],
+            'application/pdf': ['.pdf'],
+            'application/msword': ['.doc'],
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx']
         }
     });
 
@@ -31,20 +38,20 @@ const DocumentForm = ({ close }) => {
     const onSubmit = async (data) => {
         const userId = currentUser.userId;
         const documentType = data.document;
-        const description = data.description;        
+        const description = data.description;
         const formData = new FormData();
         formData.append("userId", userId);
         formData.append("documentType", documentType);
         formData.append("description", description);
         if (selectedFile) {
-            formData.append("image", selectedFile); 
+            formData.append("image", selectedFile);
         }
         const response = await createDocument(formData)
-        if(response?.data?.success){
+        if (response?.data?.success) {
             reset();
             close(false)
             toast.success(response?.data?.message)
-          }
+        }
     };
 
 
@@ -115,7 +122,7 @@ const DocumentForm = ({ close }) => {
                             type="submit"
                             className="py-5 px-6 bg-gradient-to-l to-[#4A90E2] from-[#1565C0] active:translate-y-0.5 duration-150 text-white rounded-md font-bold"
                         >
-                            Submit Request
+                            {isLoading ? "Loading..." : "Submit Request"}
                         </button>
                     </div>
                 </form>

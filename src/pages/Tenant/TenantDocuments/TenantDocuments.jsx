@@ -1,7 +1,7 @@
 import { Table, Tag } from 'antd';
 import 'antd/dist/reset.css';
 import DocumentForm from '../../../components/Forms/DocumentForm';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BiPlus } from 'react-icons/bi';
 import CustomButton from '../../../shared/CustomButton';
 import { useSelector } from 'react-redux';
@@ -13,7 +13,11 @@ import { url } from '../../../globalConst/const';
 const TenantDocuments = () => {
     const [isOpen, setIsOpen] = useState(false);
     const currentUser = useSelector(selectCurrentUser);
-    const { data } = documentApi.useGetSingleUserAllDocumentsQuery(currentUser.userId)
+    const { data, isLoading, refetch } = documentApi.useGetSingleUserAllDocumentsQuery(currentUser.userId)
+
+    useEffect(()=>{
+        refetch()
+      },[])
 
     const open = () => {
         setIsOpen(true)
@@ -136,6 +140,7 @@ const TenantDocuments = () => {
                 className=""
                 columns={columns}
                 dataSource={tableDatas}
+                loading={isLoading}
                 scroll={{ x: 800 }}
                 pagination={{
                     responsive: true,

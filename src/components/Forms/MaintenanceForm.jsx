@@ -11,7 +11,7 @@ const MaintenanceForm = ({ tenantData, close }) => {
     reset,
     formState: { errors },
   } = useForm();
-  const [createMaintenance] = maintenanceApi.useCreateMaintenanceMutation();
+  const [createMaintenance, {isLoading}] = maintenanceApi.useCreateMaintenanceMutation();
 
   const propertyName =
     tenantData?.propertyId?.propertyName || "Default Property Name";
@@ -157,7 +157,10 @@ const MaintenanceForm = ({ tenantData, close }) => {
               type="submit"
               className="py-5 px-6 bg-gradient-to-l to-[#4A90E2] from-[#1565C0] active:translate-y-0.5 duration-150 text-white rounded-md font-bold"
             >
-              Submit Request
+              {
+                isLoading ? "Loading..." : "Submit"
+              }
+              
             </button>
           </div>
         </form>

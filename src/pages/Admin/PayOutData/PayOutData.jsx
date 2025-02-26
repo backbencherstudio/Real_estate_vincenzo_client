@@ -138,7 +138,7 @@ const PayOutData = () => {
             <Table
                 columns={columns}
                 dataSource={tableData}
-                isLoading={isLoading || payoutIsLoading}
+                loading={isLoading || payoutIsLoading}
                 scroll={{ x: 800 }}
                 pagination={{
                     pageSize: pageSize,

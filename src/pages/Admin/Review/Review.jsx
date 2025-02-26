@@ -9,7 +9,7 @@ import Swal from "sweetalert2";
 import { toast } from "sonner";
 
 const Review = () => {
-    const { data } = adminApi.useGetAllReviewQuery();
+    const { data , isLoading} = adminApi.useGetAllReviewQuery();
     const [pageSize, setPageSize] = useState(10);
     const [deleteReviewByAdmin] = adminApi.useDeleteReviewByAdminMutation();
 
@@ -123,6 +123,7 @@ const Review = () => {
             <Table
                 columns={columns}
                 dataSource={tableData}
+                loading={isLoading}
                 scroll={{ x: 800 }}
                 pagination={{
                     pageSize: pageSize,
