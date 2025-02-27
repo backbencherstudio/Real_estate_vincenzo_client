@@ -1,8 +1,31 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { TbStars } from 'react-icons/tb';
 import happyTenant from '../../assets/happyTenant.svg'
 import world from '../../assets/world.svg'
+import CountUp from 'react-countup';
+
 const InvestmentStory = () => {
+    const [isVisible, setIsVisible] = useState(false);
+    const statsRef = useRef(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsVisible(true);
+                    observer.disconnect();
+                }
+            },
+            { threshold: 0.3 }
+        );
+
+        if (statsRef.current) {
+            observer.observe(statsRef.current);
+        }
+
+        return () => observer.disconnect();
+    }, []);
+
     return (
         <div className="max-w-7xl mx-auto px-4 xl:px-0 py-20">
             {/* Header Section */}
@@ -35,10 +58,13 @@ const InvestmentStory = () => {
             </div>
 
             {/* Stats Section */}
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-3 gap-8" ref={statsRef}>
                 <div className="bg-[#F5F6F9] p-8 rounded-3xl relative group">
                     <div className="flex justify-between items-center mb-4">
-                        <h3 className="text-5xl font-bold flex items-center gap-2"><span className='text-3xl'>•</span> 10K+</h3>
+                        <h3 className="text-5xl font-bold flex items-center gap-2">
+                            <span className='text-3xl'>•</span>
+                            <CountUp end={10} suffix="K+" duration={5} start={isVisible ? undefined : 0} />
+                        </h3>
                         <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center">
                             <span className="text-blue-600">
                                 <img src={world} alt="" />
@@ -52,7 +78,10 @@ const InvestmentStory = () => {
                 </div>
                 <div className="bg-[#F5F6F9] p-8 rounded-3xl relative group">
                     <div className="flex justify-between items-center mb-4">
-                        <h3 className="text-5xl font-bold flex items-center gap-2"><span className='text-3xl'>•</span> 8K+</h3>
+                        <h3 className="text-5xl font-bold flex items-center gap-2">
+                            <span className='text-3xl'>•</span>
+                            <CountUp end={8} suffix="K+" duration={5} start={isVisible ? undefined : 0} />
+                        </h3>
                         <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center">
                             <span className="text-blue-600">
                                 <img src={happyTenant} alt="" />
@@ -66,7 +95,10 @@ const InvestmentStory = () => {
                 </div>
                 <div className="bg-[#F5F6F9] p-8 rounded-3xl relative group">
                     <div className="flex justify-between items-center mb-4">
-                        <h3 className="text-5xl font-bold flex items-center gap-2"><span className='text-3xl'>•</span> 5.00</h3>
+                        <h3 className="text-5xl font-bold flex items-center gap-2">
+                            <span className='text-3xl'>•</span>
+                            <CountUp end={5.00} decimals={2} duration={5} start={isVisible ? undefined : 0} />
+                        </h3>
                         <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center">
                             <span className="text-blue-400"><TbStars /></span>
                         </div>

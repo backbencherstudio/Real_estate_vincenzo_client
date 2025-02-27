@@ -81,7 +81,7 @@ const TeamMember = () => {
                 {teamMembers?.map((member, index) => (
                     <div key={index} className="p-4">
                         <div className={`bg-white rounded-3xl p-2 pb-4 max-w-full h-[422px] transition-all duration-300  
-                            ${activeSlide === index ? 'transform  !bg-[#1565C0]' : ''}`}>
+                            ${activeSlide === index ? '' : ''}`}>
                             <div className="mb-4">
                                 <img
                                     src={`${url}${member?.image}`}
@@ -90,8 +90,8 @@ const TeamMember = () => {
                                 />
                             </div>
                             <div className="text-black mb-6 pl-6">
-                                <h3 className={`${activeSlide === index ? 'text-white' : 'text-black'} text-2xl font-bold mb-1`}>{member?.name}</h3>
-                                <p className={`${activeSlide === index ? 'text-white' : 'text-zinc-600'}`}>{member?.designation}</p>
+                                <h3 className={`${activeSlide === index ? 'text-black' : 'text-black'} text-2xl font-bold mb-1`}>{member?.name}</h3>
+                                <p className={`${activeSlide === index ? 'text-black' : 'text-zinc-600'}`}>{member?.designation}</p>
                             </div>
                             <div className="flex gap-4 pl-6">
                                 {[
@@ -108,7 +108,7 @@ const TeamMember = () => {
                                             flex items-center justify-center
                                             transition-colors duration-300 ease-in-out
                                             ${activeSlide === index 
-                                                ? 'border border-white text-white hover:bg-white hover:text-black' 
+                                                ? 'bg-[#F5F5F9] text-black hover:bg-black hover:text-white' 
                                                 : 'bg-[#F5F5F9] text-black hover:bg-black hover:text-white'
                                             }
                                         `}
