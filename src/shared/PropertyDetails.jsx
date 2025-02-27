@@ -150,7 +150,7 @@ const PropertyDetails = () => {
           <span
             className="text-[#4A90E2] flex items-center"
           >
-            {record.booked ? <p className="text-yellow-700" >Booked</p> : <p className="text-green-500" >Available</p>}
+            {record.booked ? <p className="text-[#D32F2F] font-semibold" >Reserved</p> : <p className="text-green-500 font-semibold" >Available</p>}
           </span>
         </div>
       ),
@@ -201,10 +201,10 @@ const PropertyDetails = () => {
                   addTenantFun(record.key, record.ownerId, record.propertyId)
                 }
                 disabled={record.booked}
-                className={`font-semibold text-green-500 ${record.booked && "text-yellow-700 cursor-not-allowed"
+                className={`font-semibold text-green-500 border border-green-500 rounded-md p-1  hover:bg-green-500 ${record.booked ? "text-white" : "hover:text-white"} transition-all duration-300 active:scale-95 ${record.booked && "text-[#D32F2F] hover:bg-transparent cursor-not-allowed border-none"
                   }`}
               >
-                Add
+                {record.booked ? "Booked" : "Add"}
               </button>
             </div>
           ),
@@ -220,7 +220,7 @@ const PropertyDetails = () => {
                   deleteUnitHandler(record.key)
                 }
                 disabled={record.booked}
-                className={`font-semibold text-green-500 ${record.booked && "text-yellow-700 cursor-not-allowed"
+                className={`font-semibold text-red-500 border border-red-500 rounded-md p-1  hover:bg-red-500 ${record.booked ? "text-white" : "hover:text-white"} transition-all duration-300 active:scale-95 ${record.booked && "text-[#cfcfcf] cursor-not-allowed hover:bg-transparent border-none"
                   }`}
               >
                 <MdDeleteForever className="text-[24px]" />
@@ -230,7 +230,7 @@ const PropertyDetails = () => {
                 onClick={() =>
                   updateUnitHandler(record.key)
                 }
-                className={`font-semibold ml-2 text-green-500 "
+                className={`font-semibold ml-2 text-green-500 border border-green-500 rounded-md p-1 cursor-pointer hover:bg-green-500 hover:text-white transition-all duration-300 active:scale-95 ${record.booked && "text-yellow-700 cursor-not-allowed border-yellow-700 hover:bg-yellow-700"
                   }`}
               >
                 <CiEdit className="text-[24px]" />

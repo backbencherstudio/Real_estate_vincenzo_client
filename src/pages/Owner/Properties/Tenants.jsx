@@ -109,9 +109,9 @@ const Tenants = () => {
         <div>
           <span
             onClick={() => tenantRemoveHandler(record?.key)}
-            className="text-[#4A90E2] flex items-center cursor-pointer"
+            className="w-fit text-red-500 flex items-center cursor-pointer border border-red-500 rounded-md p-1 hover:bg-red-500 hover:text-white transition-all duration-300 active:scale-95"
           >
-            {record?.userId} <MdDeleteForever className="text-[24px] ml-1" />
+            {record?.userId} <MdDeleteForever className="text-[24px]" />
           </span>
         </div>
       ),
