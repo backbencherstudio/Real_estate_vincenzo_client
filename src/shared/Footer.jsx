@@ -4,6 +4,7 @@ import authApi from "../redux/fetures/auth/authApi";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import adminApi from "../redux/fetures/admin/adminApi";
+import { Link } from "react-router-dom";
 const Footer = () => {
     const [emailCollection] = authApi.useEmailCollectionMutation();
     const { data: getPlanData } = adminApi.useGetPlanQuery(undefined, { pollingInterval: 86400000 })
@@ -32,9 +33,9 @@ const Footer = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-8 mb-12">
                     {/* Logo and Description Section */}
                     <div className="xl:col-span-4 lg:w-96">
-                        <div className="flex items-center gap-2 text-white mb-12">
+                        <Link to="/" className="flex items-center gap-2 text-white mb-12">
                             <img src={logo} alt="Real Estate Logo" className="" />
-                        </div>
+                        </Link>
                         <p className="text-2xl font-semibold text-white mb-4">
                             Starting at just ${planData?.starter} per unit/month
                         </p>

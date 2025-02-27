@@ -4,6 +4,7 @@ import adminApi from "../../../redux/fetures/admin/adminApi";
 import { useForm } from "react-hook-form";
 import Swal from 'sweetalert2';
 import { toast } from "sonner";
+import { IoMdTrash } from "react-icons/io";
 
 const AddAdvisor = () => {
     const [realEstateAdvisor, { isLoading: addIsLoading }] = adminApi.useRealEstateAdvisorMutation();
@@ -103,7 +104,7 @@ const AddAdvisor = () => {
                         {errors.image && <p className="text-red-500 text-xs mt-1">{errors.image.message}</p>}
                     </div>
                     {/* Designation Field */}
-                    <div className="md:col-span-2">
+                    <div className="col-span-2 md:col-span-2">
                         <label className="block text-gray-700 text-sm font-bold mb-2">Designation</label>
                         <input
                             type="text"
@@ -115,7 +116,7 @@ const AddAdvisor = () => {
                     </div>
 
                     {/* Social Media Links */}
-                    <div className="md:col-span-2 grid md:grid-cols-2 gap-4">
+                    <div className="col-span-2 md:col-span-2 grid md:grid-cols-2 gap-4">
                         <div>
                             <label className="block text-gray-700 text-sm font-bold mb-2">Facebook</label>
                             <input
@@ -175,7 +176,7 @@ const AddAdvisor = () => {
                 data?.data?.length > 0 ? (
                     <div className="mt-8">
                         <h2 className="text-2xl font-bold mb-4">Current Advisors</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 gap-6">
                             {isLoading ? (
                                 <p>Loading advisors...</p>
                             ) : (
@@ -208,9 +209,9 @@ const AddAdvisor = () => {
                                             <button
                                                 onClick={() => handleDelete(advisor._id)}
                                                 disabled={deleteIsLoading}
-                                                className="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 transition duration-300 disabled:bg-red-300"
+                                                className="bg-red-600 text-white p-2 rounded hover:bg-red-700 transition duration-300 disabled:bg-red-300"
                                             >
-                                                Delete
+                                                <IoMdTrash />
                                             </button>
                                         </div>
                                     </div>

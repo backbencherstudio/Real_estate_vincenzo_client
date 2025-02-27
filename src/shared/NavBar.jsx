@@ -42,7 +42,7 @@ const Navbar = () => {
 
     return (
         <div className="">
-            <nav className="text-[#64636A] py-4 px-4 xl:px-0 lg:py-10 flex items-center justify-between max-w-7xl mx-auto ">
+            <nav className="text-[#64636A] py-4 px-4 xl:px-0 lg:py-10 flex items-center justify-between max-w-7xl mx-auto">
                 <div className="text-2xl font-bold">
                     <NavLink to="/" >
                         <img src={logo} alt="logo" className="" />
@@ -59,7 +59,7 @@ const Navbar = () => {
                         <Dropdown menu={{ items }} trigger={["click"]} placement="bottomRight">
                             {
                                 data?.data?.profileImage ?
-                                    <img src={`${url}${data?.data?.profileImage}`} className="size-10 rounded-full cursor-pointer" alt="" />
+                                    <img src={`${url}${data?.data?.profileImage}`} className="size-10 bg-gray-300 rounded-full cursor-pointer" alt="" />
                                     :
                                     <Avatar size="large" icon={<UserOutlined />} className="cursor-pointer" />
                             }
@@ -68,39 +68,101 @@ const Navbar = () => {
                         <Link to="/signIn" className="px-4 py-2 rounded text-[#070127] font-semibold">Login</Link>
                     )}
                 </div>
-                <div className="md:hidden flex items-center">
+                <div className="md:hidden flex items-center gap-4">
+                    {
+                        currentUser ?
+                            <Dropdown menu={{ items }} trigger={["click"]} placement="bottomRight">
+                                {data?.data?.profileImage ? (
+                                    <img
+                                        src={`${url}${data?.data?.profileImage}`}
+                                        className="size-8 bg-gray-300 rounded-full cursor-pointer"
+                                        alt=""
+                                    />
+                                ) : (
+                                    <Avatar size="large" icon={<UserOutlined />} className="cursor-pointer" />
+                                )}
+                            </Dropdown> : ''
+                    }
                     <motion.button
                         onClick={() => setIsOpen(!isOpen)}
-                        initial={{ rotate: 0 }}
-                        animate={{ rotate: isOpen ? 180 : 0 }}
-                        transition={{ duration: 0.3 }}
+                        className="z-50 relative"
                     >
                         {isOpen ? <CloseOutlined className="text-2xl" /> : <MenuOutlined className="text-2xl" />}
                     </motion.button>
                 </div>
+
                 <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: isOpen ? 1 : 0, height: isOpen ? "auto" : 0 }}
+                    initial={{ x: "100%" }}
+                    animate={{ x: isOpen ? 0 : "100%" }}
                     transition={{ duration: 0.3, ease: "easeInOut" }}
-                    className="absolute top-16 left-0 w-full bg-gray-800 text-white flex flex-col items-center space-y-4 py-4 md:hidden overflow-hidden"
+                    className="fixed top-0 right-0 h-screen w-[70%] bg-white shadow-2xl z-40 md:hidden"
                 >
-                    <NavLink onClick={() => setIsOpen(!isOpen)} to="/" className={({ isActive }) => (isActive ? "text-blue-400" : "hover:text-gray-300")}>Home</NavLink>
-                    <NavLink onClick={() => setIsOpen(!isOpen)} to="/about-us" className={({ isActive }) => (isActive ? "text-blue-400" : "hover:text-gray-300")}>About</NavLink>
-                    <NavLink onClick={() => setIsOpen(!isOpen)} to="/contact-us" className={({ isActive }) => (isActive ? "text-blue-400" : "hover:text-gray-300")}>Contact Us</NavLink>
-                    <NavLink onClick={() => setIsOpen(!isOpen)} to="/pricing" className={({ isActive }) => (isActive ? "text-blue-400" : "hover:text-gray-300")}>Pricing</NavLink>
-                    {currentUser ? (
-                        <Dropdown menu={{ items }} trigger={["click"]} placement="bottomRight">
-                            {
-                                data?.data?.profileImage ?
-                                    <img src={`${url}${data?.data?.profileImage}`} className="size-10 rounded-full cursor-pointer" alt="" />
-                                    :
-                                    <Avatar size="large" icon={<UserOutlined />} className="cursor-pointer" />
-                            }
-                        </Dropdown>
-                    ) : (
-                        <Link to="/signIn" className="px-4 py-2 rounded text-[#070127] font-semibold">Login</Link>
-                    )}
+                    <div className="flex flex-col pt-20 px-6 h-full">
+                        <div className="flex flex-col space-y-4">
+                            <NavLink
+                                onClick={() => setIsOpen(false)}
+                                to="/"
+                                className={({ isActive }) =>
+                                    `text-lg ${isActive ? "font-semibold bg-blue-600 p-2 rounded-md text-white" : "bg-gray-100 p-2 rounded-md text-gray-600  hover:text-black"}`
+                                }
+                            >
+                                Home
+                            </NavLink>
+                            <NavLink
+                                onClick={() => setIsOpen(false)}
+                                to="/about-us"
+                                className={({ isActive }) =>
+                                    `text-lg ${isActive ? "font-semibold bg-blue-600 p-2 rounded-md text-white" : "bg-gray-100 p-2 rounded-md text-gray-600  hover:text-black"}`
+                                }
+                            >
+                                About
+                            </NavLink>
+                            <NavLink
+                                onClick={() => setIsOpen(false)}
+                                to="/contact-us"
+                                className={({ isActive }) =>
+                                    `text-lg ${isActive ? "font-semibold bg-blue-600 p-2 rounded-md text-white" : "bg-gray-100 p-2 rounded-md text-gray-600  hover:text-black"}`
+                                }
+                            >
+                                Contact Us
+                            </NavLink>
+                            <NavLink
+                                onClick={() => setIsOpen(false)}
+                                to="/pricing"
+                                className={({ isActive }) =>
+                                    `text-lg ${isActive ? "font-semibold bg-blue-600 p-2 rounded-md text-white" : "bg-gray-100 p-2 rounded-md text-gray-600  hover:text-black"}`
+                                }
+                            >
+                                Pricing
+                            </NavLink>
+                        </div>
+
+                        <div className="mt-8">
+                            {currentUser ? (
+                                ""
+                            ) : (
+                                <Link
+                                    to="/signIn"
+                                    onClick={() => setIsOpen(false)}
+                                    className="inline-block px-4 py-2 rounded bg-gray-100 text-[#070127] font-semibold"
+                                >
+                                    Login
+                                </Link>
+                            )}
+                        </div>
+                    </div>
                 </motion.div>
+
+                {isOpen && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden"
+                        onClick={() => setIsOpen(false)}
+                    />
+                )}
             </nav>
         </div>
     );
