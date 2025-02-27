@@ -214,7 +214,7 @@ const PropertyDetails = () => {
           title: "Action",
           dataIndex: "action",
           render: (text, record) => (
-            <div>
+            <div className="flex items-center">
               <button
                 onClick={() =>
                   deleteUnitHandler(record.key)

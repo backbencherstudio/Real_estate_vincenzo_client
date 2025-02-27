@@ -7,6 +7,8 @@ import { logOut, selectCurrentUser } from "../redux/fetures/auth/authSlice";
 import { useSelector } from "react-redux";
 import authApi from "../redux/fetures/auth/authApi";
 import { url } from "../globalConst/const";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import logo from "../assets/logo.png"
 
 const { Header, Content } = Layout;
 
@@ -25,25 +27,18 @@ const MainLayout = () => {
   // console.log(data?.data);
 
   const items = [
-    // {
-    //   label: (
-    //     <a target="_blank" rel="noopener noreferrer">
-    //       1st menu
-    //     </a>
-    //   ),
-    //   key: "0",
-    // },
-    // {
-    //   label: (
-    //     <a target="_blank" rel="noopener noreferrer">
-    //       2nd menu
-    //     </a>
-    //   ),
-    //   key: "1",
-    // },
-    // {
-    //   type: "divider",
-    // },
+    {
+      label: (
+        <div className="px-2">
+          <h2 className="text-lg font-semibold">{data?.data?.name}</h2>
+          <p className="text-sm text-gray-600">{currentUser?.email}</p>
+        </div>
+      ),
+      key: "0",
+    },
+    {
+      type: "divider",
+    },
     {
       label: (
         <Button onClick={handleLOgout} className="w-full">
@@ -60,20 +55,17 @@ const MainLayout = () => {
       <Layout style={{ height: "100%" }}>
         <SideBar />
         <Layout>
-          <Header className="flex justify-end items-center bg-white p-4">
-            <div className="flex items-center mr-5 ">
+          <Header className="flex justify-between items-center bg-white p-4">
+            <img src={logo} className="block md:hidden cursor-pointer" alt="" />
+            <p></p>
+            <div className="flex items-center ">
               {
                 data?.data?.profileImage ?
-                  <img src={`${url}${data?.data?.profileImage}`} className="size-10 rounded-full cursor-pointer" alt="" />
+                  <img src={`${url}${data?.data?.profileImage}`} className="size-8 md:size-10 rounded-full cursor-pointer" alt="" />
                   :
                   <FaRegUserCircle className="size-10 rounded-full" />
               }
-              <div className="title px-4 py-2 rounded-lg flex-shrink-0">
-                <h2 className="text-xl font-semibold">{data?.data?.name}</h2>
-                <h2 className="text-sm">{currentUser?.email}</h2>
-              </div>
-            </div>
-            <Dropdown
+              <Dropdown
               menu={{
                 items,
               }}
@@ -81,13 +73,15 @@ const MainLayout = () => {
             >
               <a
                 onClick={(e) => e.preventDefault()} 
-                className="flex items-center"
+                className="flex items-center cursor-pointer"
               >
                 <Space>
-                  <FaChevronDown />
+                  <BsThreeDotsVertical className="text-xl" />
                 </Space>
               </a>
             </Dropdown>
+            </div>
+            
           </Header>
           <Content style={{ margin: "24px 16px 0" }}>
             <div
