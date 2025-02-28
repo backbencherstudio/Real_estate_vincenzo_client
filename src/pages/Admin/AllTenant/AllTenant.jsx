@@ -26,7 +26,7 @@ const AllTenant = () => {
         key: _id,
         createdAt,
         updatedAt,
-        ownerName : ownerId.name,
+        ownerName : ownerId?.name,
         propertyName: propertyId?.propertyName || "N/A",
         totalRent: propertyId?.totalRent || "N/A",
         unitNumber: unitId?.unitNumber || "N/A",

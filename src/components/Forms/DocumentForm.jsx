@@ -82,7 +82,7 @@ const DocumentForm = ({ close }) => {
                         {errors.document && <span className="text-red-500 text-sm">{errors.document.message}</span>}
                     </div>
 
-                    <div className="relative col-span-2">
+                    <div  className="relative col-span-2">
                         <textarea
                             placeholder="Description*"
                             className="peer w-full px-4 py-5 border border-gray-300 rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500 resize-none"
