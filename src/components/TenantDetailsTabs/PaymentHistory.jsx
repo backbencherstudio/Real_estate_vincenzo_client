@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import  { useState } from 'react';
-import { Select, Table, Tag } from 'antd';
+import {  Table, Tag } from 'antd';
 import tenantApi from '../../redux/fetures/tenant/tenantApi';
 import moment from 'moment';
 import { getDynamicDate } from '../../utils/getDynamicDate';
@@ -112,13 +112,13 @@ const PaymentHistory = ({userId}) => {
     
 
 
-    const onChange = (value) => {
-        console.log(`selected ${value}`);
-      };
+    // const onChange = (value) => {
+    //     console.log(`selected ${value}`);
+    //   };
     
-      const onSearch = (value) => {
-        console.log("search:", value);
-      };
+    //   const onSearch = (value) => {
+    //     console.log("search:", value);
+    //   };
     
     return (
         <div>
@@ -128,7 +128,7 @@ const PaymentHistory = ({userId}) => {
                         <h1 className=" text-lg font-semibold my-5"> Payment History </h1>
                     </div>{" "}
                     <div>
-                        <Select
+                        {/* <Select
                             showSearch
                             placeholder="Select a Status"
                             optionFilterProp="label"
@@ -148,7 +148,7 @@ const PaymentHistory = ({userId}) => {
                                     label: "Completed",
                                 },
                             ]}
-                        />
+                        /> */}
                     </div>
                 </div>
 
