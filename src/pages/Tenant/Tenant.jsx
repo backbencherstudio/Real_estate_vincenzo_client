@@ -272,13 +272,7 @@ function TenantDashboard() {
 
         </div>
       </div>
-      {/* Footer */}
-      {/* <footer className="mt-8 text-center text-sm text-gray-500">
-        &copy; 2024 Copyright - All rights reserved
-      </footer> */}
       <Footer/>
-
-
 
       <Modal
         title="Monthly Rent Payment"

@@ -180,10 +180,6 @@ function SignIn() {
         </div>
       </div>
 
-      {/* Footer Copyright */}
-      {/* <footer className="text-center lg:mt-10 py-4 text-sm text-gray-400">
-        <p>© 2024 Copyright - All rights reserved by Real estate</p>
-      </footer> */}
       <Footer/>
     </>
   );
