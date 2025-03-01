@@ -1,6 +1,7 @@
 // import imageright from "../../assets/imageright.png";
 import dolaricon from "../../assets/money-recive.png";
 import bgimage from "../../assets/authbackground.png"
+import Footer from "../../shared/Footer/Footer";
 
 const Auth = () => {
   return (
@@ -113,9 +114,10 @@ const Auth = () => {
       </div>
 
       {/* Footer Copyright */}
-      <footer className="text-center lg:mt-10  py-4 text-sm text-gray-400">
+      {/* <footer className="text-center lg:mt-10  py-4 text-sm text-gray-400">
         <p>© 2024 Copyright - All rights reserved by Real estate</p>
-      </footer>
+      </footer> */}
+      <Footer/>
     </div>
   );
 };

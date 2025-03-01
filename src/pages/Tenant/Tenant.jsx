@@ -13,6 +13,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import StripeTenantForm from './StripeTenantForm';
 import { loadStripe } from '@stripe/stripe-js';
 import { getDynamicDate } from '../../utils/getDynamicDate';
+import Footer from '../../shared/Footer/Footer';
 
 
 // const stripePromise = loadStripe('pk_test_51NFvq6ArRmO7hNaVcPS5MwczdEtM4yEMOclovA0k5LtJTxhtzKZ2SKim3p8qmvssQ7j7bREjoRRmHB9Gvz8n8Dfm00UOo9bZYg');  // my 
@@ -272,9 +273,10 @@ function TenantDashboard() {
         </div>
       </div>
       {/* Footer */}
-      <footer className="mt-8 text-center text-sm text-gray-500">
+      {/* <footer className="mt-8 text-center text-sm text-gray-500">
         &copy; 2024 Copyright - All rights reserved
-      </footer>
+      </footer> */}
+      <Footer/>
 
 
 

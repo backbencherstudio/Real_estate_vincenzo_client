@@ -8,6 +8,7 @@ import authApi from "../../../redux/fetures/auth/authApi";
 import { toast } from "sonner";
 import { useState } from "react";
 import OTPVerification from "../OTPVerification/OTPVerification";
+import Footer from "../../../shared/Footer/Footer";
 
 function ResetPassword() {
 
@@ -244,9 +245,10 @@ function ResetPassword() {
       />
 
       {/* Footer Copyright */}
-      <footer className="text-center lg:mt-10 py-4 text-sm text-gray-400">
+      {/* <footer className="text-center lg:mt-10 py-4 text-sm text-gray-400">
         <p>© 2024 Copyright - All rights reserved by Real estate</p>
-      </footer>
+      </footer> */}
+      <Footer/>
     </>
   );
 }

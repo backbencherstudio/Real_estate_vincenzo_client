@@ -8,6 +8,7 @@ import authApi from "../../../redux/fetures/auth/authApi";
 import { useState } from "react";
 import OTPVerification from "../OTPVerification/OTPVerification";
 import { toast } from "sonner";
+import Footer from "../../../shared/Footer/Footer";
 
 function SignUp() {
 
@@ -214,9 +215,10 @@ function SignUp() {
         vIsLoading={vIsLoading}
       />
 
-      <footer className="text-center lg:mt-10 py-4 text-sm text-gray-400">
+      {/* <footer className="text-center lg:mt-10 py-4 text-sm text-gray-400">
         <p>© 2024 Copyright - All rights reserved by Real estate</p>
-      </footer>
+      </footer> */}
+      <Footer/>
     </>
   );
 }

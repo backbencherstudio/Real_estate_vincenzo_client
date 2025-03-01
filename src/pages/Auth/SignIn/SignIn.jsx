@@ -8,6 +8,7 @@ import { verifyToken } from "../../../utils/varifyToken";
 import { setUser } from "../../../redux/fetures/auth/authSlice";
 import { useAppDispatch } from './../../../redux/hooks';
 import { Link, useNavigate } from "react-router-dom";
+import Footer from "../../../shared/Footer/Footer";
 
 function SignIn() {
   const [login, { isLoading }] = authApi.useLoginMutation();
@@ -180,9 +181,10 @@ function SignIn() {
       </div>
 
       {/* Footer Copyright */}
-      <footer className="text-center lg:mt-10 py-4 text-sm text-gray-400">
+      {/* <footer className="text-center lg:mt-10 py-4 text-sm text-gray-400">
         <p>© 2024 Copyright - All rights reserved by Real estate</p>
-      </footer>
+      </footer> */}
+      <Footer/>
     </>
   );
 }
