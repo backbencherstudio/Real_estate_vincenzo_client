@@ -1,4 +1,4 @@
-import logo from "../assets/logo-white.png"
+import logo from "../assets/logo-white.svg"
 import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin } from 'react-icons/fa';
 import authApi from "../redux/fetures/auth/authApi";
 import { useForm } from "react-hook-form";
@@ -33,8 +33,9 @@ const Footer = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-8 mb-12">
                     {/* Logo and Description Section */}
                     <div className="xl:col-span-4 lg:w-96">
-                        <Link to="/" className="flex items-center gap-2 text-white mb-12">
-                            <img src={logo} alt="Real Estate Logo" className="" />
+                        <Link to="/" className="flex items-center gap-2 mb-12">
+                            <img src={logo} alt="logo" className="" />
+                            <span className="text-[22px] font-semibold bg-gradient-to-r from-[#ffffff] to-[#A9A9A9] bg-clip-text text-transparent tracking-[-0.88px]">RentPad Homes</span>
                         </Link>
                         <p className="text-2xl font-semibold text-white mb-4">
                             Starting at just ${planData?.starter} per unit/month
