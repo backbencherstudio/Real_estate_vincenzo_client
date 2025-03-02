@@ -54,23 +54,23 @@ const Plans = ({planData}) => {
                             <ul className="space-y-6">
                                 <li className="flex gap-3">
                                     <span className="text-blue-600 text-xl"><IoMdCheckmarkCircle /></span>
-                                    <span>Affordable for small-scale investors.</span>
+                                    <span>Manage up to 4 units.</span>
                                 </li>
                                 <li className="flex gap-3">
                                     <span className="text-blue-600 text-xl"><IoMdCheckmarkCircle /></span>
-                                    <span>Manage up to 4 units at a low cost.</span>
+                                    <span>Fully automated rent collection system.</span>
                                 </li>
                                 <li className="flex gap-3">
                                     <span className="text-blue-600 text-xl"><IoMdCheckmarkCircle /></span>
-                                    <span>Flexible pricing for small portfolios.</span>
+                                    <span>Ability to file maintenance requests.</span>
                                 </li>
                                 <li className="flex gap-3">
                                     <span className="text-blue-600 text-xl"><IoMdCheckmarkCircle /></span>
-                                    <span>Transparent, no hidden fees.</span>
+                                    <span>Property and Revenue Metrics.</span>
                                 </li>
                                 <li className="flex gap-3">
                                     <span className="text-blue-600 text-xl"><IoMdCheckmarkCircle /></span>
-                                    <span>Maximized value for key tools.</span>
+                                    <span>Secure document and lease storage.</span>
                                 </li>
                             </ul>
                         </div>
@@ -96,23 +96,23 @@ const Plans = ({planData}) => {
                             <ul className="space-y-6">
                                 <li className="flex items-center gap-3">
                                     <span className="bg-zinc-500/20 rounded-full p-0.5"><IoMdCheckmarkCircle className='text-blue-600 text-lg' /></span>
-                                    <span>All basic plan features</span>
+                                    <span>Manage up to 12 units.</span>
                                 </li>
                                 <li className="flex gap-3">
                                     <span className="bg-zinc-500/20 rounded-full p-0.5"><IoMdCheckmarkCircle className='text-blue-600 text-lg' /></span>
-                                    <span>Advanced analytics</span>
+                                    <span>Fully automated rent collection system.</span>
                                 </li>
                                 <li className="flex gap-3">
                                     <span className="bg-zinc-500/20 rounded-full p-0.5"><IoMdCheckmarkCircle className='text-blue-600 text-lg' /></span>
-                                    <span>Enhanced security</span>
+                                    <span>Ability to file maintenance requests.</span>
                                 </li>
                                 <li className="flex gap-3">
                                     <span className="bg-zinc-500/20 rounded-full p-0.5"><IoMdCheckmarkCircle className='text-blue-600 text-lg' /></span>
-                                    <span>Priority email support</span>
+                                    <span>Property and Revenue Metrics.</span>
                                 </li>
                                 <li className="flex gap-3">
                                     <span className="bg-zinc-500/20 rounded-full p-0.5"><IoMdCheckmarkCircle className='text-blue-600 text-lg' /></span>
-                                    <span>API access for integrations</span>
+                                    <span>Secure document and lease storage.</span>
                                 </li>
                             </ul>
                         </div>
@@ -138,23 +138,23 @@ const Plans = ({planData}) => {
                             <ul className="space-y-6">
                                 <li className="flex gap-3">
                                     <span className="text-blue-600 text-xl"><IoMdCheckmarkCircle /></span>
-                                    <span>Advanced operational tools included.</span>
+                                    <span>Manage up to 40 units.</span>
                                 </li>
                                 <li className="flex gap-3">
                                     <span className="text-blue-600 text-xl"><IoMdCheckmarkCircle /></span>
-                                    <span>Effortless tenant communication.</span>
+                                    <span>Fully automated rent collection system.</span>
                                 </li>
                                 <li className="flex gap-3">
                                     <span className="text-blue-600 text-xl"><IoMdCheckmarkCircle /></span>
-                                    <span>Automated payment tracking.</span>
+                                    <span>Ability to file maintenance requests.</span>
                                 </li>
                                 <li className="flex gap-3">
                                     <span className="text-blue-600 text-xl"><IoMdCheckmarkCircle /></span>
-                                    <span>24/7 phone and email support</span>
+                                    <span>Property and Revenue Metrics.</span>
                                 </li>
                                 <li className="flex gap-3">
                                     <span className="text-blue-600 text-xl"><IoMdCheckmarkCircle /></span>
-                                    <span>Priority support for issues.</span>
+                                    <span>Secure document and lease storage.</span>
                                 </li>
                             </ul>
                         </div>
