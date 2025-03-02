@@ -7,76 +7,53 @@ const pricingData = {
     features: [
         {
             name: "Property Listings",
-            starter: "5",
-            growth: "15",
-            professional: "Unlimited listings"
+            starter: "1 - 4 units",
+            growth: "5 - 12 units",
+            professional: "13 - 40 units"
         },
-        {
-            name: "Tenant Screening",
-            starter: "Basic tenant screening",
-            growth: "Advanced tenant screening",
-            professional: "Comprehensive background checks"
-        },
+        // {
+        //     name: "Tenant Screening",
+        //     starter: "Basic tenant screening",
+        //     growth: "Advanced tenant screening",
+        //     professional: "Comprehensive background checks"
+        // },
         {
             name: "Rent Collection",
-            starter: "Manual rent collection",
+            starter: "Automated rent collection",
             growth: "Automated rent collection",
-            professional: "Automated with direct deposit"
+            professional: "Automated rent collection"
         },
         {
             name: "Lease Management",
-            starter: "Standard lease templates",
-            growth: "Customizable lease agreements",
-            professional: "Fully customizable leases"
+            starter: "Standard Lease Templates",
+            growth: "Standard Lease Templates",
+            professional: "Standard Lease Templates"
         },
         {
             name: "Maintenance Services",
-            starter: "Request-based service",
-            growth: "Scheduled maintenance",
-            professional: "24/7 maintenance support"
+            starter: "Maintenance request system",
+            growth: "Maintenance request system",
+            professional: "Maintenance request system"
         },
         {
             name: "Marketing & Advertising",
-            starter: "Limited property listing ads",
+            starter: "",
             growth: "Enhanced property ads",
-            professional: "Premium property marketing"
+            professional: "Free Advertising Consultation"
         },
         {
             name: "Financial Reporting",
             starter: "Basic reports",
-            growth: "Monthly financial reports",
-            professional: "Detailed financial and tax reports"
+            growth: "Basic Reports",
+            professional: "Free Finance Reports Consultation"
         },
         {
-            name: "Dedicated Property Manager",
-            starter: "✕",
-            growth: "Limited support",
-            professional: "Full-time dedicated property manager"
+            name: "Customer Service",
+            starter: "personalized on-demand assistance",
+            growth: "personalized on-demand assistance",
+            professional: "personalized on-demand assistance"
         },
-        {
-            name: "Legal Assistance",
-            starter: "✕",
-            growth: "Available as an add-on",
-            professional: "Included for all properties"
-        },
-        {
-            name: "Custom Reports",
-            starter: "✕",
-            growth: "Available on request",
-            professional: "Automated custom reports"
-        },
-        {
-            name: "Insurance Coverage",
-            starter: "✕",
-            growth: "Optional add-on",
-            professional: "Full coverage included"
-        },
-        {
-            name: "Property Valuation",
-            starter: "✕",
-            growth: "Available on request",
-            professional: "Quarterly property valuations"
-        }
+       
     ]
 };
 
