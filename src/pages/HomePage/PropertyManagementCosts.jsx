@@ -9,12 +9,14 @@ const PropertyManagementCosts = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5 " >
                     <div className="" >
                         <p className="font-inter font-medium text-2xl sm:text-4xl md:text-4xl xl:text-[48px] md:leading-[53.76px] tracking-[-4%] ">
-                            Ensure your property management costs with your current needs
+                            Match your unique real estate portfolio
+                            with a plan tailored to your needs
                         </p>
                     </div>
                     <div className="">
                         <p className="font-inter font-normal text-base leading-[22.4px] tracking-[-1%]  text-[#64636A] mb-6">
-                            Optimize your spending by adjusting property management expenses to fit your current portfolio, operational requirements.
+                        Optimize your savings by selecting a plan
+                        designed to manage the amount of units you own.
                         </p>
                         {/* <button className="primary-btn" >Explore More</button> */}
                     </div>
