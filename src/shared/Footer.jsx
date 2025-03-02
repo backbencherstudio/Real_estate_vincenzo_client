@@ -108,7 +108,7 @@ const Footer = () => {
                 <div className="pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
                     {/* Copyright and Links */}
                     <div className="flex flex-wrap items-center gap-4">
-                        <span>realestate ©2024</span>
+                        <span>RentPad Homes ©2024</span>
                         {['Privacy', 'Accessibility', 'Terms', 'Licenses', 'Site map'].map((item, index) => (
                             <a key={index} href="#" className="hover:text-white transition">{item}</a>
                         ))}
