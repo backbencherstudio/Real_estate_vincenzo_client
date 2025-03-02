@@ -25,7 +25,7 @@ const Home = () => {
     const Contents = {
         title: "The Best Property Management Solution",
         description: "This software boosts revenue, keeps you organized, and grows your business with advanced tech and top support.",
-        buttonText: "Unlock your financial potential",
+        buttonText: "Renting Made Simple",
         images: [landing, landing],
     };
 

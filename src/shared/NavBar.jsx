@@ -8,7 +8,7 @@ import { Button, Dropdown, Avatar } from "antd";
 import { useAppDispatch } from "../redux/hooks";
 import authApi from "../redux/fetures/auth/authApi";
 import { url } from "../globalConst/const";
-import logo from "../assets/logo.png"
+import logo from "../assets/logo.svg"
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -44,8 +44,9 @@ const Navbar = () => {
         <div className="">
             <nav className="text-[#64636A] py-4 px-4 xl:px-0 lg:py-10 flex items-center justify-between max-w-7xl mx-auto">
                 <div className="text-2xl font-bold">
-                    <NavLink to="/" >
+                    <NavLink to="/" className="flex items-center gap-2">
                         <img src={logo} alt="logo" className="" />
+                        <span className="text-[22px] font-semibold bg-gradient-to-r from-[#070127] to-[#A9A9A9] bg-clip-text text-transparent tracking-[-0.88px]">RentPad Homes</span>
                     </NavLink>
                 </div>
                 <div className="hidden md:flex space-x-12">
