@@ -60,9 +60,9 @@ const InvestmentStory = () => {
             <div className="grid md:grid-cols-3 gap-8" ref={statsRef}>
                 <div className="bg-[#F5F6F9] p-8 rounded-3xl relative group">
                     <div className="flex justify-between items-center mb-4">
-                        <h3 className="text-5xl font-bold flex items-center gap-2">
+                        <h3 className="text-3xl font-bold flex items-center gap-2">
                             <span className='text-3xl'>•</span>
-                            <CountUp end={10} suffix="K+" duration={5} start={isVisible ? undefined : 0} />
+                            <CountUp end={40} suffix="K+ Followers" duration={5} start={isVisible ? undefined : 0} />
                         </h3>
                         <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center">
                             <span className="text-blue-600">
@@ -71,15 +71,15 @@ const InvestmentStory = () => {
                         </div>
                     </div>
                     <div className='flex justify-between items-center'>
-                        <p className="text-zinc-600 ml-4">• Sturt up ready to connected</p>
+                        <p className="text-zinc-600 ml-4">• Follow our socials for key updates!</p>
                         <span className=" text-gray-200 text-4xl font-bold">01</span>
                     </div>
                 </div>
                 <div className="bg-[#F5F6F9] p-8 rounded-3xl relative group">
                     <div className="flex justify-between items-center mb-4">
                         <h3 className="text-5xl font-bold flex items-center gap-2">
-                            <span className='text-3xl'>•</span>
-                            <CountUp end={8} suffix="K+" duration={5} start={isVisible ? undefined : 0} />
+                            {/* <span className='text-3xl'>•</span> */}
+                            {/* <CountUp end={8} suffix="K+" duration={5} start={isVisible ? undefined : 0} /> */}
                         </h3>
                         <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center">
                             <span className="text-blue-600">
@@ -88,22 +88,22 @@ const InvestmentStory = () => {
                         </div>
                     </div>
                     <div className='flex justify-between items-center'>
-                        <p className="text-zinc-600 ml-4">• Happy tenant</p>
+                        <p className="text-zinc-600 ml-4 text-2xl">• COMING SOON</p>
                         <span className=" text-gray-200 text-4xl font-bold">02</span>
                     </div>
                 </div>
                 <div className="bg-[#F5F6F9] p-8 rounded-3xl relative group">
                     <div className="flex justify-between items-center mb-4">
                         <h3 className="text-5xl font-bold flex items-center gap-2">
-                            <span className='text-3xl'>•</span>
-                            <CountUp end={5.00} decimals={2} duration={5} start={isVisible ? undefined : 0} />
+                            {/* <span className='text-3xl'>•</span> */}
+                            {/* <CountUp end={5.00} decimals={2} duration={5} start={isVisible ? undefined : 0} /> */}
                         </h3>
                         <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center">
                             <span className="text-blue-400"><TbStars /></span>
                         </div>
                     </div>
                     <div className='flex justify-between items-center'>
-                        <p className="text-zinc-600 ml-4">• 05k+ rating</p>
+                        <p className="text-zinc-600 text-2xl ml-4">• COMING SOON</p>
                         <span className=" text-gray-200 text-4xl font-bold">03</span>
                     </div>
                 </div>
