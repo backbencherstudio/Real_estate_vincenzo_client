@@ -47,7 +47,7 @@ const PropertyDetails = () => {
   const currentUser = useSelector(selectCurrentUser);
   const { data: ownerData, isLoading: userLoading, error } = authApi.useGetSingleUserInfoQuery(currentUser?.email);
   const [deleteUnit] = ownerApi.useDeleteUnitMutation()
-  const { data } = sharedApi.useGetPropertieUnitsQuery(id);
+  const { data, isLoading : allUnitIsLoading } = sharedApi.useGetPropertieUnitsQuery(id);
   const [updateUnit, {isLoading : updateUnitIsLoading}] = ownerApi.useUpdateUnitMutation()
 
   const property = data?.data?.property;
@@ -220,7 +220,7 @@ const PropertyDetails = () => {
                   deleteUnitHandler(record.key)
                 }
                 disabled={record.booked}
-                className={`font-semibold text-red-500 border border-red-500 rounded-md p-1  hover:bg-red-500  transition-all duration-300 active:scale-95 ${record.booked && "text-[#D32F2F] cursor-not-allowed hover:bg-transparent border-none"
+                className={`font-semibold text-red-500 border border-red-500 rounded-md p-1  hover:bg-red-500 ${record.booked ? "text-white" : "hover:text-white"} transition-all duration-300 active:scale-95 ${record.booked && "text-[#D32F2F] cursor-not-allowed hover:bg-transparent border-none"
                   }`}
               >
                 <MdDeleteForever className="text-[24px]" />
@@ -422,7 +422,7 @@ const PropertyDetails = () => {
         <Table
           columns={columns}
           dataSource={tableData}
-          loading={userLoading}
+          loading={allUnitIsLoading}
           scroll={{ x: 800 }}
           pagination={{
             pageSize: pageSize,
