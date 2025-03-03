@@ -68,9 +68,10 @@ const SideBar = () => {
           alignItems: "center",
           backgroundColor: "#1C2434",
         }}
+        className="flex items-center gap-2"
       >
         <img src={logo} alt="" className="h-7 w-7" />
-        <span className="text-[22px] font-semibold bg-gradient-to-r from-[#A9A9A9] to-[#666666] bg-clip-text text-transparent tracking-[-0.88px]">RentPad Homes</span>
+        <span className="text-[22px] font-semibold bg-gradient-to-r from-[#ffffff] to-[#a1a1a1] bg-clip-text text-transparent tracking-tighter">RentPad Homes</span>
       </Link>
       <Menu
         theme="dark"
