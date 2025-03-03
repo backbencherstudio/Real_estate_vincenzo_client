@@ -60,6 +60,8 @@ const OwnerProtectedRoute = ({ children, role }) => {
     return <Navigate to="/signin" replace />;
   }
 
+  
+
   if (!user?.subscriptionStatus || user?.subscriptionStatus !== "active") {
     return <Navigate to="/subscription-plan" replace />;
   }

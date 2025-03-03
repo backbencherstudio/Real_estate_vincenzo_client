@@ -1,11 +1,13 @@
 import { Select, Spin, Table, Tag } from "antd";
 import DashboardChart from "../../components/AdminComponents/DashboardChart";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../redux/fetures/auth/authSlice";
 import ownerApi from "../../redux/fetures/owner/ownerApi";
 import OverviewData from "../Admin/overviewData/OverviewData";
 import moment from "moment";
+import authApi from "../../redux/fetures/auth/authApi";
+import { useNavigate } from "react-router-dom";
 
 const OwnerDashboard = () => {
   const [pageSize, setPageSize] = useState(10);
@@ -15,11 +17,46 @@ const OwnerDashboard = () => {
   };
 
   const currentUser = useSelector(selectCurrentUser);
+  const navigate = useNavigate()
+
+  const { data, isLoading: userDataGetIsLoading, refetch } = authApi.useGetSingleUserInfoQuery(currentUser?.email)
+  console.log(data?.data?.subscriptionStatus);
+
+  // useEffect(() => {
+  //   refetch()
+
+  //   if(userDataGetIsLoading){
+  //       <div className="flex justify-center items-center h-[150px] ">
+  //         <Spin size="large" />
+  //       </div>
+  //   }
+
+  //   console.log(data?.data?.subscriptionStatus);
+    
+
+  //   if (!data?.data || data?.data?.subscriptionStatus !== "active") {
+  //     navigate("/subscription-plan")
+  //   }
+  // }, [])
 
   // =============================>>>>>>>>  this API not for this page this is for this route http://localhost:5173/owner/properties
   // const { data } = ownerApi.useGetSingleOwnerAllPropertiesQuery(
   //   currentUser?.userId
   // );
+
+  useEffect(() => {
+    refetch();
+  }, [currentUser?.email]);
+  
+  useEffect(() => {
+    if (userDataGetIsLoading) return;
+  
+    console.log(data?.data?.subscriptionStatus);
+  
+    if (!data?.data || data?.data?.subscriptionStatus !== "active") {
+      navigate("/subscription-plan");
+    }
+  }, [data, userDataGetIsLoading]);
 
   const { data: overviewData, isLoading } =
     ownerApi.useGetAllDataOverviewByOwnerQuery(currentUser?.userId);
@@ -29,7 +66,7 @@ const OwnerDashboard = () => {
   const { data: resentPaymentData, isLoading: resentPaymentIsLoading } =
     ownerApi.useGetResentPaymentDataByOwnerQuery({
       ownerId: currentUser?.userId,
-      status : status
+      status: status
     });
 
   const tableData = resentPaymentData?.data?.map(
@@ -54,10 +91,10 @@ const OwnerDashboard = () => {
       unit: unitId?.unitNumber || "N/A",
       rent: unitId?.rent || "N/A",
       tenantName: userId?.name || "N/A",
-      paidAmount : paidAmount || unitId?.rent,
+      paidAmount: paidAmount || unitId?.rent,
       status,
-      PaymentPlacedDate : PaymentPlaced,
-      lateFee : lateFee !== 0 ? unitId?.lateFee : 0
+      PaymentPlacedDate: PaymentPlaced,
+      lateFee: lateFee !== 0 ? unitId?.lateFee : 0
     })
   );
 
@@ -121,12 +158,12 @@ const OwnerDashboard = () => {
       dataIndex: "PaymentPlacedDate",
       render: (PaymentPlacedDate) => (
         <div>
-          {PaymentPlacedDate 
-            ? moment(PaymentPlacedDate).format("DD MMMM YYYY, h:mm A") 
+          {PaymentPlacedDate
+            ? moment(PaymentPlacedDate).format("DD MMMM YYYY, h:mm A")
             : "N/F"}
         </div>
       )
-    },    
+    },
     {
       title: "Status",
       dataIndex: "status",
@@ -151,7 +188,7 @@ const OwnerDashboard = () => {
   const onChange = (value) => {
     setStatus(value)
   };
-  
+
   const onSearch = (value) => {
     setStatus(value)
   };
@@ -170,7 +207,7 @@ const OwnerDashboard = () => {
         </span>
       </div>
 
-      {isLoading ? (
+      {isLoading || userDataGetIsLoading ? (
         <div className="flex justify-center items-center h-[150px] ">
           <Spin size="large" />
         </div>
@@ -185,7 +222,7 @@ const OwnerDashboard = () => {
       <div className="bg-white p-5 mt-10 rounded-2xl">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="clamp-text font-semibold my-5">  { status === "Paid" ? "Recent" : "Pending" } Payments </h1>
+            <h1 className="clamp-text font-semibold my-5">  {status === "Paid" ? "Recent" : "Pending"} Payments </h1>
           </div>{" "}
           <div>
             <Select
