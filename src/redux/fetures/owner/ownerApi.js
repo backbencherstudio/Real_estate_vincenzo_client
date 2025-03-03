@@ -226,7 +226,7 @@ const ownerApi = baseApi.injectEndpoints({
           body: data
         };
       },
-      invalidatesTags: ['payout']
+      invalidatesTags: ['payout', 'user']
     }),
 
     

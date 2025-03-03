@@ -28,7 +28,7 @@ const UserProfile = () => {
     const { data, isLoading, error } = authApi.useGetSingleUserInfoQuery(
         currentUser?.email,
         {
-            pollingInterval: 20000
+            pollingInterval: 5000
         }
     );
 

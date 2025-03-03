@@ -113,7 +113,7 @@ const adminApi = baseApi.injectEndpoints({
           body: data
         };
       },
-      invalidatesTags: ["payout"],
+      invalidatesTags: ["payout", 'user'],
     }),
 
     // =======================================>>>>> tenant payment create by admin

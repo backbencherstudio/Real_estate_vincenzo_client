@@ -19,7 +19,10 @@ const WithdrawForm = () => {
     const [message, setMessage] = useState('');
 
     const { data: userData, isLoading } = authApi.useGetSingleUserInfoQuery(
-        currentUser?.email
+        currentUser?.email,
+        {
+            pollingInterval: 5000
+        }
     );
     
     const [payout, { isLoading: isPayoutIsloadin }] = ownerApi.usePayoutMutation()
