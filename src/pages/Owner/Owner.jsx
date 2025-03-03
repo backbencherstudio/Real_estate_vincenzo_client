@@ -1,13 +1,13 @@
 import { Select, Spin, Table, Tag } from "antd";
 import DashboardChart from "../../components/AdminComponents/DashboardChart";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../redux/fetures/auth/authSlice";
 import ownerApi from "../../redux/fetures/owner/ownerApi";
 import OverviewData from "../Admin/overviewData/OverviewData";
 import moment from "moment";
-import authApi from "../../redux/fetures/auth/authApi";
-import { useNavigate } from "react-router-dom";
+// import authApi from "../../redux/fetures/auth/authApi";
+// import { useNavigate } from "react-router-dom";
 
 const OwnerDashboard = () => {
   const [pageSize, setPageSize] = useState(10);
@@ -17,10 +17,10 @@ const OwnerDashboard = () => {
   };
 
   const currentUser = useSelector(selectCurrentUser);
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
-  const { data, isLoading: userDataGetIsLoading, refetch } = authApi.useGetSingleUserInfoQuery(currentUser?.email)
-  console.log(data?.data?.subscriptionStatus);
+  // const { data, isLoading: userDataGetIsLoading, refetch } = authApi.useGetSingleUserInfoQuery(currentUser?.email)
+  // console.log(data?.data?.subscriptionStatus);
 
   // useEffect(() => {
   //   refetch()
@@ -44,19 +44,20 @@ const OwnerDashboard = () => {
   //   currentUser?.userId
   // );
 
-  useEffect(() => {
-    refetch();
-  }, [currentUser?.email]);
+
+  // useEffect(() => {
+  //   refetch();
+  // }, [currentUser?.email]);
   
-  useEffect(() => {
-    if (userDataGetIsLoading) return;
+  // useEffect(() => {
+  //   if (userDataGetIsLoading) return;
   
-    console.log(data?.data?.subscriptionStatus);
+  //   console.log(data?.data?.subscriptionStatus);
   
-    if (!data?.data || data?.data?.subscriptionStatus !== "active") {
-      navigate("/subscription-plan");
-    }
-  }, [data, userDataGetIsLoading]);
+  //   if (!data?.data || data?.data?.subscriptionStatus !== "active") {
+  //     navigate("/subscription-plan");
+  //   }
+  // }, [data, userDataGetIsLoading]);
 
   const { data: overviewData, isLoading } =
     ownerApi.useGetAllDataOverviewByOwnerQuery(currentUser?.userId);
@@ -207,7 +208,7 @@ const OwnerDashboard = () => {
         </span>
       </div>
 
-      {isLoading || userDataGetIsLoading ? (
+      {isLoading ? (
         <div className="flex justify-center items-center h-[150px] ">
           <Spin size="large" />
         </div>
