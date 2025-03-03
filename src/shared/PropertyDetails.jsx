@@ -201,7 +201,7 @@ const PropertyDetails = () => {
                   addTenantFun(record.key, record.ownerId, record.propertyId)
                 }
                 disabled={record.booked}
-                className={`font-semibold text-green-500 border border-green-500 rounded-md p-1  hover:bg-green-500 ${record.booked ? "text-white" : "hover:text-white"} transition-all duration-300 active:scale-95 ${record.booked && "text-[#D32F2F] hover:bg-transparent cursor-not-allowed border-none"
+                className={`font-semibold text-green-500 border border-green-500 rounded-md p-1  hover:bg-green-500 ${record.booked ? "text-rose-600" : "hover:text-white"} transition-all duration-300 active:scale-95 ${record.booked && "text-[#D32F2F] hover:bg-transparent cursor-not-allowed border-none"
                   }`}
               >
                 {record.booked ? "Booked" : "Add"}
