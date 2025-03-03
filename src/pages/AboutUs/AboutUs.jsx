@@ -13,7 +13,7 @@ const AboutUs = () => {
     }, []);
     const Contents = {
         title: "Effective Tenant Management for Superior Property Performance",
-        description: "Effective tenant management boosts property performance and ensures steady income. Strong relationships and timely support lead to smoother operations.",
+        description: "Our user-friendly platform guarantees consistent income while reducing management time. As a small business, our dedicated team provides prompt support, ensuring a superior customer experience.",
         buttonText: "About Us",
         images: [landing, landing],
     };

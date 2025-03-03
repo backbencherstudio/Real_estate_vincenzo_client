@@ -14,7 +14,7 @@ const CoreValue = () => {
         {
             icon: <BsGear className="text-2xl" />,
             title: "Streamlined Operations for Investors",
-            description: "Our platform simplifies real estate management, offering property owners and managers an efficient way to track investments, manage portfolios, and optimize operations."
+            description: "Our platform simplifies real estate management, offering property owners and managers an efficient way to track payments, manage their portfolio, and optimize."
         },
         {
             icon: <BsPeople className="text-2xl" />,

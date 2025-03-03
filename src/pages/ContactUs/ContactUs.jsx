@@ -26,8 +26,8 @@ import { LuPhone, LuMail, LuMessageCircle, LuMapPin } from "react-icons/lu";
                         <LuPhone size={24} />
                     </div>
                     <h3 className="text-sm md:text-xl font-semibold mb-6">Phone Number</h3>
-                    <p className="text-sm text-gray-600">Phone: (505) 555-0125</p>
-                    <p className="text-sm text-gray-600">Phone: (505) 555-5841</p>
+                    <p className="text-sm text-gray-600">Phone: (518) 275-5223</p>
+                    <p className="text-sm text-gray-600">Phone: (973) 897-2709</p>
                 </div>
 
                 {/* Email Address Card */}
@@ -36,8 +36,7 @@ import { LuPhone, LuMail, LuMessageCircle, LuMapPin } from "react-icons/lu";
                         <LuMail size={24} />
                     </div>
                     <h3 className="text-sm md:text-xl font-semibold mb-6">Email Address</h3>
-                    <p className="text-sm text-gray-600">Email: contact@inestbes.com</p>
-                    <p className="text-sm text-gray-600">Email: info@inestbes.com</p>
+                    <p className="text-sm text-gray-600">Email: rentpadhomes@gmail.com</p>
                 </div>
 
                 {/* Community Card */}
@@ -46,7 +45,7 @@ import { LuPhone, LuMail, LuMessageCircle, LuMapPin } from "react-icons/lu";
                         <LuMessageCircle size={24} />
                     </div>
                     <h3 className="text-sm md:text-xl font-semibold mb-6">Ask the community</h3>
-                    <p className="text-sm text-gray-600">Join thousands of fellow Plutio customers sharing ideas, collaborating and helping each other</p>
+                    <p className="text-sm text-gray-600">COMING SOON...</p>
                     <a href="#" className="text-sm text-blue-500 hover:underline mt-2 inline-block">Click here to request access</a>
                 </div>
 
@@ -56,7 +55,7 @@ import { LuPhone, LuMail, LuMessageCircle, LuMapPin } from "react-icons/lu";
                         <LuMapPin size={24} />
                     </div>
                     <h3 className="text-sm md:text-xl font-semibold mb-6">Location</h3>
-                    <p className="text-sm text-gray-600">8502 Preston Rd. Inglewood, Maine 98380</p>
+                    <p className="text-sm text-gray-600">131 Continental Drive, Suite 305, Delaware 19713.</p>
                 </div>
             </div>
             <ContactForm />

@@ -1,6 +1,6 @@
 import React from 'react';
 import image1 from "../../assets/Frame1.png";
-import image2 from "../../assets/Frame2.png";
+import image2 from "../../assets/Frame10.png";
 import image3 from "../../assets/Frame3.png";
 import { FaCircleCheck } from "react-icons/fa6";
 import AOS from "aos";
@@ -74,7 +74,7 @@ const Features = () => {
             features: [
                 {
                     title: "Pay Rent",
-                    description: "Flexible payment methods like bank transfer, credit card."
+                    description: "Flexible payment methods like bank transfer and credit card."
                 },
                 {
                     title: "Request Maintenance",

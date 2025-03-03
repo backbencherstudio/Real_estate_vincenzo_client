@@ -8,27 +8,22 @@ const faqData = [
     {
         question: "What features are included in each pricing plan?",
         answer:
-            "This question helps users understand the specific services and tools they will have access to in each plan (Basic, Standard, Premium) and whether the plan suits their property management needs.",
+            "You can see all the features in detail on our pricing tab.",
     },
     {
         question: "Are there any hidden fees or additional costs associated with the pricing plans?",
         answer:
-            "Yes! Even if your beat is already uploaded to YouTube, SoundCloud, or any other platform, you can still register it with BeatProtect. This will give you legal proof of ownership, ensuring that you can take action if someone uses your beat without permission.",
+            "No, unlike other rent management platforms there are no hidden fees.",
     },
     {
         question: "Can I upgrade or downgrade my plan at any time?",
         answer:
-            "With your subscription, you receive 20 credits each month (1 credit = 1 beat registration). If you need more, you can purchase additional credits at any time. Your subscription renews automatically every month, and you can manage it from your account dashboard.",
-    },
-    {
-        question: "Can I pay annually for a discount, and what are the payment options?",
-        answer:
-            "Yes, you can cancel your subscription at any time. When you cancel, you will retain access to your registered beats until the end of your billing cycle. After that, your beat protection services will expire, and you will no longer be able to register new beats unless you resubscribe.",
+            " Yes, you can upgrade or downgrade your plan anytime via your owner dashboard.",
     },
     {
         question: "Do the plans include customer support, and what are the hours of availability?",
         answer:
-            "Yes, you can cancel your subscription at any time. When you cancel, you will retain access to your registered beats until the end of your billing cycle. After that, your beat protection services will expire, and you will no longer be able to register new beats unless you resubscribe.",
+            "Yes, our plans include customer service—you can text or email us at any time, and we’ll respond within 24 hours.",
     },
 ];
 const Contents = {
