@@ -69,9 +69,8 @@ const SideBar = () => {
           backgroundColor: "#1C2434",
         }}
       >
-        <h2 className="flex items-center gap-2 text-xl" style={{ color: "white" }}>
-          <img src={logo} alt="" className="h-7 w-7" />
-           Real Estate </h2>
+        <img src={logo} alt="" className="h-7 w-7" />
+        <span className="text-[22px] font-semibold bg-gradient-to-r from-[#A9A9A9] to-[#666666] bg-clip-text text-transparent tracking-[-0.88px]">RentPad Homes</span>
       </Link>
       <Menu
         theme="dark"
