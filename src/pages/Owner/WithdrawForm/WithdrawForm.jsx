@@ -50,9 +50,9 @@ const WithdrawForm = () => {
         createdAt,
         payoutId
     }));
-    const openInvoice = (url) => {
-        window.open(url, '_blank', 'noopener,noreferrer');
-    };
+    // const openInvoice = (url) => {
+    //     window.open(url, '_blank', 'noopener,noreferrer');
+    // };
 
     const columns = [
         {
@@ -60,31 +60,31 @@ const WithdrawForm = () => {
             dataIndex: "sl",
             render: (text, record, index) => index + 1,
         },
-        {
-            title: 'Receipt',
-            dataIndex: 'Receipt',
-            render: (text, record) => (
-                <div>
-                    {record.Receipt && record.Receipt.startsWith("http") ? (
-                        <button
-                            onClick={() => openInvoice(record.Receipt)}
-                            style={{
-                                background: "none",
-                                border: "none",
-                                color: "#2575fc",
-                                textDecoration: "none",
-                                fontWeight: "bold",
-                                cursor: "pointer",
-                            }}
-                        >
-                            📄 View Receipt
-                        </button>
-                    ) : (
-                        "Upcoming"
-                    )}
-                </div>
-            )
-        },
+        // {
+        //     title: 'Receipt',
+        //     dataIndex: 'Receipt',
+        //     render: (text, record) => (
+        //         <div>
+        //             {record.Receipt && record.Receipt.startsWith("http") ? (
+        //                 <button
+        //                     onClick={() => openInvoice(record.Receipt)}
+        //                     style={{
+        //                         background: "none",
+        //                         border: "none",
+        //                         color: "#2575fc",
+        //                         textDecoration: "none",
+        //                         fontWeight: "bold",
+        //                         cursor: "pointer",
+        //                     }}
+        //                 >
+        //                     📄 View Receipt
+        //                 </button>
+        //             ) : (
+        //                 "Upcoming"
+        //             )}
+        //         </div>
+        //     )
+        // },
         {
             title: 'Account Id',
             dataIndex: 'accountId',

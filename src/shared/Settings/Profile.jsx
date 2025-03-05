@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unescaped-entities */
 import { useSelector } from "react-redux";
 import authApi from "../../redux/fetures/auth/authApi";

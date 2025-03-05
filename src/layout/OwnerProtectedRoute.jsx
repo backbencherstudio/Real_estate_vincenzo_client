@@ -44,7 +44,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { logOut, useCurrentToken } from "../redux/fetures/auth/authSlice";
 import { verifyToken } from "../utils/varifyToken";
-
 const OwnerProtectedRoute = ({ children, role }) => {
   const token = useSelector(useCurrentToken);
   const dispatch = useDispatch();
@@ -54,15 +53,28 @@ const OwnerProtectedRoute = ({ children, role }) => {
     user = verifyToken(token);
   }
   
+  // const {data : userData, isLoading} = authApi.useGetSingleUserInfoQuery(user?.email)
+
+  // console.log(userData);
+  // console.log(user);
+  
+  //   if (isLoading) {
+  //   return <div className="flex justify-center items-center h-[150px] ">
+  //   <Spin size="large" />
+  // </div>
+  // }
+
+  
 
   if (user?.customerId && !user?.customerId) {
     dispatch(logOut());
     return <Navigate to="/signin" replace />;
   }
 
-  
+    
 
   if (!user?.subscriptionStatus || user?.subscriptionStatus !== "active") {
+    dispatch(logOut());
     return <Navigate to="/subscription-plan" replace />;
   }
 
