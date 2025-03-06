@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../../redux/fetures/auth/authSlice';
 import documentApi from '../../../redux/fetures/document/documentApi';
 import { url } from '../../../globalConst/const';
+import pdfLogo from "../../../assets/pdf.png"
 
 
 const TenantDocuments = () => {
@@ -61,7 +62,11 @@ const TenantDocuments = () => {
             dataIndex: "image",
             render: (text, record) => (
                 <div>
-                    <img className=" w-[80px] h-[50px]" src={`${url}${record.image}`} alt="" />
+                    {record.image.endsWith('.pdf') ? (
+                        <img className="w-[40px]" src={pdfLogo} alt="PDF Document" />
+                    ) : (
+                        <img className="w-[40px]" src={`${url}${record.image}`} alt="Document" />
+                    )}
                 </div>
             ),
         },

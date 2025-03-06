@@ -72,9 +72,10 @@ const DocumentForm = ({ close }) => {
                             <option value="" hidden>
                                 Select One
                             </option>
-                            <option value="Passport">Passport</option>
-                            <option value="NID">NID</option>
-                            <option value="NIN">NIN</option>
+                            <option value="ID">ID</option>
+                            <option value="lease agreement">Lease Agreement</option>
+                            <option value="required documents">Required Documents</option>
+                            <option value="other">Other</option>
                         </select>
                         <label className="absolute left-4 -top-2.5 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
                             Select Document type
