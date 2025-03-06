@@ -121,14 +121,15 @@ const Footer = () => {
                     {/* Social Media Icons */}
                     <div className="flex gap-4">
                         {[
-                            { icon: FaFacebook, platform: 'facebook' },
-                            { icon: FaInstagram, platform: 'instagram' },
-                            { icon: FaTwitter, platform: 'twitter' },
-                            { icon: FaLinkedin, platform: 'linkedin' }
-                        ].map(({ icon: Icon, platform }, index) => (
+                            { icon: FaFacebook, platform: 'facebook', link:"https://www.facebook.com/profile.php?id=61573898277902" },
+                            { icon: FaInstagram, platform: 'instagram',link:"https://www.instagram.com/rentpadhomes/" },
+                            { icon: FaTwitter, platform: 'twitter', link:"https://x.com/RentPad_Homes" },
+                            { icon: FaLinkedin, platform: 'linkedin',link:"https://www.linkedin.com/company/rentpad-homes/" }
+                        ].map(({ icon: Icon, platform ,link}, index) => (
                             <a
                                 key={index}
-                                href="#"
+                                href={link}
+                                target="_blank"
                                 className="w-10 h-10 rounded-full text-white border border-blue-700 flex items-center justify-center hover:bg-blue-700 transition"
                             >
                                 <Icon className="text-xl" />
