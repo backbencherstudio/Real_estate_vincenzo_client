@@ -220,7 +220,7 @@ const PropertyDetails = () => {
                   deleteUnitHandler(record.key)
                 }
                 disabled={record.booked}
-                className={`font-semibold text-red-500 border border-red-500 rounded-md p-1  hover:bg-red-500 ${record.booked ? "text-white" : "hover:text-white"} transition-all duration-300 active:scale-95 ${record.booked && "text-[#cfcfcf] cursor-not-allowed hover:bg-transparent border-none"
+                className={`font-semibold text-red-500 border border-red-500 rounded-md p-1  hover:bg-red-500 ${record.booked ? "text-zinc-400 hover:bg-transparent" : "hover:text-white"} transition-all duration-300 active:scale-95 ${record.booked && "text-[#cfcfcf] cursor-not-allowed hover:bg-zinc-00 border-none"
                   }`}
               >
                 <MdDeleteForever className="text-[24px]" />

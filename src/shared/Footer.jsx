@@ -5,6 +5,9 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import adminApi from "../redux/fetures/admin/adminApi";
 import { Link } from "react-router-dom";
+import privacyPdf from "../assets/pdf/RentPad Private Policy.pdf"
+import refundPdf from "../assets/pdf/RentPad Refund Policy.pdf"
+import termsPdf from "../assets/pdf/RentPad Terms of Service.pdf"
 const Footer = () => {
     const [emailCollection] = authApi.useEmailCollectionMutation();
     const { data: getPlanData } = adminApi.useGetPlanQuery(undefined, { pollingInterval: 86400000 })
@@ -110,9 +113,9 @@ const Footer = () => {
                     {/* Copyright and Links */}
                     <div className="flex flex-wrap items-center gap-4">
                         <span>RentPad Homes ©2024</span>
-                        {['Privacy', 'Accessibility', 'Terms', 'Licenses', 'Site map'].map((item, index) => (
-                            <a key={index} href="#" className="hover:text-white transition">{item}</a>
-                        ))}
+                        <a href={privacyPdf} target="_blank" className="hover:text-white transition">Privacy</a>
+                        <a href={refundPdf} target="_blank" className="hover:text-white transition">Refund Policy</a>
+                        <a href={termsPdf} target="_blank" className="hover:text-white transition">Terms</a>
                     </div>
 
                     {/* Social Media Icons */}
