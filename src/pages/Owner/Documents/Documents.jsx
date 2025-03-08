@@ -1,5 +1,5 @@
 import { Select, Table, Tag } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import documentApi from "../../../redux/fetures/document/documentApi";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../../redux/fetures/auth/authSlice";
@@ -14,7 +14,7 @@ const Documents = () => {
   const { data, isLoading, refetch } = documentApi.useGetSingleOwnerAllTenantsDocumentsQuery(currentUser?.userId);
   const navigate = useNavigate()
 
-  useState(()=>{
+  useEffect(()=>{
     refetch()
   },[])
 
