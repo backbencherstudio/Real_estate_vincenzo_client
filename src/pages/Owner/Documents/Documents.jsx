@@ -11,8 +11,12 @@ import pdfLogo from "../../../assets/pdf.png";
 const Documents = () => {
   const currentUser = useSelector(selectCurrentUser);
   const [pageSize, setPageSize] = useState(10);
-  const { data, isLoading } = documentApi.useGetSingleOwnerAllTenantsDocumentsQuery(currentUser?.userId);
+  const { data, isLoading, refetch } = documentApi.useGetSingleOwnerAllTenantsDocumentsQuery(currentUser?.userId);
   const navigate = useNavigate()
+
+  useState(()=>{
+    refetch()
+  },[])
 
   const handlePageSizeChange = (current, size) => {
     setPageSize(size);
