@@ -3,10 +3,12 @@ import ownerApi from "../../../redux/fetures/owner/ownerApi";
 import { url } from "../../../globalConst/const";
 import moment from "moment";
 import { Spin } from "antd";
+import { useState } from "react";
 
 const MaintenanceDetails = () => {
   const { id } = useParams();
   const { data, isLoading } = ownerApi.useGetSingleMaintenanceDataQuery(id)
+  const [showImageModal, setShowImageModal] = useState(false);
 
   if (isLoading) return <div className="w-full h-[60vh] flex items-center justify-center " > <Spin size="large" /> </div>
 
@@ -26,11 +28,34 @@ const MaintenanceDetails = () => {
       <div className="lg:flex gap-8 space-y-4 lg:space-y-0">
         {/* Left side - Image */}
         <div className="lg:w-1/2">
-          <img
-            src={`${url}${data?.data.image}`}
-            alt="Modern mansion"
-            className="w-full lg:h-[650px] xl:h-[550px] object-cover rounded-lg"
-          />
+        {data?.data?.image.endsWith('.pdf') ? (
+            <object
+              data={`${url}${data?.data?.image}`}
+              type="application/pdf"
+              className="w-full lg:h-[650px] xl:h-[550px] rounded-lg"
+            >
+              <p>Unable to display PDF file. <a href={`${url}${data?.data?.image}`} target="_blank" rel="noopener noreferrer">Download</a> instead.</p>
+            </object>
+          ) : (
+            <>
+              <img
+                src={`${url}${data?.data?.image}`}
+                alt="Document"
+                className="w-full lg:h-[650px] xl:h-[550px] object-cover rounded-lg cursor-pointer"
+                onClick={() => setShowImageModal(true)}
+              />
+              {showImageModal && (
+                <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4" onClick={() => setShowImageModal(false)}>
+                  <img
+                    src={`${url}${data?.data?.image}`}
+                    alt="Document"
+                    className="max-w-[90vw] max-h-[90vh] object-contain"
+                    onClick={(e) => e.stopPropagation()}
+                  />
+                </div>
+              )}
+            </>
+          )}
         </div>
 
         {/* Right side - Details Card */}

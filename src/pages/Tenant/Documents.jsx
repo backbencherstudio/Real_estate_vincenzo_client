@@ -4,10 +4,6 @@ import tableData from "../../../public/tabledata.json";
 import { Plus } from 'lucide-react';
 
 function Documents() {
-  
-  
-
-
     const tableDatas = tableData?.map(({ invoice_id, name, amount, due_date, status, profile_picture }) => ({
         key: invoice_id, // Using invoice_id as the key for each row
         invoice_id,
@@ -17,9 +13,6 @@ function Documents() {
         status,
         profile_picture // including this even though it's not in columns, in case you need it later
       }));
-
-
-
     const columns = [
         { title: 'Invoice ID', dataIndex: 'invoice_id', responsive: ['xs', 'sm', 'md', 'lg'] },
         {

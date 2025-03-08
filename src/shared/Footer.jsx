@@ -5,6 +5,9 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import adminApi from "../redux/fetures/admin/adminApi";
 import { Link } from "react-router-dom";
+import privacyPdf from "../assets/pdf/RentPad Private Policy.pdf"
+import refundPdf from "../assets/pdf/RentPad Refund Policy.pdf"
+import termsPdf from "../assets/pdf/RentPad Terms of Service.pdf"
 const Footer = () => {
     const [emailCollection] = authApi.useEmailCollectionMutation();
     const { data: getPlanData } = adminApi.useGetPlanQuery(undefined, { pollingInterval: 86400000 })
@@ -110,22 +113,23 @@ const Footer = () => {
                     {/* Copyright and Links */}
                     <div className="flex flex-wrap items-center gap-4">
                         <span>RentPad Homes ©2024</span>
-                        {['Privacy', 'Accessibility', 'Terms', 'Licenses', 'Site map'].map((item, index) => (
-                            <a key={index} href="#" className="hover:text-white transition">{item}</a>
-                        ))}
+                        <a href={privacyPdf} target="_blank" className="hover:text-white transition">Privacy</a>
+                        <a href={refundPdf} target="_blank" className="hover:text-white transition">Refund Policy</a>
+                        <a href={termsPdf} target="_blank" className="hover:text-white transition">Terms</a>
                     </div>
 
                     {/* Social Media Icons */}
                     <div className="flex gap-4">
                         {[
-                            { icon: FaFacebook, platform: 'facebook' },
-                            { icon: FaInstagram, platform: 'instagram' },
-                            { icon: FaTwitter, platform: 'twitter' },
-                            { icon: FaLinkedin, platform: 'linkedin' }
-                        ].map(({ icon: Icon, platform }, index) => (
+                            { icon: FaFacebook, platform: 'facebook', link:"https://www.facebook.com/profile.php?id=61573898277902" },
+                            { icon: FaInstagram, platform: 'instagram',link:"https://www.instagram.com/rentpadhomes/" },
+                            { icon: FaTwitter, platform: 'twitter', link:"https://x.com/RentPad_Homes" },
+                            { icon: FaLinkedin, platform: 'linkedin',link:"https://www.linkedin.com/company/rentpad-homes/" }
+                        ].map(({ icon: Icon, platform ,link}, index) => (
                             <a
                                 key={index}
-                                href="#"
+                                href={link}
+                                target="_blank"
                                 className="w-10 h-10 rounded-full text-white border border-blue-700 flex items-center justify-center hover:bg-blue-700 transition"
                             >
                                 <Icon className="text-xl" />

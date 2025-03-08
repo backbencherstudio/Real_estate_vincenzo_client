@@ -5,26 +5,27 @@ import { url } from "../../../globalConst/const";
 import { Spin } from "antd";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import { toast } from "sonner";
+import { useState } from "react";
 
 const DocumentDetails = () => {
-
+  const [showImageModal, setShowImageModal] = useState(false);
   const { id } = useParams()
   const { data, isLoading } = documentApi.useGetSingleDocumentQuery(id)
   const { propertyName, unitNumber, tenantName, documentType, description } = data?.data || {}
-  const [updateDocumentStatusByOwner, {isLoading : updateDocumentIsLoading}] = documentApi.useUpdateDocumentStatusByOwnerMutation(id)
+  const [updateDocumentStatusByOwner, { isLoading: updateDocumentIsLoading }] = documentApi.useUpdateDocumentStatusByOwnerMutation(id)
   if (isLoading || updateDocumentIsLoading) return <div className="w-full h-[60vh] flex items-center justify-center " > <Spin size="large" /> </div>
 
-  const documentStatusCheangeFun = async (status) =>{
+  const documentStatusCheangeFun = async (status) => {
     const updateStatus = {
-      documentId : id,
+      documentId: id,
       status
     }
     const response = await updateDocumentStatusByOwner(updateStatus);
 
-    if(response?.data?.success){
+    if (response?.data?.success) {
       toast.success(response?.data?.message)
     }
-    
+
   }
 
   return (
@@ -43,11 +44,34 @@ const DocumentDetails = () => {
       <div className="lg:flex gap-8 space-y-4 lg:space-y-0">
         {/* Left side - Image */}
         <div className="lg:w-1/2">
-          <img
-            src={`${url}${data?.data?.image}`}
-            alt="Modern mansion"
-            className="w-full lg:h-[650px] xl:h-[550px] object-cover rounded-lg"
-          />
+        {data?.data?.image.endsWith('.pdf') ? (
+            <object
+              data={`${url}${data?.data?.image}`}
+              type="application/pdf"
+              className="w-full lg:h-[650px] xl:h-[550px] rounded-lg"
+            >
+              <p>Unable to display PDF file. <a href={`${url}${data?.data?.image}`} target="_blank" rel="noopener noreferrer">Download</a> instead.</p>
+            </object>
+          ) : (
+            <>
+              <img
+                src={`${url}${data?.data?.image}`}
+                alt="Document"
+                className="w-full lg:h-[650px] xl:h-[550px] object-cover rounded-lg cursor-pointer"
+                onClick={() => setShowImageModal(true)}
+              />
+              {showImageModal && (
+                <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4" onClick={() => setShowImageModal(false)}>
+                  <img
+                    src={`${url}${data?.data?.image}`}
+                    alt="Document"
+                    className="max-w-[90vw] max-h-[90vh] object-contain"
+                    onClick={(e) => e.stopPropagation()}
+                  />
+                </div>
+              )}
+            </>
+          )}
         </div>
 
         {/* Right side - Details Card */}
@@ -69,14 +93,14 @@ const DocumentDetails = () => {
               <DetailRow label="Document Type" value={documentType} />
 
             </div>
-            
+
           </div>
           <div className="flex gap-4 justify-end">
-              <button onClick={()=>documentStatusCheangeFun("Approved")}
-               className="bg-gradient-to-l px-6 from-[#1565C0] to-[#4A90E2] hover:from-[#4A90E2] hover:to-[#1565C0] text-white py-5 rounded-md font-medium duration-300">Approve</button>
-              <button onClick={()=>documentStatusCheangeFun("Reject")}
-               className="px-6 py-5 border rounded-md flex items-center gap-2 hover:bg-red-500/20 hover:text-red-500 font-medium duration-300">Reject <IoMdCloseCircleOutline className="text-red-500" /> </button>
-            </div>
+            <button onClick={() => documentStatusCheangeFun("Approved")}
+              className="bg-gradient-to-l px-6 from-[#1565C0] to-[#4A90E2] hover:from-[#4A90E2] hover:to-[#1565C0] text-white py-5 rounded-md font-medium duration-300">Approve</button>
+            <button onClick={() => documentStatusCheangeFun("Reject")}
+              className="px-6 py-5 border rounded-md flex items-center gap-2 hover:bg-red-500/20 hover:text-red-500 font-medium duration-300">Reject <IoMdCloseCircleOutline className="text-red-500" /> </button>
+          </div>
         </div>
       </div>
     </div>

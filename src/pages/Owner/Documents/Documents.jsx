@@ -6,27 +6,28 @@ import { selectCurrentUser } from "../../../redux/fetures/auth/authSlice";
 import { url } from "../../../globalConst/const";
 import { FaAngleRight } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import pdfLogo from "../../../assets/pdf.png";
 
 const Documents = () => {
   const currentUser = useSelector(selectCurrentUser);
   const [pageSize, setPageSize] = useState(10);
-  const {data, isLoading} = documentApi.useGetSingleOwnerAllTenantsDocumentsQuery(currentUser?.userId);
+  const { data, isLoading } = documentApi.useGetSingleOwnerAllTenantsDocumentsQuery(currentUser?.userId);
   const navigate = useNavigate()
-  
+
   const handlePageSizeChange = (current, size) => {
     setPageSize(size);
   };
   const onChange = (value) => {
     console.log(`selected ${value}`);
   };
-  
+
   const onSearch = (value) => {
     console.log("search:", value);
   };
 
 
   const tableDatas = data?.data?.map(({ _id, tenantName, propertyName, unitNumber, status, image, documentType }) => ({
-    key: _id, 
+    key: _id,
     tenantName,
     propertyName,
     unitNumber,
@@ -42,9 +43,9 @@ const Documents = () => {
 
   const columns = [
     {
-      title : "SL",
-      dataIndex : "sl",
-      render : (text, record, index)=> index + 1
+      title: "SL",
+      dataIndex: "sl",
+      render: (text, record, index) => index + 1
     },
     {
       title: "Tenant Name",
@@ -54,7 +55,7 @@ const Documents = () => {
       title: "Property Name",
       dataIndex: "propertyName",
     },
-    { 
+    {
       title: "Unite",
       dataIndex: "unitNumber",
     },
@@ -63,13 +64,17 @@ const Documents = () => {
       dataIndex: "image",
       render: (text, record) => (
         <div>
-          <img className=" w-[80px] h-[50px]" src={`${url}${record.image}`} alt="" />
+          {record.image.endsWith('.pdf') ? (
+            <img className="w-[40px]" src={pdfLogo} alt="PDF Document" />
+          ) : (
+            <img className="w-[40px]" src={`${url}${record.image}`} alt="Document" />
+          )}
         </div>
       ),
     },
     {
-      title : "Document Type",
-      dataIndex : "documentType"
+      title: "Document Type",
+      dataIndex: "documentType"
     },
     {
       title: "Status",
@@ -81,8 +86,8 @@ const Documents = () => {
             status === "Pending"
               ? "orange"
               : status === "Approved"
-              ? "green"
-              : "red"
+                ? "green"
+                : "red"
           }
           style={{ textTransform: "capitalize" }}
         >
@@ -93,7 +98,7 @@ const Documents = () => {
     },
     {
       title: "Details",
-      dataIndex: "details", 
+      dataIndex: "details",
       render: (text, record) => (
         <div>
           <span
@@ -106,7 +111,7 @@ const Documents = () => {
       ),
     },
   ];
- 
+
   // const handleAddDocuments = () => {
   //   navigate("addDocuments");
   // };
