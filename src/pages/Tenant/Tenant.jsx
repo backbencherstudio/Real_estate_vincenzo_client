@@ -342,11 +342,19 @@ function TenantDashboard() {
             </div>
           </div>
 
+
           <div className='w-full rounded-lg shadow-sm'>
+            
+
             <Elements stripe={stripePromise}>
               <StripeTenantForm paymentData={paymentData} totalAmount={totalAmount?.total} lateFee={totalAmount.lateFee} setOpen={setOpen} setSuccessPaymentData={setSuccessPaymentData} securityDeposit={securityDeposit} />
             </Elements>
+            
+
           </div>
+
+
+
         </div>
 
 
