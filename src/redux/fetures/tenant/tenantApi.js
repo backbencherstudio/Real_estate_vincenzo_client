@@ -35,6 +35,16 @@ const tenantApi = baseApi.injectEndpoints({
       // invalidatesTags: (result, error, { email }) => [{ type: "singleUserInfo", id: email }],
     }),
 
+    stripeTenantACHpayment : builder.mutation({
+      query: (data)=>{
+        return {
+          url: "/payment/stripeTenantACHpayment",
+          method: "POST",
+          body : data
+        }
+      },
+    }),
+
     getAllTenantsForMessageForEachPropertyTenant : builder.query({
       query: (userId)=>{        
         return {
@@ -45,9 +55,7 @@ const tenantApi = baseApi.injectEndpoints({
     }),
 
     isOwnerActiveOrNot : builder.query({
-      query: (userId)=>{        
-        console.log(userId);
-        
+      query: (userId)=>{               
         return {
           url: `/tenant/isOwnerActiveOrNot/${userId}`,
           method: "GET",

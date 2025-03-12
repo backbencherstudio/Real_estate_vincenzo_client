@@ -14,6 +14,7 @@ import StripeTenantForm from './StripeTenantForm';
 import { loadStripe } from '@stripe/stripe-js';
 import { getDynamicDate } from '../../utils/getDynamicDate';
 import Footer from '../../shared/Footer/Footer';
+import ACHPaymentForm from './ACHPaymentForm';
 
 
 // const stripePromise = loadStripe('pk_test_51NFvq6ArRmO7hNaVcPS5MwczdEtM4yEMOclovA0k5LtJTxhtzKZ2SKim3p8qmvssQ7j7bREjoRRmHB9Gvz8n8Dfm00UOo9bZYg');  // my 
@@ -27,7 +28,7 @@ function TenantDashboard() {
   const { data } = tenantApi.useGetSingleUserAllPaymentDataQuery(currentUser?.userId, {
     pollingInterval: 15000,
   });
-  const { data: userData , isLoading} = authApi.useGetSingleUserInfoQuery(currentUser?.email);
+  const { data: userData, isLoading } = authApi.useGetSingleUserInfoQuery(currentUser?.email);
   const [open, setOpen] = useState(false);
   const [paymentData, setPaymentData] = useState({})
   const [pageSize, setPageSize] = useState(10);
@@ -272,7 +273,7 @@ function TenantDashboard() {
 
         </div>
       </div>
-      <Footer/>
+      <Footer />
 
       <Modal
         title="Monthly Rent Payment"
@@ -344,23 +345,12 @@ function TenantDashboard() {
 
 
           <div className='w-full rounded-lg shadow-sm'>
-            
-
             <Elements stripe={stripePromise}>
               <StripeTenantForm paymentData={paymentData} totalAmount={totalAmount?.total} lateFee={totalAmount.lateFee} setOpen={setOpen} setSuccessPaymentData={setSuccessPaymentData} securityDeposit={securityDeposit} />
             </Elements>
-            
-
+            {/* <ACHPaymentForm paymentData={paymentData} totalAmount={totalAmount?.total} lateFee={totalAmount.lateFee} setOpen={setOpen} setSuccessPaymentData={setSuccessPaymentData} securityDeposit={securityDeposit} email={currentUser?.email} /> */}
           </div>
-
-
-
         </div>
-
-
-
-
-
       </Modal>
 
 

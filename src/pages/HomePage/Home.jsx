@@ -1,4 +1,3 @@
-import HomePageSubscriptionPlans from "./HomePageSubscriptionPlans";
 import PropertyManagementCosts from "./PropertyManagementCosts";
 import HeaderContent from "../../components/Header/Header";
 import landing from "../../assets/landing.svg"
@@ -13,8 +12,9 @@ import authApi from "../../redux/fetures/auth/authApi";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import adminApi from "../../redux/fetures/admin/adminApi";
+import { Button } from "antd";
 const Home = () => {
-    const [emailCollection] = authApi.useEmailCollectionMutation();
+    const [emailCollection, { isLoading }] = authApi.useEmailCollectionMutation();
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -38,11 +38,11 @@ const Home = () => {
     } = useForm();
 
     const onSubmit = async (data) => {
-       const res = await emailCollection({email : data.email});
-       if(res?.data?.success){
-        toast.success(res?.data?.message)
-        reset()
-       }
+        const res = await emailCollection({ email: data.email });
+        if (res?.data?.success) {
+            toast.success(res?.data?.message)
+            reset()
+        }
     };
 
 
@@ -79,9 +79,7 @@ const Home = () => {
                                             <p className="text-red-500 text-sm px-3">{errors.email.message}</p>
                                         )}
                                     </div>
-                                    <button type="submit" className="primary-btn w-[120px]">
-                                        Send
-                                    </button>
+                                    <Button type="primary" disabled={isLoading} htmlType="submit" className="m-1" >Send</Button>
                                 </form>
                             </div>
                         </div>
@@ -108,7 +106,7 @@ const Home = () => {
             <WhyChoooseUs />
 
             <div className="max-w-[1400px] mx-auto" >
-                <Plans planData={planData}/>
+                <Plans planData={planData} />
             </div>
             <Testimonials />
         </div>

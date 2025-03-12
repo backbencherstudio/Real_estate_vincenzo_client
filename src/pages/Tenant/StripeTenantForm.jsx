@@ -23,7 +23,7 @@ const StripeTenantForm = ({ paymentData, totalAmount, lateFee, setOpen, setSucce
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
     const [email, setEmail] = useState(currentUser?.email);
-    
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -46,11 +46,11 @@ const StripeTenantForm = ({ paymentData, totalAmount, lateFee, setOpen, setSucce
         try {
             const data = await paymentPlacedApi({
                 paymentMethodId: paymentMethod.id,
-                amount: parseInt(totalAmount ) + parseInt(securityDeposit),
+                amount: parseInt(totalAmount) + parseInt(securityDeposit),
                 lateFee: parseInt(lateFee),
                 monthlyPaymentId: paymentData?.key,
-                ownerId : paymentData?.ownerId
-            });            
+                ownerId: paymentData?.ownerId
+            });
 
             if (data?.data?.success) {
                 setSuccess(true);
@@ -60,7 +60,7 @@ const StripeTenantForm = ({ paymentData, totalAmount, lateFee, setOpen, setSucce
                 elements.getElement(CardNumberElement)?.clear();
                 elements.getElement(CardExpiryElement)?.clear();
                 elements.getElement(CardCvcElement)?.clear();
-                toast.success(data?.data?.message || "Payment successful!");                
+                toast.success(data?.data?.message || "Payment successful!");
                 return;
             }
 
@@ -146,8 +146,8 @@ const StripeTenantForm = ({ paymentData, totalAmount, lateFee, setOpen, setSucce
                 type="submit"
                 disabled={!stripe || loading}
                 className={`w-full my-2 py-3 text-white font-bold rounded-lg ${loading
-                        ? "bg-gray-400 cursor-not-allowed"
-                        : "bg-blue-600 hover:opacity-90"
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-blue-600 hover:opacity-90"
                     }`}
             >
                 {loading
@@ -158,7 +158,7 @@ const StripeTenantForm = ({ paymentData, totalAmount, lateFee, setOpen, setSucce
             {error && (
                 <div className="pb-2 text-red-500 font-medium text-center">{error}</div>
             )}
-            
+
         </form>
     );
 };
