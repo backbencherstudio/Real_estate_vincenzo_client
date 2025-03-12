@@ -79,7 +79,7 @@ const Home = () => {
                                             <p className="text-red-500 text-sm px-3">{errors.email.message}</p>
                                         )}
                                     </div>
-                                    <Button type="primary" disabled={isLoading} htmlType="submit" className="m-1" >Send</Button>
+                                    <Button type="primary" disabled={isLoading} htmlType="submit" className="m-1 px-8 pt-5 pb-6 text-[18px]" >Send</Button>
                                 </form>
                             </div>
                         </div>
