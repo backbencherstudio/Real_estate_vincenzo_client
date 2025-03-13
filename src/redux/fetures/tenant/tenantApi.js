@@ -35,16 +35,6 @@ const tenantApi = baseApi.injectEndpoints({
       // invalidatesTags: (result, error, { email }) => [{ type: "singleUserInfo", id: email }],
     }),
 
-    stripeTenantACHpayment : builder.mutation({
-      query: (data)=>{
-        return {
-          url: "/payment/stripeTenantACHpayment",
-          method: "POST",
-          body : data
-        }
-      },
-    }),
-
     getAllTenantsForMessageForEachPropertyTenant : builder.query({
       query: (userId)=>{        
         return {
@@ -59,6 +49,18 @@ const tenantApi = baseApi.injectEndpoints({
         return {
           url: `/tenant/isOwnerActiveOrNot/${userId}`,
           method: "GET",
+        }
+      },
+    }),
+
+
+    // ============================================>>>>>>>>  ACH Payment for tenant ===========================
+    createCustomerForACHpayment : builder.mutation({
+      query: (data)=>{
+        return {
+          url: "/payment/createCustomerForACHpayment",
+          method: "POST",
+          body : data
         }
       },
     }),

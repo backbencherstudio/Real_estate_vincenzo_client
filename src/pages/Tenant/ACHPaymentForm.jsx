@@ -27,15 +27,17 @@ const ACHPaymentForm = ({paymentData, totalAmount, lateFee, setOpen, setSuccessP
 
         try {
             const response = await stripeTenantACHpayment(paymentDatas).unwrap();
+            console.log(response);
+            
 
-            if (response?.data?.success) {
-                setSuccess(true);
-                setOpen(false)
-                setLoading(false);
-                setSuccessPaymentData(response?.data)
-                toast.success(response?.data?.message || "Payment successful!");
-                return;
-            }
+            // if (response?.data?.success) {
+            //     setSuccess(true);
+            //     setOpen(false)
+            //     setLoading(false);
+            //     setSuccessPaymentData(response?.data)
+            //     toast.success(response?.data?.message || "Payment successful!");
+            //     return;
+            // }
 
         } catch (err) {
             console.error("Payment failed:", err);

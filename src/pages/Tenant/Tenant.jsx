@@ -15,6 +15,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { getDynamicDate } from '../../utils/getDynamicDate';
 import Footer from '../../shared/Footer/Footer';
 import ACHPaymentForm from './ACHPaymentForm';
+import ACH from './ACH';
 
 
 // const stripePromise = loadStripe('pk_test_51NFvq6ArRmO7hNaVcPS5MwczdEtM4yEMOclovA0k5LtJTxhtzKZ2SKim3p8qmvssQ7j7bREjoRRmHB9Gvz8n8Dfm00UOo9bZYg');  // my 
@@ -345,10 +346,14 @@ function TenantDashboard() {
 
 
           <div className='w-full rounded-lg shadow-sm'>
-            <Elements stripe={stripePromise}>
+            {/* <Elements stripe={stripePromise}>
               <StripeTenantForm paymentData={paymentData} totalAmount={totalAmount?.total} lateFee={totalAmount.lateFee} setOpen={setOpen} setSuccessPaymentData={setSuccessPaymentData} securityDeposit={securityDeposit} />
-            </Elements>
+            </Elements> */}
             {/* <ACHPaymentForm paymentData={paymentData} totalAmount={totalAmount?.total} lateFee={totalAmount.lateFee} setOpen={setOpen} setSuccessPaymentData={setSuccessPaymentData} securityDeposit={securityDeposit} email={currentUser?.email} /> */}
+
+              <ACH></ACH>
+
+
           </div>
         </div>
       </Modal>
