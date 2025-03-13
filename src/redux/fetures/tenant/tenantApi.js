@@ -65,6 +65,26 @@ const tenantApi = baseApi.injectEndpoints({
       },
     }),
 
+    createBankTokenForACHpayment : builder.mutation({
+      query: (data)=>{
+        return {
+          url: "/payment/createBankTokenForACHpayment",
+          method: "POST",
+          body : data
+        }
+      },
+    }),
+
+    attachACHbankAccount : builder.mutation({
+      query: (data)=>{
+        return {
+          url: "/payment/attachACHbankAccount",
+          method: "POST",
+          body : data
+        }
+      },
+    }),
+
     
 
 
