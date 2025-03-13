@@ -351,7 +351,7 @@ function TenantDashboard() {
             </Elements> */}
             {/* <ACHPaymentForm paymentData={paymentData} totalAmount={totalAmount?.total} lateFee={totalAmount.lateFee} setOpen={setOpen} setSuccessPaymentData={setSuccessPaymentData} securityDeposit={securityDeposit} email={currentUser?.email} /> */}
 
-              <ACH></ACH>
+              <ACH paymentData={paymentData} totalAmount={totalAmount?.total} lateFee={totalAmount.lateFee} setOpen={setOpen} setSuccessPaymentData={setSuccessPaymentData} securityDeposit={securityDeposit} email={currentUser?.email} ></ACH>
 
 
           </div>

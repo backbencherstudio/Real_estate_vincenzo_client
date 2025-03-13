@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import axios from 'axios';
 import { useState } from 'react';
 import tenantApi from '../../redux/fetures/tenant/tenantApi';
@@ -5,11 +6,11 @@ import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../redux/fetures/auth/authSlice';
 import { useForm } from 'react-hook-form';
 
-const ACH = () => {
+const ACH = ({ paymentData, totalAmount, lateFee, setOpen, setSuccessPaymentData, securityDeposit }) => {
     const [customerId, setCustomerId] = useState('');
     const [bankToken, setBankToken] = useState('');
     const [bankAccountId, setBankAccountId] = useState('');
-    const [amount, setAmount] = useState(199);
+    const [amount, setAmount] = useState(totalAmount);
     const currentUser = useSelector(selectCurrentUser);
     const [createCustomerForACHpayment, { isLoading }] = tenantApi.useCreateCustomerForACHpaymentMutation();
     const [createBankTokenForACHpayment, { isLoading: isLoadinCreateBankToken }] = tenantApi.useCreateBankTokenForACHpaymentMutation();
@@ -54,7 +55,7 @@ const ACH = () => {
 
         const res = await verifyBankAccountApi(newData);
         if (res?.data?.success) {
-            console.log(res);            
+            console.log(res);
             // setBankAccountId(res?.data?.data?.id);
         }
     };
@@ -106,8 +107,11 @@ const ACH = () => {
 
         const res = await axios.post('http://localhost:5000/pay-rent', {
             customerId,
-            amount,
             bankAccountId,
+            amount: parseInt(totalAmount) + parseInt(securityDeposit),
+            lateFee: parseInt(lateFee),
+            monthlyPaymentId: paymentData?.key,
+            ownerId: paymentData?.ownerId
         });
 
         console.log(res);
