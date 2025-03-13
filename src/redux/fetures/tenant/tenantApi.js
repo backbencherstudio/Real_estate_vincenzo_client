@@ -85,6 +85,16 @@ const tenantApi = baseApi.injectEndpoints({
       },
     }),
 
+    verifyBankAccountApi : builder.mutation({
+      query: (data)=>{
+        return {
+          url: "/payment/verifyBankAccount",
+          method: "POST",
+          body : data
+        }
+      },
+    }),
+
     
 
 

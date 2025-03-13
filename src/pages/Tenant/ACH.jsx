@@ -10,16 +10,17 @@ const ACH = () => {
     const [bankToken, setBankToken] = useState('');
     const [bankAccountId, setBankAccountId] = useState('');
     const [amount, setAmount] = useState(999);
-    const [amounts, setAmounts] = useState([32, 45]); // Example micro-deposit amounts
     const currentUser = useSelector(selectCurrentUser);
     const [createCustomerForACHpayment, { isLoading }] = tenantApi.useCreateCustomerForACHpaymentMutation();
     const [createBankTokenForACHpayment, { isLoading: isLoadinCreateBankToken }] = tenantApi.useCreateBankTokenForACHpaymentMutation();
     const [attachACHbankAccount, { isLoading: isLoadinattachACHbankAccount }] = tenantApi.useAttachACHbankAccountMutation();
+    const [verifyBankAccountApi, { isLoading: verifyBankAccountIsLoading }] = tenantApi.useVerifyBankAccountApiMutation();
 
 
     const { register, handleSubmit } = useForm();
     const { register: createBankTokenRegister, handleSubmit: createBankTokenHandleSubmit } = useForm();
     const { register: attachBankAccountRegister, handleSubmit: attachBankAccountHandleSubmit } = useForm();
+    const { register: verifyBankAccountRegister, handleSubmit: verifyBankAccountHandleSubmit } = useForm();
 
     const onSubmit = async (data) => {
         const res = await createCustomerForACHpayment(data);
@@ -36,16 +37,31 @@ const ACH = () => {
     };
 
     const attachBankAccount = async () => {
-        console.log({ customerId, bankToken });
-        
         const response = await attachACHbankAccount({ customerId, bankToken });
-        console.log(response);
-        
         if (response?.data?.success) {
             setBankAccountId(response?.data?.data?.id);
         }
     };
 
+
+    const verifyBankAccount = async (data) => {
+        const newAmounts = [data.firstDeposit, data.secondDeposit];
+        const newData = {
+            customerId,
+            bankAccountId,
+            amounts: newAmounts
+        };
+
+        const res = await verifyBankAccountApi(newData);    
+
+        // const response = await attachACHbankAccount({ customerId, bankToken });
+        if (res?.data?.success) {
+            console.log(res);            
+            // setBankAccountId(res?.data?.data?.id);
+        }
+    };
+
+    
 
     // const attachBankAccount2 = async () => {
     //     const response = await axios.post('http://localhost:5000/attach-bank-account', {
@@ -73,17 +89,19 @@ const ACH = () => {
 
 
     // Verify Bank Account
-    
-    
-    const verifyBankAccount = async () => {
-        const response = await axios.post('http://localhost:5000/verify-bank-account', {
-            customerId,
-            bankAccountId,
-            amounts,
-        });
-        console.log(response);
-        alert('Bank Account Verified');
-    };
+
+
+    // const verifyBankAccount = async () => {
+    //     const response = await axios.post('http://localhost:5000/verify-bank-account', {
+    //         customerId,
+    //         bankAccountId,
+    //         amounts,
+    //     });
+    //     console.log(response);
+    //     alert('Bank Account Verified');
+    // };
+
+
 
     // Pay Rent via ACH
     const payRent = async () => {
@@ -144,7 +162,6 @@ const ACH = () => {
                 </form>
             </div>
 
-
             <div className="max-w-md mx-auto bg-white shadow-lg rounded-2xl p-6">
                 <h2 className="text-xl font-bold text-center mb-4">Create Bank Token</h2>
                 <form onSubmit={createBankTokenHandleSubmit(onSubmitFroCreateBankToken)} className="space-y-4">
@@ -186,11 +203,6 @@ const ACH = () => {
                 </form>
             </div>
 
-
-
-            {/* <button className='border p-1 mt-2' onClick={createBankToken}>Create Bank Token</button> */}
-
-            
             <div className="max-w-md mx-auto bg-white shadow-lg rounded-2xl p-6">
                 <h2 className="text-xl font-bold text-center mb-4">Attach Bank Account </h2>
                 <form onSubmit={attachBankAccountHandleSubmit(attachBankAccount)} className="space-y-4">
@@ -229,9 +241,48 @@ const ACH = () => {
                 </form>
             </div>
 
-            <button className='border p-1 mt-2' onClick={verifyBankAccount}>Verify Bank Account</button>
+            <div className="max-w-md mx-auto bg-white shadow-lg rounded-2xl p-6">
+                <h2 className="text-xl font-bold text-center mb-4">Verify Bank Account </h2>
+                <form onSubmit={verifyBankAccountHandleSubmit(verifyBankAccount)} className="space-y-4">
+                    <input
+                        {...verifyBankAccountRegister("firstDeposit")}
+                        type="text"
+                        placeholder="Inter first deposit amount"
+                        className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                    <input
+                        {...verifyBankAccountRegister("secondDeposit")}
+                        type="text"
+                        placeholder="Inter second deposit amount"
+                        className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+
+                    <button
+                        className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300"
+                        type="submit"
+                        disabled={verifyBankAccountIsLoading}
+                    >
+                        {verifyBankAccountIsLoading ? "Loading..." : "Verify Bank Account"}
+                    </button>
+                    {/* {bankAccountId && (
+                        <>
+                            <p className="text-center font-semibold text-gray-600">Bank ID: {bankAccountId}</p>
+                            <button
+                                className="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition duration-300"
+                            >
+                                Next
+                            </button>
+                        </>
+                    )} */}
+                </form>
+            </div>
+
+
+
+            {/* <button className='border p-1 mt-2' onClick={verifyBankAccount}>Verify Bank Account</button> */}
 
             <input type="number" placeholder="Rent Amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
+
             <button className='border p-1 mt-2' onClick={payRent}>Pay Rent</button>
         </div>
     );
