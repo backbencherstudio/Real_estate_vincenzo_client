@@ -14,10 +14,12 @@ const ACH = () => {
     const currentUser = useSelector(selectCurrentUser);
     const [createCustomerForACHpayment, { isLoading }] = tenantApi.useCreateCustomerForACHpaymentMutation();
     const [createBankTokenForACHpayment, { isLoading: isLoadinCreateBankToken }] = tenantApi.useCreateBankTokenForACHpaymentMutation();
+    const [attachACHbankAccount, { isLoading: isLoadinattachACHbankAccount }] = tenantApi.useAttachACHbankAccountMutation();
 
 
     const { register, handleSubmit } = useForm();
     const { register: createBankTokenRegister, handleSubmit: createBankTokenHandleSubmit } = useForm();
+    const { register: attachBankAccountRegister, handleSubmit: attachBankAccountHandleSubmit } = useForm();
 
     const onSubmit = async (data) => {
         const res = await createCustomerForACHpayment(data);
@@ -26,7 +28,6 @@ const ACH = () => {
         }
     };
 
-
     const onSubmitFroCreateBankToken = async (data) => {
         const res = await createBankTokenForACHpayment(data);
         if (res?.data?.success) {
@@ -34,6 +35,27 @@ const ACH = () => {
         }
     };
 
+    const attachBankAccount = async () => {
+        console.log({ customerId, bankToken });
+        
+        const response = await attachACHbankAccount({ customerId, bankToken });
+        console.log(response);
+        
+        if (response?.data?.success) {
+            setBankAccountId(response?.data?.data?.id);
+        }
+    };
+
+
+    // const attachBankAccount2 = async () => {
+    //     const response = await axios.post('http://localhost:5000/attach-bank-account', {
+    //         customerId,
+    //         bankToken,
+    //     });
+    //     console.log(response);
+    //     setBankAccountId(response.data.id);
+    //     alert('Bank Account Attached');
+    // };
 
     // Create Bank Account Token
     // const createBankToken = async () => {
@@ -46,18 +68,13 @@ const ACH = () => {
     // };
 
     // Attach Bank Account to Customer
-    
-    const attachBankAccount = async () => {
-        const response = await axios.post('http://localhost:5000/attach-bank-account', {
-            customerId,
-            bankToken,
-        });
-        console.log(response);
-        setBankAccountId(response.data.id);
-        alert('Bank Account Attached');
-    };
+
+
+
 
     // Verify Bank Account
+    
+    
     const verifyBankAccount = async () => {
         const response = await axios.post('http://localhost:5000/verify-bank-account', {
             customerId,
@@ -84,7 +101,7 @@ const ACH = () => {
 
     };
 
-    
+
     return (
         <div>
             <h1>ACH Rent Payment</h1>
@@ -173,10 +190,44 @@ const ACH = () => {
 
             {/* <button className='border p-1 mt-2' onClick={createBankToken}>Create Bank Token</button> */}
 
+            
+            <div className="max-w-md mx-auto bg-white shadow-lg rounded-2xl p-6">
+                <h2 className="text-xl font-bold text-center mb-4">Attach Bank Account </h2>
+                <form onSubmit={attachBankAccountHandleSubmit(attachBankAccount)} className="space-y-4">
+                    <input
+                        {...attachBankAccountRegister("customerId")}
+                        type="text"
+                        placeholder={customerId}
+                        readOnly
+                        className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                    <input
+                        {...attachBankAccountRegister("bankToken")}
+                        type="text"
+                        placeholder={bankToken}
+                        readOnly
+                        className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
 
-
-            <button className='border p-1 mt-2' onClick={attachBankAccount}>Attach Bank Account</button>
-            <p>Bank Account ID: {bankAccountId}</p>
+                    <button
+                        className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300"
+                        type="submit"
+                        disabled={isLoadinattachACHbankAccount}
+                    >
+                        {isLoadinattachACHbankAccount ? "Loading..." : "Attach Bank Account"}
+                    </button>
+                    {bankAccountId && (
+                        <>
+                            <p className="text-center font-semibold text-gray-600">Bank ID: {bankAccountId}</p>
+                            <button
+                                className="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition duration-300"
+                            >
+                                Next
+                            </button>
+                        </>
+                    )}
+                </form>
+            </div>
 
             <button className='border p-1 mt-2' onClick={verifyBankAccount}>Verify Bank Account</button>
 
