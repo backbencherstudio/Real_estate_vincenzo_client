@@ -9,7 +9,7 @@ const ACH = () => {
     const [customerId, setCustomerId] = useState('');
     const [bankToken, setBankToken] = useState('');
     const [bankAccountId, setBankAccountId] = useState('');
-    const [amount, setAmount] = useState(999);
+    const [amount, setAmount] = useState(199);
     const currentUser = useSelector(selectCurrentUser);
     const [createCustomerForACHpayment, { isLoading }] = tenantApi.useCreateCustomerForACHpaymentMutation();
     const [createBankTokenForACHpayment, { isLoading: isLoadinCreateBankToken }] = tenantApi.useCreateBankTokenForACHpaymentMutation();
@@ -52,16 +52,14 @@ const ACH = () => {
             amounts: newAmounts
         };
 
-        const res = await verifyBankAccountApi(newData);    
-
-        // const response = await attachACHbankAccount({ customerId, bankToken });
+        const res = await verifyBankAccountApi(newData);
         if (res?.data?.success) {
             console.log(res);            
             // setBankAccountId(res?.data?.data?.id);
         }
     };
 
-    
+
 
     // const attachBankAccount2 = async () => {
     //     const response = await axios.post('http://localhost:5000/attach-bank-account', {
