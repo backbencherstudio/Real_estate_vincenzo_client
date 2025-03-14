@@ -95,6 +95,16 @@ const tenantApi = baseApi.injectEndpoints({
       },
     }),
 
+    payRentUserACHcontroller : builder.mutation({
+      query: (data)=>{
+        return {
+          url: "/payment/payRentUserACHcontroller",
+          method: "POST",
+          body : data
+        }
+      },
+    }),
+
     
 
 
