@@ -1,22 +1,17 @@
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
-import SubscriptionForm from "./SubscriptionForm";
+
 import { useState } from "react";
 import { GrRadialSelected } from "react-icons/gr";
 import adminApi from "../../../redux/fetures/admin/adminApi";
-
-// const stripePromise = loadStripe('pk_test_51NFvq6ArRmO7hNaVcPS5MwczdEtM4yEMOclovA0k5LtJTxhtzKZ2SKim3p8qmvssQ7j7bREjoRRmHB9Gvz8n8Dfm00UOo9bZYg');  // my 
-// const stripePromise = loadStripe('pk_live_51Qj3DaLdWMYlebBQvsXy57f0Gs0olm2ORnECHbCDzM3z2H6tAlf4A6yuVabQFDMn4lwEzGDvTRW7TrYvvo5aY9HW00AUPp6cim');  // client
-const stripePromise = loadStripe('pk_test_51Qj3DaLdWMYlebBQOl4ldkQkxLqx7lOVk1fNuTxq7j48MCK8Hfp8iS0xGgOTJD57aYiETTMXmEGbSVHGav8D6cyW00ZlYe2LyG');  // client
+import Plan from "./Plan";
 
 const StripePayment = () => {
 
-    const {data : getPlanData } = adminApi.useGetPlanQuery(undefined, { pollingInterval : 86400000 })    
+    const { data: getPlanData } = adminApi.useGetPlanQuery(undefined, { pollingInterval: 86400000 })
 
     const plans = [
         { name: 'Starter', range: [1, 4], description: `Manage 1-4 users at $${getPlanData?.data?.[0]?.starter} per unit/month.`, price: getPlanData?.data?.[0]?.starter || 0 },
         { name: 'Growth', range: [5, 12], description: `Manage 5-12 users at $${getPlanData?.data?.[0]?.growth} per unit/month.`, price: getPlanData?.data?.[0]?.growth || 0 },
-        { name: 'Professional', range: [13, 40], description: `Manage 13-40 users at $${getPlanData?.data?.[0]?.professional} per unit/month.`, price: getPlanData?.data?.[0]?.professional || 0 },
+        { name: 'Professional', range: [13, 500000000], description: `Manage 13 to Unlimited users at $${getPlanData?.data?.[0]?.professional} per unit/month.`, price: getPlanData?.data?.[0]?.professional || 0 },
     ];
 
     const [selectedPlan, setSelectedPlan] = useState(plans[0]);
@@ -130,10 +125,17 @@ const StripePayment = () => {
                 </div>
             </div>
             <div className="md:w-1/2">
-                {selectedPlan ? (
+                {/* {selectedPlan ? (
                     <Elements stripe={stripePromise}>
                         <SubscriptionForm selectedPlan={selectedPlan} totalPrice={totalPrice} getTotalUnit={getUserCount()} />
                     </Elements>
+                ) : (
+                    <div className="text-gray-500 text-center mt-10">
+                        <p>Select a plan to proceed with payment</p>
+                    </div>
+                )} */}
+                {selectedPlan ? (
+                    <Plan selectedPlan={selectedPlan} getTotalUnit={getUserCount()}  />
                 ) : (
                     <div className="text-gray-500 text-center mt-10">
                         <p>Select a plan to proceed with payment</p>

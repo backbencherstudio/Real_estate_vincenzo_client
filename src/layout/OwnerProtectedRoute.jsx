@@ -65,18 +65,15 @@ const OwnerProtectedRoute = ({ children, role }) => {
   // }
 
   
+  // if (user?.customerId && !user?.customerId) {
+  //   dispatch(logOut());
+  //   return <Navigate to="/signin" replace />;
+  // } 
 
-  if (user?.customerId && !user?.customerId) {
-    dispatch(logOut());
-    return <Navigate to="/signin" replace />;
-  }
-
-    
-
-  if (!user?.subscriptionStatus || user?.subscriptionStatus !== "active") {
-    dispatch(logOut());
-    return <Navigate to="/subscription-plan" replace />;
-  }
+  // if (!user?.subscriptionStatus || user?.subscriptionStatus !== "active") {
+  //   dispatch(logOut());
+  //   return <Navigate to="/subscription-plan" replace />;
+  // }
 
   if (role !== undefined && role !== user?.role) {
     dispatch(logOut());

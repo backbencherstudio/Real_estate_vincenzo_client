@@ -8,9 +8,11 @@ import {  useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut, selectCurrentUser } from "../../../redux/fetures/auth/authSlice";
 import authApi from "../../../redux/fetures/auth/authApi";
+import { CloudCog } from "lucide-react";
 
 const SubscriptionForm = ({selectedPlan, totalPrice, getTotalUnit }) => {
-    
+        console.log(getTotalUnit);
+        
     const navigate = useNavigate()
     const stripe = useStripe();
     const elements = useElements();

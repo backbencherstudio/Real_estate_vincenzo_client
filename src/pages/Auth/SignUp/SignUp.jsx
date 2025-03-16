@@ -41,10 +41,10 @@ function SignUp() {
     try {
       const result = await verifyOTP({ otp });
       if (result?.data?.success) {
-        if(!result?.data?.data?.email){
+        if (!result?.data?.data?.email) {
           return toast.error("Registration failed. Please try again or reach out to support for assistance.")
         }
-        localStorage.setItem("email", result?.data?.data?.email)     
+        localStorage.setItem("email", result?.data?.data?.email)
         toast.success(result?.data?.message)
         setShowOTP(false);
         navigate("/subscription-plan")
@@ -77,6 +77,7 @@ function SignUp() {
               Please Sign Up to continue to your account.
             </p>
           </div>
+
           <div className="pt-8 md:pt-10">
             <div className="mb-4">
               <label
@@ -127,6 +128,61 @@ function SignUp() {
                 </p>
               )}
             </div>
+
+            <div className="mb-4">
+              <label
+                htmlFor="Bank Account Number"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Bank Account Number
+              </label>
+              <input
+                type="text"
+                id="bankAccountNumber"
+                {...register("bankAccountNumber", {
+                  required: "Bank Account Number is required",
+                  pattern: {
+                    value: /^[a-zA-Z0-9]{10,12}$/, // Example: Alphanumeric account number (10-12 characters)
+                    message: "Invalid Bank Account Number",
+                  },
+                })}
+                className={`w-full rounded-[12px] p-4 md:p-6 border-2 ${errors.bankAccountNumber ? "border-red-500" : "border-[#1565C0]"} bg-white`}
+                placeholder="Enter your bank account number"
+              />
+              {errors.bankAccountNumber && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.bankAccountNumber.message}
+                </p>
+              )}
+            </div>
+
+            <div className="mb-4">
+              <label
+                htmlFor="Routing Number"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Routing Number
+              </label>
+              <input
+                type="text"
+                id="routingNumber"
+                {...register("routingNumber", {
+                  required: "Routing Number is required",
+                  pattern: {
+                    value: /^\d{9}$/, // Ensures that the routing number is exactly 9 digits
+                    message: "Invalid Routing Number",
+                  },
+                })}
+                className={`w-full rounded-[12px] p-4 md:p-6 border-2 ${errors.routingNumber ? "border-red-500" : "border-[#1565C0]"} bg-white`}
+                placeholder="Enter your routing number"
+              />
+              {errors.routingNumber && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.routingNumber.message}
+                </p>
+              )}
+            </div>
+
 
             <div className="mb-4">
               <label
@@ -196,6 +252,7 @@ function SignUp() {
                 </p>
               </div>
             </div>
+
           </div>
         </div>
 
@@ -215,7 +272,7 @@ function SignUp() {
         vIsLoading={vIsLoading}
       />
 
-      <Footer/>
+      <Footer />
     </>
   );
 }
