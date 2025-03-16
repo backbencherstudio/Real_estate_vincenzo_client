@@ -16,7 +16,7 @@ const Owner = () => {
 
   const query = {
     role: "owner",
-    subscriptionStatus: activeOwner,
+    // subscriptionStatus: activeOwner,
     searchTerm
   }
 
@@ -180,12 +180,12 @@ const Owner = () => {
           <div>
 
             {
-              activeOwner !== "nonSubscriber" &&
+              // activeOwner !== "nonSubscriber" &&
               <input onChange={(e) => searchHandlear(e.target.value)} type="text" placeholder='search by name/email' className='border p-2 rounded-lg mr-2' />
             }
 
 
-            <Select
+            {/* <Select
               defaultValue="Active"
               style={{
                 width: 150,
@@ -211,7 +211,7 @@ const Owner = () => {
                   ],
                 },
               ]}
-            />
+            /> */}
 
 
           </div>

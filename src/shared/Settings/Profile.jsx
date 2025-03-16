@@ -269,37 +269,6 @@ const UserProfile = () => {
                     currentUser.role === "owner" &&
 
                     <div>
-
-                        {/* <div className="mb-6">
-                            <h2 className="text-2xl font-semibold text-gray-800 flex items-center justify-center py-2 px-4 rounded-lg shadow-lg">
-                                💰 Your Current Paid Amount
-                                <span className="text-[10px] uppercase font-bold text-green-600 mx-2"> ( rent ) </span>
-                                :
-                                {
-                                    data?.data?.paidAmount === undefined || data?.data?.paidAmount === null
-                                        ? <h2>Amount not available</h2>
-                                        : <div className="flex items-center justify-center ml-2">
-
-                                            {
-                                                data?.data?.paidAmount > 0
-                                                    ? <h2 className="text-xl font-bold">{data?.data?.paidAmount}</h2>
-                                                    : <h2 className="bg-green-600 py-1 px-3 rounded-full">0.00</h2>
-                                            }
-
-                                            <h2 className="ml-2">{data?.data?.percentage}%</h2> = {data?.data?.paidAmount * (data?.data?.percentage / 100)}
-
-                                            <h2 className="ml-2 text-red-600 font-bold">
-                                                Total: {(
-                                                    data?.data?.paidAmount - (data?.data?.paidAmount * (data?.data?.percentage / 100))
-                                                ).toFixed(2)}
-                                            </h2>
-
-                                        </div>
-                                }
-
-                            </h2>
-                        </div> */}
-
                         <div className="mb-6 p-6 bg-white rounded-lg shadow-lg">
                             <h2 className="text-2xl font-semibold text-gray-800 text-center mb-4">
                                 💰 Your Current Paid Amount

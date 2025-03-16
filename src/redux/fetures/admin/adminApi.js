@@ -139,7 +139,7 @@ const adminApi = baseApi.injectEndpoints({
     }),
 
 
-    // =======================================>>>>> Rwview API
+    // =======================================>>>>> Review API
     getAllReview: builder.query({
       query: () => {
         return {
