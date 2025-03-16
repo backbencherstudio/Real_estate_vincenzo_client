@@ -86,7 +86,7 @@ const authApi = baseApi.injectEndpoints({
         body: data
       }),
     }),
-    
+
     getAdvisersData: builder.query({
       query: () => ({
         url: `/auth/getAdvisersData`,
@@ -101,10 +101,23 @@ const authApi = baseApi.injectEndpoints({
         method: "POST",
         body: data
       }),
-      invalidatesTags:["email"]
+      invalidatesTags: ["email"]
     }),
 
-   
+
+    // ========================================= select plan
+    planController: builder.mutation({
+      query: (data) => ({
+        url: `/payment/planController`,
+        method: "POST",
+        body: data
+      })
+    }),
+
+
+
+
+
 
 
 

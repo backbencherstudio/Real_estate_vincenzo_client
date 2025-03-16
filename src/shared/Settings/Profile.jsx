@@ -33,6 +33,9 @@ const UserProfile = () => {
         }
     );
 
+    console.log(data?.data);
+
+
     let tenantWithOwnerData
     if (currentUser?.role === "tenant") {
         const { data: tenantDatas } = tenantApi.useGetTenantDetailseQuery(currentUser?.userId);
@@ -267,21 +270,77 @@ const UserProfile = () => {
 
                     <div>
 
-                        <div className="mb-6">
-                            <h2 className="text-2xl font-semibold text-gray-800 flex items-center">
-                                💰 Your Current Paid Amount <span className="text-[10px] uppercase font-bold text-green-600 mx-2 " >( rent )</span>
+                        {/* <div className="mb-6">
+                            <h2 className="text-2xl font-semibold text-gray-800 flex items-center justify-center py-2 px-4 rounded-lg shadow-lg">
+                                💰 Your Current Paid Amount
+                                <span className="text-[10px] uppercase font-bold text-green-600 mx-2"> ( rent ) </span>
                                 :
-
                                 {
-                                    data?.data?.accountConnect !== true ?
+                                    data?.data?.paidAmount === undefined || data?.data?.paidAmount === null
+                                        ? <h2>Amount not available</h2>
+                                        : <div className="flex items-center justify-center ml-2">
 
-                                        <span className="text-blue-600 font-bold flex ml-2 ">  <button onClick={() => AddPayoutAccoutnByOwner(currentUser?.email)} className="ml-4 text-[14px] text-green-500 border rounded-lg px-2 " > Add account {data?.data?.accountConnect} </button>  </span>
-                                        :
-                                        <span className="text-blue-600 font-bold flex ml-2 "> ${data?.data?.paidAmount ?? "0.00"} <Link to="/owner/Withdraw" className="ml-4 text-[14px] text-green-500 border rounded-lg px-2 " >Withdrow Request</Link>  </span>
+                                            {
+                                                data?.data?.paidAmount > 0
+                                                    ? <h2 className="text-xl font-bold">{data?.data?.paidAmount}</h2>
+                                                    : <h2 className="bg-green-600 py-1 px-3 rounded-full">0.00</h2>
+                                            }
 
+                                            <h2 className="ml-2">{data?.data?.percentage}%</h2> = {data?.data?.paidAmount * (data?.data?.percentage / 100)}
+
+                                            <h2 className="ml-2 text-red-600 font-bold">
+                                                Total: {(
+                                                    data?.data?.paidAmount - (data?.data?.paidAmount * (data?.data?.percentage / 100))
+                                                ).toFixed(2)}
+                                            </h2>
+
+                                        </div>
                                 }
+
                             </h2>
+                        </div> */}
+
+                        <div className="mb-6 p-6 bg-white rounded-lg shadow-lg">
+                            <h2 className="text-2xl font-semibold text-gray-800 text-center mb-4">
+                                💰 Your Current Paid Amount
+                                <span className="text-[12px] uppercase font-bold text-green-600 mx-2">( Rent )</span>
+                            </h2>
+
+                            {data?.data?.paidAmount === undefined || data?.data?.paidAmount === null ? (
+                                <h2 className="text-center text-gray-500 font-medium">Amount not available</h2>
+                            ) : (
+                                <div className="flex flex-col items-center space-y-3">
+
+                                    {/* Paid Amount */}
+                                    <div className="flex items-center space-x-2">
+                                        <span className="text-lg font-medium text-gray-700">Paid:</span>
+                                        <span className="text-xl font-bold text-blue-600">{data?.data?.paidAmount}</span>
+                                    </div>
+
+                                    {/* Percentage & Deducted Amount */}
+                                    <div className="flex items-center space-x-2">
+                                        <span className="text-lg font-medium text-gray-700">Fee:</span>
+                                        <span className="text-md font-semibold text-orange-500">{data?.data?.percentage}%</span>
+                                        <span className="text-md text-gray-600">=</span>
+                                        <span className="text-md font-bold text-red-500">
+                                            -{(data?.data?.paidAmount * (data?.data?.percentage / 100)).toFixed(2)}
+                                        </span>
+                                    </div>
+
+                                    {/* Total Amount After Deduction */}
+                                    <div className="flex items-center space-x-2 p-2 px-4 bg-gray-100 rounded-lg shadow-sm">
+                                        <span className="text-lg font-semibold text-gray-800">Total After Deduction:</span>
+                                        <span className="text-xl font-bold text-green-600">
+                                            {(
+                                                data?.data?.paidAmount - (data?.data?.paidAmount * (data?.data?.percentage / 100))
+                                            ).toFixed(2)}
+                                        </span>
+                                    </div>
+
+                                </div>
+                            )}
                         </div>
+
 
 
                         <div className="p-4 bg-gray-50 rounded-md shadow-md mb-8">
