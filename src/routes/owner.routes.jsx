@@ -21,6 +21,8 @@ import StripePayment from "../pages/Owner/payment/StripePayment";
 import WithdrawForm from "../pages/Owner/WithdrawForm/WithdrawForm";
 import UpdateProperties from "../pages/Owner/Properties/UpdateProperties";
 import ReviewForm from "../pages/Owner/ReviewForm/ReviewForm";
+import PaymentHistory from "../pages/Owner/paymentHistory/PaymentHistory";
+import { TbReportMoney } from "react-icons/tb";
 
 export const ownerPaths = [
   {
@@ -112,6 +114,12 @@ export const ownerPaths = [
         name: "Review",
         path: "review",
         element: <ReviewForm />,
+      },
+      {
+        icon: <TbReportMoney size={18} />,
+        name: "Payment History",
+        path: "payment-history",
+        element: <PaymentHistory />,
       },
     ],
   },

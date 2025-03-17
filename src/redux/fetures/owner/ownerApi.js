@@ -262,6 +262,17 @@ const ownerApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["review"], 
     }),
+
+    // ================================================ sigle owner all payment history  
+    getSingleOwnerPaymentHistory: builder.query({
+      query: (email) => {
+        return {
+          url: `/owner/getSingleOwnerPaymentHistory?email=${email}`,
+          method: "GET",
+        };
+      },
+      invalidatesTags: ["payment-history"]
+    }),
     
     
 
