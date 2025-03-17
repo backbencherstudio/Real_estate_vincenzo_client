@@ -14,7 +14,7 @@ const ProfileInformation = ({ personalInfo = {}, addressInfo = {} }) => {
     formState: { errors },
     reset
   } = useForm();
-  const [addTransactionData] = adminApi.useAddTransactionDataMutation();
+  const [addTransactionData, {isLoading}] = adminApi.useAddTransactionDataMutation();
 
   const allowedFields = ["email", "name", "personalInfo", "permanentAddress", "routingNumber", "bankAccountNumber"];
   const [open, setOpen] = useState(false);
@@ -199,7 +199,9 @@ const ProfileInformation = ({ personalInfo = {}, addressInfo = {} }) => {
               <button
                 type="submit"
                 className="w-full bg-blue-500 text-white font-semibold py-3 rounded-md shadow-md hover:bg-blue-600 transition duration-300">
-                ➕ Add ID
+                  {
+                    isLoading ? "Loading..." : "➕ Add ID"
+                  }
               </button>
             </form>
           </div>

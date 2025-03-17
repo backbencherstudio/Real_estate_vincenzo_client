@@ -218,6 +218,17 @@ const adminApi = baseApi.injectEndpoints({
       invalidatesTags: ["properties", "user"]
     }),
 
+    getPaymentHistory: builder.query({
+      query: (query) => {
+        const queryString = new URLSearchParams(query).toString();
+        return {
+          url: `/admin/payment-history?${queryString}`,
+          method: "GET",
+        }
+      },
+      providesTags: ["properties", "user"]
+    }),
+
   }),
 });
 

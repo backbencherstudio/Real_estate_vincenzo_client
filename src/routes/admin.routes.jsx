@@ -24,6 +24,7 @@ import Review from "../pages/Admin/Review/Review";
 import AddAdvisor from "../pages/Admin/AddAdvisor/AddAdvisor";
 import { IoMdPersonAdd } from "react-icons/io";
 import EmailCollection from "../pages/Admin/EmailCollection/EmailCollection";
+import PaymentHistory from "../pages/Admin/paymentHistory/PaymentHistory";
 
 export const adminPaths = [
   {
@@ -64,10 +65,16 @@ export const adminPaths = [
       },
       {
         icon: <TbReportMoney size={18} />,
-        name: "Pay Out",
-        path: "payOut",
-        element: <PayOutData />,
+        name: "Payment History",
+        path: "payment-history",
+        element: <PaymentHistory />,
       },
+      // {
+      //   icon: <TbReportMoney size={18} />,
+      //   name: "Pay Out",
+      //   path: "payOut",
+      //   element: <PayOutData />,
+      // },
       {
         icon: <IoMdPersonAdd size={18} />,
         name: "Add Advisor",
