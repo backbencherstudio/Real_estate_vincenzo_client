@@ -6,13 +6,14 @@ import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../../redux/fetures/auth/authSlice";
 import moment from "moment";
 import { statusOptionsForPaymentHistory } from "../../../constent/constent";
+import { toast } from "sonner";
 
 
 const PaymentHistory = () => {
     const currentUser = useSelector(selectCurrentUser)
 
     const { data, isLoading } = ownerApi.useGetSingleOwnerPaymentHistoryQuery(currentUser?.email)
-    console.log(data?.data);
+    const [changePaymentHistoryStatus, { isLoading: statusChangeIsLoading }] = ownerApi.useChangePaymentHistoryStatusMutation()
     const [pageSize, setPageSize] = useState(10);
 
     const handlePageSizeChange = (current, size) => {
@@ -21,17 +22,13 @@ const PaymentHistory = () => {
 
     const paymentHistoryHandler = async (selectedStatus, record) => {
         const updatedData = {
-            record,
-            selectedStatus
+            id: record?.key,
+            status: selectedStatus
         };
-
-        console.log(updatedData);
-
-        // const res = await sendPayoutRequestByAdmin(updatedData);
-
-        // if (res?.data?.success) {
-        //     toast.success(res?.data?.message);
-        // }
+        const res = await changePaymentHistoryStatus(updatedData);
+        if (res?.data?.success) {
+            toast.success(res?.data?.message);
+        }
     };
 
 
@@ -140,7 +137,7 @@ const PaymentHistory = () => {
             <Table
                 columns={columns}
                 dataSource={tableData}
-                loading={isLoading}
+                loading={isLoading || statusChangeIsLoading}
                 scroll={{ x: 1000 }}
                 pagination={{
                     pageSize: pageSize,

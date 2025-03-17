@@ -36,7 +36,7 @@ const ownerApi = baseApi.injectEndpoints({
 
     updateProperty: builder.mutation({
       query: (propertyData) => {
-        console.log(propertyData);        
+        console.log(propertyData);
         return {
           url: `/owner/update-properties`,
           method: "PATCH",
@@ -45,7 +45,7 @@ const ownerApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["properties", "user", "overview"],
     }),
-    
+
     deleteProperties: builder.mutation({
       query: (propertyId) => {
         return {
@@ -68,7 +68,7 @@ const ownerApi = baseApi.injectEndpoints({
     }),
 
     updateUnit: builder.mutation({
-      query: (unitData) => {        
+      query: (unitData) => {
         return {
           url: `/owner/update-unit/${unitData?.unitId}`,
           method: "PATCH",
@@ -229,38 +229,38 @@ const ownerApi = baseApi.injectEndpoints({
       invalidatesTags: ['payout', 'user']
     }),
 
-    
+
     sendPayoutRequestByOwner: builder.mutation({
       query: (data) => {
         return {
           url: `/payment/sendPayoutRequestByOwnerToStripe`,
           method: "POST",
-          body : data
+          body: data
         };
       },
-      invalidatesTags: ["payout"], 
+      invalidatesTags: ["payout"],
     }),
-    
+
     // ================================================ owner active or not
     isOwnerActive: builder.query({
-      query: (email) => {        
+      query: (email) => {
         return {
           url: `/owner/isOwnerActive?email=${email}`,
           method: "GET",
         };
       },
     }),
-    
+
     // ================================================ send review from owner  
     createReviewFromOwner: builder.mutation({
       query: (data) => {
         return {
           url: `/owner/createReviewFromOwner`,
           method: "POST",
-          body : data
+          body: data
         };
       },
-      invalidatesTags: ["review"], 
+      invalidatesTags: ["review"],
     }),
 
     // ================================================ sigle owner all payment history  
@@ -271,10 +271,21 @@ const ownerApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags: ["payment-history"]
+    }),
+
+    changePaymentHistoryStatus: builder.mutation({
+      query: (data) => {
+        return {
+          url: `/owner/changePaymentHistoryStatus/${data?.id}`,
+          method: "PATCH",
+          body: { status : data?.status}
+        };
+      },
       invalidatesTags: ["payment-history"]
     }),
-    
-    
+
+
 
 
 

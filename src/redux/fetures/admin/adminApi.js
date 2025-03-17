@@ -226,7 +226,7 @@ const adminApi = baseApi.injectEndpoints({
           method: "GET",
         }
       },
-      providesTags: ["properties", "user"]
+      providesTags: ['payment-history']
     }),
 
   }),
