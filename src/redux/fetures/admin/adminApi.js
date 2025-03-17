@@ -178,8 +178,8 @@ const adminApi = baseApi.injectEndpoints({
           body: data
         }
       }
-    }),   
-    
+    }),
+
     realEstateAdvisordelete: builder.mutation({
       query: (id) => {
         return {
@@ -197,7 +197,7 @@ const adminApi = baseApi.injectEndpoints({
           method: "GET",
         }
       },
-      providesTags:["email"]
+      providesTags: ["email"]
     }),
 
     deleteEmailCollectionData: builder.mutation({
@@ -205,7 +205,17 @@ const adminApi = baseApi.injectEndpoints({
         url: `/admin/deleteEmailCollectionData/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags:["email"]
+      invalidatesTags: ["email"]
+    }),
+
+    // ===================================================== add transaction id after send amount to owner
+    addTransactionData: builder.mutation({
+      query: (data) => ({
+        url: `/admin/addTransactionData`,
+        method: "POST",
+        body: data
+      }),
+      invalidatesTags: ["properties", "user"]
     }),
 
   }),

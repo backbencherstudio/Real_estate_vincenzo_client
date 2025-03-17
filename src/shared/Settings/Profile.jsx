@@ -268,8 +268,9 @@ const UserProfile = () => {
                 {
                     currentUser.role === "owner" &&
 
-                    <div>
-                        <div className="mb-6 p-6 bg-white rounded-lg shadow-lg">
+                    <div className="bg-gray-50 flex justify-between items-center flex-row-reverse mb-8">
+
+                        <div className=" p-6  rounded-lg ">
                             <h2 className="text-2xl font-semibold text-gray-800 text-center mb-4">
                                 💰 Your Current Paid Amount
                                 <span className="text-[12px] uppercase font-bold text-green-600 mx-2">( Rent )</span>
@@ -310,9 +311,7 @@ const UserProfile = () => {
                             )}
                         </div>
 
-
-
-                        <div className="p-4 bg-gray-50 rounded-md shadow-md mb-8">
+                        <div className="p-4  rounded-md  ">
                             <h2 className="text-lg font-semibold text-gray-800 mb-2">
                                 Summary of Your Subscription
                             </h2>
@@ -325,7 +324,7 @@ const UserProfile = () => {
                             <p className="text-gray-700  mb-4">
                                 - <strong>Available Units to Add:</strong> <span className="font-bold text-green-700 text-xl" >{data?.data?.getTotalUnit - data?.data?.numberOfTotalUnits || 0}</span>
                             </p>
-                            <div className="mt-4">
+                            {/* <div className="mt-4">
                                 <p className="text-gray-700">
                                     If you'd like to cancel your current plan, you can do so by clicking the button below.
                                 </p>
@@ -339,7 +338,7 @@ const UserProfile = () => {
                                     }
 
                                 </button>
-                            </div>
+                            </div> */}
                         </div>
 
 

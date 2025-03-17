@@ -1,7 +1,6 @@
 import ProfileInformation from '../../../components/TenantDetailsTabs/ProfileInformation';
 import { useState } from 'react';
 import { Select, Table } from 'antd';
-import { CircleX, Mail, MoreVertical } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
 import adminApi from '../../../redux/fetures/admin/adminApi';
 import { FaAngleRight } from 'react-icons/fa6';
@@ -10,7 +9,7 @@ import { selectCurrentUser } from '../../../redux/fetures/auth/authSlice';
 
 const OwnerDetails = () => {
     const [pageSize, setPageSize] = useState(10);
-    const [showMenu, setShowMenu] = useState(false);
+    // const [showMenu, setShowMenu] = useState(false);
     const { id } = useParams();
     const { data , isLoading} = adminApi.useGetSingleOwnerAllPropertiesWithOwnerInfoQuery(id)
     const navigate = useNavigate();
@@ -23,7 +22,6 @@ const OwnerDetails = () => {
     const ownerData = data?.data.ownerData[0];
     const properties = data?.data.properties;
 
-    console.log("Hello from details",ownerData);
     // console.log("Hello from details",ownerData?.permanentAddress);
     // console.log(properties);
 
@@ -113,7 +111,7 @@ const OwnerDetails = () => {
                     <h1 className="text-3xl font-bold">Owner</h1>
                     <p className="text-sm text-gray-500">User Management / Owner / OwnerDetails</p>
                 </div>
-                <div className="relative">
+                {/* <div className="relative">
                     <button
                         onClick={() => setShowMenu(!showMenu)}
                         className="p-2 hover:bg-gray-100 rounded-full"
@@ -133,7 +131,7 @@ const OwnerDetails = () => {
                             </div>
                         </div>
                     )}
-                </div>
+                </div> */}
             </div>
             <div className="">
                 <ProfileInformation
@@ -148,7 +146,7 @@ const OwnerDetails = () => {
                         <h1 className="text-xl font-semibold my-5">Property List</h1>
                     </div>
                     <div>
-                        <Select
+                        {/* <Select
                             showSearch
                             placeholder="Select a Status"
                             optionFilterProp="label"
@@ -168,7 +166,7 @@ const OwnerDetails = () => {
                                     label: "Completed",
                                 },
                             ]}
-                        />
+                        /> */}
                     </div>
                 </div>
 
