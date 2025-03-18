@@ -8,7 +8,7 @@ import { selectCurrentUser } from '../../redux/fetures/auth/authSlice';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-const ACH = ({ paymentData, totalAmount, lateFee, setOpen, setSuccessPaymentData, securityDeposit, userId }) => {
+const ACH = ({ paymentData, totalAmount, lateFee, setOpen, setSuccessPaymentData, securityDeposit, email }) => {
     const [customerId, setCustomerId] = useState('');
     const [bankToken, setBankToken] = useState('');
     const [bankAccountId, setBankAccountId] = useState('');
@@ -81,7 +81,7 @@ const ACH = ({ paymentData, totalAmount, lateFee, setOpen, setSuccessPaymentData
             lateFee: parseInt(lateFee),
             monthlyPaymentId: paymentData?.key,
             ownerId: paymentData?.ownerId,
-            userId
+            email
         });
         console.log(res);
         if (res?.data?.success) {
