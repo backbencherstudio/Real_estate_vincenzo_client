@@ -1,5 +1,5 @@
 import ProfileInformation from '../../../components/TenantDetailsTabs/ProfileInformation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Select, Table } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 import adminApi from '../../../redux/fetures/admin/adminApi';
@@ -11,13 +11,17 @@ const OwnerDetails = () => {
     const [pageSize, setPageSize] = useState(10);
     // const [showMenu, setShowMenu] = useState(false);
     const { id } = useParams();
-    const { data , isLoading} = adminApi.useGetSingleOwnerAllPropertiesWithOwnerInfoQuery(id)
+    const { data , isLoading, refetch} = adminApi.useGetSingleOwnerAllPropertiesWithOwnerInfoQuery(id)
     const navigate = useNavigate();
     const currentUser = useSelector(selectCurrentUser);
 
     const handleNavigate = (id) => {
         navigate(`/${currentUser?.role}/properties/${id}`);
     };
+
+    useEffect(()=>{
+        refetch()
+    },[])
 
     const ownerData = data?.data.ownerData[0];
     const properties = data?.data.properties;

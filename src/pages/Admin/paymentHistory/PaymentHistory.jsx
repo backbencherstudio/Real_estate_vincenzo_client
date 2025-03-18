@@ -1,14 +1,18 @@
 
 import { Table } from "antd";
 import adminApi from "../../../redux/fetures/admin/adminApi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 const PaymentHistory = () => {
     const [searchTerm, setSearchTerm] = useState("")
     const query = { searchTerm }
-    const { data, isLoading } = adminApi.useGetPaymentHistoryQuery(query)
+    const { data, isLoading, refetch } = adminApi.useGetPaymentHistoryQuery(query)
     const [pageSize, setPageSize] = useState(10);
+
+    useEffect(()=>{
+        refetch()
+    },[])
 
     const handlePageSizeChange = (current, size) => {
         setPageSize(size);
@@ -94,15 +98,16 @@ const PaymentHistory = () => {
 
     const searchHandlear = (value) => {
         setSearchTerm(value)
-      };
+    };
 
     return (
         <div>
-            <h2>Payment History</h2>
-            {
-              // activeOwner !== "nonSubscriber" &&
-              <input onChange={(e) => searchHandlear(e.target.value)} type="text" placeholder='search by name/email' className='border p-2 rounded-lg mr-2' />
-            }
+            <div className="flex items-center justify-between mb-6 " >
+                <h2>Payment History</h2>
+                {
+                    <input onChange={(e) => searchHandlear(e.target.value)} type="text" placeholder='search by name/email/status' className='border p-2 rounded-lg mr-2 w-[200px]' />
+                }
+            </div>
 
             <Table
                 columns={columns}

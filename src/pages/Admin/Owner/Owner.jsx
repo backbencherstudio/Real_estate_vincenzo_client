@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Select, Table } from 'antd';
 import adminApi from '../../../redux/fetures/admin/adminApi';
 import { FaAngleRight } from 'react-icons/fa6';
@@ -20,9 +20,13 @@ const Owner = () => {
     searchTerm
   }
 
-  const { data: userData, isLoading } = adminApi.useGetALlUserQuery(query, {
+  const { data: userData, isLoading, refetch } = adminApi.useGetALlUserQuery(query, {
     pollingInterval: 20000
   });
+
+  useEffect(()=>{
+    refetch()
+},[])
 
   const [deleteNoSubscriberOwner] = adminApi.useDeleteNoSubscriberOwnerMutation()
 

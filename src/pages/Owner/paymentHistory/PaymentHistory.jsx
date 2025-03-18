@@ -1,6 +1,6 @@
 
 import { Select, Table } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ownerApi from "../../../redux/fetures/owner/ownerApi";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../../redux/fetures/auth/authSlice";
@@ -14,9 +14,13 @@ const PaymentHistory = () => {
 
   
 
-    const { data, isLoading } = ownerApi.useGetSingleOwnerPaymentHistoryQuery(currentUser?.email)
+    const { data, isLoading, refetch } = ownerApi.useGetSingleOwnerPaymentHistoryQuery(currentUser?.email)
     const [changePaymentHistoryStatus, { isLoading: statusChangeIsLoading }] = ownerApi.useChangePaymentHistoryStatusMutation()
     const [pageSize, setPageSize] = useState(10);
+
+    useEffect(()=>{
+        refetch()
+    },[])
 
     const handlePageSizeChange = (current, size) => {
         setPageSize(size);

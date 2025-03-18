@@ -14,7 +14,7 @@ const ProfileInformation = ({ personalInfo = {}, addressInfo = {} }) => {
     formState: { errors },
     reset
   } = useForm();
-  const [addTransactionData, {isLoading}] = adminApi.useAddTransactionDataMutation();
+  const [addTransactionData, { isLoading }] = adminApi.useAddTransactionDataMutation();
 
   const allowedFields = ["email", "name", "personalInfo", "permanentAddress", "routingNumber", "bankAccountNumber"];
   const [open, setOpen] = useState(false);
@@ -26,14 +26,16 @@ const ProfileInformation = ({ personalInfo = {}, addressInfo = {} }) => {
   }
 
 
+
+
   const onSubmit = async (data) => {
     const transferData = {
       ownerId: ownerData._id,
       name: ownerData.name,
       email: ownerData.email,
       transactionId: data.transactionId,
-      mainBalance : ownerData.paidAmount,
-      percentage:ownerData.percentage,
+      mainBalance: ownerData.paidAmount,
+      percentage: ownerData.percentage,
       amount: (
         personalInfo?.paidAmount - (personalInfo?.paidAmount * (personalInfo?.percentage / 100))
       ).toFixed(2),
@@ -84,46 +86,44 @@ const ProfileInformation = ({ personalInfo = {}, addressInfo = {} }) => {
             </h2>
             <p className="text-gray-500">{displayValue(personalInfo?.email)}</p>
           </div>
+          {
+            personalInfo?.role === "owner" &&
+            <div className="" >
+              {
+                personalInfo?.paidAmount === 0 || !personalInfo?.paidAmount ? <div>
+                  <h2 className="text-red-500 font-bold text-[17px] " > Amount Not Available </h2>
+                </div> :
+                  <div>
+                    <h2 className="font-bold" > Current Balance = {personalInfo?.paidAmount}</h2>
+                    <div className="flex items-center space-x-2">
+                      <span className="text-md font-medium text-gray-700">Fee:</span>
+                      <span className="text-md font-semibold text-orange-500">{personalInfo?.percentage}%</span>
+                      <span className="text-md text-gray-600">=</span>
+                      <span className="text-md font-bold text-red-500">
+                        -{(personalInfo?.paidAmount * (personalInfo?.percentage / 100)).toFixed(2)}
+                      </span>
+                    </div>
 
-          <div className="" >
-            {
-              personalInfo?.paidAmount === 0 || !personalInfo?.paidAmount ? <div>
-                <h2 className="text-red-500 font-bold text-[17px] " > Amount Not Available </h2>
-              </div> :
-                <div>
-                  <h2 className="font-bold" > Current Balance = {personalInfo?.paidAmount}</h2>
-                  <div className="flex items-center space-x-2">
-                    <span className="text-md font-medium text-gray-700">Fee:</span>
-                    <span className="text-md font-semibold text-orange-500">{personalInfo?.percentage}%</span>
-                    <span className="text-md text-gray-600">=</span>
-                    <span className="text-md font-bold text-red-500">
-                      -{(personalInfo?.paidAmount * (personalInfo?.percentage / 100)).toFixed(2)}
-                    </span>
+                    <div className="flex items-center ">
+                      <span className="font-semibold text-gray-800">Total After Deduction = </span>
+                      <span className=" font-bold text-green-600 ml-1">
+                        {(
+                          personalInfo?.paidAmount - (personalInfo?.paidAmount * (personalInfo?.percentage / 100))
+                        ).toFixed(2)}
+                      </span>
+                    </div>
+                    {/* <button onClick={() => handleModalFun(personalInfo)}> Add Transaction Id </button> */}
+                    <button
+                      onClick={() => handleModalFun(personalInfo)}
+                      className="bg-blue-100  font-semibold mt-2 py-1 px-2 rounded-md shadow-md hover:bg-blue-200 transition duration-300 ease-in-out">
+                      ➕ Add Transaction ID
+                    </button>
                   </div>
-
-                  <div className="flex items-center ">
-                    <span className="font-semibold text-gray-800">Total After Deduction = </span>
-                    <span className=" font-bold text-green-600 ml-1">
-                      {(
-                        personalInfo?.paidAmount - (personalInfo?.paidAmount * (personalInfo?.percentage / 100))
-                      ).toFixed(2)}
-                    </span>
-
-
-                  </div>
-                  {/* <button onClick={() => handleModalFun(personalInfo)}> Add Transaction Id </button> */}
-                  <button
-                    onClick={() => handleModalFun(personalInfo)}
-                    className="bg-blue-100  font-semibold mt-2 py-1 px-2 rounded-md shadow-md hover:bg-blue-200 transition duration-300 ease-in-out">
-                    ➕ Add Transaction ID
-                  </button>
-
-                </div>
-            }
-          </div>
+              }
+            </div>
+          }
         </div>
       </div>
-
       {/* Info Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         {/* Personal Information */}
@@ -199,9 +199,9 @@ const ProfileInformation = ({ personalInfo = {}, addressInfo = {} }) => {
               <button
                 type="submit"
                 className="w-full bg-blue-500 text-white font-semibold py-3 rounded-md shadow-md hover:bg-blue-600 transition duration-300">
-                  {
-                    isLoading ? "Loading..." : "➕ Add ID"
-                  }
+                {
+                  isLoading ? "Loading..." : "➕ Add ID"
+                }
               </button>
             </form>
           </div>

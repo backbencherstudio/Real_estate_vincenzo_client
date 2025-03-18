@@ -32,10 +32,7 @@ const UserProfile = () => {
             pollingInterval: 5000
         }
     );
-
-    console.log(data?.data);
-
-
+    
     let tenantWithOwnerData
     if (currentUser?.role === "tenant") {
         const { data: tenantDatas } = tenantApi.useGetTenantDetailseQuery(currentUser?.userId);
