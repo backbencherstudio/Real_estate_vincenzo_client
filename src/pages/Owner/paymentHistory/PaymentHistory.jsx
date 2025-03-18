@@ -12,6 +12,8 @@ import { toast } from "sonner";
 const PaymentHistory = () => {
     const currentUser = useSelector(selectCurrentUser)
 
+  
+
     const { data, isLoading } = ownerApi.useGetSingleOwnerPaymentHistoryQuery(currentUser?.email)
     const [changePaymentHistoryStatus, { isLoading: statusChangeIsLoading }] = ownerApi.useChangePaymentHistoryStatusMutation()
     const [pageSize, setPageSize] = useState(10);
@@ -128,11 +130,14 @@ const PaymentHistory = () => {
         },
     ];
 
+  
 
 
     return (
         <div>
             <h2>Payment History</h2>
+            
+
 
             <Table
                 columns={columns}

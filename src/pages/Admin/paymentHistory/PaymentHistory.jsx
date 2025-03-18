@@ -5,9 +5,9 @@ import { useState } from "react";
 
 
 const PaymentHistory = () => {
-
-    const { data, isLoading } = adminApi.useGetPaymentHistoryQuery()
-    console.log(data?.data);
+    const [searchTerm, setSearchTerm] = useState("")
+    const query = { searchTerm }
+    const { data, isLoading } = adminApi.useGetPaymentHistoryQuery(query)
     const [pageSize, setPageSize] = useState(10);
 
     const handlePageSizeChange = (current, size) => {
@@ -92,11 +92,17 @@ const PaymentHistory = () => {
         }
     ];
 
-
+    const searchHandlear = (value) => {
+        setSearchTerm(value)
+      };
 
     return (
         <div>
             <h2>Payment History</h2>
+            {
+              // activeOwner !== "nonSubscriber" &&
+              <input onChange={(e) => searchHandlear(e.target.value)} type="text" placeholder='search by name/email' className='border p-2 rounded-lg mr-2' />
+            }
 
             <Table
                 columns={columns}
