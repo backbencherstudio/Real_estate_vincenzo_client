@@ -346,12 +346,12 @@ function TenantDashboard() {
 
 
           <div className='w-full rounded-lg shadow-sm'>
-            <Elements stripe={stripePromise}>
+            {/* <Elements stripe={stripePromise}>
               <StripeTenantForm paymentData={paymentData} totalAmount={totalAmount?.total} lateFee={totalAmount.lateFee} setOpen={setOpen} setSuccessPaymentData={setSuccessPaymentData} securityDeposit={securityDeposit} />
-            </Elements>
+            </Elements> */}
             {/* <ACHPaymentForm paymentData={paymentData} totalAmount={totalAmount?.total} lateFee={totalAmount.lateFee} setOpen={setOpen} setSuccessPaymentData={setSuccessPaymentData} securityDeposit={securityDeposit} email={currentUser?.email} /> */}
 
-              {/* <ACH paymentData={paymentData} totalAmount={totalAmount?.total} lateFee={totalAmount.lateFee} setOpen={setOpen} setSuccessPaymentData={setSuccessPaymentData} securityDeposit={securityDeposit} email={currentUser?.email} ></ACH> */}
+              <ACH paymentData={paymentData} totalAmount={totalAmount?.total} lateFee={totalAmount.lateFee} setOpen={setOpen} setSuccessPaymentData={setSuccessPaymentData} securityDeposit={securityDeposit} email={currentUser?.email} userId={currentUser?.userId} ></ACH>
 
 
           </div>

@@ -1,6 +1,6 @@
 import ProfileInformation from '../../../components/TenantDetailsTabs/ProfileInformation';
 import { useEffect, useState } from 'react';
-import { Select, Table } from 'antd';
+import {  Table } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 import adminApi from '../../../redux/fetures/admin/adminApi';
 import { FaAngleRight } from 'react-icons/fa6';
@@ -96,16 +96,6 @@ const OwnerDetails = () => {
 
     const handlePageSizeChange = (current, size) => {
         setPageSize(size);
-    };
-
-
-
-    const onChange = (value) => {
-        console.log(`selected ${value}`);
-    };
-
-    const onSearch = (value) => {
-        console.log("search:", value);
     };
 
     return (

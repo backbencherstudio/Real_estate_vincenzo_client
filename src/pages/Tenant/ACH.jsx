@@ -8,7 +8,7 @@ import { selectCurrentUser } from '../../redux/fetures/auth/authSlice';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-const ACH = ({ paymentData, totalAmount, lateFee, setOpen, setSuccessPaymentData, securityDeposit }) => {
+const ACH = ({ paymentData, totalAmount, lateFee, setOpen, setSuccessPaymentData, securityDeposit, userId }) => {
     const [customerId, setCustomerId] = useState('');
     const [bankToken, setBankToken] = useState('');
     const [bankAccountId, setBankAccountId] = useState('');
@@ -21,6 +21,7 @@ const ACH = ({ paymentData, totalAmount, lateFee, setOpen, setSuccessPaymentData
     const [verifyBankAccountApi, { isLoading: verifyBankAccountIsLoading }] = tenantApi.useVerifyBankAccountApiMutation();
     const [payRentUserACHcontroller, { isLoading: payRentUserACHcontrollerIsLoading }] = tenantApi.usePayRentUserACHcontrollerMutation();
 
+    
 
     const { register, handleSubmit } = useForm();
     const { register: createBankTokenRegister, handleSubmit: createBankTokenHandleSubmit } = useForm();
@@ -79,7 +80,8 @@ const ACH = ({ paymentData, totalAmount, lateFee, setOpen, setSuccessPaymentData
             amount: parseInt(totalAmount) + parseInt(securityDeposit),
             lateFee: parseInt(lateFee),
             monthlyPaymentId: paymentData?.key,
-            ownerId: paymentData?.ownerId
+            ownerId: paymentData?.ownerId,
+            userId
         });
         console.log(res);
         if (res?.data?.success) {
