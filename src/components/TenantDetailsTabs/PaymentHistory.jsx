@@ -4,6 +4,8 @@ import {  Table, Tag } from 'antd';
 import tenantApi from '../../redux/fetures/tenant/tenantApi';
 import moment from 'moment';
 import { getDynamicDate } from '../../utils/getDynamicDate';
+import { selectCurrentUser } from '../../redux/fetures/auth/authSlice';
+import { useSelector } from 'react-redux';
 
 const PaymentHistory = ({userId}) => {    
     const { data, isLoading } = tenantApi.useGetSingleUserAllPaymentDataQuery(userId, {
@@ -11,6 +13,7 @@ const PaymentHistory = ({userId}) => {
       });     
 
     const [pageSize, setPageSize] = useState(10);
+    const currentUser = useSelector(selectCurrentUser);
 
     const handlePageSizeChange = (current, size) => {
         setPageSize(size);
@@ -109,7 +112,25 @@ const PaymentHistory = ({userId}) => {
         },      
     
       ];
-    
+
+      if (currentUser?.role === "owner") {
+        columns.push({
+          title: "Action",
+          dataIndex: "action",
+          render: (text, record) => (
+            <div>
+              {record.status === "Pending" ? (
+                <span className="text-[#26861d] flex items-center cursor-pointer font-semibold">
+                  Cash Pay
+                </span>
+              ) : (
+                <span className="text-gray-500">--</span>
+              )}
+            </div>
+          ),
+        });
+      }
+      
 
 
     // const onChange = (value) => {

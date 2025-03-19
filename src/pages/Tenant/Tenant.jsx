@@ -365,9 +365,6 @@ function TenantDashboard() {
               </button>
             </div>
 
-
-
-
             {
               isShow ?
                 <div>
