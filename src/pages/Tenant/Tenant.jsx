@@ -35,6 +35,8 @@ function TenantDashboard() {
   const [pageSize, setPageSize] = useState(10);
   const [successPaymentData, setSuccessPaymentData] = useState({});
 
+  const [isShow, setIsShow] = useState(true)
+
   // console.log(currentUser.userId);
   // console.log(userData);
   // console.log(data?.data)
@@ -346,12 +348,39 @@ function TenantDashboard() {
 
 
           <div className='w-full rounded-lg shadow-sm'>
-            {/* <Elements stripe={stripePromise}>
-              <StripeTenantForm paymentData={paymentData} totalAmount={totalAmount?.total} lateFee={totalAmount.lateFee} setOpen={setOpen} setSuccessPaymentData={setSuccessPaymentData} securityDeposit={securityDeposit} />
-            </Elements> */}
-            {/* <ACHPaymentForm paymentData={paymentData} totalAmount={totalAmount?.total} lateFee={totalAmount.lateFee} setOpen={setOpen} setSuccessPaymentData={setSuccessPaymentData} securityDeposit={securityDeposit} email={currentUser?.email} /> */}
 
-              <ACH paymentData={paymentData} totalAmount={totalAmount?.total} lateFee={totalAmount.lateFee} setOpen={setOpen} setSuccessPaymentData={setSuccessPaymentData} securityDeposit={securityDeposit} email={currentUser?.email} userId={currentUser?.userId} ></ACH>
+            <div className="flex gap-4 my-4">
+              <button
+                onClick={() => setIsShow(true)}
+                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition-all duration-300 ease-in-out transform hover:scale-105"
+              >
+                💳 Stripe Payment
+              </button>
+
+              <button
+                onClick={() => setIsShow(false)}
+                className="bg-gray-700 hover:bg-gray-800 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition-all duration-300 ease-in-out transform hover:scale-105"
+              >
+                🏦 ACH Payment
+              </button>
+            </div>
+
+
+
+
+            {
+              isShow ?
+                <div>
+                  <Elements stripe={stripePromise}>
+                    <StripeTenantForm paymentData={paymentData} totalAmount={totalAmount?.total} lateFee={totalAmount.lateFee} setOpen={setOpen} setSuccessPaymentData={setSuccessPaymentData} securityDeposit={securityDeposit} />
+                  </Elements>
+                </div>
+                :
+                <div>
+                  <ACH paymentData={paymentData} totalAmount={totalAmount?.total} lateFee={totalAmount.lateFee} setOpen={setOpen} setSuccessPaymentData={setSuccessPaymentData} securityDeposit={securityDeposit} email={currentUser?.email} userId={currentUser?.userId} ></ACH>
+                </div>
+            }
+
 
 
           </div>

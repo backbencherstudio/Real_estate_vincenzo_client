@@ -21,7 +21,7 @@ const ACH = ({ paymentData, totalAmount, lateFee, setOpen, setSuccessPaymentData
     const [verifyBankAccountApi, { isLoading: verifyBankAccountIsLoading }] = tenantApi.useVerifyBankAccountApiMutation();
     const [payRentUserACHcontroller, { isLoading: payRentUserACHcontrollerIsLoading }] = tenantApi.usePayRentUserACHcontrollerMutation();
 
-    
+
 
     const { register, handleSubmit } = useForm();
     const { register: createBankTokenRegister, handleSubmit: createBankTokenHandleSubmit } = useForm();
@@ -71,7 +71,7 @@ const ACH = ({ paymentData, totalAmount, lateFee, setOpen, setSuccessPaymentData
             toast.success(res?.data?.message)
         }
     };
-    
+
 
     const payRent = async () => {
         const res = await payRentUserACHcontroller({
@@ -93,6 +93,7 @@ const ACH = ({ paymentData, totalAmount, lateFee, setOpen, setSuccessPaymentData
     return (
         <div>
             <h1>ACH Rent Payment</h1>
+
             <div className="max-w-md mx-auto bg-white shadow-lg rounded-2xl p-6">
                 <h2 className="text-xl font-bold text-center mb-4">Create Stripe Customer</h2>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -117,17 +118,18 @@ const ACH = ({ paymentData, totalAmount, lateFee, setOpen, setSuccessPaymentData
                     >
                         {isLoading ? "Loading..." : "Create Stripe Customer"}
                     </button>
-                    {customerId && (
-                        <>
-                            <p className="text-center font-semibold text-gray-600">Customer ID: {customerId}</p>
-                            <button
-                                className="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition duration-300"
-                            >
-                                Next
-                            </button>
-                        </>
-                    )}
+
                 </form>
+                {customerId && (
+                    <>
+                        <p className="text-center font-semibold text-gray-600">Customer ID: {customerId}</p>
+                        <button
+                            className="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition duration-300"
+                        >
+                            Next
+                        </button>
+                    </>
+                )}
             </div>
 
             <div className="max-w-md mx-auto bg-white shadow-lg rounded-2xl p-6">
@@ -158,7 +160,9 @@ const ACH = ({ paymentData, totalAmount, lateFee, setOpen, setSuccessPaymentData
                     >
                         {isLoadinCreateBankToken ? "Loading..." : "Create Bank Token"}
                     </button>
-                    {bankToken && (
+                    
+                </form>
+                {bankToken && (
                         <>
                             <p className="text-center font-semibold text-gray-600">Bank Token: {bankToken}</p>
                             <button
@@ -168,7 +172,6 @@ const ACH = ({ paymentData, totalAmount, lateFee, setOpen, setSuccessPaymentData
                             </button>
                         </>
                     )}
-                </form>
             </div>
 
             <div className="max-w-md mx-auto bg-white shadow-lg rounded-2xl p-6">
@@ -196,7 +199,9 @@ const ACH = ({ paymentData, totalAmount, lateFee, setOpen, setSuccessPaymentData
                     >
                         {isLoadinattachACHbankAccount ? "Loading..." : "Attach Bank Account"}
                     </button>
-                    {bankAccountId && (
+                    
+                </form>
+                {bankAccountId && (
                         <>
                             <p className="text-center font-semibold text-gray-600">Bank ID: {bankAccountId}</p>
                             <button
@@ -206,7 +211,6 @@ const ACH = ({ paymentData, totalAmount, lateFee, setOpen, setSuccessPaymentData
                             </button>
                         </>
                     )}
-                </form>
             </div>
 
             <div className="max-w-md mx-auto bg-white shadow-lg rounded-2xl p-6">
@@ -238,6 +242,16 @@ const ACH = ({ paymentData, totalAmount, lateFee, setOpen, setSuccessPaymentData
                     </button>
 
                 </form>
+                {verifyAccountId && (
+                        <>
+                            <p className="text-center font-semibold text-gray-600">Bank ID: {bankAccountId}</p>
+                            <button
+                                className="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition duration-300"
+                            >
+                                Next
+                            </button>
+                        </>
+                    )}
             </div>
 
             <div className="flex flex-col items-center space-y-4 p-6 max-w-sm mx-auto bg-gray-100 rounded-lg shadow-lg">
