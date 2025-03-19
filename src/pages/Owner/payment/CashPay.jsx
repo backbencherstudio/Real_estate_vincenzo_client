@@ -10,17 +10,21 @@ import {
 } from "@stripe/react-stripe-js";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { selectCurrentUser } from "../../redux/fetures/auth/authSlice";
 import { toast } from "sonner";
-import tenantApi from "../../redux/fetures/tenant/tenantApi";
+import { selectCurrentUser } from "../../../redux/fetures/auth/authSlice";
+import tenantApi from "../../../redux/fetures/tenant/tenantApi";
+// import authApi from "../../redux/fetures/auth/authApi";
+// import authApi from "../../redux/fetures/auth/authApi";
 
-const StripeTenantForm = ({
+const CashPay = ({
   paymentData,
   totalAmount,
   lateFee,
   setOpen,
   setSuccessPaymentData,
   securityDeposit,
+  tenantId,
+  feeAmount
 }) => {
   const [paymentPlacedApi] = tenantApi.usePaymentPlacedApiMutation();
   const currentUser = useSelector(selectCurrentUser);
@@ -30,8 +34,7 @@ const StripeTenantForm = ({
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [email, setEmail] = useState(currentUser?.email);
-
-  console.log(paymentData);
+  
   
 
   const handleSubmit = async (event) => {
@@ -55,11 +58,15 @@ const StripeTenantForm = ({
     try {
       const data = await paymentPlacedApi({
         paymentMethodId: paymentMethod.id,
-        amount: parseInt(totalAmount) + parseInt(securityDeposit),
+        amount: parseInt(feeAmount),
         lateFee: parseInt(lateFee),
         monthlyPaymentId: paymentData?.key,
         ownerId: paymentData?.ownerId,
+        tenantId,
+        cashPay : "Cash Pay"
       });
+
+      console.log(data?.data?.success);      
 
       if (data?.data?.success) {
         setSuccess(true);
@@ -103,7 +110,7 @@ const StripeTenantForm = ({
       onSubmit={handleSubmit}
       className="bg-white shadow border-t py-6 border-zinc-100 rounded-lg px-3 max-w-lg mx-auto"
     >
-      <h2 className="text-2xl font-bold text-center mb-2">Secure Payment</h2>
+      <h2 className="text-2xl font-bold text-center mb-2">Secure Payment(cash pay)</h2>
 
       <div className="mb-2">
         <label
@@ -161,7 +168,7 @@ const StripeTenantForm = ({
       >
         {loading
           ? "Processing..."
-          : `Pay Now : $${totalAmount + parseInt(securityDeposit)}`}
+          : `Pay Now : $${feeAmount} `}
       </button>
 
       {error && (
@@ -171,4 +178,4 @@ const StripeTenantForm = ({
   );
 };
 
-export default StripeTenantForm;
+export default CashPay;
