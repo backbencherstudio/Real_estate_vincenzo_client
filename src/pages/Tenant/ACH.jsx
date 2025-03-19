@@ -16,15 +16,18 @@ const ACH = ({
   setSuccessPaymentData,
   securityDeposit,
   email,
+  bankAccountId2,
+  customerId2,
 }) => {
+
   const [customerId, setCustomerId] = useState(
-    () => localStorage.getItem("ach_customerId") || ""
+    () => localStorage.getItem("ach_customerId") || customerId2
   );
   const [bankToken, setBankToken] = useState(
     () => localStorage.getItem("ach_bankToken") || ""
   );
   const [bankAccountId, setBankAccountId] = useState(
-    () => localStorage.getItem("ach_bankAccountId") || ""
+    () => localStorage.getItem("ach_bankAccountId") || bankAccountId2
   );
   const [verifyAccountId, setVerifyaccountId] = useState(
     () => localStorage.getItem("ach_verifyAccountId") || ""
@@ -124,7 +127,13 @@ const ACH = ({
     });
     console.log(res);
     if (res?.data?.success) {
+      localStorage.removeItem("ach_customerId");
+      localStorage.removeItem("ach_bankToken");
+      localStorage.removeItem("ach_bankAccountId");
+      localStorage.removeItem("ach_verifyAccountId");
+      localStorage.removeItem("ach_currentStep");
       toast.success(res?.data?.message);
+      setOpen(false)
     }
   };
 
@@ -161,12 +170,12 @@ const ACH = ({
     localStorage.removeItem("ach_currentStep");
   };
 
-  const handleSuccessfulPayment = () => {
-    if (res?.data?.success) {
-      toast.success(res?.data?.message);
-      resetACHForm();
-    }
-  };
+  // const handleSuccessfulPayment = () => {
+  //   if (res?.data?.success) {
+  //     toast.success(res?.data?.message);
+  //     resetACHForm();
+  //   }
+  // };
 
   return (
     <div className="w-full p-2 rounded-lg shadow-md">
@@ -209,9 +218,8 @@ const ACH = ({
                 />
                 <div className="pt-2">
                   <button
-                    className={`w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300 ${
-                      customerId && "cursor-not-allowed"
-                    }`}
+                    className={`w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300 ${customerId && "cursor-not-allowed"
+                      }`}
                     type="submit"
                     disabled={isLoading || customerId}
                   >
@@ -220,9 +228,8 @@ const ACH = ({
                 </div>
               </form>
               <div
-                className={`opacity-0 ${
-                  customerId && "opacity-100"
-                } transition-opacity duration-500`}
+                className={`opacity-0 ${customerId && "opacity-100"
+                  } transition-opacity duration-500`}
               >
                 <p className="text-center font-semibold text-gray-600 mt-2">
                   Customer ID: {customerId}
@@ -287,9 +294,8 @@ const ACH = ({
                 />
                 <div className="pt-2">
                   <button
-                    className={`w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300 ${
-                      bankToken && "cursor-not-allowed"
-                    }`}
+                    className={`w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300 ${bankToken && "cursor-not-allowed"
+                      }`}
                     type="submit"
                     disabled={isLoadinCreateBankToken || bankToken}
                   >
@@ -300,9 +306,8 @@ const ACH = ({
                 </div>
               </form>
               <div
-                className={`opacity-0 ${
-                  bankToken && "opacity-100"
-                } transition-opacity duration-500`}
+                className={`opacity-0 ${bankToken && "opacity-100"
+                  } transition-opacity duration-500`}
               >
                 <p className="text-center font-semibold text-gray-600 mt-2">
                   Bank Token: {bankToken}
@@ -343,9 +348,8 @@ const ACH = ({
                 />
 
                 <button
-                  className={`w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300 ${
-                    bankAccountId && "cursor-not-allowed"
-                  }`}
+                  className={`w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300 ${bankAccountId && "cursor-not-allowed"
+                    }`}
                   type="submit"
                   disabled={isLoadinattachACHbankAccount || bankAccountId}
                 >
@@ -355,9 +359,8 @@ const ACH = ({
                 </button>
               </form>
               <div
-                className={`opacity-0 ${
-                  bankAccountId && "opacity-100"
-                } transition-opacity duration-500`}
+                className={`opacity-0 ${bankAccountId && "opacity-100"
+                  } transition-opacity duration-500`}
               >
                 <p className="text-center font-semibold text-gray-600 mt-2">
                   Bank ID: {bankAccountId}
@@ -415,9 +418,8 @@ const ACH = ({
 
                 <div className="pt-2">
                   <button
-                    className={`w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300 ${
-                      verifyAccountId && "cursor-not-allowed"
-                    }`}
+                    className={`w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300 ${verifyAccountId && "cursor-not-allowed"
+                      }`}
                     type="submit"
                     disabled={verifyBankAccountIsLoading || verifyAccountId}
                   >
@@ -428,9 +430,8 @@ const ACH = ({
                 </div>
               </form>
               <div
-                className={`opacity-0 ${
-                  verifyAccountId && "opacity-100"
-                } transition-opacity duration-500`}
+                className={`opacity-0 ${verifyAccountId && "opacity-100"
+                  } transition-opacity duration-500`}
               >
                 <p className="text-center font-semibold text-gray-600 mt-2">
                   Verify ID: {verifyAccountId}
@@ -460,7 +461,9 @@ const ACH = ({
                 className="w-full py-3 text-white bg-green-500 rounded-md hover:bg-green-600 focus:ring-2 focus:ring-green-400 focus:ring-opacity-50 transition ease-in-out duration-300"
                 onClick={payRent}
               >
-                Pay Rent
+                {payRentUserACHcontrollerIsLoading
+                  ? "Loading..."
+                  : "Pay Rent"}
               </button>
             </div>
           </div>
@@ -472,9 +475,8 @@ const ACH = ({
         {[1, 2, 3, 4, 5].map((step) => (
           <div
             key={step}
-            className={`w-3 h-3 rounded-full ${
-              step === currentStep ? "bg-green-500" : "bg-gray-300"
-            }`}
+            className={`w-3 h-3 rounded-full ${step === currentStep ? "bg-green-500" : "bg-gray-300"
+              }`}
           />
         ))}
       </div>

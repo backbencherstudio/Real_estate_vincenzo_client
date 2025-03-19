@@ -42,7 +42,7 @@ function TenantDashboard() {
   const [isShow, setIsShow] = useState(true);
 
   // console.log(currentUser.userId);
-  // console.log(userData);
+  console.log(userData);
   // console.log(data?.data)
 
   const handlePageSizeChange = (current, size) => {
@@ -406,6 +406,8 @@ function TenantDashboard() {
                   securityDeposit={securityDeposit}
                   email={currentUser?.email}
                   userId={currentUser?.userId}
+                  bankAccountId2={userData?.bankAccountId}
+                  customerId2={userData?.customerId}
                 ></ACH>
               </div>
             )}
