@@ -50,7 +50,7 @@ function TenantDashboard() {
   };
 
   const dueRent = data?.data
-    ?.filter((item) => item.status !== "Paid")
+    ?.filter((item) => item.status !== "Paid" && item.status !== "Cash Pay")
     ?.map((item) => item.unitId.rent);
 
   const totalDueRent = dueRent?.reduce((acc, rent) => acc + rent, 0);
@@ -221,7 +221,7 @@ function TenantDashboard() {
       render: (text, record) => (
         <div>
           <Button
-            disabled={record.status === "Paid"}
+            disabled={record.status === "Paid" ||  record.status === "Cash Pay"}
             type="primary"
             onClick={() => handleModalFun(record)}
           >

@@ -124,6 +124,7 @@ const ACH = ({
       monthlyPaymentId: paymentData?.key,
       ownerId: paymentData?.ownerId,
       email,
+      paymentBy : "ACH"
     });
     console.log(res);
     if (res?.data?.success) {

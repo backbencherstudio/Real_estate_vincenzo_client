@@ -59,6 +59,7 @@ const StripeTenantForm = ({
         lateFee: parseInt(lateFee),
         monthlyPaymentId: paymentData?.key,
         ownerId: paymentData?.ownerId,
+        paymentBy : "Stripe"
       });
 
       if (data?.data?.success) {
