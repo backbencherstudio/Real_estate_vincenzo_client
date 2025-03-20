@@ -47,7 +47,7 @@ function SignUp() {
         localStorage.setItem("email", result?.data?.data?.email)
         toast.success(result?.data?.message)
         setShowOTP(false);
-        navigate("/subscription-plan")
+        navigate("/signin")
       }
     } catch (error) {
       console.error('OTP verification failed:', error);
