@@ -146,7 +146,8 @@ const ACH = ({
 
   const formStyle = {
     minWidth: "100%",
-    transition: "transform 0.5s ease-in-out",
+    transition:
+      customerId2 && bankAccountId2 ? "none" : "transform 0.5s ease-in-out",
     transform: `translateX(-${(currentStep - 1) * 100}%)`,
   };
 
