@@ -131,7 +131,7 @@ const ACH = ({
       localStorage.removeItem("ach_bankToken");
       localStorage.removeItem("ach_bankAccountId");
       localStorage.removeItem("ach_verifyAccountId");
-      // localStorage.removeItem("ach_currentStep");
+      localStorage.removeItem("ach_currentStep");
       toast.success(res?.data?.message);
       setOpen(false);
     }
