@@ -10,9 +10,9 @@ const PaymentHistory = () => {
     const { data, isLoading, refetch } = adminApi.useGetPaymentHistoryQuery(query)
     const [pageSize, setPageSize] = useState(10);
 
-    useEffect(()=>{
+    useEffect(() => {
         refetch()
-    },[])
+    }, [])
 
     const handlePageSizeChange = (current, size) => {
         setPageSize(size);
@@ -88,7 +88,7 @@ const PaymentHistory = () => {
             dataIndex: "status",
             render: (status) => (
                 <div>
-                    <h2 className={`font-bold text-[16px] ${status === "Send" ? "text-red-600" : "text-green-600"}`}>
+                    <h2 className={`font-bold text-[16px] ${status === "Send" ? "text-blue-600" : status === "Not Get" ? "text-red-600" : "text-green-500"}`}>
                         {status}
                     </h2>
                 </div>
