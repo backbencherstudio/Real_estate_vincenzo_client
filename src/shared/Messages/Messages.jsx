@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import ownerApi from "../../redux/fetures/owner/ownerApi";
 import { skipToken } from "@reduxjs/toolkit/query";
 import tenantApi from "../../redux/fetures/tenant/tenantApi";
+import { url } from "../../globalConst/const";
 const socket = io("https://backend.rentpadhomes.com");
 
 const Messages = () => {
@@ -319,11 +320,19 @@ const Messages = () => {
         <div className="col-span-2 flex flex-col bg-white relative">
           <div className="p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <img
-                src={currentChat?.avatar || "https://via.placeholder.com/40"}
-                alt="User"
-                className="w-10 h-10 rounded-full"
-              />
+            {currentChat?.profileImage ? (
+                  <img
+                    src={`${url}${currentChat.profileImage}`}
+                    alt={currentChat.name?.slice(0, 2).toUpperCase()}
+                    className="w-10 h-10 rounded-full"
+                  />
+                ) : (
+                  <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
+                    <span className="text-gray-500">
+                      {currentChat?.name?.slice(0, 2).toUpperCase()}
+                    </span>
+                  </div>
+                )}
               <div>
                 <h3 className="font-semibold">
                   {currentChat?.name || "Select a chat"}
@@ -499,11 +508,19 @@ const Messages = () => {
       <div className="md:hidden mt-4 bg-white rounded-lg  h-[660px] p-4 relative">
         <div className="p-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <img
-              src={currentChat?.avatar || "https://via.placeholder.com/40"}
-              alt="User"
-              className="w-10 h-10 rounded-full"
-            />
+          {currentChat?.profileImage ? (
+                  <img
+                    src={`${url}${currentChat.profileImage}`}
+                    alt={currentChat.name?.slice(0, 2).toUpperCase()}
+                    className="w-10 h-10 rounded-full"
+                  />
+                ) : (
+                  <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
+                    <span className="text-gray-500">
+                      {currentChat.name?.slice(0, 2).toUpperCase()}
+                    </span>
+                  </div>
+                )}
             <div>
               <h3 className="font-semibold">
                 {currentChat?.name || "Select a chat"}

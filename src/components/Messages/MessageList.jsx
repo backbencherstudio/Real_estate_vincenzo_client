@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { url } from "../../globalConst/const";
 
 export const MessageList = ({ onChatSelect, userData, currentUser }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -94,7 +95,7 @@ export const MessageList = ({ onChatSelect, userData, currentUser }) => {
               <div className="relative">
                 {user?.profileImage ? (
                   <img
-                    src={user.profileImage || "https://via.placeholder.com/40"}
+                    src={`${url}${user.profileImage}`}
                     alt={user.name?.slice(0, 2).toUpperCase()}
                     className="w-10 h-10 rounded-full"
                   />
