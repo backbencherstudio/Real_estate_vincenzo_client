@@ -2,11 +2,11 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import {
-  CardNumberElement,
-  CardExpiryElement,
-  CardCvcElement,
-  useStripe,
-  useElements,
+    CardNumberElement,
+    CardExpiryElement,
+    CardCvcElement,
+    useStripe,
+    useElements,
 } from "@stripe/react-stripe-js";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -17,165 +17,219 @@ import tenantApi from "../../../redux/fetures/tenant/tenantApi";
 // import authApi from "../../redux/fetures/auth/authApi";
 
 const CashPay = ({
-  paymentData,
-  totalAmount,
-  lateFee,
-  setOpen,
-  setSuccessPaymentData,
-  securityDeposit,
-  tenantId,
-  feeAmount
+    paymentData,
+    totalAmount,
+    lateFee,
+    setOpen,
+    setSuccessPaymentData,
+    securityDeposit,
+    tenantId,
+    feeAmount
 }) => {
-  const [paymentPlacedApi] = tenantApi.usePaymentPlacedApiMutation();
-  const currentUser = useSelector(selectCurrentUser);
-  const stripe = useStripe();
-  const elements = useElements();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
-  const [email, setEmail] = useState(currentUser?.email);
-  
-  
+    const [paymentPlacedApi] = tenantApi.usePaymentPlacedApiMutation();
+    const currentUser = useSelector(selectCurrentUser);
+    const stripe = useStripe();
+    const elements = useElements();
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+    const [success, setSuccess] = useState(false);
+    const [email, setEmail] = useState(currentUser?.email);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setLoading(true);
-    setError("");
 
-    const cardElement = elements.getElement(CardNumberElement);
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: "card",
-      card: cardElement,
-      billing_details: { email },
-    });
 
-    if (error) {
-      setError(error.message);
-      setLoading(false);
-      return;
-    }
+    //   const handleSubmit = async (event) => {
+    //     event.preventDefault();
+    //     setLoading(true);
+    //     setError("");
 
-    try {
-      const data = await paymentPlacedApi({
-        paymentMethodId: paymentMethod.id,
-        amount: parseInt(feeAmount),
-        lateFee: parseInt(lateFee),
-        monthlyPaymentId: paymentData?.key,
-        ownerId: paymentData?.ownerId,
-        tenantId,
-        cashPay : "Cash Pay"
-      });
+    //     const cardElement = elements.getElement(CardNumberElement);
+    //     const { error, paymentMethod } = await stripe.createPaymentMethod({
+    //       type: "card",
+    //       card: cardElement,
+    //       billing_details: { email },
+    //     });
 
-      console.log(data?.data?.success);      
+    //     if (error) {
+    //       setError(error.message);
+    //       setLoading(false);
+    //       return;
+    //     }
 
-      if (data?.data?.success) {
-        setSuccess(true);
-        setOpen(false);
+    //     try {
+    //       const data = await paymentPlacedApi({
+    //         paymentMethodId: paymentMethod.id,
+    //         amount: parseInt(feeAmount),
+    //         lateFee: parseInt(lateFee),
+    //         monthlyPaymentId: paymentData?.key,
+    //         ownerId: paymentData?.ownerId,
+    //         tenantId,
+    //         cashPay : "Cash Pay"
+    //       });
+
+    //       console.log(data?.data?.success);      
+
+    //       if (data?.data?.success) {
+    //         setSuccess(true);
+    //         setOpen(false);
+    //         setLoading(false);
+    //         setSuccessPaymentData(data?.data);
+    //         elements.getElement(CardNumberElement)?.clear();
+    //         elements.getElement(CardExpiryElement)?.clear();
+    //         elements.getElement(CardCvcElement)?.clear();
+    //         toast.success(data?.data?.message || "Payment successful!");
+    //         return;
+    //       }
+
+    //       setError(`Payment failed: ${data?.message || "Unknown error"}`);
+    //     } catch (err) {
+    //       console.error("Payment Error:", err);
+    //       setError(err.response?.data?.message || "Payment failed.");
+    //     }
+    //     setLoading(false);
+    //   };
+
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        setLoading(true);
+        setError("");
+
+        const cardElement = elements.getElement(CardNumberElement);
+        const { error, paymentMethod } = await stripe.createPaymentMethod({
+            type: "card",
+            card: cardElement,
+            billing_details: { email },
+        });
+
+        if (error) {
+            setError(error.message);
+            setLoading(false);
+            return;
+        }
+
+        try {
+            const data = await paymentPlacedApi({
+                paymentMethodId: paymentMethod.id,
+                amount: parseInt(feeAmount),
+                lateFee: parseInt(lateFee),
+                monthlyPaymentId: paymentData?.key,
+                ownerId: paymentData?.ownerId,
+                tenantId,
+                cashPay: "Cash Pay",
+            });
+
+            if (data?.data?.success) {                
+                setSuccess(true);
+                setOpen(false);
+                setLoading(false);
+                setSuccessPaymentData(data?.data);
+
+                // ✅ Properly reset the form
+                setEmail(currentUser?.email);
+                elements.getElement(CardNumberElement)?.update({ value: "" });
+                elements.getElement(CardExpiryElement)?.update({ value: "" });
+                elements.getElement(CardCvcElement)?.update({ value: "" });
+
+                toast.success(data?.data?.message || "Payment successful!");
+                return;
+            }
+
+            setError(`Payment failed: ${data?.message || "Unknown error"}`);
+        } catch (err) {
+            console.error("Payment Error:", err);
+            setError(err.response?.data?.message);
+        }
         setLoading(false);
-        setSuccessPaymentData(data?.data);
-        elements.getElement(CardNumberElement)?.clear();
-        elements.getElement(CardExpiryElement)?.clear();
-        elements.getElement(CardCvcElement)?.clear();
-        toast.success(data?.data?.message || "Payment successful!");
-        return;
-      }
+    };
 
-      setError(`Payment failed: ${data?.message || "Unknown error"}`);
-    } catch (err) {
-      console.error("Payment Error:", err);
-      setError(err.response?.data?.message || "Payment failed.");
-    }
-    setLoading(false);
-  };
 
-  const elementStyle = {
-    style: {
-      base: {
-        fontSize: "16px",
-        color: "#32325d",
-        fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-        "::placeholder": {
-          color: "#aab7c4",
+    const elementStyle = {
+        style: {
+            base: {
+                fontSize: "16px",
+                color: "#32325d",
+                fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+                "::placeholder": {
+                    color: "#aab7c4",
+                },
+                padding: "10px",
+            },
+            invalid: {
+                color: "#fa755a",
+            },
         },
-        padding: "10px",
-      },
-      invalid: {
-        color: "#fa755a",
-      },
-    },
-  };
+    };
 
-  return (
-    <form
-      onSubmit={handleSubmit}
-      className="bg-white shadow border-t py-6 border-zinc-100 rounded-lg px-3 max-w-lg mx-auto"
-    >
-      <h2 className="text-2xl font-bold text-center mb-2">Secure Payment(cash pay)</h2>
-
-      <div className="mb-2">
-        <label
-          className="block text-lg font-semibold mb-2 text-gray-700"
-          htmlFor="email"
+    return (
+        <form
+            onSubmit={handleSubmit}
+            className="bg-white shadow border-t py-6 border-zinc-100 rounded-lg px-3 max-w-lg mx-auto"
         >
-          Email
-        </label>
-        <input
-          type="email"
-          id="email"
-          className="w-full p-3 border rounded-lg focus:ring-blue-500 focus:outline-none"
-          placeholder="Enter your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          readOnly
-        />
-      </div>
+            <h2 className="text-2xl font-bold text-center mb-2">Secure Payment(cash pay)</h2>
 
-      <div className="mb-2">
-        <label className="block text-lg font-semibold mb-2 text-gray-700">
-          Card Number
-        </label>
-        <div className="p-3 border rounded-lg bg-gray-50">
-          <CardNumberElement options={elementStyle} />
-        </div>
-      </div>
+            <div className="mb-2">
+                <label
+                    className="block text-lg font-semibold mb-2 text-gray-700"
+                    htmlFor="email"
+                >
+                    Email
+                </label>
+                <input
+                    type="email"
+                    id="email"
+                    className="w-full p-3 border rounded-lg focus:ring-blue-500 focus:outline-none"
+                    placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    readOnly
+                />
+            </div>
 
-      <div className="flex gap-4 mb-2">
-        <div className="w-1/2">
-          <label className="block text-lg font-semibold mb-2 text-gray-700">
-            Expiration Date
-          </label>
-          <div className="p-3 border rounded-lg bg-gray-50">
-            <CardExpiryElement options={elementStyle} />
-          </div>
-        </div>
-        <div className="w-1/2">
-          <label className="block text-lg font-semibold mb-2 text-gray-700">
-            CVC
-          </label>
-          <div className="p-3 border rounded-lg bg-gray-50">
-            <CardCvcElement options={elementStyle} />
-          </div>
-        </div>
-      </div>
-      <button
-        type="submit"
-        disabled={!stripe || loading}
-        className={`w-full my-2 py-3 text-white font-bold rounded-lg ${
-          loading
-            ? "bg-gray-400 cursor-not-allowed"
-            : "bg-blue-600 hover:opacity-90"
-        }`}
-      >
-        {loading
-          ? "Processing..."
-          : `Pay Now : $${feeAmount} `}
-      </button>
+            <div className="mb-2">
+                <label className="block text-lg font-semibold mb-2 text-gray-700">
+                    Card Number
+                </label>
+                <div className="p-3 border rounded-lg bg-gray-50">
+                    <CardNumberElement options={elementStyle} />
+                </div>
+            </div>
 
-      {error && (
-        <div className="pb-2 text-red-500 font-medium text-center">{error}</div>
-      )}
-    </form>
-  );
+            <div className="flex gap-4 mb-2">
+                <div className="w-1/2">
+                    <label className="block text-lg font-semibold mb-2 text-gray-700">
+                        Expiration Date
+                    </label>
+                    <div className="p-3 border rounded-lg bg-gray-50">
+                        <CardExpiryElement options={elementStyle} />
+                    </div>
+                </div>
+                <div className="w-1/2">
+                    <label className="block text-lg font-semibold mb-2 text-gray-700">
+                        CVC
+                    </label>
+                    <div className="p-3 border rounded-lg bg-gray-50">
+                        <CardCvcElement options={elementStyle} />
+                    </div>
+                </div>
+            </div>
+            <button
+                type="submit"
+                disabled={!stripe || loading}
+                className={`w-full my-2 py-3 text-white font-bold rounded-lg ${loading
+                        ? "bg-gray-400 cursor-not-allowed"
+                        : "bg-blue-600 hover:opacity-90"
+                    }`}
+            >
+                {loading
+                    ? "Processing..."
+                    : `Pay Now : $${feeAmount} `}
+            </button>
+
+            {error && (
+                <div className="pb-2 text-red-500 font-medium text-center">{error}</div>
+            )}
+        </form>
+    );
 };
 
 export default CashPay;
