@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import tenantApi from "../../redux/fetures/tenant/tenantApi";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../redux/fetures/auth/authSlice";
@@ -176,6 +176,11 @@ const ACH = ({
   //     resetACHForm();
   //   }
   // };
+  useEffect(() => {
+    if (customerId2 && bankAccountId2) {
+      setCurrentStep(5);
+    }
+  }, [customerId2, bankAccountId2]);
 
   return (
     <div className="w-full p-2 rounded-lg shadow-md">
