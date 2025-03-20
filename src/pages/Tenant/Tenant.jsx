@@ -221,7 +221,7 @@ function TenantDashboard() {
       render: (text, record) => (
         <div>
           <Button
-            disabled={record.status === "Paid" ||  record.status === "Cash Pay"}
+            disabled={record.status === "Paid" || record.status === "Cash Pay"}
             type="primary"
             onClick={() => handleModalFun(record)}
           >
@@ -406,8 +406,8 @@ function TenantDashboard() {
                   securityDeposit={securityDeposit}
                   email={currentUser?.email}
                   userId={currentUser?.userId}
-                  bankAccountId2={userData?.bankAccountId}
-                  customerId2={userData?.customerId}
+                  bankAccountId2={userData?.data?.bankAccountId}
+                  customerId2={userData?.data?.customerId}
                 ></ACH>
               </div>
             )}
