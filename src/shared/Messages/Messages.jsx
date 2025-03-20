@@ -322,8 +322,8 @@ const Messages = () => {
             <div className="flex items-center gap-3">
             {currentChat?.profileImage ? (
                   <img
-                    src={`${url}${currentChat.profileImage}`}
-                    alt={currentChat.name?.slice(0, 2).toUpperCase()}
+                    src={`${url}${currentChat?.profileImage}`}
+                    alt={currentChat?.name?.slice(0, 2).toUpperCase()}
                     className="w-10 h-10 rounded-full"
                   />
                 ) : (
@@ -510,14 +510,14 @@ const Messages = () => {
           <div className="flex items-center gap-3">
           {currentChat?.profileImage ? (
                   <img
-                    src={`${url}${currentChat.profileImage}`}
-                    alt={currentChat.name?.slice(0, 2).toUpperCase()}
+                    src={`${url}${currentChat?.profileImage}`}
+                    alt={currentChat?.name?.slice(0, 2).toUpperCase()}
                     className="w-10 h-10 rounded-full"
                   />
                 ) : (
                   <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
                     <span className="text-gray-500">
-                      {currentChat.name?.slice(0, 2).toUpperCase()}
+                      {currentChat?.name?.slice(0, 2).toUpperCase()}
                     </span>
                   </div>
                 )}

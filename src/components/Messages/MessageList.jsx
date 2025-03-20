@@ -95,14 +95,14 @@ export const MessageList = ({ onChatSelect, userData, currentUser }) => {
               <div className="relative">
                 {user?.profileImage ? (
                   <img
-                    src={`${url}${user.profileImage}`}
-                    alt={user.name?.slice(0, 2).toUpperCase()}
+                    src={`${url}${user?.profileImage}`}
+                    alt={user?.name?.slice(0, 2).toUpperCase()}
                     className="w-10 h-10 rounded-full"
                   />
                 ) : (
                   <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
                     <span className="text-gray-500">
-                      {user.name?.slice(0, 2).toUpperCase()}
+                      {user?.name?.slice(0, 2).toUpperCase()}
                     </span>
                   </div>
                 )}
