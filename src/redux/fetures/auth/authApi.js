@@ -111,7 +111,8 @@ const authApi = baseApi.injectEndpoints({
         url: `/payment/planController`,
         method: "POST",
         body: data
-      })
+      }),
+      invalidatesTags:["user", "properties"]
     }),
 
 

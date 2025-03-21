@@ -5,18 +5,29 @@ import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../../redux/fetures/auth/authSlice";
 import authApi from "../../../redux/fetures/auth/authApi";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 const Plan = ({ selectedPlan, getTotalUnit }) => {
     // console.log(selectedPlan);
     const currentUser = useSelector(selectCurrentUser);
-    const [planController] = authApi.usePlanControllerMutation()
+    const [planController, {isLoading}] = authApi.usePlanControllerMutation()
+    const { data } = authApi.useGetSingleUserInfoQuery(currentUser?.email);
+    const navigate = useNavigate();
 
 
     const planData = async () => {
         const plan = { planName: selectedPlan.name, percentage: selectedPlan.price, getTotalUnit, email: currentUser?.email }
+
+        if (getTotalUnit < data?.data.numberOfTotalUnits) {
+            return toast.error(
+              `You have already added ${data?.data.numberOfTotalUnits} units. You cannot purchase only ${getTotalUnit} units. To add more, please update your plan to exceed your currently booked units.`
+            );
+          }
+
         const res = await planController(plan);
         if (res?.data?.success) {
             toast.success(res?.data?.message)
+            return navigate(`/${currentUser?.role}/properties`)
         }
     }
 
@@ -42,7 +53,10 @@ const Plan = ({ selectedPlan, getTotalUnit }) => {
                 onClick={planData}
                 className="bg-blue-600 text-white font-medium py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300"
             >
-                Submit
+                {
+                    isLoading ? "Loading..." : "Submit"
+                }
+                
             </Button>
         </div>
     );

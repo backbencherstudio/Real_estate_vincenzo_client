@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { Button, Modal, Spin, Table } from "antd";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import sharedApi from "../redux/fetures/sharedApi/sharedApi";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
@@ -47,8 +47,8 @@ const PropertyDetails = () => {
   const currentUser = useSelector(selectCurrentUser);
   const { data: ownerData, isLoading: userLoading, error } = authApi.useGetSingleUserInfoQuery(currentUser?.email);
   const [deleteUnit] = ownerApi.useDeleteUnitMutation()
-  const { data, isLoading : allUnitIsLoading } = sharedApi.useGetPropertieUnitsQuery(id);
-  const [updateUnit, {isLoading : updateUnitIsLoading}] = ownerApi.useUpdateUnitMutation()
+  const { data, isLoading: allUnitIsLoading } = sharedApi.useGetPropertieUnitsQuery(id);
+  const [updateUnit, { isLoading: updateUnitIsLoading }] = ownerApi.useUpdateUnitMutation()
 
   const property = data?.data?.property;
   const allUnits = data?.data?.allUnits;
@@ -248,16 +248,19 @@ const PropertyDetails = () => {
     setPageSize(size);
   };
   const [modal2Open, setModal2Open] = useState(false);
+  const navigate = useNavigate()
 
   const addUnitModalShowFun = () => {
     const totalUnits = ownerData?.data?.getTotalUnit || 0;
     const bookedUnits = ownerData?.data?.numberOfTotalUnits || 0;
 
     if (totalUnits === bookedUnits) {
-      return toast.error(
+      toast.error(
         "You have reached the maximum number of units allowed by your subscription plan. To add more units, please update your plan."
       );
+      return navigate(`/${currentUser?.role}/payment`)
     }
+
     setModal2Open(true);
   };
 
