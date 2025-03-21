@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { MapPin } from 'lucide-react';
 import { url } from '../../globalConst/const';
 

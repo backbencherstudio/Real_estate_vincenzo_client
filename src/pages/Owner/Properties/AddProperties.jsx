@@ -168,9 +168,9 @@ const AddProperties = () => {
                     </div>
                   )}
                 />
-                {errors.maintainerName && (
+                {errors?.maintainerName && (
                   <p className="text-red-500">
-                    {errors.maintainerName.message}
+                    {errors.maintainerName?.message}
                   </p>
                 )}
               </Form.Item>
