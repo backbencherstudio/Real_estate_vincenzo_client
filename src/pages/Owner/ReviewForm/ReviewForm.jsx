@@ -12,7 +12,7 @@ import { toast } from "sonner";
 const ReviewForm = () => {
     const currentUser = useSelector(selectCurrentUser);
     const { data } = authApi.useGetSingleUserInfoQuery(currentUser?.email);
-    const [createReviewFromOwner] = ownerApi.useCreateReviewFromOwnerMutation();
+    const [createReviewFromOwner, {isLoading}] = ownerApi.useCreateReviewFromOwnerMutation();
     const [hoverRating, setHoverRating] = useState(0);
     const [selectedRating, setSelectedRating] = useState(0);
     const [message, setMessage] = useState("");
@@ -171,7 +171,10 @@ const ReviewForm = () => {
                     type="submit"
                     className="w-fit bg-gradient-to-r from-blue-500 to-blue-600 text-white py-3 px-4 rounded-md hover:opacity-90 transition-opacity font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                 >
-                    Submit Review
+                    {
+                        isLoading ? "Loading..." : "Submit Review"
+                    }
+                    
                 </button>
             </form>
         </div>
