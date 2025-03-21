@@ -34,7 +34,7 @@ const ACH = ({
   const [currentStep, setCurrentStep] = useState(
     () => parseInt(localStorage.getItem("ach_currentStep")) || 1
   );
-  const [amount, setAmount] = useState(totalAmount);
+  const [amount, setAmount] = useState(totalAmount + securityDeposit);
   const currentUser = useSelector(selectCurrentUser);
   const [createCustomerForACHpayment, { isLoading }] =
     tenantApi.useCreateCustomerForACHpaymentMutation();
