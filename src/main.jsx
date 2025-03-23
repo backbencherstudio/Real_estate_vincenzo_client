@@ -13,7 +13,7 @@ createRoot(document.getElementById("root")).render(
     <Provider store={store}>
       <SocketProvider>
         <RouterProvider router={routes}></RouterProvider>
-        <Toaster position="top-center" />
+        <Toaster position="top-center" richColors />
       </SocketProvider>
     </Provider>
   </StrictMode>
