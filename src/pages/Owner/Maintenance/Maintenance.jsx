@@ -25,6 +25,7 @@ const Maintenance = () => {
     createdAt,
     description,
     _id,
+    isEmergency
   }) => ({
     key: _id,
     propertyName,
@@ -32,7 +33,8 @@ const Maintenance = () => {
     issueType,
     status,
     createdAt,
-    description
+    description,
+    isEmergency
   }));
 
 
@@ -107,6 +109,15 @@ const Maintenance = () => {
         const truncated = words.slice(0, 5).join(" ");
         return words.length > 5 ? `${truncated}...` : text;
       },
+    },
+    {
+      title: 'Maintenance Type',
+      dataIndex: 'isEmergency',
+      render: (isEmergency) => (
+        <div>
+          {isEmergency ? <h2 className='text-red-500' >Emergency</h2> : <h2 className='text-green-600'>Normal</h2> }
+        </div>
+      )
     },
     {
       title: "Status",

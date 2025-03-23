@@ -18,9 +18,9 @@ function MaintenanceRequests() {
   const { data } = tenantApi.useGetTenantDetailseQuery(currentUser?.userId);
   const { data: maintenanceData, isLoading, refetch } = maintenanceApi.useGetSingleUserMaintenanceDataQuery(currentUser?.userId)
 
-  useEffect(()=>{
+  useEffect(() => {
     refetch()
-  },[])
+  }, [])
 
   const open = () => {
     setIsOpen(true)
@@ -29,13 +29,14 @@ function MaintenanceRequests() {
     setIsOpen(false)
   }
 
-  const tableDatas = maintenanceData?.data?.map(({ _id, createdAt, issueType, description, propertyName, status }) => ({
+  const tableDatas = maintenanceData?.data?.map(({ _id, createdAt, issueType, description, propertyName, status, isEmergency }) => ({
     key: _id,
     createdAt,
     issueType,
     description,
     propertyName,
     status,
+    isEmergency
   }));
 
   const handleNavigate = (id) => {
@@ -65,6 +66,15 @@ function MaintenanceRequests() {
       render: (createdAt) => (
         <div>
           {moment(createdAt).format("DD MMMM YYYY, h:mm A")}
+        </div>
+      )
+    },
+    {
+      title: 'Maintenance Type',
+      dataIndex: 'isEmergency',
+      render: (isEmergency) => (
+        <div>
+          {isEmergency ? <h2 className='text-red-500' >Emergency</h2> : <h2 className='text-green-600'>Normal</h2> }
         </div>
       )
     },

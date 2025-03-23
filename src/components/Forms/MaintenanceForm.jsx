@@ -3,6 +3,8 @@ import { CircleX } from "lucide-react";
 import { useForm } from "react-hook-form";
 import maintenanceApi from "../../redux/fetures/maintenance/maintenanceApi";
 import { toast } from "sonner";
+import { Checkbox } from "antd";
+import { useState } from "react";
 
 const MaintenanceForm = ({ tenantData, close }) => {
   const {
@@ -12,6 +14,7 @@ const MaintenanceForm = ({ tenantData, close }) => {
     formState: { errors },
   } = useForm();
   const [createMaintenance, {isLoading}] = maintenanceApi.useCreateMaintenanceMutation();
+  const [isEmergency, setEmergency] = useState(false)
 
   const propertyName =
     tenantData?.propertyId?.propertyName || "Default Property Name";
@@ -26,11 +29,9 @@ const MaintenanceForm = ({ tenantData, close }) => {
       userId ,
       ownerId : ownerId._id ,
       propertyId,
+      isEmergency
     };
 
-    
-  
-  
     const formData = new FormData();
 
     for (const key in maintenanceData) {
@@ -51,6 +52,11 @@ const MaintenanceForm = ({ tenantData, close }) => {
     }
   };
 
+  const onChange = (e) => {
+    setEmergency(e.target.checked);
+  };
+
+  
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 px-4">
       {/* Form Container */}
@@ -150,6 +156,8 @@ const MaintenanceForm = ({ tenantData, close }) => {
               </span>
             )}
           </div>
+
+          <Checkbox onChange={onChange}>Emergency Maintenance</Checkbox>
 
           {/* Submit Button */}
           <div className="col-span-2">
