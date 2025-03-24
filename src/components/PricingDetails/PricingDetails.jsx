@@ -111,7 +111,7 @@ const PricingDetails = ({ planData }) => {
                                 <div className="mb-2 text-zinc-600 bg-[#F1F7FE] rounded-full px-4 py-2 w-fit">{plan.name}</div>
                             )}
                             <div className='flex items-center'>
-                                <h1 className="text-xl font-normal text-zinc-600">${plan.price} /</h1>
+                                <h1 className="text-xl font-normal text-zinc-600">{plan.price}% /</h1>
                                 <p className="text-sm font-normal text-gray-600 mt-2">per unit/month</p>
                             </div>
                             <div className="text-sm text-gray-600 mt-2">{plan.description}</div>

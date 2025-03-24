@@ -41,7 +41,7 @@ const Footer = () => {
                             <span className="text-[22px] font-semibold bg-gradient-to-r from-[#ffffff] to-[#A9A9A9] bg-clip-text text-transparent tracking-[-0.88px]">RentPad Homes</span>
                         </Link>
                         <p className="text-2xl font-semibold text-white mb-4">
-                            Starting at just ${planData?.starter} per unit/month
+                            Starting at just {planData?.starter}% per unit/month
                         </p>
                         <form
                             onSubmit={handleSubmit(onSubmit)}
