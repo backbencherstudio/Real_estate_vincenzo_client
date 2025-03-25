@@ -44,6 +44,8 @@ const Profile = () => {
         formData.append("permanentAddress[state]", data.state);
         formData.append("permanentAddress[zipCode]", data.zipCode);
         formData.append("permanentAddress[country]", data.country);
+        formData.append("bankAccountNumber", data.bankAccountNumber);
+        formData.append("routingNumber", data.routingNumber);
 
         if (imageFile) {
             formData.append("profileImage", imageFile);
@@ -115,6 +117,35 @@ const Profile = () => {
                             Contact No*
                         </label>
                         {errors.contactNumber && <span className="text-red-500 text-sm">{errors.contactNumber.message}</span>}
+                    </div>
+
+                    <div className="relative col-span-6">
+                        <input
+                            type="text"
+                            id="bankAccountNumber"
+                            placeholder="Bank Account Number*"
+                            className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
+                            {...register("bankAccountNumber")}
+                        />
+                        <label htmlFor='bankAccountNumber' className="absolute left-3 -top-2.5 cursor-text bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
+                        Bank Account Number*
+                        </label>
+                        {errors.bankAccountNumber && <span className="text-red-500 text-sm">{errors.bankAccountNumber.message}</span>}
+                    </div>
+
+                    {/* routingNumber No */}
+                    <div className="relative col-span-6">
+                        <input
+                            type="text"
+                            id='routingNumber'
+                            placeholder="Routing Number"
+                            className="peer w-full px-3 py-4 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
+                            {...register("routingNumber")}
+                        />
+                        <label htmlFor='routingNumber' className="absolute left-3 -top-2.5 cursor-text bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
+                        Routing Number*
+                        </label>
+                        {errors.routingNumber && <span className="text-red-500 text-sm">{errors.routingNumber.message}</span>}
                     </div>
 
                     <div className="relative col-span-4">
@@ -235,13 +266,13 @@ const Profile = () => {
                     </div>
                 </div>
                 {
-                    isLoading ? 
-                    <button
-                        type="submit"
-                        className="rounded-[12px] bg-gradient-to-r border border-[#4A90E2] p-4 md:p-5 font-medium text-lg"
-                    >
-                        <Spin size="large" />
-                    </button>
+                    isLoading ?
+                        <button
+                            type="submit"
+                            className="rounded-[12px] bg-gradient-to-r border border-[#4A90E2] p-4 md:p-5 font-medium text-lg"
+                        >
+                            <Spin size="large" />
+                        </button>
                         :
                         <button type='submit' className='bg-gradient-to-l to-[#4A90E2] from-[#1565C0] text-white py-5 px-6 rounded-md mt-8 hover:scale-105 duration-300'>
                             Save Changes
