@@ -61,48 +61,6 @@ function TenantDashboard() {
     year: "numeric",
   });
 
-  // Calculate if payment is late and determine total amount
-  const isPaymentLate = (lastDate) => {
-    const dueDate = new Date(lastDate);
-    const today = new Date();
-    return today > dueDate;
-  };
-
-  // const calculateTotalAmount = (rent, lateFee, lastDate) => {
-  //   return isPaymentLate(lastDate) ? rent + lateFee : rent;
-  // };
-
-  const calculateTotalAmount = (rent, lateFee, lastDate) => {
-    if (isPaymentLate(lastDate)) {
-      return {
-        lateFee: lateFee,
-        total: rent + lateFee,
-      };
-    }
-    return {
-      lateFee: 0,
-      total: rent,
-    };
-  };
-
-  const totalAmount = calculateTotalAmount(
-    paymentData?.rent,
-    paymentData?.lateFee,
-    paymentData?.lastDate
-  );
-
-
-
-  const securityDeposit =
-    (!userData?.data?.isSecurityDepositPay && paymentData?.securityDeposit) ||
-    0;
-
-  // console.log(totalAmount);
-  // console.log(totalAmount?.lateFee);
-  // console.log(totalAmount?.total);
-
-  const stripeFee = Math.round((totalAmount.total + securityDeposit) * 0.03);
-  const totalWithStripeFee = totalAmount.total + securityDeposit + stripeFee;
 
   const tableData = data?.data?.map(
     ({
@@ -135,6 +93,58 @@ function TenantDashboard() {
       paidAmount: paidAmount || 0,
     })
   );
+
+  // Calculate if payment is late and determine total amount
+  const isPaymentLate = (lastDate) => {
+    const dueDate = new Date(lastDate);
+    const today = new Date();
+    const todayWithoutTime = new Date(today.setHours(0, 0, 0, 0));
+    const dueDateWithoutTime = new Date(dueDate.setHours(0, 0, 0, 0));
+    if (todayWithoutTime.getTime() === dueDateWithoutTime.getTime()) {
+      return false;
+    }
+    return today >= dueDate;
+  };
+
+  // const calculateTotalAmount = (rent, lateFee, lastDate) => {
+  //   return isPaymentLate(lastDate) ? rent + lateFee : rent;
+  // };
+
+  const calculateTotalAmount = (rent, lateFee, lastDate) => {
+
+    console.log(115, isPaymentLate(lastDate));
+
+    if (isPaymentLate(lastDate)) {
+      return {
+        lateFee: lateFee,
+        total: rent + lateFee,
+      };
+    }
+    return {
+      lateFee: 0,
+      total: rent,
+    };
+  };
+
+  const totalAmount = calculateTotalAmount(
+    paymentData?.rent,
+    paymentData?.lateFee,
+    paymentData?.lastDate
+  );
+
+
+
+  const securityDeposit =
+    (!userData?.data?.isSecurityDepositPay && paymentData?.securityDeposit) ||
+    0;
+
+  // console.log(totalAmount);
+  // console.log(totalAmount?.lateFee);
+  // console.log(totalAmount?.total);
+
+  const stripeFee = Math.round((totalAmount.total + securityDeposit) * 0.03);
+  const totalWithStripeFee = totalAmount.total + securityDeposit + stripeFee;
+
 
   const handleModalFun = (data) => {
     setOpen(true);
@@ -334,12 +344,17 @@ function TenantDashboard() {
                 </span>
               </div>
 
-              <div className="flex justify-between items-center p-2 bg-white rounded-md shadow-sm">
-                <span className="text-gray-600">Late Fee (Applied)</span>
-                <span className="text-lg font-semibold text-red-600">
-                  ${paymentData?.lateFee}
-                </span>
-              </div>
+              {
+                totalAmount.lateFee !== 0 &&
+                <div className="flex justify-between items-center p-2 bg-white rounded-md shadow-sm">
+                  <span className="text-gray-600">Late Fee (Applied)</span>
+                  <span className="text-lg font-semibold text-red-600">
+                    ${paymentData?.lateFee}
+                  </span>
+                </div>
+              }
+
+
               {isShow && (
                 <div className="flex justify-between items-center p-2 bg-white rounded-md shadow-sm">
                   <span className="text-gray-600">Card Payment Fee (3%)</span>
