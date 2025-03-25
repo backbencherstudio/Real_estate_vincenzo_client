@@ -91,6 +91,8 @@ function TenantDashboard() {
     paymentData?.lastDate
   );
 
+
+
   const securityDeposit =
     (!userData?.data?.isSecurityDepositPay && paymentData?.securityDeposit) ||
     0;
@@ -98,6 +100,9 @@ function TenantDashboard() {
   // console.log(totalAmount);
   // console.log(totalAmount?.lateFee);
   // console.log(totalAmount?.total);
+
+  const stripeFee = Math.round((totalAmount.total + securityDeposit) * 0.03);
+  const totalWithStripeFee = totalAmount.total + securityDeposit + stripeFee;
 
   const tableData = data?.data?.map(
     ({
@@ -335,10 +340,19 @@ function TenantDashboard() {
                   ${paymentData?.lateFee}
                 </span>
               </div>
-
+              {isShow && (
+                <div className="flex justify-between items-center p-2 bg-white rounded-md shadow-sm">
+                  <span className="text-gray-600">Card Payment Fee (3%)</span>
+                  <span className="text-lg font-semibold text-red-500">
+                    ${stripeFee}
+                  </span>
+                </div>
+              )}
               <div className="flex justify-between items-center p-2 bg-white rounded-md shadow-sm">
                 <span className="text-gray-600">Total Amount Due</span>
-                <span className="text-lg font-bold">${totalAmount.total}</span>
+                {
+                  isShow ? <span className="text-lg font-bold">${totalWithStripeFee}</span> : <span className="text-lg font-bold">${totalAmount.total}</span>
+                }
               </div>
 
               <div className="flex justify-between items-center p-2 bg-white rounded-md shadow-sm">
@@ -352,7 +366,6 @@ function TenantDashboard() {
                 <span className="text-gray-600">Current Date</span>
                 <span className="text-lg font-semibold">{currentDate}</span>
               </div>
-
               <div className="px-4 pt-2  bg-red-50 border border-red-200 rounded-lg mt-4">
                 <p className="text-red-800">
                   <span className="font-medium">Late Payment Notice: </span>
@@ -369,14 +382,14 @@ function TenantDashboard() {
             <div className="flex gap-4 my-4">
               <button
                 onClick={() => setIsShow(true)}
-                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition-all duration-300 ease-in-out transform hover:scale-105"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition-all duration-300 ease-in-out transform hover:scale-105"
               >
                 💳 Stripe Payment
               </button>
 
               <button
                 onClick={() => setIsShow(false)}
-                className="bg-gray-700 hover:bg-gray-800 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition-all duration-300 ease-in-out transform hover:scale-105"
+                className="w-full bg-gray-700 hover:bg-gray-800 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition-all duration-300 ease-in-out transform hover:scale-105"
               >
                 🏦 ACH Payment
               </button>
@@ -387,7 +400,7 @@ function TenantDashboard() {
                 <Elements stripe={stripePromise}>
                   <StripeTenantForm
                     paymentData={paymentData}
-                    totalAmount={totalAmount?.total}
+                    totalAmount={totalWithStripeFee}
                     lateFee={totalAmount.lateFee}
                     setOpen={setOpen}
                     setSuccessPaymentData={setSuccessPaymentData}

@@ -151,6 +151,7 @@ const StripeTenantForm = ({
           </div>
         </div>
       </div>
+      
       <button
         type="submit"
         disabled={!stripe || loading}
