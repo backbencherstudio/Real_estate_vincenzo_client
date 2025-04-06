@@ -5,14 +5,16 @@ import { selectCurrentUser } from '../redux/fetures/auth/authSlice';
 import sharedApi from '../redux/fetures/sharedApi/sharedApi';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { Spin } from 'antd';
+import { Select, Spin } from 'antd';
+import { lastDueDateNumberOptionas } from '../constent/constent';
 
 const Profile = () => {
     const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm();
     const [updateProfile, { isLoading }] = sharedApi.useUpdateProfileMutation();
+    const [lastDueDateNumberValue, setLastDueDateNumberValue] = useState()
 
 
-    // Watch for image preview
+
     const currentUser = useSelector(selectCurrentUser);
     const image = watch('image');
     const [imageFile, setImageFile] = useState()
@@ -46,6 +48,7 @@ const Profile = () => {
         formData.append("permanentAddress[country]", data.country);
         formData.append("bankAccountNumber", data.bankAccountNumber);
         formData.append("routingNumber", data.routingNumber);
+        formData.append("lastDueDateNumber", parseInt(lastDueDateNumberValue) );
 
         if (imageFile) {
             formData.append("profileImage", imageFile);
@@ -56,6 +59,8 @@ const Profile = () => {
             reset();
         }
     };
+
+    
 
 
     return (
@@ -119,7 +124,7 @@ const Profile = () => {
                         {errors.contactNumber && <span className="text-red-500 text-sm">{errors.contactNumber.message}</span>}
                     </div>
 
-                    <div className="relative col-span-6">
+                    <div className="relative col-span-6 xl:col-span-4">
                         <input
                             type="text"
                             id="bankAccountNumber"
@@ -128,13 +133,13 @@ const Profile = () => {
                             {...register("bankAccountNumber")}
                         />
                         <label htmlFor='bankAccountNumber' className="absolute left-3 -top-2.5 cursor-text bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
-                        Bank Account Number*
+                            Bank Account Number*
                         </label>
                         {errors.bankAccountNumber && <span className="text-red-500 text-sm">{errors.bankAccountNumber.message}</span>}
                     </div>
 
                     {/* routingNumber No */}
-                    <div className="relative col-span-6">
+                    <div className="relative col-span-6 xl:col-span-4">
                         <input
                             type="text"
                             id='routingNumber'
@@ -143,10 +148,26 @@ const Profile = () => {
                             {...register("routingNumber")}
                         />
                         <label htmlFor='routingNumber' className="absolute left-3 -top-2.5 cursor-text bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
-                        Routing Number*
+                            Routing Number*
                         </label>
                         {errors.routingNumber && <span className="text-red-500 text-sm">{errors.routingNumber.message}</span>}
                     </div>
+
+                    <div className="relative col-span-6 xl:col-span-4">
+                        <Select
+                            id="lastDueDateNumber"
+                            options={lastDueDateNumberOptionas}
+                            placeholder="Last Due Date"
+                            // {...register("lastDueDateNumber")}
+                            onChange={(value) => setLastDueDateNumberValue(value)}
+                        />
+                        <label htmlFor="lastDueDateNumber" className="absolute left-3 -top-2.5 cursor-text bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
+                            Last Due Date*
+                        </label>
+                        {errors.lastDueDateNumber && <span className="text-red-500 text-sm">{errors.lastDueDateNumber.message}</span>}
+                    </div>
+
+
 
                     <div className="relative col-span-4">
                         <input

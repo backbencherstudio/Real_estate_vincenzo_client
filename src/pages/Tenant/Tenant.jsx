@@ -75,6 +75,7 @@ function TenantDashboard() {
       PaymentPlaced,
       lateFee,
       paidAmount,
+      lastDueDate
     }) => ({
       key: _id,
       invoice,
@@ -86,7 +87,7 @@ function TenantDashboard() {
       securityDeposit: unitId?.securityDeposit,
       ownerId,
       userId: userId._id,
-      lastDate: getDynamicDate(),
+      lastDate: lastDueDate,
       status,
       createdAt,
       PaymentPlacedDate: PaymentPlaced,
@@ -193,7 +194,15 @@ function TenantDashboard() {
     { title: "Rent", dataIndex: "rent" },
     { title: "Late Fee", dataIndex: "lateFee" },
     { title: "Paid Amount", dataIndex: "paidAmount" },
-    { title: "Last Date", dataIndex: "lastDate" },
+    { title: "Last Due Date", dataIndex: "lastDate", 
+      render: (lastDate) => (
+        <div>
+          {lastDate
+            ? moment(lastDate).format("DD MMMM YYYY, h:mm A")
+            : "N/F"}
+        </div>
+      ),
+     },
     {
       title: "Payment Placed",
       dataIndex: "PaymentPlacedDate",

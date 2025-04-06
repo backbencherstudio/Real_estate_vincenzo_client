@@ -286,9 +286,25 @@ const ownerApi = baseApi.injectEndpoints({
     }),
 
 
+    // ==================================================== Create running month tenant Payment Data
+    CreateRunningMonthTenantPaymentsDataByOwner: builder.mutation({
+      query: (ownerId) => {
+        return {
+          url: `/payment/tenantPayment/${ownerId}`,
+          method: "GET",
+        };
+      }
+    }),
 
-
-
+    // ==================================================== Create running month tenant Payment Data
+    sendDueReminderEmailToTenant: builder.mutation({
+      query: (ownerId) => {
+        return {
+          url: `/payment/due-reminder-to-tenant/${ownerId}`,
+          method: "GET",
+        };
+      }
+    }),
 
 
   }),
