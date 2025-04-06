@@ -11,7 +11,7 @@ import { lastDueDateNumberOptionas } from '../constent/constent';
 const Profile = () => {
     const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm();
     const [updateProfile, { isLoading }] = sharedApi.useUpdateProfileMutation();
-    const [lastDueDateNumberValue, setLastDueDateNumberValue] = useState()
+    const [lastDueDateNumberValue, setLastDueDateNumberValue] = useState(null)
 
 
 
@@ -48,7 +48,11 @@ const Profile = () => {
         formData.append("permanentAddress[country]", data.country);
         formData.append("bankAccountNumber", data.bankAccountNumber);
         formData.append("routingNumber", data.routingNumber);
-        formData.append("lastDueDateNumber", parseInt(lastDueDateNumberValue) );
+        // formData.append("lastDueDateNumber", parseInt(lastDueDateNumberValue) );
+
+        if (lastDueDateNumberValue !== null) {
+            formData.append("lastDueDateNumber", parseInt(lastDueDateNumberValue));
+        }
 
         if (imageFile) {
             formData.append("profileImage", imageFile);
@@ -57,10 +61,11 @@ const Profile = () => {
         if (res.data.success) {
             toast.success(res.data.message);
             reset();
+            setLastDueDateNumberValue(null)
         }
     };
 
-    
+
 
 
     return (
@@ -157,12 +162,13 @@ const Profile = () => {
                         <Select
                             id="lastDueDateNumber"
                             options={lastDueDateNumberOptionas}
-                            placeholder="Last Due Date"
+                            className='w-full h-[55px]'
+                            placeholder="Select Date"
                             // {...register("lastDueDateNumber")}
                             onChange={(value) => setLastDueDateNumberValue(value)}
                         />
                         <label htmlFor="lastDueDateNumber" className="absolute left-3 -top-2.5 cursor-text bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
-                            Last Due Date*
+                            Set Tenant Payment Last Due Date*
                         </label>
                         {errors.lastDueDateNumber && <span className="text-red-500 text-sm">{errors.lastDueDateNumber.message}</span>}
                     </div>
