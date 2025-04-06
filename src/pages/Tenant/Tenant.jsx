@@ -256,6 +256,11 @@ function TenantDashboard() {
     },
   ];
 
+  const setOpenModalHandler = () =>{
+    setOpen(false)
+    setIsShow(true)
+  }
+
   return (
     <div className="">
       {/* Header */}
@@ -322,8 +327,8 @@ function TenantDashboard() {
         title="Monthly Rent Payment"
         centered
         open={open}
-        onOk={() => setOpen(false)}
-        onCancel={() => setOpen(false)}
+        // onOk={() => setOpen(false)}
+        onCancel={() => setOpenModalHandler()}
         width={1000}
         footer={false}
       >
@@ -380,15 +385,19 @@ function TenantDashboard() {
               </div>
 
               <div className="flex justify-between items-center p-2 bg-white rounded-md shadow-sm">
-                <span className="text-gray-600">Payment Due Date</span>
+                <span className="text-gray-600">Last Date Of Due Payment </span>
                 <span className="text-lg font-semibold">
-                  {paymentData?.lastDate}
+                  {
+                    moment(paymentData?.lastDate).format("DD MMMM YYYY")
+                  }
                 </span>
               </div>
 
               <div className="flex justify-between items-center p-2 bg-white rounded-md shadow-sm">
                 <span className="text-gray-600">Current Date</span>
-                <span className="text-lg font-semibold">{currentDate}</span>
+                <span className="text-lg font-semibold">{
+                   moment(currentDate).format("DD MMMM YYYY")
+                  }</span>
               </div>
               <div className="px-4 pt-2  bg-red-50 border border-red-200 rounded-lg mt-4">
                 <p className="text-red-800">

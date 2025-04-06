@@ -35,14 +35,14 @@ const PaymentHistory = ({ id, tenantData }) => {
     setPageSize(size);
   };
 
-  const tableData = data?.data?.map(({ _id, invoice, propertyId, unitId, ownerId, status, createdAt, PaymentPlaced, lateFee, paidAmount }) => ({
+  const tableData = data?.data?.map(({ _id, invoice, propertyId, unitId, ownerId, status, createdAt, PaymentPlaced, lateFee, paidAmount, lastDueDate }) => ({
     key: _id,
     invoice,
     propertyId: propertyId._id,
     propertyName: propertyId?.propertyName,
     rent: unitId?.rent,
     // lateFee: unitId?.lateFee,
-    lastDate: getDynamicDate(),
+    lastDate: lastDueDate,
     lateFee: lateFee !== 0 ? unitId?.lateFee : 0,
     securityDeposit: unitId?.securityDeposit,
     ownerId,
@@ -89,7 +89,16 @@ const PaymentHistory = ({ id, tenantData }) => {
     { title: 'Rent', dataIndex: 'rent' },
     { title: 'Late Fee', dataIndex: 'lateFee' },
     { title: 'Paid Amount', dataIndex: 'paidAmount' },
-    { title: 'Last Date', dataIndex: "lastDate" },
+    {
+      title: 'Last Due Date', dataIndex: "lastDate",
+      render: (lastDate) => (
+        <div>
+          {lastDate
+            ? moment(lastDate).format("DD MMMM YYYY")
+            : "N/F"}
+        </div>
+      ),
+    },
     {
       title: "Payment Placed",
       dataIndex: "PaymentPlacedDate",
@@ -151,11 +160,20 @@ const PaymentHistory = ({ id, tenantData }) => {
   const isPaymentLate = (lastDate) => {
     const dueDate = new Date(lastDate);
     const today = new Date();
-    return today > dueDate;
+    const todayWithoutTime = new Date(today.setHours(0, 0, 0, 0));
+    const dueDateWithoutTime = new Date(dueDate.setHours(0, 0, 0, 0));
+    if (todayWithoutTime.getTime() === dueDateWithoutTime.getTime()) {
+      return false;
+    }
+    return today >= dueDate;
   };
 
 
+
   const calculateTotalAmount = (rent, lateFee, lastDate) => {
+
+    console.log(115, isPaymentLate(lastDate));
+
     if (isPaymentLate(lastDate)) {
       return {
         lateFee: lateFee,
@@ -173,6 +191,7 @@ const PaymentHistory = ({ id, tenantData }) => {
     paymentData?.lateFee,
     paymentData?.lastDate
   );
+
 
   const currentDate = new Date().toLocaleDateString("en-US", {
     month: "numeric",
@@ -249,12 +268,22 @@ const PaymentHistory = ({ id, tenantData }) => {
                 </span>
               </div>
 
-              <div className="flex justify-between items-center p-2 bg-white rounded-md shadow-sm">
-                <span className="text-gray-600">Late Fee (Applied)</span>
+              {/* <div className="flex justify-between items-center p-2 bg-white rounded-md shadow-sm">
+                <span className="text-gray-600">Late Fee (Applied) CC</span>
                 <span className="text-lg font-semibold text-red-600">
                   ${paymentData?.lateFee}
                 </span>
-              </div>
+              </div> */}
+
+              {
+                totalAmount.lateFee !== 0 &&
+                <div className="flex justify-between items-center p-2 bg-white rounded-md shadow-sm">
+                  <span className="text-gray-600">Late Fee (Applied)</span>
+                  <span className="text-lg font-semibold text-red-600">
+                    ${paymentData?.lateFee}
+                  </span>
+                </div>
+              }
 
               <div className="flex justify-between items-center p-2 bg-white rounded-md shadow-sm">
                 <span className="text-gray-600">Total Amount Due</span>
@@ -273,15 +302,19 @@ const PaymentHistory = ({ id, tenantData }) => {
               </div>
 
               <div className="flex justify-between items-center p-2 bg-white rounded-md shadow-sm">
-                <span className="text-gray-600">Payment Due Date</span>
+                <span className="text-gray-600">Last Date Of Due Payment</span>
                 <span className="text-lg font-semibold">
-                  {paymentData?.lastDate}
+                  {
+                    moment(paymentData?.lastDate).format("DD MMMM YYYY")
+                  }
                 </span>
               </div>
 
               <div className="flex justify-between items-center p-2 bg-white rounded-md shadow-sm">
                 <span className="text-gray-600">Current Date</span>
-                <span className="text-lg font-semibold">{currentDate}</span>
+                <span className="text-lg font-semibold">{
+                  moment(currentDate).format("DD MMMM YYYY")
+                } </span>
               </div>
 
               <div className="px-4 pt-2  bg-red-50 border border-red-200 rounded-lg mt-4">
