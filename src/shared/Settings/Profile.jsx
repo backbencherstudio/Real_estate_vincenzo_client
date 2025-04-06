@@ -327,8 +327,8 @@ const UserProfile = () => {
                         </div>
 
                         <div className="p-4  rounded-md  ">
-                            <h2 className="text-lg font-semibold text-gray-800 mb-2">
-                                Summary of Your Subscription
+                            <h2 className="text-lg font-semibold mb-2 text-green-600 ">
+                            Summary
                             </h2>
                             <p className="text-gray-700 ">
                                 - <strong>Total Units:</strong> <span className="font-bold text-blue-700 text-xl"  >{data?.data?.getTotalUnit || 0}</span>
@@ -345,12 +345,12 @@ const UserProfile = () => {
                                     {data?.data?.lastDueDateNumber || "Not selected at this stage"} </span> <span className="-ml-1">{ data?.data?.lastDueDateNumber && "th day of the month" }</span>
                             </p> */}
                             <p className="text-gray-700 mb-4">
-                               - <strong>Monthly Due Date for Tenants:</strong>{" "}
+                                - <strong>Monthly Due Date for Tenants:</strong>{" "}
                                 <span className="font-bold text-green-700 text-xl">
                                     {data?.data?.lastDueDateNumber || "Not yet specified"}
                                 </span>
-                                <span className="ml-1">
-                                    {data?.data?.lastDueDateNumber && "day of each month"}
+                                <span className="">
+                                    {data?.data?.lastDueDateNumber && " th day of each month"}
                                 </span>
                             </p>
 
