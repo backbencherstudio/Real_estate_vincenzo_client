@@ -34,7 +34,7 @@ const UserProfile = () => {
             pollingInterval: 5000
         }
     );
-    
+
     let tenantWithOwnerData
     if (currentUser?.role === "tenant") {
         const { data: tenantDatas } = tenantApi.useGetTenantDetailseQuery(currentUser?.userId);
@@ -118,20 +118,20 @@ const UserProfile = () => {
     };
 
 
-    const createTenantPaymentByOwnerHandler =async (ownerId) =>{
+    const createTenantPaymentByOwnerHandler = async (ownerId) => {
         const res = await CreateRunningMonthTenantPaymentsDataByOwner(ownerId)
-        if(res?.data?.success){
+        if (res?.data?.success) {
             toast.success(res?.data?.message)
-        }        
+        }
     }
 
-    const sendEmailReminderToTenantHandler =async (ownerId) =>{
+    const sendEmailReminderToTenantHandler = async (ownerId) => {
         const res = await sendDueReminderEmailToTenant(ownerId)
         console.log(res);
-        
-        if(res?.data?.success){
+
+        if (res?.data?.success) {
             toast.success(res?.data?.message)
-        }        
+        }
     }
 
     return (
@@ -340,9 +340,21 @@ const UserProfile = () => {
                                 - <strong>Available Units to Add:</strong> <span className="font-bold text-green-700 text-xl" >{data?.data?.getTotalUnit - data?.data?.numberOfTotalUnits || 0}</span>
                             </p>
 
-                            <p className="text-gray-700  mb-4">
-                                - <strong>Your Tenant Every Month Last Due Date Is:</strong> <span className="font-bold text-green-700 text-xl" >{data?.data?.lastDueDateNumber || "Not selected at this stage"}</span>
+                            {/* <p className="text-gray-700  mb-4">
+                                - <strong>Your Tenant Every Month Last Due Date Is:</strong> <span className="font-bold text-green-700 text-xl" >
+                                    {data?.data?.lastDueDateNumber || "Not selected at this stage"} </span> <span className="-ml-1">{ data?.data?.lastDueDateNumber && "th day of the month" }</span>
+                            </p> */}
+                            <p className="text-gray-700 mb-4">
+                               - <strong>Monthly Due Date for Tenants:</strong>{" "}
+                                <span className="font-bold text-green-700 text-xl">
+                                    {data?.data?.lastDueDateNumber || "Not yet specified"}
+                                </span>
+                                <span className="ml-1">
+                                    {data?.data?.lastDueDateNumber && "day of each month"}
+                                </span>
                             </p>
+
+
                             {/* <div className="mt-4">
                                 <p className="text-gray-700">
                                     If you'd like to cancel your current plan, you can do so by clicking the button below.
@@ -359,11 +371,11 @@ const UserProfile = () => {
                                 </button>
                             </div> */}
 
-                            <Button className="w-[300px]" onClick={()=> createTenantPaymentByOwnerHandler(currentUser?.userId)} > {
-                                createTenamtPaymentIsLoading ? "Loading" : " Create running month tenant payment data" }  </Button>
+                            <Button className="w-[300px]" onClick={() => createTenantPaymentByOwnerHandler(currentUser?.userId)} > {
+                                createTenamtPaymentIsLoading ? "Loading" : " Create running month tenant payment data"}  </Button>
 
-                            <Button className="w-[300px]" onClick={()=> sendEmailReminderToTenantHandler(currentUser?.userId)} > {
-                                emailReminderIsLoading ? "Loading" : "Send Due Payment Reminder Email To Tenant" }  </Button>
+                            <Button className="w-[300px]" onClick={() => sendEmailReminderToTenantHandler(currentUser?.userId)} > {
+                                emailReminderIsLoading ? "Loading" : "Send Due Payment Reminder Email To Tenant"}  </Button>
 
                         </div>
 
