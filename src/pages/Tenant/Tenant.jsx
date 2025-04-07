@@ -198,7 +198,7 @@ function TenantDashboard() {
       render: (lastDate) => (
         <div>
           {lastDate
-            ? moment(lastDate).format("DD MMMM YYYY, h:mm A")
+            ? moment(lastDate).format("DD MMMM YYYY")
             : "N/F"}
         </div>
       ),
