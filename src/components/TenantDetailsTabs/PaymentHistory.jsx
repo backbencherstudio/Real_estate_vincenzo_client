@@ -170,9 +170,6 @@ const PaymentHistory = ({ id, tenantData }) => {
 
 
   const calculateTotalAmount = (rent, lateFee, lastDate) => {
-
-    console.log(115, isPaymentLate(lastDate));
-
     if (isPaymentLate(lastDate)) {
       return {
         lateFee: lateFee,

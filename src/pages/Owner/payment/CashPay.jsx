@@ -118,7 +118,8 @@ const CashPay = ({
                 cashPay: "Cash Pay",
             });
 
-            if (data?.data?.success) {                
+            if (data?.data?.success) {        
+                toast.success(data?.data?.message);
                 setSuccess(true);
                 setOpen(false);
                 setLoading(false);
@@ -130,7 +131,6 @@ const CashPay = ({
                 elements.getElement(CardExpiryElement)?.update({ value: "" });
                 elements.getElement(CardCvcElement)?.update({ value: "" });
 
-                toast.success(data?.data?.message || "Payment successful!");
                 return;
             }
 
