@@ -305,7 +305,7 @@ const UserProfile = () => {
                                     {data?.data?.lastDueDateNumber || "Not selected at this stage"} </span> <span className="-ml-1">{ data?.data?.lastDueDateNumber && "th day of the month" }</span>
                             </p> */}
                             <p className="text-gray-700 mb-4">
-                                - <strong>Monthly Due Date for Tenants:</strong>{" "}
+                                - <strong>Monthly Last Due Date for Tenants:</strong>{" "}
                                 <span className="font-bold text-green-700 text-xl">
                                     {data?.data?.lastDueDateNumber || "Not yet specified"}
                                 </span>
