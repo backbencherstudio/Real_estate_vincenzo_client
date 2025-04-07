@@ -106,11 +106,12 @@ const CashPay = ({
             setLoading(false);
             return;
         }
+       
 
         try {
             const data = await paymentPlacedApi({
                 paymentMethodId: paymentMethod.id,
-                amount: parseInt(feeAmount),
+                amount: feeAmount,
                 lateFee: parseInt(lateFee),
                 monthlyPaymentId: paymentData?.key,
                 ownerId: paymentData?.ownerId,
