@@ -175,7 +175,7 @@ const Profile = () => {
 
 
 
-                    <div className="relative col-span-4">
+                    <div className="relative col-span-6 xl:col-span-4">
                         <input
                             type="text"
                             id='jobTitle'
@@ -188,7 +188,7 @@ const Profile = () => {
                         </label>
                         {errors.jobTitle && <span className="text-red-500 text-sm">{errors.jobTitle.message}</span>}
                     </div>
-                    <div className="relative col-span-4">
+                    <div className="relative col-span-6 xl:col-span-4">
                         <input
                             type="number"
                             id='age'
@@ -202,7 +202,7 @@ const Profile = () => {
                         {errors.age && <span className="text-red-500 text-sm">{errors.age.message}</span>}
                     </div>
                     {/* family member */}
-                    <div className="relative col-span-4">
+                    <div className="relative col-span-6 xl:col-span-4">
                         <input
                             type="number"
                             id='familyMember'

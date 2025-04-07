@@ -254,7 +254,7 @@ const UserProfile = () => {
             </div>
 
             <div className={`${currentUser.role === "tenant" ? "col-span-8" : "col-span-12"} bg-white p-4  md:p-8 rounded-lg shadow-sm`}>
-                <div className="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-4 mb-8">
+                <div className="flex md:items-center space-y-4 md:space-y-0 md:space-x-4 mb-8">
 
                     <div className="w-20 h-20 rounded-lg overflow-hidden bg-gray-200 flex-shrink-0 flex justify-center items-center ">
                         {
@@ -263,19 +263,19 @@ const UserProfile = () => {
                                     src={`${url}${profileImage}`}
                                     alt="Profile"
                                     className="w-full h-full object-cover"
-                                />
+                                /> 
                                 : <FaRegUser className="size-full p-4" />
                         }
                     </div>
-                    <div className="flex-grow">
-                        <h2 className="text-xl font-semibold">{name || "No Name"}</h2>
+                    <div className="flex-grow ml-2 sm:ml-0 ">
+                        <h2 className="text-base sm:text-xl font-semibold">{name || "No Name"}</h2>
                         <p className="text-gray-500">{email || "No Email Provided"}</p>
                     </div>
-                    <Link to='edit' className="relative">
+                    <Link to='edit' className="relative w-fit">
                         <div className="bg-blue-500 h-6 w-6 rounded-full animate-ping">
 
                         </div>
-                        <button className=" absolute -top-1.5 -right-1.5 p-2 bg-white rounded-full shadow-lg text-black hover:text-blue-600 active:scale-95 duration-300">
+                        <button className="absolute -top-1.5 -right-1.5 p-2 bg-white rounded-full shadow-lg text-black hover:text-blue-600 active:scale-95 duration-300">
                             <UserPen className="h-5 w-5 " />
                         </button>
                     </Link>
