@@ -129,7 +129,7 @@ const Profile = () => {
                         {errors.contactNumber && <span className="text-red-500 text-sm">{errors.contactNumber.message}</span>}
                     </div>
 
-                    <div className="relative col-span-6 xl:col-span-4">
+                    <div className={`relative col-span-6 ${currentUser.role==="owner" ? "xl:col-span-4" : "xl:col-span-6" }`}>
                         <input
                             type="text"
                             id="bankAccountNumber"
@@ -144,7 +144,7 @@ const Profile = () => {
                     </div>
 
                     {/* routingNumber No */}
-                    <div className="relative col-span-6 xl:col-span-4">
+                    <div className={`relative col-span-6 ${currentUser.role==="owner" ? "xl:col-span-4" : "xl:col-span-6" }`}>
                         <input
                             type="text"
                             id='routingNumber'
@@ -158,20 +158,23 @@ const Profile = () => {
                         {errors.routingNumber && <span className="text-red-500 text-sm">{errors.routingNumber.message}</span>}
                     </div>
 
-                    <div className="relative col-span-6 xl:col-span-4">
-                        <Select
-                            id="lastDueDateNumber"
-                            options={lastDueDateNumberOptionas}
-                            className='w-full h-[55px]'
-                            placeholder="Select Date"
-                            // {...register("lastDueDateNumber")}
-                            onChange={(value) => setLastDueDateNumberValue(value)}
-                        />
-                        <label htmlFor="lastDueDateNumber" className="absolute left-3 -top-2.5 cursor-text bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
-                            Set Tenant Payment Last Due Date*
-                        </label>
-                        {errors.lastDueDateNumber && <span className="text-red-500 text-sm">{errors.lastDueDateNumber.message}</span>}
-                    </div>
+                    {
+                        currentUser.role === "owner" &&
+                        <div className="relative col-span-6 xl:col-span-4">
+                            <Select
+                                id="lastDueDateNumber"
+                                options={lastDueDateNumberOptionas}
+                                className='w-full h-[55px]'
+                                placeholder="Select Date"
+                                // {...register("lastDueDateNumber")}
+                                onChange={(value) => setLastDueDateNumberValue(value)}
+                            />
+                            <label htmlFor="lastDueDateNumber" className="absolute left-3 -top-2.5 cursor-text bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
+                                Set Tenant Payment Last Due Date*
+                            </label>
+                            {errors.lastDueDateNumber && <span className="text-red-500 text-sm">{errors.lastDueDateNumber.message}</span>}
+                        </div>
+                    }
 
 
 
