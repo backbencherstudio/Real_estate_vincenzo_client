@@ -252,6 +252,7 @@ const UserProfile = () => {
 
                 }
             </div>
+
             <div className={`${currentUser.role === "tenant" ? "col-span-8" : "col-span-12"} bg-white p-4  md:p-8 rounded-lg shadow-sm`}>
                 <div className="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-4 mb-8">
 
@@ -283,52 +284,11 @@ const UserProfile = () => {
                 {
                     currentUser.role === "owner" &&
 
-                    <div className="bg-gray-50 flex justify-between items-center flex-row-reverse mb-8">
-
-                        <div className=" p-6  rounded-lg ">
-                            <h2 className="text-2xl font-semibold text-gray-800 text-center mb-4">
-                                💰 Your Current Paid Amount
-                                <span className="text-[12px] uppercase font-bold text-green-600 mx-2">( Rent )</span>
-                            </h2>
-
-                            {data?.data?.paidAmount === undefined || data?.data?.paidAmount === null ? (
-                                <h2 className="text-center text-gray-500 font-medium">Amount not available</h2>
-                            ) : (
-                                <div className="flex flex-col items-center space-y-3">
-
-                                    {/* Paid Amount */}
-                                    <div className="flex items-center space-x-2">
-                                        <span className="text-lg font-medium text-gray-700">Paid:</span>
-                                        <span className="text-xl font-bold text-blue-600">{data?.data?.paidAmount}</span>
-                                    </div>
-
-                                    {/* Percentage & Deducted Amount */}
-                                    <div className="flex items-center space-x-2">
-                                        <span className="text-lg font-medium text-gray-700">Fee:</span>
-                                        <span className="text-md font-semibold text-orange-500">{data?.data?.percentage}%</span>
-                                        <span className="text-md text-gray-600">=</span>
-                                        <span className="text-md font-bold text-red-500">
-                                            -{(data?.data?.paidAmount * (data?.data?.percentage / 100)).toFixed(2)}
-                                        </span>
-                                    </div>
-
-                                    {/* Total Amount After Deduction */}
-                                    <div className="flex items-center space-x-2 p-2 px-4 bg-gray-100 rounded-lg shadow-sm">
-                                        <span className="text-lg font-semibold text-gray-800">Total After Deduction:</span>
-                                        <span className="text-xl font-bold text-green-600">
-                                            {(
-                                                data?.data?.paidAmount - (data?.data?.paidAmount * (data?.data?.percentage / 100))
-                                            ).toFixed(2)}
-                                        </span>
-                                    </div>
-
-                                </div>
-                            )}
-                        </div>
-
+                    // <div className="bg-gray-50 flex justify-between items-center flex-row-reverse mb-8">
+                    <div className="md:bg-gray-50 flex flex-col lg:flex-row md:flex-row-reverse justify-between items-center mb-8">
                         <div className="p-4  rounded-md  ">
                             <h2 className="text-lg font-semibold mb-2 text-green-600 ">
-                            Summary
+                                Summary
                             </h2>
                             <p className="text-gray-700 ">
                                 - <strong>Total Units:</strong> <span className="font-bold text-blue-700 text-xl"  >{data?.data?.getTotalUnit || 0}</span>
@@ -371,25 +331,64 @@ const UserProfile = () => {
                                 </button>
                             </div> */}
 
-                            <Button className="w-[300px]" onClick={() => createTenantPaymentByOwnerHandler(currentUser?.userId)} > {
-                                createTenamtPaymentIsLoading ? "Loading" : " Create running month tenant payment data"}  </Button>
+                            <div className="flex flex-col gap-4" >
+                                <Button className=" w-[300px]" onClick={() => createTenantPaymentByOwnerHandler(currentUser?.userId)} > {
+                                    createTenamtPaymentIsLoading ? "Loading" : " Create running month tenant payment data"}  </Button>
 
-                            <Button className="w-[300px]" onClick={() => sendEmailReminderToTenantHandler(currentUser?.userId)} > {
-                                emailReminderIsLoading ? "Loading" : "Send Due Payment Reminder Email To Tenant"}  </Button>
+                                <Button className="w-[300px]" onClick={() => sendEmailReminderToTenantHandler(currentUser?.userId)} > {
+                                    emailReminderIsLoading ? "Loading" : "Send Due Payment Reminder Email To Tenant"}  </Button>
 
+                            </div>
                         </div>
 
+                        <div className=" p-6  rounded-lg ">
+                            <h2 className="text-2xl font-semibold text-gray-800 text-center mb-4">
+                                💰 Your Current Paid Amount
+                                <span className="text-[12px] uppercase font-bold text-green-600 mx-2">( Rent )</span>
+                            </h2>
 
+                            {data?.data?.paidAmount === undefined || data?.data?.paidAmount === null ? (
+                                <h2 className="text-center text-gray-500 font-medium">Amount not available</h2>
+                            ) : (
+                                <div className="flex flex-col items-center space-y-3">
 
+                                    {/* Paid Amount */}
+                                    <div className="flex items-center space-x-2">
+                                        <span className="text-lg font-medium text-gray-700">Paid:</span>
+                                        <span className="text-xl font-bold text-blue-600">{data?.data?.paidAmount}</span>
+                                    </div>
 
+                                    {/* Percentage & Deducted Amount */}
+                                    <div className="flex items-center space-x-2">
+                                        <span className="text-lg font-medium text-gray-700">Fee:</span>
+                                        <span className="text-md font-semibold text-orange-500">{data?.data?.percentage}%</span>
+                                        <span className="text-md text-gray-600">=</span>
+                                        <span className="text-md font-bold text-red-500">
+                                            -{(data?.data?.paidAmount * (data?.data?.percentage / 100)).toFixed(2)}
+                                        </span>
+                                    </div>
 
+                                    {/* Total Amount After Deduction */}
+                                    <div className="flex items-center space-x-2 p-2 px-4 bg-gray-100 rounded-lg shadow-sm">
+                                        <span className="text-lg font-semibold text-gray-800">Total After Deduction:</span>
+                                        <span className="text-xl font-bold text-green-600">
+                                            {(
+                                                data?.data?.paidAmount - (data?.data?.paidAmount * (data?.data?.percentage / 100))
+                                            ).toFixed(2)}
+                                        </span>
+                                    </div>
 
+                                </div>
+                            )}
+                        </div>
+
+                        
                     </div>
                 }
 
+
                 {
                     currentUser.role === "owner" &&
-
                     <div className="mb-6">
                         <h2 className="text-2xl font-extrabold text-gray-800 mb-4 text-center">Property Overview</h2>
 

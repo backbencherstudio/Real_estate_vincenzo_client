@@ -34,7 +34,7 @@ const AllProperties = () => {
 
   const deletePropertyHandler = async (propertyData) => {
     if(propertyData?.numberOfUnits > 0  ){
-     return toast.warning("This property cannot be deleted at the moment. Please delete all associated units first before proceeding.")
+     return toast.warning("This property cannot be deleted at this moment. Please delete all associated units first before proceeding.")
     }    
     Swal.fire({
       title: "Are you sure?",

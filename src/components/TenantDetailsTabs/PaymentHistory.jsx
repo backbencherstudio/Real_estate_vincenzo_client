@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { Modal, Table, Tag } from 'antd';
 import tenantApi from '../../redux/fetures/tenant/tenantApi';
 import moment from 'moment';
-import { getDynamicDate } from '../../utils/getDynamicDate';
 import { selectCurrentUser } from '../../redux/fetures/auth/authSlice';
 import { useSelector } from 'react-redux';
 import { Elements } from '@stripe/react-stripe-js';
