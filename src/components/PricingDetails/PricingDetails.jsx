@@ -9,7 +9,7 @@ const pricingData = {
             name: "Property Listings",
             starter: "1 - 4 units",
             growth: "5 - 12 units",
-            professional: "13 - 40 units"
+            professional: "13 - unlimited units"
         },
         // {
         //     name: "Tenant Screening",

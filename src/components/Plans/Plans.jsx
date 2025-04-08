@@ -143,7 +143,7 @@ const Plans = ({planData}) => {
                             <ul className="space-y-6">
                                 <li className="flex gap-3">
                                     <span className="text-blue-600 text-xl"><IoMdCheckmarkCircle /></span>
-                                    <span>Manage up to 40 units.</span>
+                                    <span>Manage unlimited units.</span>
                                 </li>
                                 <li className="flex gap-3">
                                     <span className="text-blue-600 text-xl"><IoMdCheckmarkCircle /></span>

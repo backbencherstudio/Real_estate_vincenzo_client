@@ -55,15 +55,15 @@ const Features = () => {
             features: [
                 {
                     title: "Starter Plan",
-                    description: `Perfect for small portfolios, manage 1-4 units at ${planData?.starter} per unit/month.`
+                    description: `Perfect for small portfolios, manage 1- 4 units at ${planData?.starter}% per unit/month.`
                 },
                 {
                     title: "Growth Plan",
-                    description: `Scale up to 5-12 units at ${planData?.growth} per unit/month.`
+                    description: `Scale up to 5-12 units at ${planData?.growth}% per unit/month.`
                 },
                 {
                     title: "Professional Plan",
-                    description: `Manage 13-40 units at ${planData?.professional} per unit/month, ideal for larger investments.`
+                    description: `Manage 13 - unlimited units at ${planData?.professional}% per unit/month, ideal for larger investments.`
                 }
             ]
         },
