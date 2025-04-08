@@ -9,6 +9,7 @@ import ownerApi from "../../redux/fetures/owner/ownerApi";
 import { skipToken } from "@reduxjs/toolkit/query";
 import tenantApi from "../../redux/fetures/tenant/tenantApi";
 import { url } from "../../globalConst/const";
+import moment from "moment";
 const socket = io("https://backend.rentpadhomes.com");
 
 const Messages = () => {
@@ -406,7 +407,8 @@ const Messages = () => {
                               {msg.content}
                             </div>
                             <div className="text-xs text-gray-500 mt-1">
-                              {new Date(msg.timestamp).toLocaleTimeString()}
+                              {/* {new Date(msg.timestamp).toLocaleTimeString()} */}
+                              {moment(msg?.timestamp).format("DD MMMM YYYY, h:mm A")}
                             </div>
                           </div>
                         </div>
