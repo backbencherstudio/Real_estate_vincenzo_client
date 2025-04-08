@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { url } from "../../globalConst/const";
 
-export const MessageList = ({ onChatSelect, userData, currentUser }) => {
+export const MessageList = ({ onChatSelect, userData, currentUser, role }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRole, setSelectedRole] = useState("all");
   const [isLoading, setIsLoading] = useState(true);
@@ -70,15 +70,19 @@ export const MessageList = ({ onChatSelect, userData, currentUser }) => {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="flex-1 p-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
           />
-          <select
-            value={selectedRole}
-            onChange={(e) => setSelectedRole(e.target.value)}
-            className="p-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
-          >
-            <option value="all">All</option>
-            <option value="tenant">Tenant</option>
-            <option value="owner">Owner</option>
-          </select>
+          {
+            role === "admin" &&
+            <select
+              value={selectedRole}
+              onChange={(e) => setSelectedRole(e.target.value)}
+              className="p-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            >
+              <option value="all">All</option>
+              <option value="tenant">Tenant</option>
+              <option value="owner">Owner</option>
+            </select>
+          }
+
         </div>
       </div>
 
@@ -87,9 +91,8 @@ export const MessageList = ({ onChatSelect, userData, currentUser }) => {
           <button
             key={user.id}
             onClick={() => onChatSelect(user)}
-            className={`w-full text-left hover:bg-gray-50 p-4 border-b border-gray-100 ${
-              user.hasUnread ? "bg-blue-50" : ""
-            }`}
+            className={`w-full text-left hover:bg-gray-50 p-4 border-b border-gray-100 ${user.hasUnread ? "bg-blue-50" : ""
+              }`}
           >
             <div className="flex items-center gap-3">
               <div className="relative">
@@ -107,19 +110,17 @@ export const MessageList = ({ onChatSelect, userData, currentUser }) => {
                   </div>
                 )}
                 <span
-                  className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${
-                    user.isOnline ? "bg-green-500" : "bg-gray-400"
-                  }`}
+                  className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${user.isOnline ? "bg-green-500" : "bg-gray-400"
+                    }`}
                 ></span>
               </div>
               <div className="flex-grow">
                 <div className="flex items-center justify-between">
                   <h3
-                    className={`text-sm ${
-                      user.hasUnread
+                    className={`text-sm ${user.hasUnread
                         ? "font-bold text-blue-900"
                         : "font-semibold"
-                    }`}
+                      }`}
                   >
                     {user.name || "Unknown User"}{" "}
                     <span className="text-[#1677ff] text-xs font-thin">{`(${user.role})`}</span>
@@ -137,11 +138,10 @@ export const MessageList = ({ onChatSelect, userData, currentUser }) => {
                   )}
                 </div>
                 <p
-                  className={`text-sm truncate ${
-                    user.hasUnread
+                  className={`text-sm truncate ${user.hasUnread
                       ? "font-semibold text-blue-800"
                       : "text-gray-500"
-                  }`}
+                    }`}
                 >
                   {/* {user.lastMessage?.content || "No messages yet"} */}
                   {user.email || "No messages yet"}
@@ -149,15 +149,14 @@ export const MessageList = ({ onChatSelect, userData, currentUser }) => {
               </div>
               <div className="flex flex-col items-end">
                 <span
-                  className={`text-xs ${
-                    user.hasUnread ? "text-blue-600 font-bold" : "text-gray-400"
-                  }`}
+                  className={`text-xs ${user.hasUnread ? "text-blue-600 font-bold" : "text-gray-400"
+                    }`}
                 >
                   {user.lastMessageTime
                     ? new Date(user.lastMessageTime).toLocaleTimeString([], {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })
                     : ""}
                 </span>
                 {user.unreadCount > 0 && (

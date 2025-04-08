@@ -313,6 +313,7 @@ const Messages = () => {
                     }))
               }
               currentUser={currentUser?.email}
+              role={currentUser?.role}
             />
           </div>
         </div>
