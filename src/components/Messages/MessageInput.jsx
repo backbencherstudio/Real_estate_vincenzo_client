@@ -47,7 +47,7 @@ export const MessageInput = ({ sendMessage, message, setMessage }) => {
             className="flex-grow p-2 rounded-lg focus:outline-none"
             // disabled={!currentChat}
           />
-          <IoIosAttach className="text-gray-500 h-6 w-6 cursor-pointer" />
+          {/* <IoIosAttach className="text-gray-500 h-6 w-6 cursor-pointer" /> */}
           <button
             type="submit"
             // disabled={!currentChat || !message.trim()}
