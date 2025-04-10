@@ -22,7 +22,7 @@ const AddProperties = () => {
   const [images, setImages] = useState([]);
   const [updateImageIndex, setUpdateImageIndex] = useState(null);
 
-  const [createProperty, {isLoading}] = ownerApi.useCreatePropertyMutation()
+  const [createProperty, { isLoading }] = ownerApi.useCreatePropertyMutation()
 
   const handleImageUpload = (e) => {
     e.stopPropagation();
@@ -81,14 +81,14 @@ const AddProperties = () => {
     images.forEach((file) => formData.append('propertyImages', file));
     const response = await createProperty(formData);
 
-    if(response?.data?.success){
+    if (response?.data?.success) {
       reset();
       setImages([]);
       toast.success(response?.data?.message)
     }
-    
+
   };
-  
+
 
   return (
     <div>
@@ -129,7 +129,7 @@ const AddProperties = () => {
                         placeholder="Property Name"
                         className="peer w-full px-3 py-3 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
                       />
-                      <label 
+                      <label
                         htmlFor="propertyName"
                         className="absolute left-3 -top-2.5 bg-white cursor-text px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500"
                       >
@@ -163,7 +163,7 @@ const AddProperties = () => {
                         className="peer w-full px-3 py-3 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
                       />
                       <label htmlFor="maintainerName" className="absolute left-3 -top-2.5 cursor-text bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
-                        Maintainer Name
+                        Owner Name
                       </label>
                     </div>
                   )}
@@ -290,11 +290,10 @@ const AddProperties = () => {
                           className="peer"
                         />
                         <label
-                          className={`absolute left-3 px-1 text-sm transition-all bg-white ${
-                            field.value
+                          className={`absolute left-3 px-1 text-sm transition-all bg-white ${field.value
                               ? "-top-2.5 text-sm text-blue-500"
                               : "top-3.5 text-base text-gray-400"
-                          } peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500`}
+                            } peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500`}
                         >
                           Parking
                         </label>
@@ -387,7 +386,7 @@ const AddProperties = () => {
                   render={({ field }) => (
                     <div className="relative">
                       <input
-                        id="city" 
+                        id="city"
                         {...field}
                         placeholder="Write City Name"
                         className="peer w-full px-3 py-3 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
@@ -515,7 +514,7 @@ const AddProperties = () => {
               htmlType="submit"
             >
               {
-                isLoading ?  <Spin size="large" /> : "Submit"
+                isLoading ? <Spin size="large" /> : "Submit"
               }
               <FaAngleRight />{" "}
             </Button>

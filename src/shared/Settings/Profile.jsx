@@ -333,10 +333,10 @@ const UserProfile = () => {
 
                             <div className="flex flex-col gap-4" >
                                 <Button className=" w-[300px]" onClick={() => createTenantPaymentByOwnerHandler(currentUser?.userId)} > {
-                                    createTenamtPaymentIsLoading ? "Loading" : " Create running month tenant payment data"}  </Button>
+                                    createTenamtPaymentIsLoading ? "Loading..." : " Set Rent Data For This Month"}  </Button>
 
                                 <Button className="w-[300px]" onClick={() => sendEmailReminderToTenantHandler(currentUser?.userId)} > {
-                                    emailReminderIsLoading ? "Loading" : "Send Due Payment Reminder Email To Tenant"}  </Button>
+                                    emailReminderIsLoading ? "Loading..." : "Send Rent Payment Reminder Email To Tenants"}  </Button>
 
                             </div>
                         </div>

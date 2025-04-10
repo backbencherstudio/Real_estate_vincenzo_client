@@ -287,7 +287,7 @@ const UpdateProperties = () => {
                                                 className="peer w-full px-3 py-3 text-[#64636A] text-base font-bold border rounded-lg placeholder-transparent focus:outline-none focus:border-blue-500"
                                             />
                                             <label  htmlFor="maintainerName" className="absolute left-3 -top-2.5 bg-white px-1 text-sm cursor-text text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
-                                            Maintainer Name
+                                            Owner Name
                                             </label>
                                         </div>
                                     )}

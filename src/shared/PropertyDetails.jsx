@@ -399,7 +399,7 @@ const PropertyDetails = () => {
             </div>
 
             <div className="flex justify-between py-2 ">
-              <p>Maintainer Name</p>
+              <p>Owner Name</p>
               <p className="font-semibold ">{property?.maintainerName}  </p>
             </div>
 
