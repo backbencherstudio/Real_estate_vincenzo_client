@@ -1,6 +1,6 @@
 import { Select, Table } from "antd";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ownerApi from "../../../redux/fetures/owner/ownerApi";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../../redux/fetures/auth/authSlice";
@@ -14,8 +14,13 @@ const Maintenance = () => {
 
   const currentUser = useSelector(selectCurrentUser)
 
-  const { data, isLoading } = ownerApi.useGetMaintenanceDataQuery(currentUser?.userId)
+  const { data, isLoading, refetch } = ownerApi.useGetMaintenanceDataQuery(currentUser?.userId)
   const [statusChangeInMaintenanceData] = ownerApi.useStatusChangeInMaintenanceDataMutation()
+
+  useEffect(()=>{
+    refetch()
+  },[])
+
 
   const tableData = data?.data?.map(({
     propertyName,
