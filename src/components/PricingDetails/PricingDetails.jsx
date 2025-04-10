@@ -24,10 +24,10 @@ const pricingData = {
             professional: "Automated rent collection"
         },
         {
-            name: "Lease Management",
-            starter: "Standard Lease Templates",
-            growth: "Standard Lease Templates",
-            professional: "Standard Lease Templates"
+            name: "RentPad Connect",
+            starter: "Direct Tenant Messenger",
+            growth: "Direct Tenant Messenger",
+            professional: "Direct Tenant Messenger"
         },
         {
             name: "Maintenance Services",
@@ -36,10 +36,10 @@ const pricingData = {
             professional: "Maintenance request system"
         },
         {
-            name: "Marketing & Advertising",
-            starter: "",
-            growth: "Enhanced property ads",
-            professional: "Free Advertising Consultation"
+            name: "Document Storage",
+            starter: "Secure Storage",
+            growth: "Secure Storage",
+            professional: "Secure Storage"
         },
         {
             name: "Financial Reporting",

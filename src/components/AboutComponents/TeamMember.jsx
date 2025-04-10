@@ -19,9 +19,9 @@ const TeamMember = () => {
     console.log(data?.data);
 
     const Contents = {
-        title: "Your Trusted Real Estate Advisors",
-        description: "Finding your dream property or the right investment can be overwhelming. As your trusted advisors, we’re here to guide you every step of the way, making the process seamless and stress-free.",
-        buttonText: "Team member",
+        title: "Your Trusted RentPad Home's Team",
+        description: "Change to- Finding the right tools to manage your property can be hard. At RentPad, we're here to guide you every step of the way, with on  emand customer support and easy to use software-",
+        buttonText: "Team members",
         images: [landing, landing],
     };
 

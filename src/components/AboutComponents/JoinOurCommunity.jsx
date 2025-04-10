@@ -61,7 +61,7 @@ const JoinOurCommunity = () => {
         <section className="py-16">
             <div className="">
                 <h2 className="text-2xl md:text-3xl lg:text-5xl font-medium text-[#0F1320] mb-10 lg:mb-14 md:mb-6  lg:w-[36ch] mx-auto text-center">
-                    Join our community of 10,000+ Real Estates
+                Join The RentPad Homes Community
                 </h2>
                 
                 <Marquee gradient={false} speed={50} className="mb-4">
