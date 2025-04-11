@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { toast } from 'sonner';
 import { Spin } from 'antd';
 import { FaDatabase } from 'react-icons/fa';
+import moment from 'moment';
 
 export default function ContactUs() {
     const { data, isLoading, refetch } = authApi.useGetContactUsQuery()
@@ -115,7 +116,7 @@ export default function ContactUs() {
 
                         {/* Card Footer - Will always be at the bottom */}
                         <div className="bg-gray-50 p-4 border-t border-gray-100 mt-auto">
-                            <p className="text-sm text-gray-500 text-center">Contact added on {new Date().toLocaleDateString()}</p>
+                            <p className="text-sm text-gray-500 text-center">Contact added on { moment(item.createdAt).format("DD MMMM YYYY h:mm A")}</p>
                         </div>
                     </div>
                 ))}
