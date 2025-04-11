@@ -17,7 +17,7 @@ import { FaBuildingUser } from "react-icons/fa6";
 import UserProfile from "../shared/Settings/Profile";
 import Profile from "../shared/Profile";
 import Messages from "../shared/Messages/Messages";
-import { MdMarkEmailRead, MdOutlineMessage, MdOutlineRateReview } from "react-icons/md";
+import { MdMarkEmailRead, MdOutlineConnectWithoutContact, MdOutlineMessage, MdOutlineRateReview } from "react-icons/md";
 import { TbReportMoney } from "react-icons/tb";
 import Review from "../pages/Admin/Review/Review";
 import AddAdvisor from "../pages/Admin/AddAdvisor/AddAdvisor";
@@ -88,7 +88,7 @@ export const adminPaths = [
         element: <EmailCollection />,
       },
       {
-        icon: <MdMarkEmailRead size={18} />,
+        icon: <MdOutlineConnectWithoutContact size={18} />,
         name: "Contact Us Data",
         path: "contactUsData",
         element: <ContactUs />,
