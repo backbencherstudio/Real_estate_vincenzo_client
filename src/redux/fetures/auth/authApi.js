@@ -78,14 +78,33 @@ const authApi = baseApi.injectEndpoints({
       }),
     }),
 
-    //======================================================= Landing pages API call here
+    //======================================================= Landing pages (Contact Us) API call here
+    getContactUs: builder.query({
+      query: () => ({
+        url: `/auth/contactUs`,
+        method: "GET",
+      }),
+      providesTags:['contactUs']
+    }),
+
     contactUs: builder.mutation({
       query: (data) => ({
         url: `/auth/contactUs`,
         method: "POST",
         body: data
       }),
+      invalidatesTags : ["contactUs"]
     }),
+
+    deleteContactUs: builder.mutation({
+      query: (id) => ({
+        url: `/auth/contactUs/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags : ["contactUs"]
+    }),
+
+    
 
     getAdvisersData: builder.query({
       query: () => ({

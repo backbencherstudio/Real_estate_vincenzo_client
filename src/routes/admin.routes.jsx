@@ -24,6 +24,7 @@ import AddAdvisor from "../pages/Admin/AddAdvisor/AddAdvisor";
 import { IoMdPersonAdd } from "react-icons/io";
 import EmailCollection from "../pages/Admin/EmailCollection/EmailCollection";
 import PaymentHistory from "../pages/Admin/paymentHistory/PaymentHistory";
+import ContactUs from "../pages/Admin/ContactUs/ContactUs";
 
 export const adminPaths = [
   {
@@ -85,6 +86,12 @@ export const adminPaths = [
         name: "Email Collection",
         path: "emailCollection",
         element: <EmailCollection />,
+      },
+      {
+        icon: <MdMarkEmailRead size={18} />,
+        name: "Contact Us Data",
+        path: "contactUsData",
+        element: <ContactUs />,
       },
       {
         path: "tenant/:id",
