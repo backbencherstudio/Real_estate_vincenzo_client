@@ -1,5 +1,5 @@
 import React from 'react';
-import image1 from "../../assets/Frame1.png";
+import image1 from "../../assets/Frame11.jpg";
 import image2 from "../../assets/Frame10.png";
 import image3 from "../../assets/Frame3.png";
 import { FaCircleCheck } from "react-icons/fa6";
