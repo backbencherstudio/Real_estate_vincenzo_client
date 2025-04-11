@@ -7,6 +7,7 @@ import CoreValue from "../../components/AboutComponents/CoreValue";
 import JoinOurCommunity from "../../components/AboutComponents/JoinOurCommunity";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+
 const AboutUs = () => {
     useEffect(() => {
         window.scrollTo(0, 0);

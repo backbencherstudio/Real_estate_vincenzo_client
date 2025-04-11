@@ -3,6 +3,10 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { BsArrowLeft } from "react-icons/bs";
+import image1 from "../../assets/aboutBanner/1.jpg"
+import image2 from "../../assets/aboutBanner/2.jpg"
+import image3 from "../../assets/aboutBanner/3.jpg"
+
 
 const AboutSlider = () => {
     const [showPrev, setShowPrev] = React.useState(false);
@@ -61,17 +65,17 @@ const AboutSlider = () => {
 
     const slides = [
         {
-            image: "https://www.business.hsbc.com/-/jssmedia/media/global/images/business-guides/bd/hero-bangladesh.jpg?h=1200&iar=0&w=1920&hash=DBCD88DED8BC9EA65E2EE72559FC82DB",
+            image: image1,
             title: "Welcome to Bangladesh",
             description: "Explore the vibrant culture and business opportunities."
         },
         {
-            image: "https://t4.ftcdn.net/jpg/01/36/15/53/360_F_136155386_TLEQLB3GqiSSKDpjcdZqAjLYaxQPCvrV.jpg",
+            image: image2,
             title: "Business Hub",
             description: "Bangladesh is emerging as a leading trade center."
         },
         {
-            image: "https://cdn.britannica.com/97/189797-050-1FC0041B/Night-view-Dhaka-Bangladesh.jpg",
+            image: image3,
             title: "Growing Economy",
             description: "Invest in the future with strong economic growth."
         }
