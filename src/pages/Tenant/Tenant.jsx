@@ -17,11 +17,9 @@ import Footer from "../../shared/Footer/Footer";
 import ACHPaymentForm from "./ACHPaymentForm";
 import ACH from "./ACH";
 
-// const stripePromise = loadStripe('pk_test_51NFvq6ArRmO7hNaVcPS5MwczdEtM4yEMOclovA0k5LtJTxhtzKZ2SKim3p8qmvssQ7j7bREjoRRmHB9Gvz8n8Dfm00UOo9bZYg');  // my
-// const stripePromise = loadStripe('pk_live_51Qj3DaLdWMYlebBQvsXy57f0Gs0olm2ORnECHbCDzM3z2H6tAlf4A6yuVabQFDMn4lwEzGDvTRW7TrYvvo5aY9HW00AUPp6cim');  // client
 const stripePromise = loadStripe(
-  "pk_test_51Qj3DaLdWMYlebBQOl4ldkQkxLqx7lOVk1fNuTxq7j48MCK8Hfp8iS0xGgOTJD57aYiETTMXmEGbSVHGav8D6cyW00ZlYe2LyG"
-); // client
+  "pk_live_51Qj3DaLdWMYlebBQvsXy57f0Gs0olm2ORnECHbCDzM3z2H6tAlf4A6yuVabQFDMn4lwEzGDvTRW7TrYvvo5aY9HW00AUPp6cim"
+);
 
 function TenantDashboard() {
   const currentUser = useSelector(selectCurrentUser);
