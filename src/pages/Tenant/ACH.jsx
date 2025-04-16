@@ -50,6 +50,7 @@ const ACH = ({
   ] = tenantApi.usePayRentUserACHcontrollerMutation();
 
   const { register, handleSubmit } = useForm();
+
   const {
     register: createBankTokenRegister,
     handleSubmit: createBankTokenHandleSubmit,
@@ -67,6 +68,7 @@ const ACH = ({
     localStorage.setItem(`ach_${key}`, value);
   };
 
+
   const onSubmit = async (data) => {
     const res = await createCustomerForACHpayment(data);
     console.log(res);
@@ -80,6 +82,8 @@ const ACH = ({
 
   const onSubmitFroCreateBankToken = async (data) => {
     const res = await createBankTokenForACHpayment(data);
+    console.log(85, res?.data);
+    
     console.log(res);
     if (res?.data?.success) {
       setBankToken(res?.data?.data?.bankToken);

@@ -27,9 +27,6 @@ const PaymentHistory = ({ id, tenantData }) => {
   const currentUser = useSelector(selectCurrentUser);
   const { data: ownerData } = authApi.useGetSingleUserInfoQuery(currentUser?.email);
 
-  console.log(ownerData);
-  
-
   const percentage = ownerData?.data?.percentage;
 
 
