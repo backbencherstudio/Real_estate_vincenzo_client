@@ -7,16 +7,19 @@ import authApi from "../../../redux/fetures/auth/authApi";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 
-const Plan = ({ selectedPlan, getTotalUnit }) => {
+const Plan = ({ selectedPlan, getTotalUnit, initialPlan}) => {
     // console.log(selectedPlan);
     const currentUser = useSelector(selectCurrentUser);
     const [planController, {isLoading}] = authApi.usePlanControllerMutation()
     const { data } = authApi.useGetSingleUserInfoQuery(currentUser?.email);
     const navigate = useNavigate();
+    
 
 
     const planData = async () => {
-        const plan = { planName: selectedPlan.name, percentage: selectedPlan.price, getTotalUnit, email: currentUser?.email }
+        const plan = { planName: selectedPlan.name, percentage: selectedPlan.price || initialPlan, getTotalUnit, email: currentUser?.email }
+        console.log(plan);
+        
 
         if (getTotalUnit < data?.data.numberOfTotalUnits) {
             return toast.error(

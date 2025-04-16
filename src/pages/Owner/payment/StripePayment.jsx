@@ -136,7 +136,7 @@ const StripePayment = () => {
                     </div>
                 )} */}
                 {selectedPlan ? (
-                    <Plan selectedPlan={selectedPlan} getTotalUnit={getUserCount()}  />
+                    <Plan selectedPlan={selectedPlan} getTotalUnit={getUserCount()} initialPlan={getPlanData?.data?.[0]?.starter}  />
                 ) : (
                     <div className="text-gray-500 text-center mt-10">
                         <p>Select a plan to proceed with payment</p>
