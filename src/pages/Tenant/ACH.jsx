@@ -224,9 +224,8 @@ const ACH = ({
                 />
                 <div className="pt-2">
                   <button
-                    className={`w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300 ${
-                      customerId && "cursor-not-allowed"
-                    }`}
+                    className={`w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300 ${customerId && "cursor-not-allowed"
+                      }`}
                     type="submit"
                     disabled={isLoading || customerId}
                   >
@@ -235,9 +234,8 @@ const ACH = ({
                 </div>
               </form>
               <div
-                className={`opacity-0 ${
-                  customerId && "opacity-100"
-                } transition-opacity duration-500`}
+                className={`opacity-0 ${customerId && "opacity-100"
+                  } transition-opacity duration-500`}
               >
                 <p className="text-center font-semibold text-gray-600 mt-2">
                   Customer ID: {customerId}
@@ -302,9 +300,8 @@ const ACH = ({
                 />
                 <div className="pt-2">
                   <button
-                    className={`w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300 ${
-                      bankToken && "cursor-not-allowed"
-                    }`}
+                    className={`w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300 ${bankToken && "cursor-not-allowed"
+                      }`}
                     type="submit"
                     disabled={isLoadinCreateBankToken || bankToken}
                   >
@@ -315,9 +312,8 @@ const ACH = ({
                 </div>
               </form>
               <div
-                className={`opacity-0 ${
-                  bankToken && "opacity-100"
-                } transition-opacity duration-500`}
+                className={`opacity-0 ${bankToken && "opacity-100"
+                  } transition-opacity duration-500`}
               >
                 <p className="text-center font-semibold text-gray-600 mt-2">
                   Bank Token: {bankToken}
@@ -358,9 +354,8 @@ const ACH = ({
                 />
 
                 <button
-                  className={`w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300 ${
-                    bankAccountId && "cursor-not-allowed"
-                  }`}
+                  className={`w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300 ${bankAccountId && "cursor-not-allowed"
+                    }`}
                   type="submit"
                   disabled={isLoadinattachACHbankAccount || bankAccountId}
                 >
@@ -370,9 +365,8 @@ const ACH = ({
                 </button>
               </form>
               <div
-                className={`opacity-0 ${
-                  bankAccountId && "opacity-100"
-                } transition-opacity duration-500`}
+                className={`opacity-0 ${bankAccountId && "opacity-100"
+                  } transition-opacity duration-500`}
               >
                 <p className="text-center font-semibold text-gray-600 mt-2">
                   Bank ID: {bankAccountId}
@@ -392,7 +386,11 @@ const ACH = ({
             <div className="w-full mx-auto rounded-2xl p-1">
               <h2 className="text-xl font-bold text-center mb-4">
                 Step 4: Verify Bank Account{" "}
+                <small>
+                  (Verification may take 1–2 business days. A small deposit will be sent to your bank via Stripe for confirmation.)
+                </small>
               </h2>
+
               <form
                 onSubmit={verifyBankAccountHandleSubmit(verifyBankAccount)}
                 className="space-y-2"
@@ -430,9 +428,8 @@ const ACH = ({
 
                 <div className="pt-2">
                   <button
-                    className={`w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300 ${
-                      verifyAccountId && "cursor-not-allowed"
-                    }`}
+                    className={`w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300 ${verifyAccountId && "cursor-not-allowed"
+                      }`}
                     type="submit"
                     disabled={verifyBankAccountIsLoading || verifyAccountId}
                   >
@@ -443,9 +440,8 @@ const ACH = ({
                 </div>
               </form>
               <div
-                className={`opacity-0 ${
-                  verifyAccountId && "opacity-100"
-                } transition-opacity duration-500`}
+                className={`opacity-0 ${verifyAccountId && "opacity-100"
+                  } transition-opacity duration-500`}
               >
                 <p className="text-center font-semibold text-gray-600 mt-2">
                   Verify ID: {verifyAccountId}
@@ -487,9 +483,8 @@ const ACH = ({
         {[1, 2, 3, 4, 5].map((step) => (
           <div
             key={step}
-            className={`w-3 h-3 rounded-full ${
-              step === currentStep ? "bg-green-500" : "bg-gray-300"
-            }`}
+            className={`w-3 h-3 rounded-full ${step === currentStep ? "bg-green-500" : "bg-gray-300"
+              }`}
           />
         ))}
       </div>
