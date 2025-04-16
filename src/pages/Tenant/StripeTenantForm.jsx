@@ -20,7 +20,6 @@ const StripeTenantForm = ({
   lateFee,
   setOpen,
   setSuccessPaymentData,
-  securityDeposit,
 }) => {
   const [paymentPlacedApi] = tenantApi.usePaymentPlacedApiMutation();
   const currentUser = useSelector(selectCurrentUser);
@@ -55,7 +54,7 @@ const StripeTenantForm = ({
     try {
       const data = await paymentPlacedApi({
         paymentMethodId: paymentMethod.id,
-        amount: parseInt(totalAmount) + parseInt(securityDeposit),
+        amount: parseInt(totalAmount),
         lateFee: parseInt(lateFee),
         monthlyPaymentId: paymentData?.key,
         ownerId: paymentData?.ownerId,
@@ -163,7 +162,7 @@ const StripeTenantForm = ({
       >
         {loading
           ? "Processing..."
-          : `Pay Now : $${totalAmount + parseInt(securityDeposit)}`}
+          : `Pay Now : $${totalAmount}`}
       </button>
 
       {error && (

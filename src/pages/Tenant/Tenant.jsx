@@ -105,9 +105,6 @@ function TenantDashboard() {
     return today >= dueDate;
   };
 
-  // const calculateTotalAmount = (rent, lateFee, lastDate) => {
-  //   return isPaymentLate(lastDate) ? rent + lateFee : rent;
-  // };
 
   const calculateTotalAmount = (rent, lateFee, lastDate) => {
 
@@ -136,10 +133,6 @@ function TenantDashboard() {
   const securityDeposit =
     (!userData?.data?.isSecurityDepositPay && paymentData?.securityDeposit) ||
     0;
-
-  // console.log(totalAmount);
-  // console.log(totalAmount?.lateFee);
-  // console.log(totalAmount?.total);
 
   const stripeFee = Math.round((totalAmount.total + securityDeposit) * 0.03);
   const totalWithStripeFee = totalAmount.total + securityDeposit + stripeFee;
@@ -378,7 +371,7 @@ function TenantDashboard() {
               <div className="flex justify-between items-center p-2 bg-white rounded-md shadow-sm">
                 <span className="text-gray-600">Total Amount Due</span>
                 {
-                  isShow ? <span className="text-lg font-bold">${totalWithStripeFee}</span> : <span className="text-lg font-bold">${totalAmount.total}</span>
+                  isShow ? <span className="text-lg font-bold">${totalWithStripeFee}</span> : <span className="text-lg font-bold">${totalAmount.total + securityDeposit}</span>
                 }
               </div>
 
