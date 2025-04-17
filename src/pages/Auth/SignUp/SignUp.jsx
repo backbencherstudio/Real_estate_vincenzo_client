@@ -16,6 +16,7 @@ function SignUp() {
   const [verifyOTP, { isLoading: vIsLoading }] = authApi.useVerifyOTPMutation();
   const [showOTP, setShowOTP] = useState(false);
   const navigate = useNavigate();
+  const [resubmit, setResubmit] = useState(false)
 
   const {
     register,
@@ -33,6 +34,7 @@ function SignUp() {
     if (result?.data?.success) {
       toast.success(result?.data?.message)
       setShowOTP(true);
+      setResubmit(false)
     }
   };
 
@@ -40,6 +42,12 @@ function SignUp() {
     const otp = parseInt(otpValue)
     try {
       const result = await verifyOTP({ otp });
+      if(result?.error?.status === 400){
+        setResubmit(true)
+        setShowOTP(false);
+        return 
+      }
+      
       if (result?.data?.success) {
         if (!result?.data?.data?.email) {
           return toast.error("Registration failed. Please try again or reach out to support for assistance.")
@@ -183,7 +191,10 @@ function SignUp() {
                     type="submit"
                     className="rounded-[12px] bg-gradient-to-r from-[#4A90E2] to-[#1565C0] p-4 md:p-5 w-full text-white font-medium text-lg"
                   >
-                    Sign Up
+                    {
+                      resubmit ? "Resubmit" : "Sign Up"
+                    }
+                    
                   </button>
 
               }

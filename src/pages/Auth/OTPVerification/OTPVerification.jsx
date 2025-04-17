@@ -11,6 +11,12 @@ const OTPVerification = ({ isOpen, onClose, onVerify, vIsLoading }) => {
     inputRefs.current = inputRefs.current.slice(0, 6);
   }, []);
 
+  useEffect(() => {
+    if (!isOpen) {
+      setOtp(['', '', '', '', '', '']);
+    }
+  }, [isOpen]);
+
   const handleChange = (index, value) => {
     if (!/^\d*$/.test(value)) return;
 
@@ -78,7 +84,10 @@ const OTPVerification = ({ isOpen, onClose, onVerify, vIsLoading }) => {
             Enter Verification Code
           </h3>
           <p className="text-gray-600">
-            We've sent a verification code to your email
+            We've sent a verification code to your email.
+            <small className='block'>
+            please check your email inbox. Check spam if not in Inbox
+            </small>
           </p>
         </div>
 
