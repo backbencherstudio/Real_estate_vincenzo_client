@@ -408,7 +408,7 @@ const ACH = ({
                 <input
                   {...verifyBankAccountRegister("firstDeposit")}
                   type="text"
-                  placeholder="Inter first deposit amount"
+                  placeholder="Enter first deposit amount"
                   className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <label
@@ -420,7 +420,7 @@ const ACH = ({
                 <input
                   {...verifyBankAccountRegister("secondDeposit")}
                   type="text"
-                  placeholder="Inter second deposit amount"
+                  placeholder="Enter second deposit amount"
                   className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
 
