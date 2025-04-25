@@ -221,6 +221,9 @@ function TenantDashboard() {
           case "Overdue":
             color = "red";
             break;
+          case "Processing":
+            color = "yellow";
+            break;
           default:
             color = "gray";
         }
@@ -237,7 +240,7 @@ function TenantDashboard() {
       render: (text, record) => (
         <div>
           <Button
-            disabled={record.status === "Paid" || record.status === "Cash Pay"}
+            disabled={record.status === "Paid" || record.status === "Cash Pay" || record.status === "Processing"}
             type="primary"
             onClick={() => handleModalFun(record)}
           >
