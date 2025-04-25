@@ -83,7 +83,7 @@ const ACH = ({
   const onSubmitFroCreateBankToken = async (data) => {
     const res = await createBankTokenForACHpayment(data);
     console.log(85, res?.data);
-    
+
     console.log(res);
     if (res?.data?.success) {
       setBankToken(res?.data?.data?.bankToken);
@@ -112,9 +112,12 @@ const ACH = ({
     const res = await verifyBankAccountApi(newData);
     console.log(res);
     if (res?.data?.success) {
-      setVerifyaccountId(res?.data?.data?.verification?.id);
-      updateLocalStorage("verifyAccountId", res?.data?.data?.verification?.id);
-      toast.success(res?.data?.message);
+      // setVerifyaccountId(res?.data?.data?.verification?.id);
+      // updateLocalStorage("verifyAccountId", res?.data?.data?.verification?.id);
+      // toast.success(res?.data?.message);
+      setVerifyaccountId("verified");
+      updateLocalStorage("verifyAccountId", "verified");
+      toast.success("Bank account verified successfully!");
     }
   };
 
@@ -448,7 +451,7 @@ const ACH = ({
                   } transition-opacity duration-500`}
               >
                 <p className="text-center font-semibold text-gray-600 mt-2">
-                  Verify ID: {verifyAccountId}
+                Account {verifyAccountId}
                 </p>
                 <button
                   onClick={nextStep}

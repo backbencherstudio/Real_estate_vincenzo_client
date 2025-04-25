@@ -20,10 +20,7 @@ const ACHPaymentForm = ({paymentData, totalAmount, lateFee, setOpen, setSuccessP
             monthlyPaymentId: paymentData?.key,
             ownerId: paymentData?.ownerId,
             lateFee: parseInt(lateFee),
-        }
-
-        console.log(paymentDatas);
-        
+        }        
 
         try {
             const response = await stripeTenantACHpayment(paymentDatas).unwrap();

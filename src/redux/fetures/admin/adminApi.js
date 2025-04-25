@@ -13,7 +13,7 @@ const adminApi = baseApi.injectEndpoints({
       },
       providesTags: ["user"],
     }),
-
+ 
     getAllProperties: builder.query({
       query: (selectedDate) => {
         return {
@@ -25,7 +25,7 @@ const adminApi = baseApi.injectEndpoints({
       },
       providesTags: ["properties"],
     }),
-
+  
 
     // getAllProperties: builder.query({
     //   query: (selectedDate) => {
