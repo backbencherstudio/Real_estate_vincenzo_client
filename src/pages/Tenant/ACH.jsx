@@ -69,6 +69,7 @@ const ACH = ({
   };
 
 
+
   const onSubmit = async (data) => {
     const res = await createCustomerForACHpayment(data);
     console.log(res);
@@ -110,7 +111,7 @@ const ACH = ({
       amounts: newAmounts,
     };
     const res = await verifyBankAccountApi(newData);
-    console.log(res);
+    console.log("verifyBankAccount",res);
     if (res?.data?.success) {
       // setVerifyaccountId(res?.data?.data?.verification?.id);
       // updateLocalStorage("verifyAccountId", res?.data?.data?.verification?.id);
@@ -143,6 +144,8 @@ const ACH = ({
       setOpen(false);
     }
   };
+
+
 
   const formContainerStyle = {
     display: "flex",
