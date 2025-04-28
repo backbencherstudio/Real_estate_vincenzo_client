@@ -76,6 +76,9 @@ const ACH = ({
       name: data?.name,
     }
     const res = await createCustomerForACHpayment(getData);
+
+    console.log("create customer", res);
+
     if (res?.data?.success) {
       setCustomerId(res?.data?.data?.customerId);
       updateLocalStorage("customerId", res?.data?.data?.customerId);
@@ -84,11 +87,12 @@ const ACH = ({
   };
 
   const onSubmitFroCreateBankToken = async (data) => {
+
     const res = await createBankTokenForACHpayment(data);
 
     console.log(89, res?.data);
 
-    if(res?.data?.data?.error){
+    if (res?.data?.data?.error) {
       return toast.error(res?.data?.data?.error)
     }
 
@@ -111,15 +115,46 @@ const ACH = ({
   };
 
   const verifyBankAccount = async (data) => {
-    const newAmounts = [data.firstDeposit, data.secondDeposit];
+    console.log(data);
+
+
+    // Check if both deposits are valid numbers (positive and greater than 0)
+    if (
+      !/^\d+\.\d{2}$/.test(data?.firstDeposit) ||
+      !/^\d+\.\d{2}$/.test(data?.secondDeposit)) {
+      toast.error("Please enter valid micro-deposit amounts (e.g)");
+      return;
+    }
+
+    const firstDepositInCents = parseInt(data?.firstDeposit * 100);
+    const secondDepositInCents = parseInt(data?.secondDeposit * 100);
+
+    const newAmounts = [firstDepositInCents, secondDepositInCents];
+
+    console.log(133, newAmounts);
+
     const newData = {
       customerId,
       bankAccountId,
       amounts: newAmounts,
     };
+
+    console.log(141,  newData);
+
     const res = await verifyBankAccountApi(newData);
     console.log("verifyBankAccount", res);
-    if (res?.data?.success) {
+
+    // console.log(123, res?.data?.data?.success);
+
+    // console.log(125, res?.data?.data?.error);
+
+    // console.log(127, res?.data?.data);
+
+    if (!res?.data?.data?.success || res?.data?.data?.error) {
+      return toast.error(res?.data?.data?.error);
+    }
+
+    if (res?.data?.data?.success) {
       // setVerifyaccountId(res?.data?.data?.verification?.id);
       // updateLocalStorage("verifyAccountId", res?.data?.data?.verification?.id);
       // toast.success(res?.data?.message);
