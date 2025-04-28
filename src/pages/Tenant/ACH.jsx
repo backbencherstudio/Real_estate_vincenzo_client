@@ -86,7 +86,7 @@ const ACH = ({
   const onSubmitFroCreateBankToken = async (data) => {
     const res = await createBankTokenForACHpayment(data);
 
-    console.log(res?.data);
+    console.log(89, res?.data);
 
     if(res?.data?.data?.error){
       return toast.error(res?.data?.data?.error)
