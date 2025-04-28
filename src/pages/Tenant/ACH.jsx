@@ -71,9 +71,11 @@ const ACH = ({
 
 
   const onSubmit = async (data) => {
-    const res = await createCustomerForACHpayment(data);
-    console.log(res);
-
+    const getData = {
+      email : currentUser?.email,
+      name : data?.name,
+    }    
+    const res = await createCustomerForACHpayment(getData);
     if (res?.data?.success) {
       setCustomerId(res?.data?.data?.customerId);
       updateLocalStorage("customerId", res?.data?.data?.customerId);
