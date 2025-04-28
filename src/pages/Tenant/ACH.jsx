@@ -72,9 +72,9 @@ const ACH = ({
 
   const onSubmit = async (data) => {
     const getData = {
-      email : currentUser?.email,
-      name : data?.name,
-    }    
+      email: currentUser?.email,
+      name: data?.name,
+    }
     const res = await createCustomerForACHpayment(getData);
     if (res?.data?.success) {
       setCustomerId(res?.data?.data?.customerId);
@@ -85,14 +85,19 @@ const ACH = ({
 
   const onSubmitFroCreateBankToken = async (data) => {
     const res = await createBankTokenForACHpayment(data);
-    console.log(85, res?.data);
 
-    console.log(res);
+    console.log(res?.data);
+
+    if(res?.data?.data?.error){
+      return toast.error(res?.data?.data?.error)
+    }
+
     if (res?.data?.success) {
       setBankToken(res?.data?.data?.bankToken);
       updateLocalStorage("bankToken", res?.data?.data?.bankToken);
       toast.success(res?.data?.message);
     }
+
   };
 
   const attachBankAccount = async () => {
@@ -113,7 +118,7 @@ const ACH = ({
       amounts: newAmounts,
     };
     const res = await verifyBankAccountApi(newData);
-    console.log("verifyBankAccount",res);
+    console.log("verifyBankAccount", res);
     if (res?.data?.success) {
       // setVerifyaccountId(res?.data?.data?.verification?.id);
       // updateLocalStorage("verifyAccountId", res?.data?.data?.verification?.id);
@@ -246,13 +251,14 @@ const ACH = ({
                 </div>
               </form>
               <div
-                className={`opacity-0 ${customerId && "opacity-100"
-                  } transition-opacity duration-500`}
+                // className={`opacity-0 ${customerId && "opacity-100" } transition-opacity duration-500`}
+                className={`${customerId ? "opacity-100 block" : "opacity-0 hidden"} transition-opacity duration-500`}
               >
                 <p className="text-center font-semibold text-gray-600 mt-2">
                   Customer ID: {customerId}
                 </p>
                 <button
+                  // disabled={customerId ? true : false}
                   onClick={nextStep}
                   className="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition duration-300"
                 >
@@ -324,8 +330,8 @@ const ACH = ({
                 </div>
               </form>
               <div
-                className={`opacity-0 ${bankToken && "opacity-100"
-                  } transition-opacity duration-500`}
+                // className={`opacity-0 ${bankToken && "opacity-100" } transition-opacity duration-500`}
+                className={`${bankToken ? "opacity-100 block" : "opacity-0 hidden"} transition-opacity duration-500`}
               >
                 <p className="text-center font-semibold text-gray-600 mt-2">
                   Bank Token: {bankToken}
@@ -377,8 +383,8 @@ const ACH = ({
                 </button>
               </form>
               <div
-                className={`opacity-0 ${bankAccountId && "opacity-100"
-                  } transition-opacity duration-500`}
+                // className={`opacity-0 ${bankAccountId && "opacity-100" } transition-opacity duration-500`}
+                className={`${bankAccountId ? "opacity-100 block" : "opacity-0 hidden"} transition-opacity duration-500`}
               >
                 <p className="text-center font-semibold text-gray-600 mt-2">
                   Bank ID: {bankAccountId}
@@ -452,11 +458,11 @@ const ACH = ({
                 </div>
               </form>
               <div
-                className={`opacity-0 ${verifyAccountId && "opacity-100"
-                  } transition-opacity duration-500`}
+                // className={`opacity-0 ${verifyAccountId && "opacity-100"} transition-opacity duration-500`}
+                className={`${verifyAccountId ? "opacity-100 block" : "opacity-0 hidden"} transition-opacity duration-500`}
               >
                 <p className="text-center font-semibold text-gray-600 mt-2">
-                Account {verifyAccountId}
+                  Account {verifyAccountId}
                 </p>
                 <button
                   onClick={nextStep}
