@@ -11,8 +11,8 @@ import CashPay from '../../pages/Owner/payment/CashPay';
 import authApi from '../../redux/fetures/auth/authApi';
 
 const stripePromise = loadStripe(
-  // "pk_live_51Qj3DaLdWMYlebBQvsXy57f0Gs0olm2ORnECHbCDzM3z2H6tAlf4A6yuVabQFDMn4lwEzGDvTRW7TrYvvo5aY9HW00AUPp6cim"
-  "pk_test_51Qj3DaLdWMYlebBQOl4ldkQkxLqx7lOVk1fNuTxq7j48MCK8Hfp8iS0xGgOTJD57aYiETTMXmEGbSVHGav8D6cyW00ZlYe2LyG"
+  "pk_live_51Qj3DaLdWMYlebBQvsXy57f0Gs0olm2ORnECHbCDzM3z2H6tAlf4A6yuVabQFDMn4lwEzGDvTRW7TrYvvo5aY9HW00AUPp6cim"
+  // "pk_test_51Qj3DaLdWMYlebBQOl4ldkQkxLqx7lOVk1fNuTxq7j48MCK8Hfp8iS0xGgOTJD57aYiETTMXmEGbSVHGav8D6cyW00ZlYe2LyG"
 );
 
 const PaymentHistory = ({ id, tenantData }) => {
