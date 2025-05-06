@@ -9,12 +9,15 @@ import { selectCurrentUser } from '../../../redux/fetures/auth/authSlice';
 import documentApi from '../../../redux/fetures/document/documentApi';
 import { url } from '../../../globalConst/const';
 import pdfLogo from "../../../assets/pdf.png"
+import { FaAngleRight } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 
 const TenantDocuments = () => {
     const [isOpen, setIsOpen] = useState(false);
     const currentUser = useSelector(selectCurrentUser);
     const { data, isLoading, refetch } = documentApi.useGetSingleUserAllDocumentsQuery(currentUser.userId)
+    const navigate = useNavigate()
 
     useEffect(()=>{
         refetch()
@@ -37,6 +40,10 @@ const TenantDocuments = () => {
         image,
         documentType
     }));
+
+    const handleNavigate = (id) => {
+        navigate(`/${currentUser?.role}/documents/${id}`);
+      };
 
 
     const columns = [
@@ -92,6 +99,20 @@ const TenantDocuments = () => {
                 </Tag>
             ),
         },
+        {
+              title: "Details",
+              dataIndex: "details",
+              render: (text, record) => (
+                <div>
+                  <span
+                    onClick={() => handleNavigate(record?.key)}
+                    className="text-[#4A90E2] flex items-center cursor-pointer"
+                  >
+                    Details <FaAngleRight className="text-[18px] ml-1" />
+                  </span>
+                </div>
+              ),
+            },
 
     ];
 

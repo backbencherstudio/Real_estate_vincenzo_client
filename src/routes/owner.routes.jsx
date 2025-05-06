@@ -2,7 +2,7 @@ import { FileOutlined, TeamOutlined, ToolOutlined } from "@ant-design/icons";
 import { GrVmMaintenance } from "react-icons/gr";
 import { BsBuildingCheck } from "react-icons/bs";
 import { PiBuildingApartment } from "react-icons/pi";
-import DocumentDetails from "../pages/Owner/Documents/DocumentDetails";
+import DocumentDetails from "../shared/DocumentDetails";
 import Documents from "../pages/Owner/Documents/Documents";
 import Maintenance from "../pages/Owner/Maintenance/Maintenance";
 import MaintenanceDetails from "../pages/Owner/Maintenance/MaintenanceDetails";
