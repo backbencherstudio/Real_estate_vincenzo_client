@@ -19,9 +19,9 @@ const TenantDocuments = () => {
     const { data, isLoading, refetch } = documentApi.useGetSingleUserAllDocumentsQuery(currentUser.userId)
     const navigate = useNavigate()
 
-    useEffect(()=>{
+    useEffect(() => {
         refetch()
-      },[])
+    }, [])
 
     const open = () => {
         setIsOpen(true)
@@ -43,7 +43,7 @@ const TenantDocuments = () => {
 
     const handleNavigate = (id) => {
         navigate(`/${currentUser?.role}/documents/${id}`);
-      };
+    };
 
 
     const columns = [
@@ -100,19 +100,19 @@ const TenantDocuments = () => {
             ),
         },
         {
-              title: "Details",
-              dataIndex: "details",
-              render: (text, record) => (
+            title: "Details",
+            dataIndex: "details",
+            render: (text, record) => (
                 <div>
-                  <span
-                    onClick={() => handleNavigate(record?.key)}
-                    className="text-[#4A90E2] flex items-center cursor-pointer"
-                  >
-                    Details <FaAngleRight className="text-[18px] ml-1" />
-                  </span>
+                    <span
+                        onClick={() => handleNavigate(record?.key)}
+                        className="text-[#4A90E2] flex items-center cursor-pointer"
+                    >
+                        Details <FaAngleRight className="text-[18px] ml-1" />
+                    </span>
                 </div>
-              ),
-            },
+            ),
+        },
 
     ];
 
