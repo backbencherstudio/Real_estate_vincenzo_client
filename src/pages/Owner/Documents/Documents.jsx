@@ -60,7 +60,7 @@ const Documents = () => {
       dataIndex: "propertyName",
     },
     {
-      title: "Unite",
+      title: "Unit",
       dataIndex: "unitNumber",
     },
     {

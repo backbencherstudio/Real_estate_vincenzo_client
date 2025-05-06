@@ -61,7 +61,7 @@ const TenantDocuments = () => {
             dataIndex: "propertyName",
         },
         {
-            title: "Unite",
+            title: "Unit",
             dataIndex: "unitNumber",
         },
         {
